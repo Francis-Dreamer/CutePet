@@ -1,17 +1,25 @@
 package com.dream.cutepet;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
 import com.dream.cutepet.model.DynamicDetailsData;
+import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,24 +31,36 @@ import android.widget.TextView;
 
 public class DynamicDetailsActivity extends Activity {
 
-	List<DynamicDetailsData> data;
+	List<SquareModel> squareData;
+	List<DynamicDetailsData> dynamicDetailsData;
 	DynamicDetailsBaseAdapter adapter;
 	ListView listView;
 	RadioGroup radioGroup_bottom;
 	String str_edit;
 	EditText dynamic_details_edit;
+	String urlTop="http://192.168.11.238";
+	AsyncImageLoader imageLoader;
+	TextView dynamic_details_nickname;
+	TextView dynamic_details_time;
+	TextView dynamic_details_address;
+	TextView dynamic_details_content;
+	ImageView dynamic_details_image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dynamic_details);
-
-		init();
-	
+		imageLoader=new AsyncImageLoader(this);
+		initView();
 	}
 
-	@SuppressLint("InflateParams") private void init() {
+	protected void onStart() {
+		super.onStart();
+		getData();
+	}
+	
+	@SuppressLint("InflateParams") private void initView() {
 		ImageView back=(ImageView) findViewById(R.id.back);
 		ImageView send=(ImageView) findViewById(R.id.send);
 		dynamic_details_edit=(EditText) findViewById(R.id.dynamic_details_edit);
@@ -48,24 +68,58 @@ public class DynamicDetailsActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
-
+		getData();
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View dynamic_details_headerview = inflater.inflate(R.layout.dynamic_details_head_view, null);
 
+		dynamic_details_nickname=(TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_nickname);
+		dynamic_details_time=(TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_time);
+		dynamic_details_address=(TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_address);
+		dynamic_details_content=(TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_content);
+		dynamic_details_image=(ImageView) dynamic_details_headerview.findViewById(R.id.dynamic_details_image);
+		
 		// 头像
 		ImageView dynamic_details_portrait = (ImageView) dynamic_details_headerview.findViewById(R.id.dynamic_details_portrait);
 	
 		//把其他形状转化成圆形头像
-		Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.tuceng1010);
-		dynamic_details_portrait.setImageBitmap(BitmapUtil.toRoundBitmap(bitmap));
+		Bundle bundle=getIntent().getExtras();
+		int position=bundle.getInt("thePosition");
+		String id=bundle.getString("theId");
+		String username=bundle.getString("theUsername");
+		String portraitUrl=urlTop+squareData.get(position).getSquare_portrait();
+		String imageUrl=urlTop+squareData.get(position).getSquare_image();
+		
+		dynamic_details_nickname.setText(squareData.get(position).getSquare_neckname());
+		dynamic_details_time.setText(squareData.get(position).getSquare_comment_time());
+		dynamic_details_address.setText(squareData.get(position).getSquare_address());
+		dynamic_details_content.setText(squareData.get(position).getSquare_comment_content());
+		
+		if(!TextUtils.isEmpty(imageUrl)){
+			dynamic_details_image.setTag(imageUrl);
+			dynamic_details_image.setImageResource(R.drawable.icon_tx);
+			Bitmap bt2=imageLoader.loadImage(dynamic_details_image, imageUrl);
+			if(bt2!=null){
+				dynamic_details_image.setImageBitmap(BitmapUtil.toRoundBitmap(bt2));
+			}
+		}
+		
+		if(!TextUtils.isEmpty(portraitUrl)){
+			dynamic_details_portrait.setTag(portraitUrl);
+			dynamic_details_portrait.setImageResource(R.drawable.icon_tx);
+			Bitmap bt1=imageLoader.loadImage(dynamic_details_portrait, portraitUrl);
+			if(bt1!=null){
+				dynamic_details_portrait.setImageBitmap(BitmapUtil.toRoundBitmap(bt1));
+			}
+		}
+		
 		
 
 		listView.addHeaderView(dynamic_details_headerview);
 		
 		getData();
 
-		adapter = new DynamicDetailsBaseAdapter(data, this);
+		adapter = new DynamicDetailsBaseAdapter(dynamicDetailsData, this);
 		listView.setAdapter(adapter);
 		back.setOnClickListener(clickListener);
 		send.setOnClickListener(clickListener);
@@ -75,16 +129,26 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取数据
 	 */
 	private void getData() {
-		data = new ArrayList<DynamicDetailsData>();
-		for (int i = 0; i < 4; i++) {
-			DynamicDetailsData dynamicDetailsData = new DynamicDetailsData();
-			dynamicDetailsData
-					.setDynamic_details_portrait(R.drawable.mid2);
-			dynamicDetailsData.setDynamic_details_neckname("昵称" + i);
-			dynamicDetailsData.setDynamic_details_comment_content("动态详情内容" + i);
-			dynamicDetailsData.setDynamic_details_comment_time("时间" + i);
-			data.add(dynamicDetailsData);
+		
+		String url = "http://192.168.1.107/index.php/home/api/getTalk";
+		try {
+			HttpPost httpPost=HttpPost.parseUrl(url);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				
+				public void start() {
+					
+				}
+				
+				public void end(String result) {
+					Log.e("111111111111111", result);
+					squareData=SquareModel.setJson(result);
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
+
 	}
 	
 	OnClickListener clickListener=new OnClickListener() {
@@ -95,7 +159,7 @@ public class DynamicDetailsActivity extends Activity {
 				back();
 				break;
 			case R.id.send:
-				inputData();
+				
 				break;
 			default:
 				break;
@@ -113,17 +177,5 @@ public class DynamicDetailsActivity extends Activity {
 	/**
 	 * 输入内容
 	 */
-	private void inputData(){
-		str_edit=dynamic_details_edit.getText().toString();
-	//	data=new ArrayList<DynamicDetailsData>();
-		DynamicDetailsData dynamicDetailsData=new DynamicDetailsData();
-		
-		dynamicDetailsData.setDynamic_details_portrait(R.drawable.mid2);
-		dynamicDetailsData.setDynamic_details_neckname("评论的昵称");
-		dynamicDetailsData.setDynamic_details_comment_time("it's time");
-		dynamicDetailsData.setDynamic_details_comment_content(str_edit);
-		data.add(dynamicDetailsData);
-		adapter.setData(data);
-	}
-	
+
 }
