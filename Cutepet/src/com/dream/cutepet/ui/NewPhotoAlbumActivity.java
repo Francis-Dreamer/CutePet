@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,17 +26,19 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 public class NewPhotoAlbumActivity extends Activity {
 	TextView tv_cancel, tv_accomplish;
 	EditText et_name, et_describe;
-	Intent intent;
+	private String username;
+	private String httpHost = "http://192.168.11.238/index.php/home/api/newAlbum";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_photo_album);
-
+		
+		username = getIntent().getStringExtra("tel");
+		
 		initView();
-
 	}
-
+	
 	/**
 	 * 初始化控件
 	 */
@@ -99,12 +100,10 @@ public class NewPhotoAlbumActivity extends Activity {
 	 * @param describe
 	 */
 	private void createPhotoAlbum(final String name, final String describe) {
-//		String httpHost = "http://192.168.11.238/index.php/home/api/newAlbum";
-		String httpHost = "http://127.0.0.1/index.php/home/api/uploadPhoto";
 		try {
 			final HttpPost httpPost = HttpPost.parseUrl(httpHost);
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("tel", "123456");
+			map.put("tel", username);
 			map.put("albumname", name);
 			map.put("describe", describe);
 			httpPost.putMap(map);

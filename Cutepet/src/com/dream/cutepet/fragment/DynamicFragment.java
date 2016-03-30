@@ -32,6 +32,8 @@ import com.dream.cutepet.adapter.DynamicAlbumAdapter;
 import com.dream.cutepet.model.DynamicAlbumModel;
 import com.dream.cutepet.model.PetMessageModel;
 import com.dream.cutepet.ui.FusionActivity;
+import com.dream.cutepet.ui.MyPhotoAlbumActivity;
+import com.dream.cutepet.ui.NewPhotoAlbumActivity;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -123,7 +125,19 @@ public class DynamicFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-
+			Intent intent = new Intent();
+			if(position >= data_album.size()){
+				//跳转到新建相册
+				intent.setClass(getActivity(), NewPhotoAlbumActivity.class);
+				intent.putExtra("tel", username);
+				startActivityForResult(intent, 0);
+			}else{
+				//跳转到我的相册
+				intent.setClass(getActivity(), MyPhotoAlbumActivity.class);
+				intent.putExtra("tel", username);
+				intent.putExtra("title", data_album.get(position).getTitle());
+				startActivityForResult(intent, 1);
+			}
 		}
 	};
 
@@ -170,7 +184,6 @@ public class DynamicFragment extends Fragment {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					
 				}
 			});
 		} catch (MalformedURLException e) {
@@ -185,7 +198,7 @@ public class DynamicFragment extends Fragment {
 		String url_album = "http://192.168.11.238/index.php/home/api/getAlbum";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_album);
-			httpPost.putString("tel", "1234");
+			httpPost.putString("tel", username);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				public void start() {
@@ -194,6 +207,7 @@ public class DynamicFragment extends Fragment {
 				public void end(String result) {
 					Log.i("result", "result = " + result);
 					data_album = DynamicAlbumModel.getData();
+					adapter.setData(data_album);
 				}
 			});
 		} catch (MalformedURLException e) {

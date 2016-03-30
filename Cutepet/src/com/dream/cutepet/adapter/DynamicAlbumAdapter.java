@@ -37,6 +37,11 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 			return 0;
 		}
 	}
+	
+	public void setData(List<DynamicAlbumModel> data){
+		this.data = data;
+		this.notifyDataSetChanged();
+	}
 
 	@Override
 	public Object getItem(int position) {

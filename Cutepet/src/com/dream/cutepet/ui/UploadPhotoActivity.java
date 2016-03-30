@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.UpPhotoAdapter;
@@ -45,7 +49,6 @@ import com.dream.cutepet.util.SDCardUtil;
  * 
  */
 public class UploadPhotoActivity extends Activity {
-	// MyGridView gridView;
 	GridView gridView;
 	ImageView iv_return;
 	TextView tv_cancel, tv_ok;
@@ -53,7 +56,9 @@ public class UploadPhotoActivity extends Activity {
 	List<File> SDFile;
 	UpPhotoAdapter adapter;
 	int checkedNum = 0;// 记录选中的条目数量
-	String title;
+	private String username;
+	private String title;
+	private String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +84,7 @@ public class UploadPhotoActivity extends Activity {
 		for (int i = 0; i < SDFile.size(); i++) {
 			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
 		}
-
+		username = getIntent().getExtras().getString("tel");
 		title = getIntent().getExtras().getString("name");
 	}
 
@@ -114,44 +119,49 @@ public class UploadPhotoActivity extends Activity {
 	 * 上传
 	 */
 	private void IsSure() {
+		List<File> check_photo = new ArrayList<File>();
 		Map<Integer, Boolean> map = UpPhotoAdapter.getIsSelected();
 		for (Iterator<Entry<Integer, Boolean>> it = map.entrySet().iterator(); it
 				.hasNext();) {
 			Map.Entry<Integer, Boolean> temp = it.next();
 			if (temp.getValue()) {
 				String path = data_img.get(temp.getKey());
-				Log.i("IsSure", path);
 				File file = new File(path);
-				String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
-//				String actionUrl = "http://127.0.0.1/index.php/home/api/uploadPhoto";
-				String newName = file.getName();
-				HttpPost httpPost;
-				try {
-					httpPost = HttpPost.parseUrl(actionUrl);
-					httpPost.putFile("file", file, newName, null);
-					Map<String, String> msg = new HashMap<String, String>();
-					msg.put("tel", "1234");
-					msg.put("albumname", "22222");
-					msg.put("time", new Date().toString());
-					httpPost.putMap(msg);
-					httpPost.send();
-					httpPost.setOnSendListener(new OnSendListener() {
-						@Override
-						public void start() {
-
-						}
-
-						@Override
-						public void end(String result) {
-							Log.i("result", "result = " + result);
-							
-							finish();
-						}
-					});
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
+				check_photo.add(file);
 			}
+		}
+		
+		try {
+			HttpPost httpPost = HttpPost.parseUrl(actionUrl);
+			Map<String, String> msg = new HashMap<String, String>();
+			msg.put("tel", username);
+			msg.put("albumname", title);
+			msg.put("time", new Date().toString());
+			httpPost.putMap(msg);
+			for (File temp : check_photo) {
+				httpPost.putFile("file", temp, temp.getName(), null);
+			}
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				@Override
+				public void start() {
+				}
+				@Override
+				public void end(String result) {
+					Log.i("result", "result = " + result);
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						Toast.makeText(getApplicationContext(),
+								jsonObject.getString("message"),
+								Toast.LENGTH_SHORT).show();
+						finish();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 

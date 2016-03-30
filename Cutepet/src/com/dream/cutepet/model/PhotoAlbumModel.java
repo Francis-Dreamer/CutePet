@@ -64,4 +64,13 @@ public class PhotoAlbumModel {
 		data.photo.add(model);
 		return data;
 	}
+	
+	
+	public static PhotoAlbumModel setJson(String json){
+		PhotoAlbumModel data = new PhotoAlbumModel();
+		
+		
+		
+		return data;
+	}
 }

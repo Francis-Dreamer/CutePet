@@ -222,13 +222,8 @@ public class HomePageFragment extends Fragment implements CallParise {
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("mine_name", username);
+			map.put("user_id", username);
 			map.put("issue_id", data_personage.get(position).getId() + "");
-			map.put("issue_name", data_personage.get(position).getUsername());
-			Log.i("mine_name", username);
-			Log.i("issue_id",data_personage.get(position).getId() + "");
-			Log.i("issue_name", data_personage.get(position).getUsername());
-
 			httpPost.putMap(map);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {

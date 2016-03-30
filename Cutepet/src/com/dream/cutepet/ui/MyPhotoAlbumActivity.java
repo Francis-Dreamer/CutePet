@@ -37,37 +37,43 @@ public class MyPhotoAlbumActivity extends Activity {
 	Builder builder;
 	ListView listView;
 	ImageView iv_icon, back;
-
 	PhotoAlbumModel data;
+	private String username,title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_album);
+		
+		username = getIntent().getStringExtra("tel");
+		title = getIntent().getStringExtra("title");
+		
+		initView();
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
 
 		initData();
-
-		initView();
 	}
 
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
-		data = PhotoAlbumModel.getData();
 		String url = "http://192.168.11.238/index.php/home/api/getPhoto";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("tel", "1234");
-			map.put("albumname", "111");
+			map.put("tel", username);
+			map.put("albumname", title);
 			httpPost.putMap(map);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
 				public void start() {
 				}
-
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);
@@ -76,7 +82,6 @@ public class MyPhotoAlbumActivity extends Activity {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -113,6 +118,7 @@ public class MyPhotoAlbumActivity extends Activity {
 	private void PhotoAlbum_Upload() {
 		Intent intent = new Intent(MyPhotoAlbumActivity.this,
 				UploadPhotoActivity.class);
+		intent.putExtra("tel", username);
 		intent.putExtra("name", data.getTitle());
 		startActivityForResult(intent, 1008611);
 	}

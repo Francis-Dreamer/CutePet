@@ -36,6 +36,7 @@ public class MyApplication extends Application {
 			YWAPI.init(this, APP_KEY);
 		}
 		final String userid = "ssw";
+		@SuppressWarnings("unused")
 		final YWIMKit mIMKit = YWAPI.getIMKitInstance(userid, "23331616");
 	}
 

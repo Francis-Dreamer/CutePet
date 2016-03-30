@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.model.DialogCharData;
-import com.dream.cutepet.util.DensityUtil;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
