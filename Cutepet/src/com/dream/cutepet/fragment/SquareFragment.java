@@ -41,7 +41,7 @@ public class SquareFragment extends Fragment {
 
 	ViewPager viewPager;
 	List<SquareModel> data;
-	SquareBaseAdapter adapter;
+	SquareBaseAdapter adapter=new SquareBaseAdapter();
 	ListView listView;
 	ImageView square_image;
 	ImageView square_mid_image_1;
@@ -53,16 +53,24 @@ public class SquareFragment extends Fragment {
 	ViewFlipper viewFlipper;
 	ImageView square_mid_more;
 	GestureDetector gestureDetector;
+	String squareId;
+	String squareUsername;
 
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_square_dynamic, null);
-
-//		getData();
+		
+		
 		return view;
 	}
+	
+	public void onStart() {
+		super.onStart();
+		getData();
+	}
+	
 
 	/**
 	 * 初始化控件
@@ -123,6 +131,11 @@ public class SquareFragment extends Fragment {
 				long id) {
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), DynamicDetailsActivity.class);
+			squareId=data.get(position).getSquare_id();
+			squareUsername=data.get(position).getSquare_username();
+			intent.putExtra("theId", squareId);
+			intent.putExtra("theUsername", squareUsername);
+			intent.putExtra("thePosition", position);
 			startActivityForResult(intent, 0);
 		}
 	};
@@ -132,7 +145,8 @@ public class SquareFragment extends Fragment {
 	 */
 	private void getData() {
 		
-		String url = "http://192.168.11.238/index.php/home/api/getTalk";
+	//	String url = "http://192.168.11.238/index.php/home/api/getTalk";
+		String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
@@ -145,6 +159,8 @@ public class SquareFragment extends Fragment {
 				public void end(String result) {
 					data=SquareModel.setJson(result);
 					initView();
+					
+					adapter.setData(data);
 				}
 			});
 		} catch (MalformedURLException e) {

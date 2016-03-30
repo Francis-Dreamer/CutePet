@@ -42,7 +42,12 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return data.size();
+		if(data!=null){
+			return data.size();
+		}else{
+			return 0;
+		}
+		
 	}
 
 	public Object getItem(int position) {

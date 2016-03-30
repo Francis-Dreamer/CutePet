@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class PetStrategyFragment extends Fragment {
 
 	ListView listView;
 	List<PetStrategyModel> data;
-	PetStrategyBaseAdapter adapter;
+	PetStrategyBaseAdapter adapter=new PetStrategyBaseAdapter();;
 	String getData;
 	TextView tv_resources, tv_strategy;
 	View view;
@@ -44,8 +45,9 @@ public class PetStrategyFragment extends Fragment {
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_pet_strategy, null);
 		
-		listView = (ListView) view.findViewById(R.id.pet_strategy_listview);
-		initData();
+		initview();
+		initListView();
+		
 	
 		return view;
 	}
@@ -57,6 +59,7 @@ public class PetStrategyFragment extends Fragment {
 	private void initview() {
 		
 		// 加上headerview
+		listView = (ListView) view.findViewById(R.id.pet_strategy_listview);
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View headerview = inflater.inflate(R.layout.strategy_head_view, null);
 		ImageView pet_strategy_head_image = (ImageView) headerview
@@ -92,11 +95,18 @@ public class PetStrategyFragment extends Fragment {
 	};
 	
 	
+	public void onStart() {
+		super.onStart();
+		getData();
+		
+	}
+
 	/**
 	 * 初始化数据
 	 */
-	private void initData(){
-		String url="http://192.168.11.238/index.php/home/api/getStrategy";
+	private void getData(){
+	//	String url="http://192.168.11.238/index.php/home/api/getStrategy";
+		String url="http://192.168.1.107/index.php/home/api/getStrategy";
 		
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
@@ -108,9 +118,9 @@ public class PetStrategyFragment extends Fragment {
 				}
 				
 				public void end(String result) {
+					Log.e("5555555555555", result);
 					data=PetStrategyModel.setJson(result);
-					initview();
-					initListView();
+					adapter.setData(data);
 				}
 			});
 		} catch (MalformedURLException e) {
