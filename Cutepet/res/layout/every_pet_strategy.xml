@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/pet_strategy_image"
+        android:layout_width="@dimen/px172"
+        android:layout_height="@dimen/px142"
+        android:layout_marginBottom="@dimen/px10"
+        android:layout_marginEnd="@dimen/px22"
+        android:layout_marginLeft="@dimen/px24"
+        android:layout_marginRight="@dimen/px22"
+        android:layout_marginStart="@dimen/px24"
+        android:layout_marginTop="@dimen/px10"
+        android:scaleType="fitXY"
+        android:src="@drawable/jinmao" />
+
+    <TextView
+        android:id="@+id/pet_strategy_comment_chinese_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/px8"
+        android:layout_marginTop="@dimen/px25"
+        android:layout_toEndOf="@id/pet_strategy_image"
+        android:layout_toRightOf="@id/pet_strategy_image"
+        android:text="@string/name"
+        android:textColor="#2b2b2b"
+        android:textSize="@dimen/px32" />
+
+    <TextView
+        android:id="@+id/pet_strategy_comment_english_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pet_strategy_comment_chinese_name"
+        android:layout_marginBottom="@dimen/px10"
+        android:layout_toEndOf="@id/pet_strategy_image"
+        android:layout_toRightOf="@id/pet_strategy_image"
+        android:text="@string/name"
+        android:textColor="#474747"
+        android:textSize="@dimen/px24" />
+
+    <TextView
+        android:id="@+id/pet_strategy_content_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pet_strategy_comment_english_name"
+        android:layout_toEndOf="@id/pet_strategy_image"
+        android:layout_toRightOf="@id/pet_strategy_image"
+        android:text="@string/content"
+        android:textColor="#616161"
+        android:textSize="@dimen/px20" />
+
+    <ImageView
+        android:id="@+id/pet_strategy_details_image"
+        android:layout_width="@dimen/px32"
+        android:layout_height="@dimen/px35"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="@dimen/px60"
+        android:layout_marginRight="@dimen/px60"
+        android:layout_marginTop="@dimen/px64"
+        android:alpha="0.34"
+        android:src="@drawable/youjiantou" />
+
+</RelativeLayout>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_menu" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_pet_logo"
+            android:layout_width="@dimen/px347"
+            android:layout_height="@dimen/px511"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/zu_11" />
+
+        <ImageView
+            android:id="@+id/iv_pet_select"
+            android:layout_width="@dimen/px347"
+            android:layout_height="@dimen/px511"
+            android:layout_marginLeft="@dimen/px26"
+            android:layout_marginStart="@dimen/px26"
+            android:layout_toRightOf="@id/iv_pet_logo"
+            android:clickable="true"
+            android:src="@drawable/zu_12" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px30"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/px44"
+        android:paddingRight="@dimen/px40" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px111"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="品种："
+                android:textColor="#262222"
+                android:textSize="@dimen/px32" />
+
+            <EditText
+                android:id="@+id/ed_pet_breed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/px25"
+                android:background="@null"
+                android:hint="宠物品种"
+                android:paddingBottom="@dimen/px20"
+                android:paddingTop="@dimen/px20"
+                android:textColor="#b5b5b5"
+                android:textSize="@dimen/px32" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/fenge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px111"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="主人寄语："
+                android:textColor="#262222"
+                android:textSize="@dimen/px32" />
+
+            <EditText
+                android:id="@+id/ed_pet_jiyu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/px25"
+                android:background="@null"
+                android:hint="主人寄语"
+                android:paddingBottom="@dimen/px20"
+                android:paddingTop="@dimen/px20"
+                android:textColor="#b5b5b5"
+                android:textSize="@dimen/px32" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
