@@ -12,13 +12,13 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SquareBaseAdapter extends BaseAdapter {
-
 	List<SquareModel> data;
 	Context context;
 	LayoutInflater inflater;
@@ -102,7 +102,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 		holder.square_address.setText(model.getSquare_address());
 		holder.square_praise_num.setText(model.getSquare_praise_num());
 		holder.square_comment_num.setText(model.getSquare_comment_num());
-
+		
 		String img = model.getSquare_image();
 		if (!TextUtils.isEmpty(img)) {
 			String imageUrl = urlTop + img;

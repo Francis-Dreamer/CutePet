@@ -76,7 +76,7 @@ public class PersonalCenterFragment extends Fragment {
 
 		initView(view);
 
-		initData();
+//		initData();
 
 		Log.i("onCreateView", "onCreateView");
 		CheckIsLogin();
@@ -273,34 +273,34 @@ public class PersonalCenterFragment extends Fragment {
 		}
 	}
 
-	private void unloadImage() {
-		String url = "";
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			// httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
-			File file = new File("图片在手机的路径地址");
-			String newName = file.getName();// 上传图片的图片的名字
-			httpPost.putFile("image", file, newName, null);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-
-				}
-
-				@Override
-				public void end(String result) {
-					// 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
-					Log.i("result", "result = " + result);
-
-				}
-			});
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-	}
+	// private void unloadImage() {
+	// String url = "";
+	// try {
+	// HttpPost httpPost = HttpPost.parseUrl(url);
+	// // httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
+	// File file = new File("图片在手机的路径地址");
+	// String newName = file.getName();// 上传图片的图片的名字
+	// httpPost.putFile("image", file, newName, null);
+	// httpPost.send();
+	// httpPost.setOnSendListener(new OnSendListener() {
+	// @Override
+	// public void start() {
+	//
+	// }
+	//
+	// @Override
+	// public void end(String result) {
+	// // 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
+	// Log.i("result", "result = " + result);
+	//
+	// }
+	// });
+	//
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/*
 	 * private OnHttpListener mListener = new OnHttpListener() {

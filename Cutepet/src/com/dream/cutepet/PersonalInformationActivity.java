@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
@@ -39,7 +37,7 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * 资料信息
  * 
  * @author Administrator
- *
+ * 
  */
 public class PersonalInformationActivity extends Activity {
 	ImageView image_personalInformation, back;
@@ -80,7 +78,7 @@ public class PersonalInformationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
-		
+
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
@@ -110,20 +108,21 @@ public class PersonalInformationActivity extends Activity {
 
 		back.setOnClickListener(ocl);
 		text_birth.setOnClickListener(ocl);
-		
+
 		getData();
 	}
-	public void getData(){
-		
+
+	public void getData() {
+
 		String result = SharedPreferencesUtil.getData(this);
 		if (result != null && !result.equals("")) {
 			String[] temp = result.split(",");
 			tel = temp[1];
 			token = temp[0];
-			
+
 			initData();
 		}
-		
+
 	}
 
 	/**
@@ -142,31 +141,32 @@ public class PersonalInformationActivity extends Activity {
 				@Override
 				public void start() {
 				}
-				
+
 				@Override
 				public void end(String result) {
 					// 获取后台传递过来的json值
-					//data = UserModel.changeJson(result);
+					// data = UserModel.changeJson(result);
 					try {
-						
+
 						JSONObject jb = new JSONObject(result);
 						JSONObject jsonObject = jb.getJSONObject("message");
 						nickname = jsonObject.optString("nickname", "");
 						sex = jsonObject.optString("sex", "");
 						birth = jsonObject.optString("birth", "");
-						constellation = jsonObject.optString("constellation", "");
+						constellation = jsonObject.optString("constellation",
+								"");
 						occupation = jsonObject.optString("occupation", "");
 						corporation = jsonObject.optString("corporation", "");
 						site = jsonObject.optString("site", "");
 						hometown = jsonObject.optString("hometown", "");
 						mail = jsonObject.optString("mail", "");
 						personality = jsonObject.optString("personality", "");
-						
+
 						updateView();
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					
+
 				}
 			});
 
@@ -177,7 +177,7 @@ public class PersonalInformationActivity extends Activity {
 
 	// UI控件的更新
 	private void updateView() {
-		
+
 		edit_nickname.setText(nickname);
 		// radio_sex.setRight("sex");
 		text_birth.setText(birth);
@@ -245,7 +245,6 @@ public class PersonalInformationActivity extends Activity {
 
 	/*
 	 * 异步
-	 * 
 	 */
 	class UserdataTask extends AsyncTask<String, Void, String> {
 		protected String doInBackground(String... arg0) {
@@ -256,11 +255,25 @@ public class PersonalInformationActivity extends Activity {
 			try {
 				JSONObject jo = new JSONObject(result);
 				if (jo.getInt("status") == 1) {
-					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"),
+							Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"),
+							Toast.LENGTH_LONG).show();
 				}
-				
+				/*
+				 * JSONObject jsonObject = new JSONObject(result); nickname =
+				 * jsonObject.optString("nickname"); sex =
+				 * jsonObject.optString("sex"); birth =
+				 * jsonObject.optString("birth"); constellation =
+				 * jsonObject.optString("constellation"); occupation =
+				 * jsonObject.optString("occupation"); corporation =
+				 * jsonObject.optString("corporation"); site =
+				 * jsonObject.optString("site"); hometown =
+				 * jsonObject.optString("hometown"); mail =
+				 * jsonObject.optString("mail"); personality =
+				 * jsonObject.optString("personality"); updateView();
+				 */
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -280,7 +293,7 @@ public class PersonalInformationActivity extends Activity {
 	public void creatDatePickDialog() {
 		Calendar mycalendar = Calendar.getInstance(Locale.CHINA);
 		Date mydate = new Date(); // 获取当前日期Date对象
-		mycalendar.setTime(mydate);//// 为Calendar对象设置时间为当前日期
+		mycalendar.setTime(mydate);// // 为Calendar对象设置时间为当前日期
 
 		int year = mycalendar.get(Calendar.YEAR); // 获取Calendar对象中的年
 		int month = mycalendar.get(Calendar.MONTH);// 获取Calendar对象中的月
@@ -293,7 +306,6 @@ public class PersonalInformationActivity extends Activity {
 			// 设置弹出框的消失监听事件
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				// 创建弹出框的对象
 				DatePicker daterPicker = datePickerDialog.getDatePicker();
 				// 获取弹出框上的时间
