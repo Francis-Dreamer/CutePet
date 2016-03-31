@@ -107,82 +107,32 @@
         android:layout_height="@dimen/px24"
         android:background="#eeeeee" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/dynamic_details_praise_1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/llayout_details_icon"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px30"
-            android:layout_marginLeft="@dimen/px30"
-            android:layout_marginStart="@dimen/px30"
-            android:layout_marginTop="@dimen/px30"
-            android:src="@drawable/mid2" />
-
-        <ImageView
-            android:id="@+id/dynamic_details_praise_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px30"
-            android:layout_marginLeft="@dimen/px10"
-            android:layout_marginStart="@dimen/px10"
-            android:layout_marginTop="@dimen/px30"
-            android:layout_toEndOf="@id/dynamic_details_praise_1"
-            android:layout_toRightOf="@id/dynamic_details_praise_1"
-            android:src="@drawable/mid3" />
-
-        <ImageView
-            android:id="@+id/dynamic_details_praise_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px30"
-            android:layout_marginLeft="@dimen/px10"
-            android:layout_marginStart="@dimen/px10"
-            android:layout_marginTop="@dimen/px30"
-            android:layout_toEndOf="@id/dynamic_details_praise_2"
-            android:layout_toRightOf="@id/dynamic_details_praise_2"
-            android:src="@drawable/mid4" />
-
-        <ImageView
-            android:id="@+id/dynamic_details_praise_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px30"
-            android:layout_marginLeft="@dimen/px10"
-            android:layout_marginStart="@dimen/px10"
-            android:layout_marginTop="@dimen/px30"
-            android:layout_toEndOf="@id/dynamic_details_praise_3"
-            android:layout_toRightOf="@id/dynamic_details_praise_3"
-            android:src="@drawable/mid5" />
-
-        <ImageView
-            android:id="@+id/dynamic_details_praise_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/px30"
-            android:layout_marginLeft="@dimen/px10"
-            android:layout_marginStart="@dimen/px10"
-            android:layout_marginTop="@dimen/px30"
-            android:layout_toEndOf="@id/dynamic_details_praise_4"
-            android:layout_toRightOf="@id/dynamic_details_praise_4"
-            android:src="@drawable/mid6" />
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal" />
 
         <TextView
             android:id="@+id/dynamic_details_praise_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/px30"
-            android:layout_marginRight="@dimen/px30"
-            android:layout_marginTop="@dimen/px48"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/px30"
+            android:drawableLeft="@drawable/shoucang_1"
+            android:drawablePadding="@dimen/px10"
             android:gravity="center"
             android:text="@string/num"
             android:textColor="#b8b8b8"
             android:textSize="@dimen/px18" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/fenge_view_2"

@@ -76,42 +76,42 @@ public class PersonalCenterFragment extends Fragment {
 
 		initView(view);
 
-		initData();
+//		initData();
 
 		Log.i("onCreateView", "onCreateView");
 		CheckIsLogin();
 		return view;
 	}
 
-	/**
-	 * 初始化数据
-	 */
-	private void initData() {
-		String url = "";
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("tel", tel);
-			map.put("token", token);
-			httpPost.putMap(map);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-				}
-
-				@Override
-				public void end(String result) {
-					// 获取后台传递过来的json值
-				//	data = UserModel.changeJson(result);
-					updateView();
-				}
-			});
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
+//	/**
+//	 * 初始化数据
+//	 */
+//	private void initData() {
+//		String url = "";
+//		try {
+//			HttpPost httpPost = HttpPost.parseUrl(url);
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("tel", tel);
+//			map.put("token", token);
+//			httpPost.putMap(map);
+//			httpPost.send();
+//			httpPost.setOnSendListener(new OnSendListener() {
+//				@Override
+//				public void start() {
+//				}
+//
+//				@Override
+//				public void end(String result) {
+//					// 获取后台传递过来的json值
+//				//	data = UserModel.changeJson(result);
+//					updateView();
+//				}
+//			});
+//
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	// UI控件的更新
 	private void updateView() {
@@ -272,34 +272,34 @@ public class PersonalCenterFragment extends Fragment {
 		}
 	}
 
-	private void unloadImage() {
-		String url = "";
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			// httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
-			File file = new File("图片在手机的路径地址");
-			String newName = file.getName();// 上传图片的图片的名字
-			httpPost.putFile("image", file, newName, null);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-
-				}
-
-				@Override
-				public void end(String result) {
-					// 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
-					Log.i("result", "result = " + result);
-
-				}
-			});
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-	}
+	// private void unloadImage() {
+	// String url = "";
+	// try {
+	// HttpPost httpPost = HttpPost.parseUrl(url);
+	// // httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
+	// File file = new File("图片在手机的路径地址");
+	// String newName = file.getName();// 上传图片的图片的名字
+	// httpPost.putFile("image", file, newName, null);
+	// httpPost.send();
+	// httpPost.setOnSendListener(new OnSendListener() {
+	// @Override
+	// public void start() {
+	//
+	// }
+	//
+	// @Override
+	// public void end(String result) {
+	// // 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
+	// Log.i("result", "result = " + result);
+	//
+	// }
+	// });
+	//
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/*
 	 * private OnHttpListener mListener = new OnHttpListener() {
