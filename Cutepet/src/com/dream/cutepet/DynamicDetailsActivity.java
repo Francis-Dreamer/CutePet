@@ -1,25 +1,17 @@
 package com.dream.cutepet;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
-
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
 import com.dream.cutepet.model.DynamicDetailsData;
 import com.dream.cutepet.model.SquareModel;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +49,7 @@ public class DynamicDetailsActivity extends Activity {
 
 	protected void onStart() {
 		super.onStart();
-		getData();
+		initView();
 	}
 	
 	@SuppressLint("InflateParams") private void initView() {
@@ -68,7 +60,6 @@ public class DynamicDetailsActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
-		getData();
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View dynamic_details_headerview = inflater.inflate(R.layout.dynamic_details_head_view, null);
@@ -84,16 +75,19 @@ public class DynamicDetailsActivity extends Activity {
 	
 		//把其他形状转化成圆形头像
 		Bundle bundle=getIntent().getExtras();
-		int position=bundle.getInt("thePosition");
 		String id=bundle.getString("theId");
 		String username=bundle.getString("theUsername");
-		String portraitUrl=urlTop+squareData.get(position).getSquare_portrait();
-		String imageUrl=urlTop+squareData.get(position).getSquare_image();
+		String portraitUrl=urlTop+bundle.getString("thePortrait");
+		String imageUrl=urlTop+bundle.getString("thePicture");
+		String theNickname=bundle.getString("theNickname");
+		String theTime=bundle.getString("theTime");
+		String theAddress=bundle.getString("theAddress");
+		String theContent=bundle.getString("theContent");
 		
-		dynamic_details_nickname.setText(squareData.get(position).getSquare_neckname());
-		dynamic_details_time.setText(squareData.get(position).getSquare_comment_time());
-		dynamic_details_address.setText(squareData.get(position).getSquare_address());
-		dynamic_details_content.setText(squareData.get(position).getSquare_comment_content());
+		dynamic_details_nickname.setText(theNickname);
+		dynamic_details_time.setText(theTime);
+		dynamic_details_address.setText(theAddress);
+		dynamic_details_content.setText(theContent);
 		
 		if(!TextUtils.isEmpty(imageUrl)){
 			dynamic_details_image.setTag(imageUrl);
@@ -117,7 +111,6 @@ public class DynamicDetailsActivity extends Activity {
 
 		listView.addHeaderView(dynamic_details_headerview);
 		
-		getData();
 
 		adapter = new DynamicDetailsBaseAdapter(dynamicDetailsData, this);
 		listView.setAdapter(adapter);
@@ -128,9 +121,10 @@ public class DynamicDetailsActivity extends Activity {
 	/**
 	 * 获取数据
 	 */
-	private void getData() {
+	/*private void getData() {
 		
-		String url = "http://192.168.1.107/index.php/home/api/getTalk";
+		String url = "http://192.168.11.238/index.php/home/api/getTalk"; 
+	//	String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
@@ -149,7 +143,7 @@ public class DynamicDetailsActivity extends Activity {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 	
 	OnClickListener clickListener=new OnClickListener() {
 		@Override
