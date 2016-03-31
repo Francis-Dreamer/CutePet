@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,14 +131,14 @@ public class SquareFragment extends Fragment {
 				long id) {
 			Intent intent = new Intent();
 			intent.setClass(getActivity(), DynamicDetailsActivity.class);
-			squareId=data.get(position).getSquare_id();
-			squareUsername=data.get(position).getSquare_username();
-			squarePortrait=data.get(position).getSquare_portrait();
-			squareNickname=data.get(position).getSquare_neckname();
-			squareTime=data.get(position).getSquare_comment_time();
-			squareAddress=data.get(position).getSquare_address();
-			squareContent=data.get(position).getSquare_comment_content();
-			squarePicture=data.get(position).getSquare_image();
+			squareId=data.get(position-1).getSquare_id();
+			squareUsername=data.get(position-1).getSquare_username();
+			squarePortrait=data.get(position-1).getSquare_portrait();
+			squareNickname=data.get(position-1).getSquare_neckname();
+			squareTime=data.get(position-1).getSquare_comment_time();
+			squareAddress=data.get(position-1).getSquare_address();
+			squareContent=data.get(position-1).getSquare_comment_content();
+			squarePicture=data.get(position-1).getSquare_image();
 			Bundle bundle=new Bundle();
 			bundle.putString("theId", squareId);
 			bundle.putString("theUsername", squareUsername);
@@ -169,9 +170,8 @@ public class SquareFragment extends Fragment {
 				}
 				
 				public void end(String result) {
+					Log.e("SSSSSSSSSSSSSS", result);
 					data=SquareModel.setJson(result);
-					initView();
-					
 					adapter.setData(data);
 				}
 			});

@@ -44,7 +44,6 @@ public class DynamicDetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dynamic_details);
 		imageLoader=new AsyncImageLoader(this);
-		initView();
 	}
 
 	protected void onStart() {
@@ -118,32 +117,6 @@ public class DynamicDetailsActivity extends Activity {
 		send.setOnClickListener(clickListener);
 	}
 
-	/**
-	 * 获取数据
-	 */
-	/*private void getData() {
-		
-		String url = "http://192.168.11.238/index.php/home/api/getTalk"; 
-	//	String url = "http://192.168.1.107/index.php/home/api/getTalk";
-		try {
-			HttpPost httpPost=HttpPost.parseUrl(url);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				
-				public void start() {
-					
-				}
-				
-				public void end(String result) {
-					Log.e("111111111111111", result);
-					squareData=SquareModel.setJson(result);
-				}
-			});
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-	}*/
 	
 	OnClickListener clickListener=new OnClickListener() {
 		@Override
@@ -161,15 +134,15 @@ public class DynamicDetailsActivity extends Activity {
 		}
 	};
 	
+	
+	
+	
 	/**
 	 * 返回
 	 */
 	private void back(){
 		finish();
 	}
-	
-	/**
-	 * 输入内容
-	 */
+
 
 }

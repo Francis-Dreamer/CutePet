@@ -32,6 +32,7 @@ import com.dream.cutepet.PetDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.HomePageAdapter;
 import com.dream.cutepet.adapter.HomePageAdapter.CallParise;
+import com.dream.cutepet.adapter.HomePageAdapter.SetMessage;
 import com.dream.cutepet.model.PersonageModel;
 import com.dream.cutepet.model.PetStoreModel;
 import com.dream.cutepet.ui.PetStoreActivity;
@@ -46,7 +47,7 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * @author Administrator
  * 
  */
-public class HomePageFragment extends Fragment implements CallParise {
+public class HomePageFragment extends Fragment implements CallParise ,SetMessage{
 	LinearLayout llayout_petStore;
 	LayoutInflater inflater;
 	List<PetStoreModel> data_petStore;
@@ -201,16 +202,26 @@ public class HomePageFragment extends Fragment implements CallParise {
 			llayout_petStore.addView(view);
 		}
 		listView.addHeaderView(header, null, false);
-		adapter = new HomePageAdapter(getActivity(),data_personage,this);
+		adapter = new HomePageAdapter(getActivity(),data_personage,this,this);
 		listView.setAdapter(adapter);
 	}
 
 	@Override
 	public void click(View v) {
-		if (checkLogin()) {
-			int position = (Integer) v.getTag();
-			setParise(position);
+		switch (v.getId()) {
+		case R.id.tv_homepage_personage_like:
+			if (checkLogin()) {
+				int position = (Integer) v.getTag();
+				setParise(position);
+			}
+			break;
+		case R.id.tv_homepage_personage_getMessage:
+			
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	/**

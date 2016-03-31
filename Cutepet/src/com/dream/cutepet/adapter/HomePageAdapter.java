@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,22 +32,28 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	private AsyncImageLoader imageLoader;
 	String url_Top = "http://192.168.11.238";
 	private CallParise mCallParise;
-
+	private SetMessage mSetMessage;
+	
 	public HomePageAdapter() {
 
 	}
 
 	public HomePageAdapter(Context context, List<PersonageModel> data,
-			CallParise mCallParise) {
+			CallParise mCallParise,SetMessage mSetMessage) {
 		this.data = data;
 		this.context = context;
 		this.mCallParise = mCallParise;
+		this.mSetMessage = mSetMessage;
 		inflater = LayoutInflater.from(context);
 		inflater_m = LayoutInflater.from(context);
 		imageLoader = new AsyncImageLoader(context);
 	}
 
 	public interface CallParise {
+		public void click(View v);
+	}
+
+	public interface SetMessage {
 		public void click(View v);
 	}
 
@@ -114,6 +122,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		holder.tv_like.setText(model.getLike() + "");
 		holder.tv_like.setOnClickListener(this);
 		holder.tv_like.setTag(position);
+		holder.tv_message.setOnClickListener(this);
+		holder.tv_message.setTag(position);
 
 		String icon = model.getLogo();
 		if (!TextUtils.isEmpty(icon)) {
@@ -151,12 +161,25 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 				tv_baoyang, tv_word;
 		RelativeLayout rlayout_pic, rlayout_comment;
 		TextView tv_like;
-
 		TextView tv_send, tv_cancel;
+
+		LinearLayout llayout_msg;
+		EditText et_msg;
+		TextView tv_ok, tv_msgCancel;
 	}
 
 	@Override
 	public void onClick(View v) {
-		mCallParise.click(v);
+		switch (v.getId()) {
+		case R.id.tv_homepage_personage_like:
+			mCallParise.click(v);
+			break;
+		case R.id.tv_homepage_personage_getMessage:
+			mSetMessage.click(v);
+			break;
+		default:
+			break;
+		}
+	
 	}
 }

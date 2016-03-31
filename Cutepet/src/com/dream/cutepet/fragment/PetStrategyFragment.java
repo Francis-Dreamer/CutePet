@@ -105,8 +105,8 @@ public class PetStrategyFragment extends Fragment {
 	 * 初始化数据
 	 */
 	private void getData(){
-	//	String url="http://192.168.11.238/index.php/home/api/getStrategy";
-		String url="http://192.168.1.107/index.php/home/api/getStrategy";
+		String url="http://192.168.11.238/index.php/home/api/getStrategy";
+	//	String url="http://192.168.1.107/index.php/home/api/getStrategy";
 		
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
