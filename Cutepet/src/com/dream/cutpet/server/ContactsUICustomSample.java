@@ -48,5 +48,4 @@ public class ContactsUICustomSample extends IMContactsUI {
 		title.setGravity(Gravity.CENTER);
 		return customView;
 	}
-
 }

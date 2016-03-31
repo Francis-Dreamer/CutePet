@@ -1,5 +1,8 @@
 package com.dream.cutpet.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +32,7 @@ import com.alibaba.mobileim.conversation.YWMessage;
 import com.alibaba.mobileim.utility.YWIMImageUtils;
 import com.dream.cutepet.R;
 import com.dream.cutepet.fragment.ChatActivityFragment;
+import com.dream.cutepet.model.PetStoreModel;
 import com.dream.cutepet.ui.PetStoreActivity;
 /**
  * 会话列表自定义
@@ -105,7 +109,11 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	@Override
+	public int getDefaultHeadImageResId() {
+		// TODO Auto-generated method stub
+		return R.drawable.icon_tx;
+	}
 	/**
 	 * getView方法内，返回View之前，对［聊天界面的右边消息item的View］做最后调整,如调整View的Padding。
 	 * 
@@ -265,6 +273,7 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		TextView textTittle = (TextView) view.findViewById(R.id.title);
 		ImageView imageBack = (ImageView) view.findViewById(R.id.back);
 		textTittle.setTextColor(Color.parseColor("#333333"));
+		List<PetStoreModel> list=new ArrayList<PetStoreModel>();
 		imageBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

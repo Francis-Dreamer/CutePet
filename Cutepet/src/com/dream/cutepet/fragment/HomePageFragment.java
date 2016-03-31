@@ -57,6 +57,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	private AsyncImageLoader imageLoader;
 	private String username;
 	private View view;
+	Bitmap bitmap;
 	private String url_top = "http://192.168.11.238";
 //	private String url_top = "http://192.168.1.117";
 
@@ -182,6 +183,11 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				Intent intent = new Intent(getActivity(),
 						PetStoreActivity.class);
 				intent.putExtra("index", index);
+				intent.putExtra("username", data_petStore.get(index).getUsername());
+				intent.putExtra("name", data_petStore.get(index).getName());
+				intent.putExtra("address", data_petStore.get(index).getAddress());
+				intent.putExtra("type", data_petStore.get(index).getType());
+				intent.putExtra("icon", url_top+data_petStore.get(index).getLogo());
 				startActivityForResult(intent, 0);
 			}
 		}
@@ -206,7 +212,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			img.setTag(imgUrl);
 			if (!TextUtils.isEmpty(imgUrl)) {
 				// 异步加载图片
-				Bitmap bitmap = imageLoader.loadImage(img, imgUrl);
+				bitmap = imageLoader.loadImage(img, imgUrl);
 				if (bitmap != null) {
 					img.setImageBitmap(bitmap);
 				}
