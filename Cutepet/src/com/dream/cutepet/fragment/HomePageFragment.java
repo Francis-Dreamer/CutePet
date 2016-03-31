@@ -58,6 +58,7 @@ public class HomePageFragment extends Fragment implements CallParise {
 	private String username;
 	private View view;
 	private String url_top = "http://192.168.11.238";
+//	private String url_top = "http://192.168.1.117";
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -84,8 +85,8 @@ public class HomePageFragment extends Fragment implements CallParise {
 	 * 初始化宠物店数据
 	 */
 	private void initStoreData() {
-	//	String URL_store = "http://192.168.11.238/index.php/home/api/getPetStore";
-		String URL_store = "http://192.168.1.107/index.php/home/api/getPetStore";
+		String URL_store = "http://192.168.11.238/index.php/home/api/getPetStore";
+	//	String URL_store = "http://192.168.1.107/index.php/home/api/getPetStore";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -108,8 +109,8 @@ public class HomePageFragment extends Fragment implements CallParise {
 	 * 初始化主人寄语数据
 	 */
 	private void initPersonalData() {
-	//	String URL_store = "http://192.168.11.238/index.php/home/api/getPersonal";
-		String URL_store = "http://192.168.1.107/index.php/home/api/getPersonal";
+		String URL_store = "http://192.168.11.238/index.php/home/api/getPersonal";
+	//	String URL_store = "http://192.168.1.107/index.php/home/api/getPersonal";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -220,8 +221,8 @@ public class HomePageFragment extends Fragment implements CallParise {
 	 * @param position
 	 */
 	private void setParise(int position) {
-	//	String url = "http://192.168.11.238/index.php/home/api/uploadPraise_personal";
-		String url = "http://192.168.1.107/index.php/home/api/uploadPraise_personal";
+		String url = "http://192.168.11.238/index.php/home/api/uploadPraise_personal";
+	//	String url = "http://192.168.1.107/index.php/home/api/uploadPraise_personal";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

@@ -37,7 +37,12 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter{
 	
 	@Override
 	public int getCount() {
-		return data.size();
+		if(data!=null){
+			return data.size();
+		}else{
+			return 0;
+		}
+		
 	}
 
 	@Override
