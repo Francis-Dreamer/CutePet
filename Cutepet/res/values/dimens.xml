@@ -135,5 +135,8 @@
     <dimen name="px720">720px</dimen>
     <dimen name="px142">142px</dimen>
     <dimen name="px172">172px</dimen>
+    <dimen name="px145">145px</dimen>
+    <dimen name="px160">160px</dimen>
+    <dimen name="px180">180px</dimen>
 
 </resources>

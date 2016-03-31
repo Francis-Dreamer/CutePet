@@ -130,10 +130,12 @@ public class PetStrategyDetailsActivity extends Activity {
 				intent.setClass(PetStrategyDetailsActivity.this,
 						PetStrategyCommentActivity.class);
 				Bundle bundle=new Bundle();
-				//String tel=
-				
-				
-				
+				bundle.putString("petName", petName);
+				bundle.putString("petGrade", petGrade);
+				bundle.putString("petContent_data", petContent_data);
+				bundle.putString("petTrait", petTrait);
+				bundle.putString("petImage", petImage);
+				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
 				break;
 			case R.id.pet_strategy_details_collection:

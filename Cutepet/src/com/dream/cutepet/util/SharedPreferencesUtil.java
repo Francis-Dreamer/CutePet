@@ -3,6 +3,7 @@ package com.dream.cutepet.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SharedPreferencesUtil {
 
@@ -43,5 +44,51 @@ public class SharedPreferencesUtil {
 		preferences.edit().clear().commit();
 		Log.i("deleteData", "token删除成功！");
 	}
+	
+	/**
+	 * 判断账号是否登录
+	 * 
+	 * @return
+	 */
+	public static boolean checkLogin(Context context) {
+		String tok = SharedPreferencesUtil.getData(context);
+		if (tok != null && !tok.equals("")) {
+	//		username = tok.split(",")[1];
+			return true;
+		}
+		Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
+		return false;
+	}
+	
+	/**
+	 * 获取存储在本地的username
+	 * @param context
+	 * @return
+	 */
+	public static String getUsername(Context context){
+		if(checkLogin(context)){
+			String tok = SharedPreferencesUtil.getData(context);
+			return tok.split(",")[1];
+		}else{
+			return "未登录";
+		}
+	}
+	
+	/**
+	 * 获取存储在本地的token
+	 * @param context
+	 * @return
+	 */
+	public static String getToken(Context context){
+		if(checkLogin(context)){
+			String tok = SharedPreferencesUtil.getData(context);
+			return tok.split(",")[0];
+		}else{
+			return "未登录";
+		}
+	}
+	
+	
+
 
 }

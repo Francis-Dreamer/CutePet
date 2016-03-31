@@ -162,7 +162,6 @@ public class ReleaseActivity extends Activity {
 
 		switch (requestCode) {
 		case 66666:
-			Log.i("ReleaseActivity", "onActivityResult");
 			Bundle bundle = data.getExtras();
 			view_address = bundle.getString("view_address");
 			file = new File(view_address);

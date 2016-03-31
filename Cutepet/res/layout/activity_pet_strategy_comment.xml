@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/pet_strategy_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px180"
+            android:layout_height="@dimen/px145"
             android:layout_marginEnd="@dimen/px22"
             android:layout_marginLeft="@dimen/px24"
             android:layout_marginRight="@dimen/px22"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px21"
             android:layout_marginStart="@dimen/px21"
-            android:layout_marginTop="@dimen/px28"
+            android:layout_marginTop="@dimen/px30"
             android:layout_toEndOf="@id/pet_strategy_comment_ratingbar"
             android:layout_toRightOf="@id/pet_strategy_comment_ratingbar"
             android:text="@string/rating"
@@ -97,7 +97,7 @@
             android:textSize="@dimen/px20" />
 
         <TextView
-            android:id="@+id/pet_strategy_comment_num"
+            android:id="@+id/pet_strategy_comment_characteristic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pet_strategy_comment_ratingbar_num"
@@ -137,12 +137,24 @@
 
         <ImageView
             android:id="@+id/pet_strategy_comment_addview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px150"
+            android:layout_height="@dimen/px150"
             android:layout_marginLeft="@dimen/px24"
             android:layout_marginStart="@dimen/px24"
             android:layout_marginTop="@dimen/px24"
+            android:scaleType="fitXY"
             android:src="@drawable/jiahao" />
+
+        <ImageView
+            android:id="@+id/pet_strategy_comment_view"
+            android:layout_width="@dimen/px150"
+            android:layout_height="@dimen/px150"
+            android:layout_marginLeft="@dimen/px100"
+            android:layout_marginStart="@dimen/px24"
+            android:layout_marginTop="@dimen/px24"
+            android:layout_toRightOf="@id/pet_strategy_comment_addview"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_tx" />
     </RelativeLayout>
 
 </LinearLayout>

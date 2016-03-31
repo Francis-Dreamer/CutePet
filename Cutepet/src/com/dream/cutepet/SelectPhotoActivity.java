@@ -71,9 +71,12 @@ public class SelectPhotoActivity extends Activity{
 				long id) {
 			//把图片地址传过去
 			String address=data_img.get(position);
-			Intent intent=new Intent(SelectPhotoActivity.this,ReleaseActivity.class);
-			intent.putExtra("view_address", address);
-			setResult(RESULT_OK, intent);
+			Intent intentRelease=new Intent(SelectPhotoActivity.this,ReleaseActivity.class);
+			Intent intentPetStrategy=new Intent(SelectPhotoActivity.this,PetStrategyCommentActivity.class);
+			intentRelease.putExtra("view_address", address);
+			intentPetStrategy.putExtra("view_address", address);
+			setResult(RESULT_OK, intentRelease);
+			setResult(RESULT_OK, intentPetStrategy);
 			finish();
 		}
 	};
