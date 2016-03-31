@@ -66,7 +66,7 @@ public class PersonalCenterFragment extends Fragment {
 
 	ImageView image_toxiang;
 
-	//UserModel data;
+	// UserModel data;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -103,7 +103,7 @@ public class PersonalCenterFragment extends Fragment {
 				@Override
 				public void end(String result) {
 					// 获取后台传递过来的json值
-				//	data = UserModel.changeJson(result);
+					// data = UserModel.changeJson(result);
 					updateView();
 				}
 			});
@@ -179,6 +179,7 @@ public class PersonalCenterFragment extends Fragment {
 			public void start() {
 
 			}
+
 			@Override
 			public void end(String result) {
 				try {
@@ -207,8 +208,7 @@ public class PersonalCenterFragment extends Fragment {
 				 * http.setOndemandListener(); http.DemandAccount(tel, token);
 				 */
 				// 点击后当前个人中心页面跳转到个人信息页面
-				intent.setClass(getActivity(), PersonalInformationActivity.class);
-				startActivityForResult(intent, 0);
+
 				break;
 			case R.id.linear_account:
 				// 点击后当前页面个人中心页面跳转到账户管理页面
@@ -257,16 +257,17 @@ public class PersonalCenterFragment extends Fragment {
 		Log.i("CheckIsLogin", "CheckIsLogin");
 		// 获取本地的sharepreference存储的token值
 		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
-		Log.i("CheckIsLogin", "token=" + token);
+		Log.i("CheckIsLogin", "result=" + result);
 		if (result == null || result.equals("")) {// 判断获取的token值是否为空
 			Log.i("CheckIsLogin", "当前没有处于登录状态");
 			judgeUnLongin();
 		} else {
 			// 不为空，则显示个人信息
+			
 			String[] temp = result.split(",");
 
-			tel = temp[0];
-			token = temp[1];
+			tel = temp[1];
+			token = temp[0];
 
 			judgeLongin();
 		}

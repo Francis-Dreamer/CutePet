@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 /**
  * 用户资料的数据对象
  * 
@@ -196,6 +198,7 @@ public class UserModel {
 				model.attention = jsObject.getString("attention");
 				model.fans = jsObject.getString("fans");
 				model.enshrine = jsObject.getString("enshrine");
+
 			}
 
 		} catch (JSONException e) {
