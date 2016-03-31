@@ -1,7 +1,6 @@
 package com.dream.cutepet;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
@@ -15,7 +14,6 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,7 +28,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class DynamicDetailsActivity extends Activity {
-
 	List<SquareModel> squareData;
 	List<DynamicDetailsData> dynamicDetailsData;
 	DynamicDetailsBaseAdapter adapter;
@@ -57,7 +54,9 @@ public class DynamicDetailsActivity extends Activity {
 
 	protected void onStart() {
 		super.onStart();
+		
 		getData();
+		
 	}
 	
 	@SuppressLint("InflateParams") private void initView() {
@@ -68,7 +67,6 @@ public class DynamicDetailsActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
-		getData();
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View dynamic_details_headerview = inflater.inflate(R.layout.dynamic_details_head_view, null);
@@ -113,12 +111,7 @@ public class DynamicDetailsActivity extends Activity {
 			}
 		}
 		
-		
-
 		listView.addHeaderView(dynamic_details_headerview);
-		
-		getData();
-
 		adapter = new DynamicDetailsBaseAdapter(dynamicDetailsData, this);
 		listView.setAdapter(adapter);
 		back.setOnClickListener(clickListener);
@@ -129,17 +122,14 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取数据
 	 */
 	private void getData() {
-		
 		String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
-				
 				public void start() {
 					
 				}
-				
 				public void end(String result) {
 					Log.e("111111111111111", result);
 					squareData=SquareModel.setJson(result);
@@ -148,7 +138,6 @@ public class DynamicDetailsActivity extends Activity {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	OnClickListener clickListener=new OnClickListener() {

@@ -68,4 +68,10 @@ public class DynamicAlbumModel {
 		data.add(model);
 		return data;
 	}
+
+	public static List<DynamicAlbumModel> setJson(String result) {
+		
+		
+		return null;
+	}
 }

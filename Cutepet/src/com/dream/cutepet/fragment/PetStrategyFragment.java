@@ -47,7 +47,6 @@ public class PetStrategyFragment extends Fragment {
 		
 		initview();
 		initListView();
-		
 	
 		return view;
 	}
@@ -57,7 +56,6 @@ public class PetStrategyFragment extends Fragment {
 	 */
 	@SuppressLint("InflateParams")
 	private void initview() {
-		
 		// 加上headerview
 		listView = (ListView) view.findViewById(R.id.pet_strategy_listview);
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -66,7 +64,6 @@ public class PetStrategyFragment extends Fragment {
 				.findViewById(R.id.pet_strategy_head_image);
 		pet_strategy_head_image.setImageResource(R.drawable.banner);
 		listView.addHeaderView(headerview, null, false);
-		
 	}
 
 	/**
@@ -82,7 +79,6 @@ public class PetStrategyFragment extends Fragment {
 	 * 点击跳转时间
 	 */
 	OnItemClickListener itemClickListener = new OnItemClickListener() {
-
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -94,31 +90,24 @@ public class PetStrategyFragment extends Fragment {
 		}
 	};
 	
-	
 	public void onStart() {
 		super.onStart();
 		getData();
-		
 	}
 
 	/**
 	 * 初始化数据
 	 */
 	private void getData(){
-	//	String url="http://192.168.11.238/index.php/home/api/getStrategy";
-		String url="http://192.168.1.107/index.php/home/api/getStrategy";
-		
+		String url="http://192.168.11.238/index.php/home/api/getStrategy";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
-				
 				public void start() {
-					
 				}
-				
 				public void end(String result) {
-					Log.e("5555555555555", result);
+					Log.e("PetStrategyFragment", result);
 					data=PetStrategyModel.setJson(result);
 					adapter.setData(data);
 				}
