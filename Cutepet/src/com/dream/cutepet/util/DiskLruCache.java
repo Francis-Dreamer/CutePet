@@ -841,7 +841,7 @@ public final class DiskLruCache implements Closeable {
                 completeEdit(this, false);
                 remove(entry.key); // the previous entry is stale
             } else {
-                completeEdit(this, true);
+            //    completeEdit(this, true);
             }
         }
 

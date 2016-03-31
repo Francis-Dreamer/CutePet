@@ -46,14 +46,22 @@ public class SquareFragment extends Fragment {
 	ViewFlipper viewFlipper;
 	ImageView square_mid_more;
 	GestureDetector gestureDetector;
+	
 	String squareId;
 	String squareUsername;
+	String squarePortrait;
+	String squareNickname;
+	String squareTime;
+	String squareAddress;
+	String squareContent;
+	String squarePicture;
 
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_square_dynamic, null);
+		initView();
 		
 		return view;
 	}
@@ -124,9 +132,22 @@ public class SquareFragment extends Fragment {
 			intent.setClass(getActivity(), DynamicDetailsActivity.class);
 			squareId=data.get(position).getSquare_id();
 			squareUsername=data.get(position).getSquare_username();
-			intent.putExtra("theId", squareId);
-			intent.putExtra("theUsername", squareUsername);
-			intent.putExtra("thePosition", position);
+			squarePortrait=data.get(position).getSquare_portrait();
+			squareNickname=data.get(position).getSquare_neckname();
+			squareTime=data.get(position).getSquare_comment_time();
+			squareAddress=data.get(position).getSquare_address();
+			squareContent=data.get(position).getSquare_comment_content();
+			squarePicture=data.get(position).getSquare_image();
+			Bundle bundle=new Bundle();
+			bundle.putString("theId", squareId);
+			bundle.putString("theUsername", squareUsername);
+			bundle.putString("thePortrait", squarePortrait);
+			bundle.putString("theNickname", squareNickname);
+			bundle.putString("theTime", squareTime);
+			bundle.putString("theAddress", squareAddress);
+			bundle.putString("theContent", squareContent);
+			bundle.putString("thePicture", squarePicture);
+			intent.putExtras(bundle);
 			startActivityForResult(intent, 0);
 		}
 	};
@@ -135,7 +156,9 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
+		
 		String url = "http://192.168.11.238/index.php/home/api/getTalk";
+	//	String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
