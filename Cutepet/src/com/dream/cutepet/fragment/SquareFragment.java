@@ -1,12 +1,7 @@
 package com.dream.cutepet.fragment;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.dream.cutepet.DynamicDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.SquareBaseAdapter;
@@ -18,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +32,6 @@ import android.widget.ViewFlipper;
  * 
  */
 public class SquareFragment extends Fragment {
-
 	ViewPager viewPager;
 	List<SquareModel> data;
 	SquareBaseAdapter adapter=new SquareBaseAdapter();
@@ -61,7 +54,6 @@ public class SquareFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_square_dynamic, null);
-		
 		
 		return view;
 	}
@@ -88,7 +80,6 @@ public class SquareFragment extends Fragment {
 				.findViewById(R.id.square_mid_more);
 		viewFlipper = (ViewFlipper) squareHeaderView
 				.findViewById(R.id.square_mid_view_flipper);
-		getData();
 		adapter = new SquareBaseAdapter(data, getActivity());
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(itemClickListener);
@@ -144,9 +135,7 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		
-	//	String url = "http://192.168.11.238/index.php/home/api/getTalk";
-		String url = "http://192.168.1.107/index.php/home/api/getTalk";
+		String url = "http://192.168.11.238/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
