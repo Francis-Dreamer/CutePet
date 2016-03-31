@@ -1,8 +1,13 @@
 package com.dream.cutepet.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +20,7 @@ import com.alibaba.mobileim.YWIMKit;
 import com.dream.cutepet.R;
 import com.dream.cutepet.ReleaseActivity;
 import com.dream.cutepet.model.PetStoreModel;
+import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutpet.server.LoginSampleHelper;
 
@@ -31,16 +37,26 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	PetStoreModel data;
 	String userId;
 	String password;
-
+	String username;
+	String address;
+	String type;
+	Bitmap bitmap;
+	String icon;
+	String name;
 	RelativeLayout layout_petStore, layout_issue;
+	AsyncImageLoader asyncImageLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pet_store);
-
+		asyncImageLoader = new AsyncImageLoader(this);
 		index = getIntent().getIntExtra("index", -1);
-
+		username = getIntent().getStringExtra("username");
+		address = getIntent().getStringExtra("address");
+		type = getIntent().getStringExtra("type");
+		icon = getIntent().getStringExtra("icon");
+		name=getIntent().getStringExtra("name");
 		initData();
 
 		initView();
@@ -75,10 +91,16 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		tv_name = (TextView) findViewById(R.id.tv_petStore_name);
 		tv_address = (TextView) findViewById(R.id.tv_petStore_address);
 		tv_type = (TextView) findViewById(R.id.tv_petStore_type);
-		iv_logo.setImageResource(Integer.parseInt(data.getLogo()));
-		tv_name.setText(data.getName());
-		tv_address.setText(data.getAddress());
-		tv_type.setText(data.getType());
+		if (!TextUtils.isEmpty(icon)) {
+			// 异步加载图片
+			bitmap = asyncImageLoader.loadImage(iv_logo, icon);
+			if (bitmap != null) {
+				iv_logo.setImageBitmap(bitmap);
+			}
+		}
+		tv_name.setText(name);
+		tv_address.setText(address);
+		tv_type.setText(type);
 
 	}
 
@@ -106,14 +128,13 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 				.getApplicationContext());
 		if (token != null && !token.equals("")) {// 判断获取的token值是否为空
 			YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
-			String target = "ssw";// 消息接收者ID
+			String target = username;// 消息接收者ID
 			Intent intent = imKit.getChattingActivityIntent(target);
 			startActivity(intent);
 		} else {
 			Toast.makeText(this, "请先登陆", Toast.LENGTH_SHORT).show();
 		}
 	}
-
 
 	public void onClick(View v) {
 		switch (v.getId()) {
