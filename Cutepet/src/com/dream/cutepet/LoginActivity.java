@@ -216,7 +216,7 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onError(int arg0, String arg1) {
 						// TODO Auto-generated method stub
-						Toast.makeText(LoginActivity.this, "登录失败",
+						Toast.makeText(LoginActivity.this, "用户名不存在",
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -240,30 +240,5 @@ public class LoginActivity extends Activity {
 	 */
 	private void init(String userId) {
 		LoginSampleHelper.getInstance().initIMKit(userId, "23331616");
-	}
-
-	private void handleAutoLoginState(int loginState) {
-		if (loginState == YWLoginState.logining.getValue()) {
-			button_login.setClickable(false);
-		} else if (loginState == YWLoginState.success.getValue()) {
-			button_login.setClickable(true);
-			Intent intent = new Intent(LoginActivity.this,
-					AllPageActivity.class);
-			LoginActivity.this.startActivity(intent);
-			LoginActivity.this.finish();
-		} else {
-			YWIMKit ywimKit = LoginSampleHelper.getInstance().getIMKit();
-			if (ywimKit != null) {
-				if (ywimKit.getIMCore().getLoginState() == YWLoginState.success) {
-					button_login.setClickable(true);
-					Intent intent = new Intent(LoginActivity.this,
-							AllPageActivity.class);
-					LoginActivity.this.startActivity(intent);
-					LoginActivity.this.finish();
-					return;
-				}
-			}
-			button_login.setClickable(true);
-		}	
 	}
 }

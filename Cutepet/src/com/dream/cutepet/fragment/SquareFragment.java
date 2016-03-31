@@ -88,7 +88,6 @@ public class SquareFragment extends Fragment {
 				.findViewById(R.id.square_mid_more);
 		viewFlipper = (ViewFlipper) squareHeaderView
 				.findViewById(R.id.square_mid_view_flipper);
-		getData();
 		adapter = new SquareBaseAdapter(data, getActivity());
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(itemClickListener);
@@ -145,8 +144,8 @@ public class SquareFragment extends Fragment {
 	 */
 	private void getData() {
 		
-	//	String url = "http://192.168.11.238/index.php/home/api/getTalk";
-		String url = "http://192.168.1.107/index.php/home/api/getTalk";
+		String url = "http://192.168.11.238/index.php/home/api/getTalk";
+//		String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();

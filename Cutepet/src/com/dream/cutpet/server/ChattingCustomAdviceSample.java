@@ -268,12 +268,8 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		imageBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
-				if(imKit!=null){
 					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
 					fragment.getActivity().startActivity(intent);
-				}else{
-				}
 
 			}
 		});

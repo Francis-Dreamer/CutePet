@@ -262,14 +262,14 @@ public class PersonalCenterFragment extends Fragment {
 		// 获取本地的sharepreference存储的token值
 		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
 		Log.i("CheckIsLogin", "token=" + token);
-		if (token == null || token.equals("")) {// 判断获取的token值是否为空
+		if (result == null || result.equals("")) {// 判断获取的token值是否为空
 			Log.i("CheckIsLogin", "当前没有处于登录状态");
 			judgeUnLongin();
 		} else {
 			// 不为空，则显示个人信息
 			String[] temp = result.split(",");
-			String tel = temp[0];
-			String token = temp[1];
+			 tel = temp[0];
+			 token = temp[1];
 			judgeLongin();
 		}
 	}

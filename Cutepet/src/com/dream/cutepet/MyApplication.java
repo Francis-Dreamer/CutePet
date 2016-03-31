@@ -6,6 +6,8 @@ import com.alibaba.mobileim.aop.AdviceBinder;
 import com.alibaba.mobileim.aop.PointCutEnum;
 import com.alibaba.wxlib.util.SysUtil;
 import com.dream.cutpet.server.ChattingCustomAdviceSample;
+import com.dream.cutpet.server.ContactsUICustomSample;
+import com.dream.cutpet.server.ConversationListUICustomSample;
 
 import android.app.Application;
 import android.content.Context;
@@ -17,7 +19,8 @@ public class MyApplication extends Application {
 		super.onCreate();
 		AdviceBinder.bindAdvice(PointCutEnum.CHATTING_FRAGMENT_UI_POINTCUT,
 				ChattingCustomAdviceSample.class);
-		
+		AdviceBinder.bindAdvice(PointCutEnum.CONVERSATION_FRAGMENT_UI_POINTCUT, ConversationListUICustomSample.class);
+		AdviceBinder.bindAdvice(PointCutEnum.CONTACTS_UI_POINTCUT, ContactsUICustomSample.class);
 		// Application.onCreate中，首先执行这部分代码，以下代码固定在此处，不要改动，这里return是为了退出Application.onCreate！！！
 		if (mustRunFirstInsideApplicationOnCreate()) {
 			// todo 如果在":TCMSSevice"进程中，无需进行openIM和app业务的初始化，以节省内存
