@@ -63,13 +63,10 @@ public class RegisterActivity extends Activity {
 				finish();
 				break;
 			case R.id.text_yanzhengma:
-				Log.e("zyzyzyzyzyzyzyzy", "yzyzyzyzyzyzyzyzzy");
 				String tel = edit_phone.getText().toString();
 				if (tel != null) {
-					Log.e("aaaaaaaaaaaa", "aaaaaaaaaa");
 					yanzhengma(tel);
 				} else {
-					Log.e("bbbbbbbbbbbb", "bbbbbbbbb");
 					Toast.makeText(getApplication(), "请输入手机号", Toast.LENGTH_LONG)
 							.show();
 				}
@@ -92,9 +89,7 @@ public class RegisterActivity extends Activity {
 	 * @param tel
 	 */
 	private void yanzhengma(String tel) {
-	//	String httpHost = "http://192.168.11.238/index.php/home/api/verify";
-		String httpHost = "http://192.168.1.107/index.php/home/api/verify";
-		Log.e("yanzhengma", "yanzhengma");
+		String httpHost = "http://192.168.11.238/index.php/home/api/verify";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost);
 			httpPost.putString("tel", tel);
@@ -131,8 +126,7 @@ public class RegisterActivity extends Activity {
 	 * @param password
 	 */
 	private void register(String tel, String verify, String password) {
-	//	String httpHost_add = "http://192.168.11.238/index.php/home/api/register";
-		String httpHost_add = "http://192.168.1.107/index.php/home/api/register";
+		String httpHost_add = "http://192.168.11.238/index.php/home/api/register";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost_add);
 			Map<String, String> map = new HashMap<String, String>();

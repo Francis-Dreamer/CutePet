@@ -1,4 +1,4 @@
-package com.dream.cutepet;
+﻿package com.dream.cutepet;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -209,14 +209,16 @@ public class LoginActivity extends Activity {
 
 					@Override
 					public void onProgress(int arg0) {
-						// TODO Auto-generated method stub
 
 					}
 
 					@Override
 					public void onError(int arg0, String arg1) {
+
 						// TODO Auto-generated method stub
-						Toast.makeText(LoginActivity.this, "用户名不存在",
+
+						Toast.makeText(LoginActivity.this, "登录失败",
+
 								Toast.LENGTH_SHORT).show();
 					}
 				});

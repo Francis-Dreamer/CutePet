@@ -1,4 +1,4 @@
-package com.dream.cutepet.fragment;
+﻿package com.dream.cutepet.fragment;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -44,7 +44,6 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * 
  */
 public class PersonalCenterFragment extends Fragment {
-
 	LinearLayout linear_personalInformation;// 资料信息控件
 	LinearLayout linear_account;// 账户管理控件
 	LinearLayout linear_about;// 关于萌宠控件
@@ -268,8 +267,10 @@ public class PersonalCenterFragment extends Fragment {
 		} else {
 			// 不为空，则显示个人信息
 			String[] temp = result.split(",");
-			 tel = temp[0];
-			 token = temp[1];
+
+			tel = temp[0];
+			token = temp[1];
+
 			judgeLongin();
 		}
 	}
