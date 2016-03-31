@@ -175,12 +175,10 @@ public class PersonalCenterFragment extends Fragment {
 
 	OnClickListener ocl = new OnClickListener() {
 		private OndemandListener demandListener = new OndemandListener() {
-
 			@Override
 			public void start() {
 
 			}
-
 			@Override
 			public void end(String result) {
 				try {
@@ -190,7 +188,6 @@ public class PersonalCenterFragment extends Fragment {
 					intent.setClass(getActivity(), PersonalInformationActivity.class);
 					startActivityForResult(intent, 0);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

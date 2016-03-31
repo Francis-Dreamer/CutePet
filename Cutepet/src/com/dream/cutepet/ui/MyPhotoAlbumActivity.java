@@ -102,7 +102,7 @@ public class MyPhotoAlbumActivity extends Activity {
 				.findViewById(R.id.tv_photo_album_header_title);
 		iv_icon = (ImageView) headview
 				.findViewById(R.id.iv_photo_album_header_icon);
-		tv_title.setText(data.getTitle());
+		tv_title.setText(data.getTitle()+"");
 		iv_icon.setImageResource(Integer.parseInt(data.getLogo()));
 		// 第三个参数是确定是否可以被选中
 		listView.addHeaderView(headview, null, false);

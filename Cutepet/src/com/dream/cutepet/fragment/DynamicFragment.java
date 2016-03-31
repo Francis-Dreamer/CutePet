@@ -206,7 +206,7 @@ public class DynamicFragment extends Fragment {
 
 				public void end(String result) {
 					Log.i("result", "result = " + result);
-					data_album = DynamicAlbumModel.getData();
+					data_album = DynamicAlbumModel.setJson(result);
 					adapter.setData(data_album);
 				}
 			});
