@@ -77,8 +77,32 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		Log.i("onStart", "onStart");
 		initPersonalData();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.i("onDestroy", "onDestroy");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.i("onPause", "onPause");
+	}
+
+	@Override
+	public void onResume() {
+		Log.i("onResume", "onResume");
+		super.onResume();
+	}
+
+	@Override
+	public void onStop() {
+		Log.i("onStop", "onStop");
+		super.onStop();
 	}
 
 	/**

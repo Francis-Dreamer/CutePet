@@ -33,7 +33,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 		this.data = data;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
-		imageLoader=new AsyncImageLoader(context);
+		imageLoader = new AsyncImageLoader(context);
 	}
 
 	public void setData(List<SquareModel> data) {
@@ -88,44 +88,41 @@ public class SquareBaseAdapter extends BaseAdapter {
 
 			convertView.setTag(holder);
 
-		}else{
+		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		SquareModel model=(SquareModel) getItem(position);
-		
+
+		SquareModel model = (SquareModel) getItem(position);
+
 		holder.square_neckname.setText(model.getSquare_neckname());
-		holder.square_comment_time.setText(model
-				.getSquare_comment_time());
+		holder.square_comment_time.setText(model.getSquare_comment_time());
 		holder.add_add_attention.setText("+关注");
-		holder.square_comment_content.setText(model
-				.getSquare_comment_content());
+		holder.square_comment_content
+				.setText(model.getSquare_comment_content());
 		holder.square_address.setText(model.getSquare_address());
-		holder.square_praise_num.setText(model
-				.getSquare_praise_num());
-		holder.square_comment_num.setText(model
-				.getSquare_comment_num());
-		
-		String imageUrl = urlTop + model.getSquare_image();
-		// 给imageview设置tag
-		holder.square_image.setTag(imageUrl);
-		// 预设图
-		holder.square_image.setImageResource(R.drawable.icon_tx);
-		if (!TextUtils.isEmpty(imageUrl)) {
+		holder.square_praise_num.setText(model.getSquare_praise_num());
+		holder.square_comment_num.setText(model.getSquare_comment_num());
+
+		String img = model.getSquare_image();
+		if (!TextUtils.isEmpty(img)) {
+			String imageUrl = urlTop + img;
+			// 给imageview设置tag
+			holder.square_image.setTag(imageUrl);
 			// 异步加载图片
-			Bitmap bitmap = imageLoader.loadImage(holder.square_image,
-					imageUrl);
+			Bitmap bitmap = imageLoader
+					.loadImage(holder.square_image, imageUrl);
 			if (bitmap != null) {
 				holder.square_image.setImageBitmap(bitmap);
 			}
 		}
-		
-		String portraitUrl = urlTop + model.getSquare_portrait();
-		// 给imageview设置tag
-		holder.square_portrait.setTag(portraitUrl);
-		// 预设图
-		holder.square_portrait.setImageResource(R.drawable.icon_tx);
-		if (!TextUtils.isEmpty(portraitUrl)) {
+
+		String icon = model.getSquare_portrait();
+		if (!TextUtils.isEmpty(icon)) {
+			String portraitUrl = urlTop + icon;
+			// 给imageview设置tag
+			holder.square_portrait.setTag(portraitUrl);
+			// 预设图
+			holder.square_portrait.setImageResource(R.drawable.icon_tx);
 			// 异步加载图片
 			Bitmap bitmap = imageLoader.loadImage(holder.square_portrait,
 					portraitUrl);
@@ -133,8 +130,6 @@ public class SquareBaseAdapter extends BaseAdapter {
 				holder.square_portrait.setImageBitmap(bitmap);
 			}
 		}
-		
-		
 		return convertView;
 	}
 
@@ -148,7 +143,5 @@ public class SquareBaseAdapter extends BaseAdapter {
 		TextView square_comment_num;
 		TextView square_praise_num;
 		TextView add_add_attention;
-
 	}
-
 }

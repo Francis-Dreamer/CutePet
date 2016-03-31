@@ -1,17 +1,22 @@
 package com.dream.cutepet;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
 import com.dream.cutepet.model.DynamicDetailsData;
 import com.dream.cutepet.model.SquareModel;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +27,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class DynamicDetailsActivity extends Activity {
-
 	List<SquareModel> squareData;
 	List<DynamicDetailsData> dynamicDetailsData;
 	DynamicDetailsBaseAdapter adapter;
@@ -49,6 +53,9 @@ public class DynamicDetailsActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 		initView();
+		
+		getData();
+		
 	}
 	
 	@SuppressLint("InflateParams") private void initView() {
@@ -106,18 +113,34 @@ public class DynamicDetailsActivity extends Activity {
 			}
 		}
 		
-		
-
 		listView.addHeaderView(dynamic_details_headerview);
-		
-
 		adapter = new DynamicDetailsBaseAdapter(dynamicDetailsData, this);
 		listView.setAdapter(adapter);
 		back.setOnClickListener(clickListener);
 		send.setOnClickListener(clickListener);
 	}
 
-	
+	/**
+	 * 获取数据
+	 */
+	private void getData() {
+		String url = "http://192.168.1.107/index.php/home/api/getTalk";
+		try {
+			HttpPost httpPost=HttpPost.parseUrl(url);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				public void start() {
+					
+				}
+				public void end(String result) {
+					Log.e("111111111111111", result);
+					squareData=SquareModel.setJson(result);
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
 	OnClickListener clickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
