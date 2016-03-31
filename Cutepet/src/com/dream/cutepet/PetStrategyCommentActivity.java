@@ -1,5 +1,7 @@
 package com.dream.cutepet;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
  */
 public class PetStrategyCommentActivity extends Activity{
 
+	String username;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,5 +54,16 @@ public class PetStrategyCommentActivity extends Activity{
 	private void back(){
 		finish();
 	}
+	
+	
+	/**
+	 * 上传攻略
+	 * @param file
+	 */
+	private void uploadStrategy(File file){
+		
+	}
+	
+	
 	
 }

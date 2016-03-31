@@ -27,22 +27,31 @@ import android.widget.TextView;
  */
 public class PetStrategyDetailsActivity extends Activity {
 
-	List<PetStrategyModel> data;
 	PetStrategyModel model;
 	int petStrategyPosition;
 	AsyncImageLoader imageLoader;
+	String petName;
+	String petGrade;
+	String petMoney;
+	String petTrait;
+	String petContent_data;
+	String petImage;
+	String username;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pet_strategy_details);
-
-		imageLoader=new AsyncImageLoader(this);
-		model = new PetStrategyModel();
-		initData();
-
+		imageLoader = new AsyncImageLoader(this);
+		
 	}
 
+	protected void onStart() {
+		super.onStart();
+		initData();
+	}
+	
+	
 	/**
 	 * 初始化控件
 	 */
@@ -50,7 +59,7 @@ public class PetStrategyDetailsActivity extends Activity {
 	private void initView() {
 		ImageView back = (ImageView) findViewById(R.id.back);
 		TextView title = (TextView) findViewById(R.id.title);
-		ImageView pet_strategy_details_image=(ImageView) findViewById(R.id.pet_strategy_details_image);
+		ImageView pet_strategy_details_image = (ImageView) findViewById(R.id.pet_strategy_details_image);
 		TextView pet_strategy_details_comment = (TextView) findViewById(R.id.pet_strategy_details_comment);
 		TextView pet_strategy_details_collection = (TextView) findViewById(R.id.pet_strategy_details_collection);
 		TextView pet_strategy_details_breed = (TextView) findViewById(R.id.pet_strategy_details_breed);
@@ -59,30 +68,31 @@ public class PetStrategyDetailsActivity extends Activity {
 		TextView pet_strategy_details_characteristic = (TextView) findViewById(R.id.pet_strategy_details_characteristic);
 		TextView pet_strategy_details_content = (TextView) findViewById(R.id.pet_strategy_details_content);
 		RatingBar pet_strategy_details_ratingbar = (RatingBar) findViewById(R.id.pet_strategy_details_ratingbar);
-		
-		pet_strategy_details_breed.setText(model.getPet_strategy_comment_chinese_name());
-		pet_strategy_details_ratingbar.setRating((float)(Integer.parseInt(model.getGrade())));
-		pet_strategy_details_ratingbar_num.setText(model.getGrade() + "分");
-		pet_strategy_details_num.setText(model.getMoney());
-		pet_strategy_details_characteristic.setText(model.getTrait());
-		pet_strategy_details_content.setText(model
-				.getPet_strategy_content_data());
 
-		String imageUrl="http://192.168.11.238"+model.getPet_strategy_image();
-		//给图片一个tag
+		pet_strategy_details_breed.setText(petName);
+		pet_strategy_details_ratingbar.setRating((float) (Integer
+				.parseInt(petGrade)));
+		pet_strategy_details_ratingbar_num.setText(petGrade + "分");
+		pet_strategy_details_num.setText(petMoney);
+		pet_strategy_details_characteristic.setText(petTrait);
+		pet_strategy_details_content.setText(petContent_data);
+
+		String imageUrl = "http://192.168.11.238"
+				+ petImage;
+		// 给图片一个tag
 		pet_strategy_details_image.setTag(imageUrl);
-		//给个预设图片
+		// 给个预设图片
 		pet_strategy_details_image.setImageResource(R.drawable.ic_launcher);
-		
-		//异步加载图片
-		if(!TextUtils.isEmpty(imageUrl)){
-			Bitmap bitmap=imageLoader.loadImage(pet_strategy_details_image, imageUrl);
-			if(bitmap!=null){
+
+		// 异步加载图片
+		if (!TextUtils.isEmpty(imageUrl)) {
+			Bitmap bitmap = imageLoader.loadImage(pet_strategy_details_image,
+					imageUrl);
+			if (bitmap != null) {
 				pet_strategy_details_image.setImageBitmap(bitmap);
 			}
 		}
-		
-		
+
 		title.setText("详情");
 
 		pet_strategy_details_comment.setOnClickListener(clickListener);
@@ -95,30 +105,14 @@ public class PetStrategyDetailsActivity extends Activity {
 	 */
 	private void initData() {
 
-		String url = "http://192.168.11.238/index.php/home/api/getStrategy";
-
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-
-				public void start() {
-
-				}
-
-				public void end(String result) {
-					data = PetStrategyModel.setJson(result);
-					Bundle bundle = new Bundle();
-					bundle = getIntent().getExtras();
-					int position = bundle.getInt("petStrategyPosition");
-					model = data.get(position);
-					initView();
-				}
-			});
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+		Bundle bundle=getIntent().getExtras();
+		petName=bundle.getString("petName");
+		petGrade=bundle.getString("petGrade");
+		petMoney=bundle.getString("petMoney");
+		petTrait=bundle.getString("petTrait");
+		petContent_data=bundle.getString("petContent_data");
+		petImage=bundle.getString("petImage");
+		initView();
 
 	}
 
@@ -135,6 +129,11 @@ public class PetStrategyDetailsActivity extends Activity {
 				intent = new Intent();
 				intent.setClass(PetStrategyDetailsActivity.this,
 						PetStrategyCommentActivity.class);
+				Bundle bundle=new Bundle();
+				//String tel=
+				
+				
+				
 				startActivityForResult(intent, 0);
 				break;
 			case R.id.pet_strategy_details_collection:

@@ -107,6 +107,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					.findViewById(R.id.iv_homepage_personage_picture);
 			holder.tv_word = (TextView) convertView
 					.findViewById(R.id.tv_homepage_personage_word);
+		
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -124,7 +125,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		holder.tv_like.setTag(position);
 		holder.tv_message.setOnClickListener(this);
 		holder.tv_message.setTag(position);
-
+		
+		
+		
 		String icon = model.getLogo();
 		if (!TextUtils.isEmpty(icon)) {
 			final String iconUrl = url_Top + icon;
@@ -163,9 +166,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		TextView tv_like;
 		TextView tv_send, tv_cancel;
 
-		LinearLayout llayout_msg;
-		EditText et_msg;
-		TextView tv_ok, tv_msgCancel;
 	}
 
 	@Override
