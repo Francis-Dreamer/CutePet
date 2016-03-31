@@ -63,13 +63,16 @@
     <string name="num">数量</string>
     <string name="square_content">广场内容</string>
     <string name="square_time">广场时间</string>
-	<string name="storeMessage">店铺详情</string>
-	<string name="issue">发布</string>
-	<string name="petInformation">宠物详情</string>    <string name="resources">资源</string>
+    <string name="storeMessage">店铺详情</string>
+    <string name="issue">发布</string>
+    <string name="petInformation">宠物详情</string>
+    <string name="resources">资源</string>
     <string name="rating">评分</string>
     <string name="characteristic">特点</string>
     <string name="content">内容</string>
     <string name="collection">收藏</string>
     <string name="introduce">介绍</string>
+    <string name="message">信息</string>
+    <string name="contacts">联系人</string>
 
 </resources>

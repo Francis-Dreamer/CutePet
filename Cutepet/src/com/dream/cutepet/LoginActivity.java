@@ -266,16 +266,4 @@ public class LoginActivity extends Activity {
 			button_login.setClickable(true);
 		}	
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		String token = SharedPreferencesUtil.getData(this
-				.getApplicationContext());
-		if (token == null || token.equals("")) {// 判断获取的token值是否为空
-		} else {
-			handleAutoLoginState(LoginSampleHelper.getInstance()
-					.getAutoLoginState().getValue());
-		}
-	}
 }

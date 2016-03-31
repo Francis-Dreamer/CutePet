@@ -28,8 +28,13 @@ import com.alibaba.mobileim.conversation.YWConversation;
 import com.alibaba.mobileim.conversation.YWMessage;
 import com.alibaba.mobileim.utility.YWIMImageUtils;
 import com.dream.cutepet.R;
+import com.dream.cutepet.fragment.ChatActivityFragment;
 import com.dream.cutepet.ui.PetStoreActivity;
-
+/**
+ * 会话列表自定义
+ * @author Administrator
+ *
+ */
 public class ChattingCustomAdviceSample extends IMChattingPageUI {
 
 	public ChattingCustomAdviceSample(Pointcut pointcut) {
@@ -265,7 +270,7 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 			public void onClick(View v) {
 				YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
 				if(imKit!=null){
-					Intent intent = imKit.getConversationActivityIntent();
+					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
 					fragment.getActivity().startActivity(intent);
 				}else{
 				}

@@ -3,6 +3,7 @@ package com.dream.cutepet.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.alibaba.mobileim.YWIMKit;
 import com.dream.cutepet.R;
 import com.dream.cutepet.ReleaseActivity;
 import com.dream.cutepet.model.PetStoreModel;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutpet.server.LoginSampleHelper;
 
 /**
@@ -100,14 +102,14 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	 */
 	@SuppressWarnings("deprecation")
 	private void returnToChat() {
-		YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
-		if(imKit!=null){
-			Intent intent = imKit.getConversationActivityIntent();
+		String token = SharedPreferencesUtil.getData(this
+				.getApplicationContext());
+		if (token != null && !token.equals("")) {// 判断获取的token值是否为空
+			YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
+			String target = "ssw";// 消息接收者ID
+			Intent intent = imKit.getChattingActivityIntent(target);
 			startActivity(intent);
-/*		String target = "ssw";// 消息接收者ID
-		Intent intent = imKit.getChattingActivityIntent(target);
-		startActivity(intent);*/
-		}else{
+		} else {
 			Toast.makeText(this, "请先登陆", Toast.LENGTH_SHORT).show();
 		}
 	}
