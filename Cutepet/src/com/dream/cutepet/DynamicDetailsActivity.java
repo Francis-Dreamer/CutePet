@@ -2,6 +2,13 @@ package com.dream.cutepet;
 
 import java.net.MalformedURLException;
 import java.util.List;
+import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
+import com.dream.cutepet.model.DynamicDetailsData;
+import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.AsyncImageLoader;
+import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -18,14 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
-import com.dream.cutepet.model.DynamicDetailsData;
-import com.dream.cutepet.model.SquareModel;
-import com.dream.cutepet.util.AsyncImageLoader;
-import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 public class DynamicDetailsActivity extends Activity {
 	List<SquareModel> squareData;
@@ -53,9 +52,8 @@ public class DynamicDetailsActivity extends Activity {
 
 	protected void onStart() {
 		super.onStart();
-
 		initView();
-
+		
 		getData();
 	}
 
@@ -153,8 +151,8 @@ public class DynamicDetailsActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-
-	OnClickListener clickListener = new OnClickListener() {
+	
+	OnClickListener clickListener=new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
