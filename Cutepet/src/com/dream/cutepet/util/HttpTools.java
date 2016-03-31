@@ -363,7 +363,7 @@ public class HttpTools {
 			String constellation, String occupation, String corporation, String site, String hometown, String mail,
 			String personality, String attention, String fans, String enshrine) {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.11.253/index.php/home/api/userdata";
+		String httpHost = "http://192.168.11.238/index.php/home/api/userdata";
 		String urltel = "tel=";
 		String tokenkey = "token=";
 		String logokey = "logo=";
@@ -449,7 +449,7 @@ public class HttpTools {
 	// 用户资料查询
 	public String setuserdata(String tel, String token) {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.11.253/index.php/home/api/demand";
+		String httpHost = "http://192.168.11.238/index.php/home/api/demand";
 		String telkey = "tel=";
 		String tokenkey = "token=";
 

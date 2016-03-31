@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +28,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dream.cutepet.model.UserModel;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.HttpTools;
@@ -40,13 +42,9 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  *
  */
 public class PersonalInformationActivity extends Activity {
-
 	ImageView image_personalInformation, back;
-
-	TextView title,menu_hide;
-
+	TextView title, menu_hide;
 	DatePickerDialog datePickerDialog;
-
 	EditText edit_nickname;
 	RadioGroup radio_sex;
 	TextView text_birth;
@@ -75,13 +73,14 @@ public class PersonalInformationActivity extends Activity {
 	HttpTools http = new HttpTools();
 	String tel;
 	String token;
-	
-	//UserModel data;
+
+	UserModel data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
+		
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
@@ -101,8 +100,8 @@ public class PersonalInformationActivity extends Activity {
 		radio_woman = (RadioButton) findViewById(R.id.radio_woman);
 
 		text_birth = (TextView) findViewById(R.id.text_birth);
-		title=(TextView) findViewById(R.id.title);
-		menu_hide=(TextView) findViewById(R.id.menu_hide);
+		title = (TextView) findViewById(R.id.title);
+		menu_hide = (TextView) findViewById(R.id.menu_hide);
 		title.setText("资料信息");
 		menu_hide.setText("保存");
 		menu_hide.setVisibility(View.VISIBLE);
@@ -111,25 +110,27 @@ public class PersonalInformationActivity extends Activity {
 
 		back.setOnClickListener(ocl);
 		text_birth.setOnClickListener(ocl);
+		
+		getData();
 	}
-	
-	@Override
-	protected void onStart() {
+	public void getData(){
+		
 		String result = SharedPreferencesUtil.getData(this);
-		if(result != null && !result.equals("")){
+		if (result != null && !result.equals("")) {
 			String[] temp = result.split(",");
-			tel = temp[0];
-			token = temp[1];
+			tel = temp[1];
+			token = temp[0];
+			
+			initData();
 		}
-		super.onStart();
+		
 	}
-
 
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "";
+		String url = "http://192.168.11.238/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -141,37 +142,54 @@ public class PersonalInformationActivity extends Activity {
 				@Override
 				public void start() {
 				}
+				
 				@Override
 				public void end(String result) {
-					Log.i("end", result);
-					//获取后台传递过来的json值
-				//	data = UserModel.changeJson(result);
-					updateView();
+					// 获取后台传递过来的json值
+					//data = UserModel.changeJson(result);
+					try {
+						
+						JSONObject jb = new JSONObject(result);
+						JSONObject jsonObject = jb.getJSONObject("message");
+						nickname = jsonObject.optString("nickname", "");
+						sex = jsonObject.optString("sex", "");
+						birth = jsonObject.optString("birth", "");
+						constellation = jsonObject.optString("constellation", "");
+						occupation = jsonObject.optString("occupation", "");
+						corporation = jsonObject.optString("corporation", "");
+						site = jsonObject.optString("site", "");
+						hometown = jsonObject.optString("hometown", "");
+						mail = jsonObject.optString("mail", "");
+						personality = jsonObject.optString("personality", "");
+						
+						updateView();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
 				}
 			});
-		
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	//UI控件的更新
+
+	// UI控件的更新
 	private void updateView() {
-//		for(int i = 0 ; i < data.size() ; i++){
-//			
-//		}
-		//image_toxiang.setImageBitmap(null);
-//		edit_nickname.set
-//		radio_sex
-//		text_birth
-//		edit_constellation
-//		edit_occupation
-//		edit_corporation
-//		edit_site
-//		edit_hometown
-//		edit_mail
-//		edit_personality
+		
+		edit_nickname.setText(nickname);
+		// radio_sex.setRight("sex");
+		text_birth.setText(birth);
+		edit_constellation.setText(constellation);
+		edit_occupation.setText(occupation);
+		edit_corporation.setText(corporation);
+		edit_site.setText(site);
+		edit_hometown.setText(hometown);
+		edit_mail.setText(mail);
+		edit_personality.setText(personality);
 	}
+
 	OnClickListener ocl = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -211,7 +229,7 @@ public class PersonalInformationActivity extends Activity {
 				map.put("personality", personality);
 				map.put("tel", tel);
 				map.put("token", token);
-				String httpHost = "http://192.168.11.253/index.php/home/api/userdata";
+				String httpHost = "http://192.168.11.238/index.php/home/api/userdata";
 				HttpTools http = new HttpTools();
 				http.getIssue(httpHost, map, inssueListener);
 				/*
@@ -230,20 +248,19 @@ public class PersonalInformationActivity extends Activity {
 	 * 
 	 */
 	class UserdataTask extends AsyncTask<String, Void, String> {
-
 		protected String doInBackground(String... arg0) {
 			return arg0[0];
-
 		}
 
 		protected void onPostExecute(String result) {
 			try {
 				JSONObject jo = new JSONObject(result);
 				if (jo.getInt("status") == 1) {
-					Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
 				}
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
