@@ -170,7 +170,6 @@ public class SquareFragment extends Fragment {
 				}
 				
 				public void end(String result) {
-					Log.e("SSSSSSSSSSSSSS", result);
 					data=SquareModel.setJson(result);
 					adapter.setData(data);
 				}

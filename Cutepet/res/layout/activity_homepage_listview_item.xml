@@ -133,6 +133,7 @@
                 android:drawablePadding="@dimen/px7"
                 android:gravity="center_vertical"
                 android:text="留言"
+                android:padding="@dimen/px10"
                 android:textColor="#333333"
                 android:textSize="@dimen/px18" />
 
@@ -145,6 +146,7 @@
                 android:drawableLeft="@drawable/like"
                 android:drawablePadding="@dimen/px7"
                 android:focusable="false"
+                android:padding="@dimen/px10"
                 android:gravity="center_vertical"
                 android:text="2"
                 android:textColor="#333333"
@@ -175,44 +177,6 @@
             android:textSize="@dimen/px24" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/message_linearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_linearlayout"
-        android:visibility="gone"
-        android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/px24"
-            android:layout_marginRight="@dimen/px24"
-            android:layout_weight="5"
-            android:hint="请留言"
-            android:textColor="#333333"
-            android:textSize="@dimen/px24" />
-
-        <TextView
-            android:id="@+id/ensure_send"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/px10"
-            android:text="确定"
-            android:textColor="#000000"
-            android:textSize="@dimen/px24" />
-
-        <TextView
-            android:id="@+id/cancel_send"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="@dimen/px10"
-            android:text="取消"
-            android:textColor="#000000"
-            android:textSize="@dimen/px24" />
-    </LinearLayout>
 
 </RelativeLayout>

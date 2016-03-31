@@ -2,6 +2,7 @@ package com.dream.cutepet.fragment;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.dream.cutepet.PetDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.HomePageAdapter;
@@ -58,6 +59,11 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	private String username;
 	private View view;
 	private String url_top = "http://192.168.11.238";
+	LinearLayout message_linearlayout;
+	EditText input_message;
+	TextView ensure_send;
+	TextView cancel_send;
+	String getInput;
 //	private String url_top = "http://192.168.1.117";
 
 	@SuppressLint("InflateParams")
@@ -118,7 +124,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				public void start() {
 				}
 				public void end(String result) {
-					Log.e("data_petStore", result);
 					data_petStore = PetStoreModel.setJson(result);
 					initPetStoreView();
 				}
@@ -142,7 +147,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				}
 
 				public void end(String result) {
-					Log.i("initPersonalData", result);
 					data_personage = PersonageModel.setJson(result);
 					adapter.setData(data_personage);
 				}
@@ -156,9 +160,16 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * 初始化界面
 	 */
 	private void initView() {
+		message_linearlayout=(LinearLayout) view.findViewById(R.id.message_linearlayout);
+		input_message=(EditText) view.findViewById(R.id.input_message);
+		ensure_send=(TextView) view.findViewById(R.id.ensure_send);
+		cancel_send=(TextView) view.findViewById(R.id.cancel_send);
+		
 		listView = (ListView) view.findViewById(R.id.lv_homepage_listview);
 		listView.setOnItemClickListener(itemClickListener);
 	}
+	
+
 
 	/**
 	 * listview的item点击事件
@@ -240,7 +251,10 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			}
 			break;
 		case R.id.tv_homepage_personage_getMessage:
-			
+			if (checkLogin()) {
+				int position=(Integer) v.getTag();
+				setMessage(position);
+			}
 			break;
 		default:
 			break;
@@ -269,7 +283,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				}
 				@Override
 				public void end(String result) {
-					Log.i("data_petStore", result);
 					try {
 						JSONObject jsonObject = new JSONObject(result);
 						Toast.makeText(getActivity(),
@@ -285,7 +298,61 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 留言功能
+	 * @param position
+	 * @param content
+	 * @param time
+	 */
+	private void setMessage(final int position){
 
+		
+		message_linearlayout.setVisibility(View.VISIBLE);
+		ensure_send.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				String url="http://192.168.11.238/index.php/home/api/uploadMessage";
+				String content=input_message.getText().toString();
+				Date nowDate=new Date();
+				String time=nowDate.toString();
+				if((content!=null)&&(!("".equals(content)))){
+					try {
+						HttpPost httpPost=HttpPost.parseUrl(url);
+						Map<String, String> map=new HashMap<String, String>();
+						map.put("mine_name", username);
+						map.put("issue_id", data_personage.get(position).getId() + "");
+						map.put("content", content);
+						map.put("time", time);
+						httpPost.putMap(map);
+						httpPost.send();
+						httpPost.setOnSendListener(new OnSendListener() {
+							
+							public void start() {
+								
+							}
+							
+							public void end(String result) {
+								Toast.makeText(getActivity(), "留言成功", Toast.LENGTH_SHORT).show();
+							}
+						});
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					}
+				}
+				message_linearlayout.setVisibility(View.GONE);
+			}
+		});
+		
+		cancel_send.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				message_linearlayout.setVisibility(View.GONE);
+			}
+		});
+	}
+	
+	
 	/**
 	 * 判断账号是否登录
 	 * 
