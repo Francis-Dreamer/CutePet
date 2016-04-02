@@ -22,7 +22,7 @@ public class PerfectInformationActivity extends Activity {
 	RadioGroup radioGroup;
 	int sex;
 	PetMessageModel data;
-	String url = "http://192.168.11.238/index.php/home/api/uploadPetMessage";
+	String url = "http://192.168.1.106/index.php/home/api/uploadPetMessage";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,7 +44,6 @@ public class PerfectInformationActivity extends Activity {
 	private void initData() {
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
-			
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

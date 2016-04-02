@@ -21,9 +21,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMChattingPageUI;
 import com.alibaba.mobileim.appmonitor.tiptool.DensityUtil;
@@ -33,7 +30,7 @@ import com.alibaba.mobileim.utility.YWIMImageUtils;
 import com.dream.cutepet.R;
 import com.dream.cutepet.fragment.ChatActivityFragment;
 import com.dream.cutepet.model.PetStoreModel;
-import com.dream.cutepet.ui.PetStoreActivity;
+
 /**
  * 会话列表自定义
  * @author Administrator
@@ -259,6 +256,7 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 	/**
 	 * isv需要返回自定义的view. openIMSDK会回调这个方法，获取用户设置的view. Fragment 聊天界面的fragment
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public View getCustomTitleView(final Fragment fragment,
 			final Context context, LayoutInflater inflater,
@@ -279,7 +277,6 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 			public void onClick(View v) {
 					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
 					fragment.getActivity().startActivity(intent);
-
 			}
 		});
 		return view;

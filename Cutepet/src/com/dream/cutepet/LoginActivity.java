@@ -22,9 +22,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alibaba.mobileim.YWChannel;
-import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
-import com.alibaba.mobileim.login.YWLoginState;
 import com.alibaba.mobileim.utility.IMPrefsTools;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -97,7 +95,7 @@ public class LoginActivity extends Activity {
 	 * @param password
 	 */
 	private void login(final String tel, String password) {
-		String httpHost = "http://192.168.11.238/index.php/home/api/login";
+		String httpHost = "http://192.168.1.106/index.php/home/api/login";
 		try {
 			HttpPost hp_login = HttpPost.parseUrl(httpHost);
 			Map<String, String> map = new HashMap<String, String>();

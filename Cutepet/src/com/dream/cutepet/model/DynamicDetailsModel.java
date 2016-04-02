@@ -1,11 +1,20 @@
 package com.dream.cutepet.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.gson.Gson;
 
 public class DynamicDetailsModel {
 	private int status;
 	private List<Message> message;
+
+	public DynamicDetailsModel() {
+		message = new ArrayList<DynamicDetailsModel.Message>();
+	}
 
 	public int getStatus() {
 		return status;
@@ -104,21 +113,17 @@ public class DynamicDetailsModel {
 	}
 
 	public static DynamicDetailsModel setJson(String result) {
-		// List<DynamicDetailsModel> data = new
-		// ArrayList<DynamicDetailsModel>();
-		// Type listType = new TypeToken<List<DynamicDetailsModel>>() {
-		// }.getType();
-		// Gson gson = new Gson();
-		// data = gson.fromJson(result, listType);
-		// for (Iterator<DynamicDetailsModel> iterator = data.iterator();
-		// iterator
-		// .hasNext();) {
-		// DynamicDetailsModel model = iterator.next();
-		// Log.i("setDynamicDetailsModel", model.toString());
-		// }
-		Gson gson = new Gson();
-		DynamicDetailsModel data = gson.fromJson(result,
-				DynamicDetailsModel.class);
+		DynamicDetailsModel data = new DynamicDetailsModel();
+		try {
+			JSONObject jb = new JSONObject(result);
+			if(jb.getInt("status") == 1){
+				Gson gson = new Gson();
+				data = gson.fromJson(result, DynamicDetailsModel.class);
+			}
+		
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return data;
 	}
 

@@ -1,10 +1,7 @@
 package com.dream.cutepet.adapter;
 
+import java.util.Date;
 import java.util.List;
-
-import com.dream.cutepet.R;
-import com.dream.cutepet.model.SquareModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,18 +9,22 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dream.cutepet.R;
+import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.AsyncImageLoader;
+import com.dream.cutepet.util.TimeUtil;
 
 public class SquareBaseAdapter extends BaseAdapter {
 	List<SquareModel> data;
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-	String urlTop = "http://192.168.11.238";
+	String urlTop = "http://192.168.1.106";
 
 	public SquareBaseAdapter() {
 
@@ -43,9 +44,9 @@ public class SquareBaseAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if(data!=null){
+		if (data != null) {
 			return data.size();
-		}else{
+		} else {
 			return 0;
 		}
 	}
@@ -95,16 +96,17 @@ public class SquareBaseAdapter extends BaseAdapter {
 		SquareModel model = (SquareModel) getItem(position);
 
 		holder.square_neckname.setText(model.getSquare_neckname());
-		holder.square_comment_time.setText(model.getSquare_comment_time());
+		Date date = TimeUtil.changeTime(model.getSquare_comment_time());
+		holder.square_comment_time.setText(TimeUtil.showTime(date));
 		holder.add_add_attention.setText("+关注");
 		holder.square_comment_content
 				.setText(model.getSquare_comment_content());
 		holder.square_address.setText(model.getSquare_address());
 		holder.square_praise_num.setText(model.getSquare_praise_num());
 		holder.square_comment_num.setText(model.getSquare_comment_num());
-		
+
 		String img = model.getSquare_image();
-		if (!TextUtils.isEmpty(img)) {
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			String imageUrl = urlTop + img;
 			// 给imageview设置tag
 			holder.square_image.setTag(imageUrl);
@@ -117,7 +119,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 		}
 
 		String icon = model.getSquare_portrait();
-		if (!TextUtils.isEmpty(icon)) {
+		if (!TextUtils.isEmpty(icon) && !icon.equals("null")) {
 			String portraitUrl = urlTop + icon;
 			// 给imageview设置tag
 			holder.square_portrait.setTag(portraitUrl);

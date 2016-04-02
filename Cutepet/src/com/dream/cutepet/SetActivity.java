@@ -98,7 +98,6 @@ public class SetActivity extends Activity {
 	/**
 	 * 底部弹出框popupWindow
 	 */
-	@SuppressWarnings("deprecation")
 	@SuppressLint("InflateParams")
 	public void popWindow() {
 		// 设置背景颜色变暗
@@ -132,7 +131,6 @@ public class SetActivity extends Activity {
 		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void creatAlertDialog() {
 		alertDialog.setTitle("退出登录");
 		alertDialog.setMessage("你确定要退出登录吗？");

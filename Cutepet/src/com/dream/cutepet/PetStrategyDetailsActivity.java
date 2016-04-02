@@ -1,12 +1,7 @@
 package com.dream.cutepet;
 
-import java.net.MalformedURLException;
-import java.util.List;
-
 import com.dream.cutepet.model.PetStrategyModel;
 import com.dream.cutepet.util.AsyncImageLoader;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -77,7 +72,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		pet_strategy_details_characteristic.setText(petTrait);
 		pet_strategy_details_content.setText(petContent_data);
 
-		String imageUrl = "http://192.168.11.238"
+		String imageUrl = "http://192.168.1.106"
 				+ petImage;
 		// 给图片一个tag
 		pet_strategy_details_image.setTag(imageUrl);

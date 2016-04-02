@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.mobileim.aop.Pointcut;
@@ -19,7 +18,6 @@ public class ContactsUICustomSample extends IMContactsUI {
 
 	public ContactsUICustomSample(Pointcut pointcut) {
 		super(pointcut);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

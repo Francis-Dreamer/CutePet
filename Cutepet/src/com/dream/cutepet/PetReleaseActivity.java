@@ -30,7 +30,7 @@ public class PetReleaseActivity extends Activity {
 	String view_address;
 	File file;
 	private String username;
-	private final String url = "http://192.168.11.238/index.php/home/api/uploadPersonal";
+	private final String url = "http://192.168.1.106/index.php/home/api/uploadPersonal";
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

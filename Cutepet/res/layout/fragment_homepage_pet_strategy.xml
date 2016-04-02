@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/px29"
                 android:layout_marginLeft="@dimen/px73"
-                android:layout_marginStart="@dimen/px73"
                 android:layout_marginTop="@dimen/px29"
                 android:paddingBottom="@dimen/px10"
                 android:paddingRight="@dimen/px10"

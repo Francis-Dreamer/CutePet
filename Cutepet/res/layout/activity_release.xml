@@ -24,7 +24,6 @@
             android:layout_width="@dimen/px347"
             android:layout_height="@dimen/px511"
             android:layout_marginLeft="@dimen/px26"
-            android:layout_marginStart="@dimen/px26"
             android:layout_toRightOf="@id/iv_petStore_logo"
             android:clickable="true"
             android:src="@drawable/zu_12" />

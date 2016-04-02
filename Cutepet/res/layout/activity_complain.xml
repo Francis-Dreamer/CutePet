@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/px20"
             android:layout_marginLeft="@dimen/px40"
-            android:layout_marginStart="@dimen/px40"
+            android:layout_marginRight="@dimen/px40"
             android:layout_marginTop="@dimen/px20"
             android:src="@drawable/back" />
 

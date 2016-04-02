@@ -4,7 +4,6 @@ import java.io.File;
 
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.SDCardAllPhotoUtil;
-import com.dream.cutepet.util.SharedPreferencesUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -78,7 +77,7 @@ public class PetStrategyCommentActivity extends Activity{
 		pet_strategy_comment_ratingbar.setRating((Float.parseFloat(petGrade)));
 		pet_strategy_comment_ratingbar_num.setText(petGrade+".0分");
 		pet_strategy_comment_characteristic.setText(petTrait);
-		String imageUrl="http://192.168.11.238"+petImage;
+		String imageUrl="http://192.168.1.106"+petImage;
 		
 		pet_strategy_image.setTag(imageUrl);
 		pet_strategy_image.setImageResource(R.drawable.icon_tx);

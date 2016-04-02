@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +57,7 @@ public class SquareFragment extends Fragment {
 	String squareAddress;
 	String squareContent;
 	String squarePicture;
+	String squarePraise;
 
 	private String username;
 
@@ -67,13 +67,11 @@ public class SquareFragment extends Fragment {
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_square_dynamic, null);
 		initView();
-
 		return view;
 	}
 
 	public void onStart() {
 		super.onStart();
-
 		getData();
 	}
 
@@ -82,7 +80,6 @@ public class SquareFragment extends Fragment {
 	 */
 	@SuppressLint({ "NewApi", "InflateParams" })
 	private void initView() {
-
 		listView = (ListView) view.findViewById(R.id.square_listview);
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
@@ -108,7 +105,6 @@ public class SquareFragment extends Fragment {
 			case R.id.square_mid_more:
 				show_next();
 				break;
-
 			default:
 				break;
 			}
@@ -156,6 +152,8 @@ public class SquareFragment extends Fragment {
 				squareContent = data.get(position - 1)
 						.getSquare_comment_content();
 				squarePicture = data.get(position - 1).getSquare_image();
+				squarePraise = data.get(position-1).getSquare_praise_num();
+				
 				Bundle bundle = new Bundle();
 				bundle.putString("theId", squareId);
 				bundle.putString("theUsername", squareUsername);
@@ -165,6 +163,7 @@ public class SquareFragment extends Fragment {
 				bundle.putString("theAddress", squareAddress);
 				bundle.putString("theContent", squareContent);
 				bundle.putString("thePicture", squarePicture);
+				bundle.putString("praise", squarePraise);
 				bundle.putString("tel", username);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
@@ -176,17 +175,14 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		String url = "http://192.168.11.238/index.php/home/api/getTalk";
+		String url = "http://192.168.1.106/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				public void start() {
 				}
-
 				public void end(String result) {
-					data=SquareModel.setJson(result);
-					Log.e("SSSSSSSSSSSSSS", result);
 					data = SquareModel.setJson(result);
 					adapter.setData(data);
 				}

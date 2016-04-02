@@ -38,7 +38,7 @@ public class ReleaseActivity extends Activity {
 	String storeName, storeAddress, storeType;
 	String view_address;
 	File file;
-	String url = "http://192.168.11.238/index.php/home/api/uploadPetStore";
+	String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

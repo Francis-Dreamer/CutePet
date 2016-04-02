@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -89,7 +88,7 @@ public class RegisterActivity extends Activity {
 	 * @param tel
 	 */
 	private void yanzhengma(String tel) {
-		String httpHost = "http://192.168.11.238/index.php/home/api/verify";
+		String httpHost = "http://192.168.1.106/index.php/home/api/verify";
 	//	String httpHost = "http://192.168.1.107/index.php/home/api/verify";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost);
@@ -126,7 +125,7 @@ public class RegisterActivity extends Activity {
 	 * @param password
 	 */
 	private void register(String tel, String verify, String password) {
-		String httpHost_add = "http://192.168.11.238/index.php/home/api/register";
+		String httpHost_add = "http://192.168.1.106/index.php/home/api/register";
 	//	String httpHost_add = "http://192.168.1.107/index.php/home/api/register";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost_add);
