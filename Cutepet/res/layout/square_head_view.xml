@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#EEEEEE"
+    android:layout_marginBottom="@dimen/px10"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -27,10 +28,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/square_mid_relative_1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/square_mid_image_1"
@@ -48,7 +50,6 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_1"
                     android:src="@drawable/pet_3" />
 
                 <ImageView
@@ -58,7 +59,6 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_2"
                     android:src="@drawable/pet_4" />
 
                 <ImageView
@@ -68,14 +68,14 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_3"
                     android:src="@drawable/pet_5" />
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/square_mid_relative_2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content" 
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/square_mid_image_5"
@@ -93,7 +93,6 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_5"
                     android:src="@drawable/pet_4" />
 
                 <ImageView
@@ -103,7 +102,6 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_6"
                     android:src="@drawable/pet_3" />
 
                 <ImageView
@@ -113,9 +111,8 @@
                     android:layout_marginBottom="@dimen/px31"
                     android:layout_marginLeft="@dimen/px46"
                     android:layout_marginTop="@dimen/px31"
-                    android:layout_toRightOf="@id/square_mid_image_7"
                     android:src="@drawable/pet_2" />
-            </RelativeLayout>
+            </LinearLayout>
         </ViewFlipper>
 
         <ImageView

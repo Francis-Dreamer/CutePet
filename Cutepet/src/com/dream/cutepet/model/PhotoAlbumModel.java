@@ -1,9 +1,8 @@
 package com.dream.cutepet.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.dream.cutepet.R;
+import com.google.gson.Gson;
 
 /**
  * 相册的数据对象
@@ -12,65 +11,88 @@ import com.dream.cutepet.R;
  * 
  */
 public class PhotoAlbumModel {
-	private String title;
-	private String logo;
-	private List<PhotoModel> photo = new ArrayList<PhotoModel>();
 
-	public String getTitle() {
-		return title;
+	private int status;
+	private List<PhotoAlbumData> message;
+
+	public int getStatus() {
+		return status;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public String getLogo() {
-		return logo;
+	public List<PhotoAlbumData> getMessage() {
+		return message;
 	}
 
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setMessage(List<PhotoAlbumData> message) {
+		this.message = message;
 	}
 
-	public List<PhotoModel> getPhoto() {
-		return photo;
+	public class PhotoAlbumData {
+		private String id;
+		private String username;
+		private String albumname;
+		private String picture;
+		private String time;
+		private String quantity;
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getAlbumname() {
+			return albumname;
+		}
+
+		public void setAlbumname(String albumname) {
+			this.albumname = albumname;
+		}
+
+		public String getPicture() {
+			return picture;
+		}
+
+		public void setPicture(String picture) {
+			this.picture = picture;
+		}
+
+		public String getTime() {
+			return time;
+		}
+
+		public void setTime(String time) {
+			this.time = time;
+		}
+
+		public String getQuantity() {
+			return quantity;
+		}
+
+		public void setQuantity(String quantity) {
+			this.quantity = quantity;
+		}
+
 	}
 
-	public void setPhoto(List<PhotoModel> photo) {
-		this.photo = photo;
-	}
-
-	/**
-	 * 获取测试数据
-	 * 
-	 * @return
-	 */
-	public static PhotoAlbumModel getData() {
+	public static PhotoAlbumModel setJson(String json) {
 		PhotoAlbumModel data = new PhotoAlbumModel();
-		data.title = "测试数据标题";
-		data.logo = R.drawable.photo_album_logo + "";
-
-		PhotoModel model = new PhotoModel();
-		model.setTime("2016年1月23日");
-		model.setPath(new String[] { R.drawable.photo_album_pic1 + "",
-				R.drawable.photo_album_pic2 + "",
-				R.drawable.photo_album_pic3 + "" });
-		data.photo.add(model);
-
-		model = new PhotoModel();
-		model.setTime("2015年4月5日");
-		model.setPath(new String[] { R.drawable.photo_album_pic4 + "",
-				R.drawable.photo_album_pic5 + "" });
-		data.photo.add(model);
-		return data;
-	}
-	
-	
-	public static PhotoAlbumModel setJson(String json){
-		PhotoAlbumModel data = new PhotoAlbumModel();
-		
-		
-		
+		Gson gson = new Gson();
+		data = gson.fromJson(json, PhotoAlbumModel.class);
 		return data;
 	}
 }

@@ -155,7 +155,7 @@ public class ReleaseActivity extends Activity {
 	private void select_image() {
 		Intent intent = new Intent(ReleaseActivity.this,
 				SelectPhotoActivity.class);
-		startActivityForResult(intent, 66666);
+		startActivity(intent);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

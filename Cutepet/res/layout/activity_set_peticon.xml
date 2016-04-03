@@ -2,25 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#eeeeee"
     android:orientation="vertical" >
 
     <RelativeLayout
-        style="@style/style_homePagePadding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFDA44" >
 
         <TextView
-            android:id="@+id/tv_selectPhoto_cancel"
+            android:id="@+id/tv_setPetIcon_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/px31"
+            android:paddingLeft="@dimen/px40"
+            android:paddingRight="@dimen/px40"
+            android:paddingTop="@dimen/px31"
             android:text="@string/cancel"
             android:textColor="@color/black"
-            android:textSize="@dimen/px40" />
+            android:textSize="@dimen/px32" />
 
         <TextView
-            android:id="@+id/tv_selectPhoto_AlbumName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -30,7 +34,7 @@
     </RelativeLayout>
 
     <GridView
-        android:id="@+id/gv_select_photo"
+        android:id="@+id/gv_setPetIcon_photo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/px20"

@@ -86,6 +86,8 @@ public class DynamicDetailsActivity extends Activity {
 		theContent = bundle.getString("theContent");
 		username = bundle.getString("tel");
 		thePraise = bundle.getString("praise");
+
+		initView();
 	}
 
 	protected void onStart() {
@@ -106,6 +108,7 @@ public class DynamicDetailsActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
+
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View dynamic_details_headerview = inflater.inflate(
@@ -125,8 +128,8 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.dynamic_details_praise_num);
 		llayout_details_icon = (LinearLayout) dynamic_details_headerview
 				.findViewById(R.id.llayout_details_icon);
-		
-		tv_add_attention = (TextView) dynamic_details_address
+
+		tv_add_attention = (TextView) dynamic_details_headerview
 				.findViewById(R.id.add_attention);
 		tv_add_attention.setOnClickListener(clickListener);
 		// 头像
@@ -142,7 +145,7 @@ public class DynamicDetailsActivity extends Activity {
 		dynamic_details_like.setOnClickListener(clickListener);
 
 		if (!TextUtils.isEmpty(imageUrl) && !imageUrl.equals("null")) {
-			String url_img = urlTop + imageUrl;
+			String url_img = urlTop + imageUrl;	
 			dynamic_details_image.setTag(url_img);
 			Bitmap bt = imageLoader.loadImage(dynamic_details_image, url_img);
 			if (bt != null) {
@@ -159,6 +162,19 @@ public class DynamicDetailsActivity extends Activity {
 				dynamic_details_portrait.setImageBitmap(bt);
 			}
 		}
+		
+		listView.addHeaderView(dynamic_details_headerview);
+		adapter = new DynamicDetailsBaseAdapter(
+				dynamicDetailsData.getMessage(), this);
+		listView.setAdapter(adapter);
+	}
+
+	/**
+	 * 加载点赞头像数据
+	 * 
+	 * @param num
+	 */
+	private void initPraiseIcon(int num) {
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 8, 0);
@@ -166,18 +182,17 @@ public class DynamicDetailsActivity extends Activity {
 			ImageView child = new ImageView(this);
 			String img = data_icon.get(i);
 			if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-				Bitmap bt1 = imageLoader.loadImage(child, urlTop + img);
+				String url_img = urlTop + img;
+				child.setTag(url_img);
+				Bitmap bt1 = imageLoader.loadImage(child, url_img);
 				if (bt1 != null) {
-					dynamic_details_portrait.setImageBitmap(bt1);
+					child.setImageBitmap(bt1);
 				}
 				child.setLayoutParams(params);
 				llayout_details_icon.addView(child);
 			}
 		}
-		listView.addHeaderView(dynamic_details_headerview);
-		adapter = new DynamicDetailsBaseAdapter(
-				dynamicDetailsData.getMessage(), this);
-		listView.setAdapter(adapter);
+		dynamic_details_like.setText(num + "");
 	}
 
 	/**
@@ -207,7 +222,6 @@ public class DynamicDetailsActivity extends Activity {
 								jsonObject.getString("message"),
 								Toast.LENGTH_SHORT).show();
 						getData_icon();
-						getData_comment();
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -241,8 +255,9 @@ public class DynamicDetailsActivity extends Activity {
 							for (int i = 0; i < arr.length(); i++) {
 								data_icon.add(arr.getString(i));
 							}
+							int num = jsonObject.getInt("size");
+							initPraiseIcon(num);
 						}
-						initView();
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -306,6 +321,8 @@ public class DynamicDetailsActivity extends Activity {
 							Toast.makeText(getApplicationContext(),
 									jsonObject.getString("message"),
 									Toast.LENGTH_SHORT).show();
+							dynamic_details_edit.setText("");
+							getData_comment();
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -319,43 +336,44 @@ public class DynamicDetailsActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	/**
 	 * 关注
 	 */
 	private void attention() {
-		String content = dynamic_details_edit.getText().toString().trim();
 		String url_send = "http://192.168.1.106/index.php/home/api/attention";
-		if (!TextUtils.isEmpty(content)) {
-			try {
-				HttpPost httpPost = HttpPost.parseUrl(url_send);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("tel", username);
-				map.put("friend_username", uid);
-				httpPost.putMap(map);
-				httpPost.send();
-				httpPost.setOnSendListener(new OnSendListener() {
-					@Override
-					public void start() {
-					}
-					@Override
-					public void end(String result) {
-						try {
-							JSONObject jsonObject = new JSONObject(result);
-							Toast.makeText(getApplicationContext(),
-									jsonObject.getString("message"),
-									Toast.LENGTH_SHORT).show();
-						} catch (JSONException e) {
-							e.printStackTrace();
+		try {
+			HttpPost httpPost = HttpPost.parseUrl(url_send);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("tel", username);
+			map.put("friend_username", uid);
+			httpPost.putMap(map);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				@Override
+				public void start() {
+				}
+
+				@Override
+				public void end(String result) {
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						int status = jsonObject.getInt("status");
+						Toast.makeText(getApplicationContext(),
+								jsonObject.getString("message"),
+								Toast.LENGTH_SHORT).show();
+						if (status == 1) {// 关注成功
+							tv_add_attention.setText("已关注");
+						} else if (status == -1) {
+							tv_add_attention.setText("+关注");
 						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				});
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		} else {
-			Toast.makeText(getApplicationContext(), "评论内容不能为空！",
-					Toast.LENGTH_SHORT).show();
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 

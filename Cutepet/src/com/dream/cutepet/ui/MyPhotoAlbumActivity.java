@@ -1,7 +1,9 @@
 package com.dream.cutepet.ui;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.MyPhotoAlbumAdapter;
 import com.dream.cutepet.model.PhotoAlbumModel;
+import com.dream.cutepet.model.PhotoAlbumModel.PhotoAlbumData;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 
@@ -37,24 +40,23 @@ public class MyPhotoAlbumActivity extends Activity {
 	Builder builder;
 	ListView listView;
 	ImageView iv_icon, back;
-	PhotoAlbumModel data;
-	private String username,title;
+	List<PhotoAlbumData> data = new ArrayList<PhotoAlbumModel.PhotoAlbumData>();
+	private String username, title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_album);
-		
+
 		username = getIntent().getStringExtra("tel");
 		title = getIntent().getStringExtra("title");
-		
+
 		initView();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		initData();
 	}
 
@@ -77,6 +79,8 @@ public class MyPhotoAlbumActivity extends Activity {
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);
+					data = PhotoAlbumModel.setJson(result).getMessage();
+					adapter.setData(data);
 				}
 			});
 		} catch (MalformedURLException e) {
@@ -102,13 +106,11 @@ public class MyPhotoAlbumActivity extends Activity {
 				.findViewById(R.id.tv_photo_album_header_title);
 		iv_icon = (ImageView) headview
 				.findViewById(R.id.iv_photo_album_header_icon);
-		tv_title.setText(data.getTitle()+"");
-		iv_icon.setImageResource(Integer.parseInt(data.getLogo()));
+		tv_title.setText(title + "");
 		// 第三个参数是确定是否可以被选中
 		listView.addHeaderView(headview, null, false);
-		adapter = new MyPhotoAlbumAdapter(this, data.getPhoto());
+		adapter = new MyPhotoAlbumAdapter(this, data);
 		listView.setAdapter(adapter);
-
 		builder = new AlertDialog.Builder(this);
 	}
 
@@ -119,7 +121,7 @@ public class MyPhotoAlbumActivity extends Activity {
 		Intent intent = new Intent(MyPhotoAlbumActivity.this,
 				UploadPhotoActivity.class);
 		intent.putExtra("tel", username);
-		intent.putExtra("name", data.getTitle());
+		intent.putExtra("name", title);
 		startActivityForResult(intent, 1008611);
 	}
 

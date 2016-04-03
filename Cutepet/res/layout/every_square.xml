@@ -81,25 +81,26 @@
             android:id="@+id/square_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
             android:layout_marginLeft="@dimen/px14"
             android:layout_marginRight="@dimen/px14"
+            android:scaleType="fitXY"
             android:src="@drawable/pet_7" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/px30"
+            android:layout_marginLeft="@dimen/px14"
+            android:layout_marginRight="@dimen/px14"
+            android:layout_marginTop="@dimen/px30"
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/square_address"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/px35"
-                android:layout_marginLeft="@dimen/px14"
-                android:layout_marginTop="@dimen/px35"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/address"
-                android:drawableStart="@drawable/address"
-                android:gravity="center"
                 android:text="@string/address"
                 android:textColor="#58b7e3"
                 android:textSize="@dimen/px24" />
@@ -108,11 +109,9 @@
                 android:id="@+id/square_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px482"
-                android:layout_marginTop="@dimen/px35"
+                android:layout_marginRight="@dimen/px20"
                 android:drawableLeft="@drawable/shoucang_1"
                 android:drawablePadding="@dimen/px10"
-                android:gravity="center"
                 android:text="@string/num"
                 android:textColor="#919191"
                 android:textSize="@dimen/px24" />
@@ -121,15 +120,13 @@
                 android:id="@+id/square_praise_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px600"
-                android:layout_marginTop="@dimen/px35"
+                android:layout_marginRight="@dimen/px20"
                 android:drawableLeft="@drawable/pinglun_1"
                 android:drawablePadding="@dimen/px10"
-                android:gravity="center"
                 android:text="@string/num"
                 android:textColor="#919191"
                 android:textSize="@dimen/px24" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

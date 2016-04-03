@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:paddingBottom="@dimen/px24">
 
         <ImageView
             android:id="@+id/dynamic_details_portrait"
@@ -69,7 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dynamic_details_content"
-            android:layout_marginBottom="@dimen/px12"
             android:layout_marginLeft="@dimen/px24"
             android:layout_marginRight="@dimen/px24"
             android:scaleType="fitXY"

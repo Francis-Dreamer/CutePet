@@ -3,9 +3,12 @@ package com.dream.cutepet.adapter;
 import java.util.List;
 
 import com.dream.cutepet.R;
-import com.dream.cutepet.model.PhotoModel;
+import com.dream.cutepet.model.PhotoAlbumModel;
+import com.dream.cutepet.model.PhotoAlbumModel.PhotoAlbumData;
+import com.dream.cutepet.util.MyArrayUtil;
 import com.dream.cutepet.view.MyGridView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +23,7 @@ import android.widget.TextView;
  * 
  */
 public class MyPhotoAlbumAdapter extends BaseAdapter {
-
-	List<PhotoModel> data;
+	List<PhotoAlbumData> data;
 	Context context;
 	LayoutInflater inflater;
 	MyPhotoAlbumGridviewAdapter adapter;
@@ -30,10 +32,15 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 
 	}
 
-	public MyPhotoAlbumAdapter(Context context, List<PhotoModel> data) {
+	public MyPhotoAlbumAdapter(Context context, List<PhotoAlbumData> data) {
 		this.data = data;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
+	}
+	
+	public void setData(List<PhotoAlbumData> data) {
+		this.data = data;
+		this.notifyDataSetChanged();
 	}
 
 	@Override
@@ -51,6 +58,7 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -66,12 +74,15 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		PhotoModel model = (PhotoModel) getItem(position);
+		PhotoAlbumData model = (PhotoAlbumData) getItem(position);
+		
 		holder.tv_time.setText(model.getTime());
 
-		String[] temp = model.getPath();
-		adapter = new MyPhotoAlbumGridviewAdapter(context, temp);
+		String picture = model.getPicture();
+		List<String> pic = MyArrayUtil.changeStringToList(picture, ",");
+		adapter = new MyPhotoAlbumGridviewAdapter(context, pic);
 		holder.gridView.setAdapter(adapter);
+		
 		return convertView;
 	}
 
@@ -79,5 +90,4 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 		TextView tv_time;
 		MyGridView gridView;
 	}
-
 }

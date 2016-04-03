@@ -1,8 +1,12 @@
 package com.dream.cutepet.ui;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,12 +37,12 @@ public class NewPhotoAlbumActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_photo_album);
-		
+
 		username = getIntent().getStringExtra("tel");
-		
+
 		initView();
 	}
-	
+
 	/**
 	 * 初始化控件
 	 */
@@ -106,15 +110,26 @@ public class NewPhotoAlbumActivity extends Activity {
 			map.put("tel", username);
 			map.put("albumname", name);
 			map.put("describe", describe);
+			map.put("time", new Date().toString());
 			httpPost.putMap(map);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
-					Log.i("result", "result ="+result);
+					Log.i("result", "result =" + result);
+					try {
+						JSONObject jb = new JSONObject(result);
+						Toast.makeText(getApplicationContext(),
+								jb.getString("message"), Toast.LENGTH_SHORT)
+								.show();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
 				}
 			});
 		} catch (MalformedURLException e) {

@@ -17,8 +17,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 public class SelectPhotoActivity extends Activity{
-
-	
 	List<File> SDFile;
 	List<String> data_img;
 	TextView tv_selectPhoto_cancel;
@@ -38,34 +36,28 @@ public class SelectPhotoActivity extends Activity{
 	 * 初始化数据
 	 */
 	private void initData(){
-		
 		SDFile=SDCardUtil.getAllSDcardFile(getApplicationContext());
 		data_img=new ArrayList<String>();
 		
 		for (int i = 0; i < SDFile.size(); i++) {
 			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
 		}
-		
 	}
 	
 	/**
 	 * 初始化界面
 	 */
 	private void initview(){
-		
 		tv_selectPhoto_cancel=(TextView) findViewById(R.id.tv_selectPhoto_cancel);
 		tv_selectPhoto_cancel.setOnClickListener(clickListener);
 		
 		gridView=(GridView) findViewById(R.id.gv_select_photo);
-		
 		adapter=new SelectPhotoBaseAdapter(data_img, this);
 		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(itemClickListener);
-		
 	}
 	
 	OnItemClickListener itemClickListener=new OnItemClickListener() {
-
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
@@ -81,21 +73,15 @@ public class SelectPhotoActivity extends Activity{
 		}
 	};
 	
-	
 	OnClickListener clickListener=new OnClickListener() {
-		
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.tv_selectPhoto_cancel:
 				finish();
 				break;
-
 			default:
 				break;
 			}
 		}
 	};
-	
-	
-
 }
