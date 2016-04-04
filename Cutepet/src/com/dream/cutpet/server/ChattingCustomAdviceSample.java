@@ -1,8 +1,5 @@
 package com.dream.cutpet.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMChattingPageUI;
 import com.alibaba.mobileim.appmonitor.tiptool.DensityUtil;
@@ -271,12 +269,14 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		TextView textTittle = (TextView) view.findViewById(R.id.title);
 		ImageView imageBack = (ImageView) view.findViewById(R.id.back);
 		textTittle.setTextColor(Color.parseColor("#333333"));
-		List<PetStoreModel> list=new ArrayList<PetStoreModel>();
 		imageBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
-					fragment.getActivity().startActivity(intent);
+				YWIMKit imKit=LoginSampleHelper.getInstance().getIMKit();
+				Intent intent = imKit.getConversationActivityIntent();
+				fragment.getActivity().startActivity(intent);
+//					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
+//					fragment.getActivity().startActivity(intent);
 			}
 		});
 		return view;
