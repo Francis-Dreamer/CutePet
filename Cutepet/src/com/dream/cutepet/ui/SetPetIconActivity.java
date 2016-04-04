@@ -78,7 +78,7 @@ public class SetPetIconActivity extends Activity {
 	 * 初始化界面
 	 */
 	private void initView() {
-		tv_cancel = (TextView) findViewById(R.id.tv_uploadPhoto_cancel);
+		tv_cancel = (TextView) findViewById(R.id.tv_setPetIcon_cancel);
 		tv_cancel.setOnClickListener(listener);
 
 		gridView = (GridView) findViewById(R.id.gv_setPetIcon_photo);

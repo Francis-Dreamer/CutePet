@@ -71,8 +71,9 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.activity_homepage, null);
 		inflater = LayoutInflater.from(getActivity());
+		view = inflater.inflate(R.layout.activity_homepage, null);
+		
 		imageLoader = new AsyncImageLoader(getActivity());
 
 		initView();
@@ -187,12 +188,13 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 */
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
-		View header = inflater.inflate(R.layout.activity_homepage_header, null);
+		LayoutInflater inflater_header = LayoutInflater.from(getActivity());
+		View header = inflater_header.inflate(R.layout.activity_homepage_header, null);
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
 		for (int i = 0; i < data_petStore.size(); i++) {
-			View view = inflater.inflate(R.layout.activity_homepage_item, null);
-			ImageView img = (ImageView) view
+			View view_item = inflater_header.inflate(R.layout.activity_homepage_item, null);
+			ImageView img = (ImageView) view_item
 					.findViewById(R.id.iv_homepage_item_picture);
 
 			final String imgUrl = url_top + data_petStore.get(i).getLogo();
@@ -205,19 +207,20 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 					img.setImageBitmap(bitmap);
 				}
 			}
-			TextView txt = (TextView) view
+			
+			TextView txt = (TextView) view_item
 					.findViewById(R.id.tv_homepage_item_word);
 			txt.setText(data_petStore.get(i).getName());
-			view.setTag(i);
-			view.setOnClickListener(listener);
+			view_item.setTag(i);
+			view_item.setOnClickListener(listener);
 
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			params.setMargins(0, 0, 10, 0);
-			view.setLayoutParams(params);
+			view_item.setLayoutParams(params);
 
-			llayout_petStore.addView(view);
+			llayout_petStore.addView(view_item);
 		}
 		listView.addHeaderView(header, null, false);
 		adapter = new HomePageAdapter(getActivity(),data_personage,this,this);

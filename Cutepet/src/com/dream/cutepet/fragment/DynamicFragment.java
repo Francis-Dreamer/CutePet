@@ -40,6 +40,7 @@ import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutepet.view.MyGridView;
+import com.google.gson.JsonObject;
 
 /**
  * 动态
@@ -129,6 +130,7 @@ public class DynamicFragment extends Fragment {
 	 */
 	private void initPetDynamic() {
 		rlayout_set.setVisibility(View.GONE);
+		rlayout_unlogin.setVisibility(View.GONE);
 		rlayout_login.setVisibility(View.VISIBLE);
 
 		tv_name.setText(data_petMessage.getNickname());
@@ -163,11 +165,12 @@ public class DynamicFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		if (checkIsLogin()) {
-			rlayout_unlogin.setVisibility(View.GONE);
+			Log.i("checkIsLogin", "login");
 			initPetMessageData();
 			initAlbumData();
 		} else {
 			// 未登录状态
+			Log.i("checkIsLogin", "unlogin");
 			rlayout_unlogin.setVisibility(View.VISIBLE);
 			rlayout_login.setVisibility(View.GONE);
 			rlayout_set.setVisibility(View.GONE);
@@ -226,10 +229,16 @@ public class DynamicFragment extends Fragment {
 
 				public void end(String result) {
 					Log.i("initAlbumData", "result = " + result);
-					DynamicAlbumModel model = DynamicAlbumModel.setJson(result);
 					data_album = new ArrayList<DynamicAlbumModel.AlbumData>();
-					if (model.getStatus() == 1) {
-						data_album = model.getMessage();
+					try {
+						JSONObject jb = new JSONObject(result);
+						if (jb.getInt("status") == 1) {
+							DynamicAlbumModel model = DynamicAlbumModel
+									.setJson(result);
+							data_album = model.getMessage();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
 					adapter.setData(data_album);
 				}
@@ -243,6 +252,7 @@ public class DynamicFragment extends Fragment {
 	 * 没有宠物信息，则设置
 	 */
 	private void noMessage() {
+		rlayout_unlogin.setVisibility(View.GONE);
 		rlayout_set.setVisibility(View.VISIBLE);
 		rlayout_login.setVisibility(View.GONE);
 		rlayout_set.setOnClickListener(clickListener);
