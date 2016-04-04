@@ -106,7 +106,7 @@
                 android:textSize="@dimen/px24" />
 
             <TextView
-                android:id="@+id/square_comment_num"
+                android:id="@+id/square_praise_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/px20"
@@ -117,7 +117,7 @@
                 android:textSize="@dimen/px24" />
 
             <TextView
-                android:id="@+id/square_praise_num"
+                android:id="@+id/square_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/px20"
