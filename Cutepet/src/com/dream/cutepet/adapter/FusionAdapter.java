@@ -1,5 +1,6 @@
 package com.dream.cutepet.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -23,6 +24,7 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.model.FusionModel;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.MyArrayUtil;
 
 public class FusionAdapter extends BaseAdapter {
 
@@ -32,6 +34,7 @@ public class FusionAdapter extends BaseAdapter {
 	FusionPictureAdapter adapter;
 	String url_Top = "http://192.168.1.106";
 	AsyncImageLoader imageLoader;
+	List<String> picture;
 
 	public FusionAdapter() {
 
@@ -108,60 +111,76 @@ public class FusionAdapter extends BaseAdapter {
 			}
 		}
 		
-	//	String pic=temp.getPicture();
 		
-		
-		
-		
-	/*	Bitmap bt1 = BitmapFactory.decodeResource(context.getResources(),
-				Integer.parseInt(temp.getLogo()));
-		Bitmap bitmap = BitmapUtil.toRoundBitmap(bt1);
-		holder.iv_icon.setImageBitmap(bitmap);*/
 		holder.tv_time.setText(temp.getTime());
 		holder.tv_content.setText(temp.getContent());
 
-	//	String[] pic = temp.getPicture();
-		
+		picture=new ArrayList<String>();
+		picture=MyArrayUtil.changeStringToList(temp.getPicture(), ",");
 		
 		holder.llayout_2.removeAllViews();
 		holder.llayout_pic1.removeAllViews();
 		holder.llayout_pic2.removeAllViews();
 		holder.llayout_pic3.removeAllViews();
-	/*	if (pic.length == 1) {
+		if (picture.size() == 1) {
 			ImageView imageView = new ImageView(context);
-			imageView.setImageResource(Integer.parseInt(pic[0]));
-			holder.llayout_2.addView(imageView);
-		} else if (pic.length == 2) {
-			for (int i = 0; i < pic.length; i++) {
-				ImageView imageView = new ImageView(context);
-				imageView.setImageResource(Integer.parseInt(pic[i]));
-				imageView.setScaleType(ScaleType.FIT_XY);
-				imageView.setAdjustViewBounds(true);
-				LayoutParams params = new LayoutParams(
-						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
-				params.setMargins(0, 0, 10, 0);
-				imageView.setLayoutParams(params);
-				holder.llayout_2.addView(imageView);
-			}
-		} else {
-			for (int i = 0; i < pic.length; i++) {
-				ImageView imageView = new ImageView(context);
-				imageView.setImageResource(Integer.parseInt(pic[i]));
-				imageView.setAdjustViewBounds(true);
-				imageView.setScaleType(ScaleType.FIT_XY);
-				LayoutParams params = new LayoutParams(
-						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
-				params.setMargins(0, 0, 0, 10);
-				imageView.setLayoutParams(params);
-				if (i % 3 == 0) {
-					holder.llayout_pic1.addView(imageView);
-				} else if (i % 3 == 1) {
-					holder.llayout_pic2.addView(imageView);
-				} else {
-					holder.llayout_pic3.addView(imageView);
+			if(!TextUtils.isEmpty(picture.get(0))&&!(picture.get(0).equals("null"))){
+				String picUrl=url_Top+picture.get(0);
+				imageView.setTag(picUrl);
+				imageView.setImageResource(R.drawable.icon_tx);
+				Bitmap bitmap=imageLoader.loadImage(imageView, picUrl);
+				if(bitmap!=null){
+					imageView.setImageBitmap(bitmap);
+					holder.llayout_2.addView(imageView);
 				}
 			}
-		}*/
+		} else if (picture.size() == 2) {
+			for (int i = 0; i < picture.size(); i++) {
+				ImageView imageView = new ImageView(context);
+				if(!TextUtils.isEmpty(picture.get(0))&&!(picture.get(0).equals("null"))){
+					String picUrl=url_Top+picture.get(i);
+					imageView.setTag(picUrl);
+					imageView.setImageResource(R.drawable.icon_tx);
+					Bitmap bitmap=imageLoader.loadImage(imageView, picUrl);
+					if(bitmap!=null){
+						imageView.setImageBitmap(bitmap);
+						imageView.setScaleType(ScaleType.FIT_XY);
+						imageView.setAdjustViewBounds(true);
+						LayoutParams params = new LayoutParams(
+								LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
+						params.setMargins(0, 0, 10, 0);
+						imageView.setLayoutParams(params);
+						holder.llayout_2.addView(imageView);
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < picture.size(); i++) {
+				ImageView imageView = new ImageView(context);
+				if(!TextUtils.isEmpty(picture.get(0))&&!(picture.get(0).equals("null"))){
+					String picUrl=url_Top+picture.get(i);
+					imageView.setTag(picUrl);
+					imageView.setImageResource(R.drawable.icon_tx);
+					Bitmap bitmap=imageLoader.loadImage(imageView, picUrl);
+					if(bitmap!=null){
+						imageView.setImageBitmap(bitmap);
+						imageView.setAdjustViewBounds(true);
+						imageView.setScaleType(ScaleType.FIT_XY);
+						LayoutParams params = new LayoutParams(
+								LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
+						params.setMargins(0, 0, 0, 10);
+						imageView.setLayoutParams(params);
+						if (i % 3 == 0) {
+							holder.llayout_pic1.addView(imageView);
+						} else if (i % 3 == 1) {
+							holder.llayout_pic2.addView(imageView);
+						} else {
+							holder.llayout_pic3.addView(imageView);
+						}
+					}
+				}
+			}
+		}
 		int pic_height = holder.rlayout.getHeight();
 		int height = holder.tv_content.getHeight() + pic_height + 80;
 		Log.i("position = "+position, "tv_content="+holder.tv_content.getHeight());
@@ -182,4 +201,6 @@ public class FusionAdapter extends BaseAdapter {
 		LinearLayout llayout_2, llayout_3;
 		LinearLayout llayout_pic1, llayout_pic2, llayout_pic3;
 	}
+	
+	
 }

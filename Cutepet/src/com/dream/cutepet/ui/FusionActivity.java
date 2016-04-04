@@ -36,9 +36,8 @@ public class FusionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fusion);
 		
-		initData();
-		
 		initView();
+		initData();
 	}
 
 	/**
@@ -64,6 +63,8 @@ public class FusionActivity extends Activity {
 				
 				public void end(String result) {
 					Log.e("bbbbbbbbbb", result);
+					data=FusionModel.getJson(result);
+					
 				}
 			});
 		} catch (MalformedURLException e) {

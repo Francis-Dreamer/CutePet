@@ -189,6 +189,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	private void initPetStoreView() {
 		LayoutInflater inflater_header = LayoutInflater.from(getActivity());
 		View header = inflater_header.inflate(R.layout.activity_homepage_header, null);
+		inflater = LayoutInflater.from(getActivity());
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
 		for (int i = 0; i < data_petStore.size(); i++) {
