@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMContactsUI;
+import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.dream.cutepet.R;
 
 public class ContactsUICustomSample extends IMContactsUI {
