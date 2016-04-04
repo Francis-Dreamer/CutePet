@@ -188,8 +188,6 @@ public class DynamicDetailsActivity extends Activity {
 	 * @param position
 	 */
 	private void setParise() {
-		// String url =
-		// "http://192.168.1.106/index.php/home/api/uploadPraise_square";
 		String url = "http://192.168.1.107/index.php/home/api/uploadPraise_square";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -224,8 +222,6 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取点赞头像数据
 	 */
 	private void getData_icon() {
-		// String url =
-		// "http://192.168.1.106/index.php/home/api/getPraise_square_icon";
 		String url = "http://192.168.1.107/index.php/home/api/getPraise_square_icon";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -262,8 +258,6 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取评论数据
 	 */
 	private void getData_comment() {
-		// String url =
-		// "http://192.168.1.106/index.php/home/api/getSquareComment";
 		String url = "http://192.168.1.107/index.php/home/api/getSquareComment";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -290,8 +284,6 @@ public class DynamicDetailsActivity extends Activity {
 	 */
 	private void send() {
 		String content = dynamic_details_edit.getText().toString().trim();
-		// String url_send =
-		// "http://192.168.1.106/index.php/home/api/uploadSquareComment";
 		String url_send = "http://192.168.1.107/index.php/home/api/uploadSquareComment";
 		if (!TextUtils.isEmpty(content)) {
 			try {

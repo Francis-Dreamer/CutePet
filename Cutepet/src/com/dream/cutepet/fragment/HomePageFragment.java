@@ -71,8 +71,9 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+	
 		view = inflater.inflate(R.layout.activity_homepage, null);
-		inflater = LayoutInflater.from(getActivity());
+		
 		imageLoader = new AsyncImageLoader(getActivity());
 
 		initView();
@@ -187,6 +188,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 */
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
+		inflater = LayoutInflater.from(getActivity());
 		View header = inflater.inflate(R.layout.activity_homepage_header, null);
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
