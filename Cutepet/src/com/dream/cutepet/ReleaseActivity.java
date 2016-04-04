@@ -9,11 +9,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SDCardAllPhotoUtil;
+
 /**
  * 发布页面
  * 
@@ -30,7 +33,6 @@ import android.widget.Toast;
  * 
  */
 public class ReleaseActivity extends Activity {
-
 	List<String> data_img;
 	TextView title, menu_hide;
 	ImageView iv_petStore_select, back, iv_petStore_logo;
@@ -38,7 +40,6 @@ public class ReleaseActivity extends Activity {
 	String storeName, storeAddress, storeType;
 	String view_address;
 	File file;
-	// String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
 	String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
 
 	@Override
@@ -111,7 +112,8 @@ public class ReleaseActivity extends Activity {
 		storeName = ed_petStore_name.getText().toString();
 		storeAddress = ed_petStore_address.getText().toString();
 		storeType = ed_petStore_type.getText().toString();
-
+		Bitmap bt = BitmapUtil.getimage(file.getAbsolutePath(), 280, 370);
+		final File f = BitmapUtil.saveMyBitmap(bt);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("tel", "123321");
 		map.put("title", storeName);
@@ -119,7 +121,7 @@ public class ReleaseActivity extends Activity {
 		map.put("type", storeType);
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url); // 调用封装的方法
-			httpPost.putFile("file", file, file.getName(), null);
+			httpPost.putFile("file", f, file.getName(), null);
 			httpPost.putMap(map);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
@@ -127,6 +129,7 @@ public class ReleaseActivity extends Activity {
 				}
 
 				public void end(String result) {
+					BitmapUtil.deleteFile(f);
 					try {
 						JSONObject js = new JSONObject(result);
 						int status = js.getInt("status");
@@ -152,12 +155,10 @@ public class ReleaseActivity extends Activity {
 	private void select_image() {
 		Intent intent = new Intent(ReleaseActivity.this,
 				SelectPhotoActivity.class);
-		startActivity(intent);
 		startActivityForResult(intent, 66666);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		switch (requestCode) {
 		case 66666:
 			if (data!= null) {
@@ -166,9 +167,7 @@ public class ReleaseActivity extends Activity {
 				file = new File(view_address);
 				iv_petStore_logo.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
 			}
-
 			break;
-
 		default:
 			break;
 		}

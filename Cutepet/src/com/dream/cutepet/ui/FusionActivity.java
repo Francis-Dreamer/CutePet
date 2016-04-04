@@ -44,19 +44,16 @@ public class FusionActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-	//	data = FusionModel.getData();
 		String tok=SharedPreferencesUtil.getData(this);
 		if(tok != null && !tok.equals("")){
 			username=tok.split(",")[1];
 		}
-		
 		String url="http://192.168.1.106/index.php/home/api/fusion";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.putString("tel", username);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
-				
 				public void start() {
 					
 				}
@@ -70,12 +67,7 @@ public class FusionActivity extends Activity {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
-
-	
 
 	/**
 	 * 初始化界面

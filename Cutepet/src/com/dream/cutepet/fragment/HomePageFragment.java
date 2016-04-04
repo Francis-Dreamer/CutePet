@@ -48,7 +48,8 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * @author Administrator
  * 
  */
-public class HomePageFragment extends Fragment implements CallParise ,SetMessage{
+public class HomePageFragment extends Fragment implements CallParise,
+		SetMessage {
 	LinearLayout llayout_petStore;
 	LayoutInflater inflater;
 	List<PetStoreModel> data_petStore;
@@ -59,7 +60,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	private String username;
 	private View view;
 	Bitmap bitmap;
-//	private String url_top = "http://192.168.1.106";
 	private String url_top = "http://192.168.1.106";
 	LinearLayout message_linearlayout;
 	EditText input_message;
@@ -73,27 +73,26 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			Bundle savedInstanceState) {
 		inflater = LayoutInflater.from(getActivity());
 		view = inflater.inflate(R.layout.activity_homepage, null);
-		
+
 		imageLoader = new AsyncImageLoader(getActivity());
-
+		
 		initView();
-
 		initStoreData();
-
+		
 		return view;
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		
 		initPersonalData();
 	}
-	
+
 	/**
 	 * 初始化宠物店数据
 	 */
 	private void initStoreData() {
-	//	String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
 		String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
@@ -101,6 +100,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			post_store.setOnSendListener(new OnSendListener() {
 				public void start() {
 				}
+
 				public void end(String result) {
 					Log.e("sssssssss", result);
 					data_petStore = PetStoreModel.setJson(result);
@@ -116,7 +116,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * 初始化主人寄语数据
 	 */
 	private void initPersonalData() {
-	//	String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
 		String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
@@ -139,16 +138,15 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * 初始化界面
 	 */
 	private void initView() {
-		message_linearlayout=(LinearLayout) view.findViewById(R.id.message_linearlayout);
-		input_message=(EditText) view.findViewById(R.id.input_message);
-		ensure_send=(TextView) view.findViewById(R.id.ensure_send);
-		cancel_send=(TextView) view.findViewById(R.id.cancel_send);
-		
+		message_linearlayout = (LinearLayout) view
+				.findViewById(R.id.message_linearlayout);
+		input_message = (EditText) view.findViewById(R.id.input_message);
+		ensure_send = (TextView) view.findViewById(R.id.ensure_send);
+		cancel_send = (TextView) view.findViewById(R.id.cancel_send);
+
 		listView = (ListView) view.findViewById(R.id.lv_homepage_listview);
 		listView.setOnItemClickListener(itemClickListener);
 	}
-	
-
 
 	/**
 	 * listview的item点击事件
@@ -172,11 +170,14 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				Intent intent = new Intent(getActivity(),
 						PetStoreActivity.class);
 				intent.putExtra("index", index);
-				intent.putExtra("username", data_petStore.get(index).getUsername());
+				intent.putExtra("username", data_petStore.get(index)
+						.getUsername());
 				intent.putExtra("name", data_petStore.get(index).getName());
-				intent.putExtra("address", data_petStore.get(index).getAddress());
+				intent.putExtra("address", data_petStore.get(index)
+						.getAddress());
 				intent.putExtra("type", data_petStore.get(index).getType());
-				intent.putExtra("icon", url_top+data_petStore.get(index).getLogo());
+				intent.putExtra("icon", url_top
+						+ data_petStore.get(index).getLogo());
 				startActivityForResult(intent, 0);
 			}
 		}
@@ -188,12 +189,14 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
 		LayoutInflater inflater_header = LayoutInflater.from(getActivity());
-		View header = inflater_header.inflate(R.layout.activity_homepage_header, null);
+		View header = inflater_header.inflate(
+				R.layout.activity_homepage_header, null);
 		inflater = LayoutInflater.from(getActivity());
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
 		for (int i = 0; i < data_petStore.size(); i++) {
-			View view_item = inflater_header.inflate(R.layout.activity_homepage_item, null);
+			View view_item = inflater_header.inflate(
+					R.layout.activity_homepage_item, null);
 			ImageView img = (ImageView) view_item
 					.findViewById(R.id.iv_homepage_item_picture);
 
@@ -207,7 +210,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 					img.setImageBitmap(bitmap);
 				}
 			}
-			
+
 			TextView txt = (TextView) view_item
 					.findViewById(R.id.tv_homepage_item_word);
 			txt.setText(data_petStore.get(i).getName());
@@ -223,7 +226,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			llayout_petStore.addView(view_item);
 		}
 		listView.addHeaderView(header, null, false);
-		adapter = new HomePageAdapter(getActivity(),data_personage,this,this);
+		adapter = new HomePageAdapter(getActivity(), data_personage, this, this);
 		listView.setAdapter(adapter);
 	}
 
@@ -238,7 +241,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			break;
 		case R.id.tv_homepage_personage_getMessage:
 			if (checkLogin()) {
-				int position=(Integer) v.getTag();
+				int position = (Integer) v.getTag();
 				setMessage(position);
 			}
 			break;
@@ -254,7 +257,6 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * @param position
 	 */
 	private void setParise(int position) {
-	//	String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
 		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -267,6 +269,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
 					try {
@@ -284,42 +287,40 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 留言功能
+	 * 
 	 * @param position
 	 * @param content
 	 * @param time
 	 */
-	private void setMessage(final int position){
-
-		
+	private void setMessage(final int position) {
 		message_linearlayout.setVisibility(View.VISIBLE);
 		ensure_send.setOnClickListener(new OnClickListener() {
-			
 			public void onClick(View v) {
-				String url="http://192.168.1.106/index.php/home/api/uploadMessage";
-				String content=input_message.getText().toString();
-				Date nowDate=new Date();
-				String time=nowDate.toString();
-				if((content!=null)&&(!("".equals(content)))){
+				String url = "http://192.168.1.106/index.php/home/api/uploadMessage";
+				String content = input_message.getText().toString();
+				Date nowDate = new Date();
+				String time = nowDate.toString();
+				if ((content != null) && (!("".equals(content)))) {
 					try {
-						HttpPost httpPost=HttpPost.parseUrl(url);
-						Map<String, String> map=new HashMap<String, String>();
+						HttpPost httpPost = HttpPost.parseUrl(url);
+						Map<String, String> map = new HashMap<String, String>();
 						map.put("mine_name", username);
-						map.put("issue_id", data_personage.get(position).getId() + "");
+						map.put("issue_id", data_personage.get(position)
+								.getId() + "");
 						map.put("content", content);
 						map.put("time", time);
 						httpPost.putMap(map);
 						httpPost.send();
 						httpPost.setOnSendListener(new OnSendListener() {
-							
 							public void start() {
-								
 							}
-							
+
 							public void end(String result) {
-								Toast.makeText(getActivity(), "留言成功", Toast.LENGTH_SHORT).show();
+								Toast.makeText(getActivity(), "留言成功",
+										Toast.LENGTH_SHORT).show();
 							}
 						});
 					} catch (MalformedURLException e) {
@@ -329,16 +330,14 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				message_linearlayout.setVisibility(View.GONE);
 			}
 		});
-		
 		cancel_send.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				message_linearlayout.setVisibility(View.GONE);
 			}
 		});
 	}
-	
-	
+
 	/**
 	 * 判断账号是否登录
 	 * 

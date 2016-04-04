@@ -7,6 +7,7 @@ import com.dream.cutepet.util.SDCardAllPhotoUtil;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -53,6 +54,9 @@ public class SetPetIconAdapter extends BaseAdapter {
 			imageView.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(data
 					.get(position)));
 		}
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
+		imageView.setLayoutParams(params);
 		imageView.setScaleType(ScaleType.FIT_XY);
 		return imageView;
 	}
