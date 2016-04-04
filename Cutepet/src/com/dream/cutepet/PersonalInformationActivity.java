@@ -129,7 +129,8 @@ public class PersonalInformationActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "http://192.168.1.106/index.php/home/api/demand";
+	//	String url = "http://192.168.1.106/index.php/home/api/demand";
+		String url = "http://192.168.1.107/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

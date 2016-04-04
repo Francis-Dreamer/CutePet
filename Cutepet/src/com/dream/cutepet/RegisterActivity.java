@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -64,8 +65,10 @@ public class RegisterActivity extends Activity {
 			case R.id.text_yanzhengma:
 				String tel = edit_phone.getText().toString();
 				if (tel != null) {
+					Log.e("xxxxxxxx", "有手机号");
 					yanzhengma(tel);
 				} else {
+					Log.e("xxxxxxxx", "无手机号");
 					Toast.makeText(getApplication(), "请输入手机号", Toast.LENGTH_LONG)
 							.show();
 				}
@@ -88,12 +91,13 @@ public class RegisterActivity extends Activity {
 	 * @param tel
 	 */
 	private void yanzhengma(String tel) {
-		String httpHost = "http://192.168.1.106/index.php/home/api/verify";
-	//	String httpHost = "http://192.168.1.107/index.php/home/api/verify";
+	//	String httpHost = "http://192.168.1.106/index.php/home/api/verify";
+		String httpHost = "http://192.168.1.107/index.php/home/api/verify";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost);
 			httpPost.putString("tel", tel);
 			httpPost.send();
+			Log.e("xxxxxxxxxxxxxxxxxx", tel);
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
 				public void start() {
@@ -103,6 +107,7 @@ public class RegisterActivity extends Activity {
 				@Override
 				public void end(String result) {
 					try {
+						Log.e("xxxxxxxxxxxxxxxxxx", result);
 						JSONObject jo = new JSONObject(result);
 						Toast.makeText(getApplicationContext(),
 								jo.getString("verify"), Toast.LENGTH_LONG)
@@ -125,8 +130,8 @@ public class RegisterActivity extends Activity {
 	 * @param password
 	 */
 	private void register(String tel, String verify, String password) {
-		String httpHost_add = "http://192.168.1.106/index.php/home/api/register";
-	//	String httpHost_add = "http://192.168.1.107/index.php/home/api/register";
+	//	String httpHost_add = "http://192.168.1.106/index.php/home/api/register";
+		String httpHost_add = "http://192.168.1.107/index.php/home/api/register";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost_add);
 			Map<String, String> map = new HashMap<String, String>();

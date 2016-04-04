@@ -63,7 +63,8 @@ public class DynamicFragment extends Fragment {
 
 	private View view;
 	private String username;
-	private String url_Top = "http://192.168.1.106";
+//	private String url_Top = "http://192.168.1.106";
+	private String url_Top = "http://192.168.1.107";
 	private AsyncImageLoader imageLoader;
 
 	@SuppressLint("InflateParams")
@@ -178,7 +179,8 @@ public class DynamicFragment extends Fragment {
 	 */
 	private void initPetMessageData() {
 		// 获取宠物信息的数据
-		String url_petMessage = "http://192.168.1.106/index.php/home/api/getPetMessage";
+//		String url_petMessage = "http://192.168.1.106/index.php/home/api/getPetMessage";
+		String url_petMessage = "http://192.168.1.107/index.php/home/api/getPetMessage";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_petMessage);
 			httpPost.putString("tel", username);
@@ -212,7 +214,8 @@ public class DynamicFragment extends Fragment {
 	 * 获取相册数据
 	 */
 	private void initAlbumData() {
-		String url_album = "http://192.168.1.106/index.php/home/api/getAlbum";
+	//	String url_album = "http://192.168.1.106/index.php/home/api/getAlbum";
+		String url_album = "http://192.168.1.107/index.php/home/api/getAlbum";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_album);
 			httpPost.putString("tel", username);

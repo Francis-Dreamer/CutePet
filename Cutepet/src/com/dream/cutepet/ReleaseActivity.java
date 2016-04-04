@@ -38,7 +38,8 @@ public class ReleaseActivity extends Activity {
 	String storeName, storeAddress, storeType;
 	String view_address;
 	File file;
-	String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
+	// String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
+	String url = "http://192.168.1.107/index.php/home/api/uploadPetStore";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +96,7 @@ public class ReleaseActivity extends Activity {
 				if (file != null) {
 					release(file);
 				} else {
-					Toast.makeText(getApplication(), "请选择图片",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplication(), "请选择图片", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			default:
@@ -132,12 +132,10 @@ public class ReleaseActivity extends Activity {
 						JSONObject js = new JSONObject(result);
 						int status = js.getInt("status");
 						if (status == 1) {
-							Toast.makeText(getApplicationContext(), "发布成功！",
-									Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "发布成功！", Toast.LENGTH_SHORT).show();
 							back();
 						} else {
-							Toast.makeText(getApplicationContext(), "发布失败！",
-									Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "发布失败！", Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -156,17 +154,20 @@ public class ReleaseActivity extends Activity {
 		Intent intent = new Intent(ReleaseActivity.this,
 				SelectPhotoActivity.class);
 		startActivity(intent);
+		startActivityForResult(intent, 66666);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		switch (requestCode) {
 		case 66666:
-			Bundle bundle = data.getExtras();
-			view_address = bundle.getString("view_address");
-			file = new File(view_address);
-			iv_petStore_logo.setImageBitmap(SDCardAllPhotoUtil
-					.getDiskBitmap(view_address));
+			if (data!= null) {
+				Bundle bundle = data.getExtras();
+				view_address = bundle.getString("view_address");
+				file = new File(view_address);
+				iv_petStore_logo.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
+			}
+
 			break;
 
 		default:
