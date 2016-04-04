@@ -72,8 +72,8 @@ public class PetStrategyDetailsActivity extends Activity {
 		pet_strategy_details_characteristic.setText(petTrait);
 		pet_strategy_details_content.setText(petContent_data);
 
-		String imageUrl = "http://192.168.1.106"
-				+ petImage;
+	//	String imageUrl = "http://192.168.1.106"+ petImage;
+		String imageUrl = "http://192.168.1.107"+ petImage;
 		// 给图片一个tag
 		pet_strategy_details_image.setTag(imageUrl);
 		// 给个预设图片

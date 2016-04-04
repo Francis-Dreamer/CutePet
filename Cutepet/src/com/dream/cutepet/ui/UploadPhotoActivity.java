@@ -58,7 +58,8 @@ public class UploadPhotoActivity extends Activity {
 	int checkedNum = 0;// 记录选中的条目数量
 	private String username;
 	private String title;
-	private String actionUrl = "http://192.168.1.106/index.php/home/api/uploadPhoto";
+//	private String actionUrl = "http://192.168.1.106/index.php/home/api/uploadPhoto";
+	private String actionUrl = "http://192.168.1.107/index.php/home/api/uploadPhoto";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

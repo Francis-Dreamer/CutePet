@@ -175,7 +175,8 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		String url = "http://192.168.1.106/index.php/home/api/getTalk";
+	//	String url = "http://192.168.1.106/index.php/home/api/getTalk";
+		String url = "http://192.168.1.107/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();

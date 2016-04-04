@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,7 +59,8 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	private String username;
 	private View view;
 	Bitmap bitmap;
-	private String url_top = "http://192.168.1.106";
+//	private String url_top = "http://192.168.1.106";
+	private String url_top = "http://192.168.1.107";
 	LinearLayout message_linearlayout;
 	EditText input_message;
 	TextView ensure_send;
@@ -89,7 +91,9 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * 初始化宠物店数据
 	 */
 	private void initStoreData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
+	//	String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
+		String URL_store = "http://192.168.1.107/index.php/home/api/getPetStore";
+		Log.e("sssssssss", "ssssssssssss");
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -97,6 +101,7 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 				public void start() {
 				}
 				public void end(String result) {
+					Log.e("sssssssss", result);
 					data_petStore = PetStoreModel.setJson(result);
 					initPetStoreView();
 				}
@@ -110,7 +115,8 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * 初始化主人寄语数据
 	 */
 	private void initPersonalData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
+	//	String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
+		String URL_store = "http://192.168.1.107/index.php/home/api/getPersonal";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -245,7 +251,8 @@ public class HomePageFragment extends Fragment implements CallParise ,SetMessage
 	 * @param position
 	 */
 	private void setParise(int position) {
-		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
+	//	String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
+		String url = "http://192.168.1.107/index.php/home/api/uploadPraise_personal";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

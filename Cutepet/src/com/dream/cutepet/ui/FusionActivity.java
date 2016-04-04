@@ -1,9 +1,12 @@
 package com.dream.cutepet.ui;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -11,6 +14,9 @@ import android.widget.ListView;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.FusionAdapter;
 import com.dream.cutepet.model.FusionModel;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
  * 个人中心的时光轴界面
@@ -23,6 +29,7 @@ public class FusionActivity extends Activity {
 	ListView listView;
 	List<FusionModel> data;
 	FusionAdapter adapter;
+	String username;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +45,36 @@ public class FusionActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-		data = FusionModel.getData();
+	//	data = FusionModel.getData();
+		String tok=SharedPreferencesUtil.getData(this);
+		if(tok != null && !tok.equals("")){
+			username=tok.split(",")[1];
+		}
+		
+		String url="http://192.168.1.107/index.php/home/api/fusion";
+		try {
+			HttpPost httpPost=HttpPost.parseUrl(url);
+			httpPost.putString("tel", username);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				
+				public void start() {
+					
+				}
+				
+				public void end(String result) {
+					Log.e("bbbbbbbbbb", result);
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
+
+	
 
 	/**
 	 * 初始化界面

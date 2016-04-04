@@ -163,11 +163,13 @@ public class PetStrategyCommentActivity extends Activity{
 		
 		switch (requestCode) {
 		case 111333:
-			Bundle bundle=data.getExtras();
-			view_address=bundle.getString("view_address");
-			Log.e("XXXXXXXXXXXXXXX", view_address);
-			file=new File(view_address);
-			pet_strategy_comment_view.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
+			if(data!=null){
+				Bundle bundle=data.getExtras();
+				view_address=bundle.getString("view_address");
+				Log.e("XXXXXXXXXXXXXXX", view_address);
+				file=new File(view_address);
+				pet_strategy_comment_view.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
+			}
 			
 			break;
 

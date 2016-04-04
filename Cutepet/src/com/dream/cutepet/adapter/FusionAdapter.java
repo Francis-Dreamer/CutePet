@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.model.FusionModel;
+import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
 
 public class FusionAdapter extends BaseAdapter {
@@ -28,6 +30,8 @@ public class FusionAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	List<FusionModel> data;
 	FusionPictureAdapter adapter;
+	String url_Top = "http://192.168.1.107";
+	AsyncImageLoader imageLoader;
 
 	public FusionAdapter() {
 
@@ -37,11 +41,17 @@ public class FusionAdapter extends BaseAdapter {
 		this.data = data;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
+		imageLoader=new AsyncImageLoader(context);
 	}
 
 	@Override
 	public int getCount() {
-		return data.size();
+		if(data!=null){
+			return data.size();
+		}else{
+			return 0;
+		}
+		
 	}
 
 	@Override
@@ -86,20 +96,38 @@ public class FusionAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		FusionModel temp = (FusionModel) getItem(position);
-
-		Bitmap bt1 = BitmapFactory.decodeResource(context.getResources(),
+		
+		String logo=temp.getLogo();
+		if(!TextUtils.isEmpty(logo)&& !logo.equals("null")){
+			String logoUrl=url_Top+logo;
+			holder.iv_icon.setTag(logoUrl);
+			holder.iv_icon.setImageResource(R.drawable.icon_tx);
+			Bitmap bt1=imageLoader.loadImage(holder.iv_icon, logoUrl);
+			if(bt1!=null){
+				holder.iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt1));
+			}
+		}
+		
+	//	String pic=temp.getPicture();
+		
+		
+		
+		
+	/*	Bitmap bt1 = BitmapFactory.decodeResource(context.getResources(),
 				Integer.parseInt(temp.getLogo()));
 		Bitmap bitmap = BitmapUtil.toRoundBitmap(bt1);
-		holder.iv_icon.setImageBitmap(bitmap);
+		holder.iv_icon.setImageBitmap(bitmap);*/
 		holder.tv_time.setText(temp.getTime());
 		holder.tv_content.setText(temp.getContent());
 
-		String[] pic = temp.getPicture();
+	//	String[] pic = temp.getPicture();
+		
+		
 		holder.llayout_2.removeAllViews();
 		holder.llayout_pic1.removeAllViews();
 		holder.llayout_pic2.removeAllViews();
 		holder.llayout_pic3.removeAllViews();
-		if (pic.length == 1) {
+	/*	if (pic.length == 1) {
 			ImageView imageView = new ImageView(context);
 			imageView.setImageResource(Integer.parseInt(pic[0]));
 			holder.llayout_2.addView(imageView);
@@ -133,7 +161,7 @@ public class FusionAdapter extends BaseAdapter {
 					holder.llayout_pic3.addView(imageView);
 				}
 			}
-		}
+		}*/
 		int pic_height = holder.rlayout.getHeight();
 		int height = holder.tv_content.getHeight() + pic_height + 80;
 		Log.i("position = "+position, "tv_content="+holder.tv_content.getHeight());
