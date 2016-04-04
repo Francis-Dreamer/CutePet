@@ -116,7 +116,7 @@ public class PetStrategyFragment extends Fragment {
 	 */
 	private void getData(){
 	//	String url="http://192.168.1.106/index.php/home/api/getStrategy";
-		String url="http://192.168.1.107/index.php/home/api/getStrategy";
+		String url="http://192.168.1.106/index.php/home/api/getStrategy";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();

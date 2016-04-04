@@ -32,7 +32,7 @@ public class NewPhotoAlbumActivity extends Activity {
 	EditText et_name, et_describe;
 	private String username;
 //	private String httpHost = "http://192.168.1.106/index.php/home/api/newAlbum";
-	private String httpHost = "http://192.168.1.107/index.php/home/api/newAlbum";
+	private String httpHost = "http://192.168.1.106/index.php/home/api/newAlbum";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

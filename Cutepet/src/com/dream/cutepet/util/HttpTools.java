@@ -34,7 +34,7 @@ import android.util.Log;
 public class HttpTools {
 
 //	public static String HTTP_HOST = "http://192.168.1.106/index.php/home/api/";
-	public static String HTTP_HOST = "http://192.168.1.107/index.php/home/api/";
+	public static String HTTP_HOST = "http://192.168.1.106/index.php/home/api/";
 	public static String LOGIN_URL = "login";
 	public static String REGISTER_URL = "register";
 	public static String VERIFY_URL = "verify";

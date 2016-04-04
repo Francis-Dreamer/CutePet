@@ -25,7 +25,7 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
 //	private String url_top = "192.168.1.106";
-	private String url_top = "192.168.1.107";
+	private String url_top = "192.168.1.106";
 	
 	public DynamicDetailsBaseAdapter() {
 

@@ -39,7 +39,7 @@ public class ReleaseActivity extends Activity {
 	String view_address;
 	File file;
 	// String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
-	String url = "http://192.168.1.107/index.php/home/api/uploadPetStore";
+	String url = "http://192.168.1.106/index.php/home/api/uploadPetStore";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,6 @@ public class ReleaseActivity extends Activity {
 	 * iv_petStore_select的点击事件
 	 */
 	OnClickListener clickListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {

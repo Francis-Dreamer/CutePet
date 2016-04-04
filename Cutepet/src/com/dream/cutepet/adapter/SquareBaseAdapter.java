@@ -25,7 +25,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
 //	String urlTop = "http://192.168.1.106";
-	String urlTop = "http://192.168.1.107";
+	String urlTop = "http://192.168.1.106";
 
 	public SquareBaseAdapter() {
 

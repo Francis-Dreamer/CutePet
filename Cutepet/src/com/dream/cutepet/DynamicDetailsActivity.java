@@ -44,7 +44,7 @@ public class DynamicDetailsActivity extends Activity {
 	String str_edit;
 	EditText dynamic_details_edit;
 	// String urlTop = "http://192.168.1.106";
-	String urlTop = "http://192.168.1.107";
+	String urlTop = "http://192.168.1.106";
 	AsyncImageLoader imageLoader;
 	TextView dynamic_details_nickname;
 	TextView dynamic_details_time;
@@ -109,17 +109,26 @@ public class DynamicDetailsActivity extends Activity {
 
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
-		View dynamic_details_headerview = inflater.inflate(R.layout.dynamic_details_head_view, null);
+		View dynamic_details_headerview = inflater.inflate(
+				R.layout.dynamic_details_head_view, null);
 
-		dynamic_details_nickname = (TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_nickname);
-		dynamic_details_time = (TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_time);
-		dynamic_details_address = (TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_address);
-		dynamic_details_content = (TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_content);
-		dynamic_details_image = (ImageView) dynamic_details_headerview.findViewById(R.id.dynamic_details_image);
-		dynamic_details_like = (TextView) dynamic_details_headerview.findViewById(R.id.dynamic_details_praise_num);
-		llayout_details_icon = (LinearLayout) dynamic_details_headerview.findViewById(R.id.llayout_details_icon);
+		dynamic_details_nickname = (TextView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_nickname);
+		dynamic_details_time = (TextView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_time);
+		dynamic_details_address = (TextView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_address);
+		dynamic_details_content = (TextView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_content);
+		dynamic_details_image = (ImageView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_image);
+		dynamic_details_like = (TextView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_praise_num);
+		llayout_details_icon = (LinearLayout) dynamic_details_headerview
+				.findViewById(R.id.llayout_details_icon);
 
-		tv_add_attention = (TextView) dynamic_details_headerview.findViewById(R.id.add_attention);
+		tv_add_attention = (TextView) dynamic_details_headerview
+				.findViewById(R.id.add_attention);
 		tv_add_attention.setOnClickListener(clickListener);
 
 		// 头像
@@ -146,14 +155,16 @@ public class DynamicDetailsActivity extends Activity {
 		if (!TextUtils.isEmpty(portraitUrl) && !portraitUrl.equals("null")) {
 			String url_portrait = urlTop + portraitUrl;
 			dynamic_details_portrait.setTag(url_portrait);
-			Bitmap bt = imageLoader.loadImage(dynamic_details_portrait, url_portrait);
+			Bitmap bt = imageLoader.loadImage(dynamic_details_portrait,
+					url_portrait);
 			if (bt != null) {
 				dynamic_details_portrait.setImageBitmap(bt);
 			}
 		}
 
 		listView.addHeaderView(dynamic_details_headerview);
-		adapter = new DynamicDetailsBaseAdapter(dynamicDetailsData.getMessage(), this);
+		adapter = new DynamicDetailsBaseAdapter(
+				dynamicDetailsData.getMessage(), this);
 		listView.setAdapter(adapter);
 	}
 
@@ -163,7 +174,8 @@ public class DynamicDetailsActivity extends Activity {
 	 * @param num
 	 */
 	private void initPraiseIcon(int num) {
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 8, 0);
 		for (int i = 0; i < data_icon.size(); i++) {
 			ImageView child = new ImageView(this);
@@ -190,7 +202,7 @@ public class DynamicDetailsActivity extends Activity {
 	private void setParise() {
 		// String url =
 		// "http://192.168.1.106/index.php/home/api/uploadPraise_square";
-		String url = "http://192.168.1.107/index.php/home/api/uploadPraise_square";
+		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_square";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -207,8 +219,9 @@ public class DynamicDetailsActivity extends Activity {
 				public void end(String result) {
 					try {
 						JSONObject jsonObject = new JSONObject(result);
-						Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(getApplicationContext(),
+								jsonObject.getString("message"),
+								Toast.LENGTH_SHORT).show();
 						getData_icon();
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -226,7 +239,7 @@ public class DynamicDetailsActivity extends Activity {
 	private void getData_icon() {
 		// String url =
 		// "http://192.168.1.106/index.php/home/api/getPraise_square_icon";
-		String url = "http://192.168.1.107/index.php/home/api/getPraise_square_icon";
+		String url = "http://192.168.1.106/index.php/home/api/getPraise_square_icon";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -264,7 +277,7 @@ public class DynamicDetailsActivity extends Activity {
 	private void getData_comment() {
 		// String url =
 		// "http://192.168.1.106/index.php/home/api/getSquareComment";
-		String url = "http://192.168.1.107/index.php/home/api/getSquareComment";
+		String url = "http://192.168.1.106/index.php/home/api/getSquareComment";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -292,7 +305,7 @@ public class DynamicDetailsActivity extends Activity {
 		String content = dynamic_details_edit.getText().toString().trim();
 		// String url_send =
 		// "http://192.168.1.106/index.php/home/api/uploadSquareComment";
-		String url_send = "http://192.168.1.107/index.php/home/api/uploadSquareComment";
+		String url_send = "http://192.168.1.106/index.php/home/api/uploadSquareComment";
 		if (!TextUtils.isEmpty(content)) {
 			try {
 				HttpPost httpPost = HttpPost.parseUrl(url_send);
@@ -312,8 +325,9 @@ public class DynamicDetailsActivity extends Activity {
 					public void end(String result) {
 						try {
 							JSONObject jsonObject = new JSONObject(result);
-							Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(getApplicationContext(),
+									jsonObject.getString("message"),
+									Toast.LENGTH_SHORT).show();
 							dynamic_details_edit.setText("");
 							getData_comment();
 						} catch (JSONException e) {
@@ -325,7 +339,8 @@ public class DynamicDetailsActivity extends Activity {
 				e.printStackTrace();
 			}
 		} else {
-			Toast.makeText(getApplicationContext(), "评论内容不能为空！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "评论内容不能为空！",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -333,7 +348,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * 关注
 	 */
 	private void attention() {
-		String url_send = "http://192.168.1.107/index.php/home/api/attention";
+		String url_send = "http://192.168.1.106/index.php/home/api/attention";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -345,7 +360,6 @@ public class DynamicDetailsActivity extends Activity {
 				@Override
 				public void start() {
 				}
-
 				@Override
 				public void end(String result) {
 					try {
@@ -358,31 +372,11 @@ public class DynamicDetailsActivity extends Activity {
 							tv_add_attention.setText("已关注");
 						} else if (status == -1) {
 							tv_add_attention.setText("+关注");
-							
-		String content = dynamic_details_edit.getText().toString().trim();
-		String url_send = "http://192.168.1.107/index.php/home/api/attention";
-		if (!TextUtils.isEmpty(content)) {
-			try {
-				HttpPost httpPost = HttpPost.parseUrl(url_send);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("tel", username);
-				map.put("friend_username", uid);
-				httpPost.putMap(map);
-				httpPost.send();
-				httpPost.setOnSendListener(new OnSendListener() {
-					@Override
-					public void start() {
-					}
-					@Override
-					public void end(String result) {
-						try {
-							JSONObject jsonObject = new JSONObject(result);
-							Toast.makeText(getApplicationContext(),jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
-						} catch (JSONException e) {
-							e.printStackTrace();
 						}
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-				
+				}
 			});
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -409,7 +403,6 @@ public class DynamicDetailsActivity extends Activity {
 			}
 		}
 	};
-	
 
 	/**
 	 * 返回

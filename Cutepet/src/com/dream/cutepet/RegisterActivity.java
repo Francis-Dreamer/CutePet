@@ -92,7 +92,7 @@ public class RegisterActivity extends Activity {
 	 */
 	private void yanzhengma(String tel) {
 	//	String httpHost = "http://192.168.1.106/index.php/home/api/verify";
-		String httpHost = "http://192.168.1.107/index.php/home/api/verify";
+		String httpHost = "http://192.168.1.106/index.php/home/api/verify";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost);
 			httpPost.putString("tel", tel);
@@ -131,7 +131,7 @@ public class RegisterActivity extends Activity {
 	 */
 	private void register(String tel, String verify, String password) {
 	//	String httpHost_add = "http://192.168.1.106/index.php/home/api/register";
-		String httpHost_add = "http://192.168.1.107/index.php/home/api/register";
+		String httpHost_add = "http://192.168.1.106/index.php/home/api/register";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(httpHost_add);
 			Map<String, String> map = new HashMap<String, String>();

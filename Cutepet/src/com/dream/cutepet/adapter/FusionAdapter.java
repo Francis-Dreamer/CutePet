@@ -30,7 +30,7 @@ public class FusionAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	List<FusionModel> data;
 	FusionPictureAdapter adapter;
-	String url_Top = "http://192.168.1.107";
+	String url_Top = "http://192.168.1.106";
 	AsyncImageLoader imageLoader;
 
 	public FusionAdapter() {
