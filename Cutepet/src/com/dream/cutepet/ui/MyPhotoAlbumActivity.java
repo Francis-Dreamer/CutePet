@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -64,7 +67,6 @@ public class MyPhotoAlbumActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-	//	String url = "http://192.168.11.238/index.php/home/api/getPhoto";
 		String url = "http://192.168.11.238/index.php/home/api/getPhoto";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -77,10 +79,18 @@ public class MyPhotoAlbumActivity extends Activity {
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);
-					data = PhotoAlbumModel.setJson(result).getMessage();
+					try {
+						JSONObject jb = new JSONObject(result);
+						if (jb.getInt("status") == 1) {
+							data = PhotoAlbumModel.setJson(result).getMessage();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
 					adapter.setData(data);
 				}
 			});

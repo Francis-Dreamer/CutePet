@@ -22,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +44,6 @@ public class DynamicDetailsActivity extends Activity {
 	RadioGroup radioGroup_bottom;
 	String str_edit;
 	EditText dynamic_details_edit;
-	// String urlTop = "http://192.168.11.238";
 	String urlTop = "http://192.168.11.238";
 	AsyncImageLoader imageLoader;
 	TextView dynamic_details_nickname;
@@ -124,6 +124,7 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.dynamic_details_image);
 		dynamic_details_like = (TextView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_praise_num);
+		
 		llayout_details_icon = (LinearLayout) dynamic_details_headerview
 				.findViewById(R.id.llayout_details_icon);
 
@@ -173,12 +174,14 @@ public class DynamicDetailsActivity extends Activity {
 	 * 
 	 * @param num
 	 */
-	private void initPraiseIcon(int num) {
+	private void initPraiseIcon() {
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 8, 0);
+		
+		llayout_details_icon.removeAllViews();
 		for (int i = 0; i < data_icon.size(); i++) {
-			ImageView child = new ImageView(this);
+			ImageView child = new ImageView(DynamicDetailsActivity.this);
 			String img = data_icon.get(i);
 			if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 				String url_img = urlTop + img;
@@ -191,7 +194,7 @@ public class DynamicDetailsActivity extends Activity {
 				llayout_details_icon.addView(child);
 			}
 		}
-		dynamic_details_like.setText(num + "");
+		dynamic_details_like.setText(data_icon.size() + "");
 	}
 
 	/**
@@ -200,9 +203,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * @param position
 	 */
 	private void setParise() {
-		// String url =
-		// "http://192.168.11.238/index.php/home/api/uploadPraise_square";
-		String url = "http://192.168.1.107/index.php/home/api/uploadPraise_square";
+		String url = "http://192.168.11.238/index.php/home/api/uploadPraise_square";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -237,9 +238,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取点赞头像数据
 	 */
 	private void getData_icon() {
-		// String url =
-		// "http://192.168.11.238/index.php/home/api/getPraise_square_icon";
-		String url = "http://192.168.1.107/index.php/home/api/getPraise_square_icon";
+		String url = "http://192.168.11.238/index.php/home/api/getPraise_square_icon";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -255,11 +254,11 @@ public class DynamicDetailsActivity extends Activity {
 						JSONObject jsonObject = new JSONObject(result);
 						if (jsonObject.getInt("status") == 1) {
 							JSONArray arr = jsonObject.getJSONArray("message");
+							data_icon.clear();
 							for (int i = 0; i < arr.length(); i++) {
 								data_icon.add(arr.getString(i));
 							}
-							int num = jsonObject.getInt("size");
-							initPraiseIcon(num);
+							initPraiseIcon();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -275,9 +274,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取评论数据
 	 */
 	private void getData_comment() {
-		// String url =
-		// "http://192.168.11.238/index.php/home/api/getSquareComment";
-		String url = "http://192.168.1.107/index.php/home/api/getSquareComment";
+		String url = "http://192.168.11.238/index.php/home/api/getSquareComment";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -303,7 +300,7 @@ public class DynamicDetailsActivity extends Activity {
 	 */
 	private void send() {
 		String content = dynamic_details_edit.getText().toString().trim();
-		String url_send = "http://192.168.1.107/index.php/home/api/uploadSquareComment";
+		String url_send = "http://192.168.11.238/index.php/home/api/uploadSquareComment";
 		if (!TextUtils.isEmpty(content)) {
 			try {
 				HttpPost httpPost = HttpPost.parseUrl(url_send);
@@ -358,6 +355,7 @@ public class DynamicDetailsActivity extends Activity {
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
 					try {
