@@ -102,7 +102,6 @@ public class HomePageFragment extends Fragment implements CallParise,
 				}
 
 				public void end(String result) {
-					Log.e("sssssssss", result);
 					data_petStore = PetStoreModel.setJson(result);
 					initPetStoreView();
 				}
