@@ -2,6 +2,7 @@
 
 import java.net.MalformedURLException;
 import java.util.List;
+import com.dream.cutepet.DynamicDetailsActivity;
 //import com.dream.cutepet.DynamicDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.SquareBaseAdapter;
@@ -142,7 +143,7 @@ public class SquareFragment extends Fragment {
 				long id) {
 			if (checkLogin()) {
 				Intent intent = new Intent();
-		//		intent.setClass(getActivity(), DynamicDetailsActivity.class);
+				intent.setClass(getActivity(), DynamicDetailsActivity.class);
 				squareId = data.get(position - 1).getSquare_id();
 				squareUsername = data.get(position - 1).getSquare_username();
 				squarePortrait = data.get(position - 1).getSquare_portrait();
@@ -175,8 +176,8 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-	//	String url = "http://192.168.1.106/index.php/home/api/getTalk";
-		String url = "http://192.168.1.106/index.php/home/api/getTalk";
+	//	String url = "http://192.168.11.238/index.php/home/api/getTalk";
+		String url = "http://192.168.11.238/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();

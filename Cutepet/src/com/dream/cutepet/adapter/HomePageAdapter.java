@@ -28,8 +28,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	LayoutInflater inflater;
 	LayoutInflater inflater_m;
 	private AsyncImageLoader imageLoader;
-//	String url_Top = "http://192.168.1.106";
-	String url_Top = "http://192.168.1.106";
+//	String url_Top = "http://192.168.11.238";
+	String url_Top = "http://192.168.11.238";
 	private CallParise mCallParise;
 	private SetMessage mSetMessage;
 

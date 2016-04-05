@@ -33,8 +33,8 @@ import android.util.Log;
  */
 public class HttpTools {
 
-//	public static String HTTP_HOST = "http://192.168.1.106/index.php/home/api/";
-	public static String HTTP_HOST = "http://192.168.1.106/index.php/home/api/";
+//	public static String HTTP_HOST = "http://192.168.11.238/index.php/home/api/";
+	public static String HTTP_HOST = "http://192.168.11.238/index.php/home/api/";
 	public static String LOGIN_URL = "login";
 	public static String REGISTER_URL = "register";
 	public static String VERIFY_URL = "verify";
@@ -96,7 +96,7 @@ public class HttpTools {
 	@SuppressWarnings("unused")
 	private String postconn(String tel, String password) throws JSONException {
 		StringBuilder builder = new StringBuilder();// 初始化一个StrngBuilder的对象
-		String httpHost = "http://192.168.1.106/index.php/home/api/login";
+		String httpHost = "http://192.168.11.238/index.php/home/api/login";
 		String urltel = "tel=";
 		String passwordkey = "password=";
 		try {
@@ -199,7 +199,7 @@ public class HttpTools {
 	 */
 	private String getverify(String tel) throws ProtocolException, IOException {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.1.106/index.php/home/api/verify";
+		String httpHost = "http://192.168.11.238/index.php/home/api/verify";
 		String urltel = "tel=";
 
 		String urlName = httpHost + "?" + urltel + tel;// url资源地址
@@ -282,7 +282,7 @@ public class HttpTools {
 	 */
 	private String getregister(String tel, String verify, String password) {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.1.106/index.php/home/api/register";
+		String httpHost = "http://192.168.11.238/index.php/home/api/register";
 		String urltel = "tel=";
 		String verifykey = "verify=";
 		String passwordkey = "password=";
@@ -373,7 +373,7 @@ public class HttpTools {
 			String hometown, String mail, String personality, String attention,
 			String fans, String enshrine) {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.1.106/index.php/home/api/userdata";
+		String httpHost = "http://192.168.11.238/index.php/home/api/userdata";
 		String urltel = "tel=";
 		String tokenkey = "token=";
 		String logokey = "logo=";
@@ -464,7 +464,7 @@ public class HttpTools {
 	// 用户资料查询
 	public String setuserdata(String tel, String token) {
 		StringBuilder builder = new StringBuilder();
-		String httpHost = "http://192.168.1.106/index.php/home/api/demand";
+		String httpHost = "http://192.168.11.238/index.php/home/api/demand";
 		String telkey = "tel=";
 		String tokenkey = "token=";
 
