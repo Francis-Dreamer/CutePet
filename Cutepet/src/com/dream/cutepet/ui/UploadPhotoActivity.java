@@ -60,7 +60,7 @@ public class UploadPhotoActivity extends Activity {
 	private String title;
 	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
-	private String actionUrl = "http://192.168.1.106/index.php/home/api/uploadPhoto";
+	private String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

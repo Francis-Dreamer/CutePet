@@ -44,7 +44,7 @@ public class SetPetIconActivity extends Activity {
 	SetPetIconAdapter adapter;
 	int checkedNum = 0;// 记录选中的条目数量
 	private String username;
-	private String url = "http://192.168.1.106/index.php/home/api/uploadPetIcon";
+	private String url = "http://192.168.11.238/index.php/home/api/uploadPetIcon";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

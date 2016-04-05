@@ -17,7 +17,7 @@ import android.widget.ImageView.ScaleType;
 public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 	List<String> data;
 	Context context;
-	private String url_Top = "http://192.168.1.106";
+	private String url_Top = "http://192.168.11.238";
 	private AsyncImageLoader imageLoader;
 
 	public MyPhotoAlbumGridviewAdapter() {

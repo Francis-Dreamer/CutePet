@@ -129,8 +129,8 @@ public class PersonalInformationActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-	//	String url = "http://192.168.1.106/index.php/home/api/demand";
-		String url = "http://192.168.1.106/index.php/home/api/demand";
+	//	String url = "http://192.168.11.238/index.php/home/api/demand";
+		String url = "http://192.168.11.238/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -230,7 +230,7 @@ public class PersonalInformationActivity extends Activity {
 				map.put("personality", personality);
 				map.put("tel", tel);
 				map.put("token", token);
-				String httpHost = "http://192.168.1.106/index.php/home/api/userdata";
+				String httpHost = "http://192.168.11.238/index.php/home/api/userdata";
 				HttpTools http = new HttpTools();
 				http.getIssue(httpHost, map, inssueListener);
 				/*
