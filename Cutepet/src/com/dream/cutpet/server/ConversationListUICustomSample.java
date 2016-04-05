@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,8 +34,14 @@ public class ConversationListUICustomSample extends IMConversationListUI {
 	@Override
 	public View getCustomConversationListTitle(final Fragment fragment,
 			Context context, LayoutInflater inflater) {
+//		 TextView textView=new TextView(context);
+//		 textView.setText("最近联系人");
+//		 textView.setGravity(Gravity.CENTER);
+//		 textView.setTextColor(Color.BLACK);
+//		 textView.setBackgroundColor(Color.parseColor("#FFDA44"));
+//		 textView.setTextSize(18);
 		View view = inflater.inflate(R.layout.activity_dialog,
-				new RelativeLayout(context), false);
+				new LinearLayout(context), false);
 		TextView textTittle = (TextView) view.findViewById(R.id.title);
 		ImageView imageBack = (ImageView) view.findViewById(R.id.back);
 		textTittle.setText("最近联系人");
@@ -45,12 +53,7 @@ public class ConversationListUICustomSample extends IMConversationListUI {
 					fragment.getActivity().startActivity(intent);
 			}
 		});
-		// TextView textView=new TextView(context);
-		// textView.setText("最近联系人");
-		// textView.setGravity(Gravity.CENTER);
-		// textView.setTextColor(Color.BLACK);
-		// textView.setBackgroundColor(Color.parseColor("#FFDA44"));
-		// textView.setTextSize(18);
+	
 		return view;
 	}
 }
