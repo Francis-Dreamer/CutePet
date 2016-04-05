@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SelectPhotoActivity extends Activity {
@@ -53,9 +54,10 @@ public class SelectPhotoActivity extends Activity {
 	
 	private void initview() {
 
-		tv_selectPhoto_cancel = (TextView) findViewById(R.id.tv_selectPhoto_cancel);
-		tv_selectPhoto_cancel.setOnClickListener(clickListener);
-
+		ImageView back=(ImageView) findViewById(R.id.back);
+		back.setOnClickListener(clickListener);
+		TextView title=(TextView) findViewById(R.id.title);
+		title.setText("照片");
 		gridView = (GridView) findViewById(R.id.gv_select_photo);
 
 		adapter = new SelectPhotoBaseAdapter(data_img, this);
@@ -84,7 +86,7 @@ public class SelectPhotoActivity extends Activity {
 
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.tv_selectPhoto_cancel:
+			case R.id.back:
 				finish();
 				break;
 			default:
