@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 
@@ -25,7 +26,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 	HomePageFragment homePageFragmentChen;
 	PetStrategyFragment petStrategyFragment;
 
-	TextView resources, strategy;
+	RadioButton resources, strategy;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -33,8 +34,8 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_homepage_pet_strategy, null);
 
-		resources = (TextView) view.findViewById(R.id.resources);
-		strategy = (TextView) view.findViewById(R.id.strategy);
+		resources = (RadioButton) view.findViewById(R.id.resources);
+		strategy = (RadioButton) view.findViewById(R.id.strategy);
 		
 		FragmentManager fm=getFragmentManager();
 		FragmentTransaction transaction=fm.beginTransaction();
@@ -43,7 +44,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 		petStrategyFragment=new PetStrategyFragment();
 		transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 		transaction.commit();
-
+		resources.setChecked(true);
 		resources.setOnClickListener(clickListener);
 		strategy.setOnClickListener(clickListener);
 
@@ -61,12 +62,16 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 			FragmentTransaction transaction=fm.beginTransaction();
 			switch (v.getId()) {
 			case R.id.resources:
+				resources.setChecked(true);
+				strategy.setChecked(false);
 				if(homePageFragmentChen==null){
 					homePageFragmentChen=new HomePageFragment();
 				}
 				transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 				break;
 			case R.id.strategy:
+				strategy.setChecked(true);
+				resources.setChecked(false);
 				if(petStrategyFragment==null){
 					petStrategyFragment=new PetStrategyFragment();
 				}
