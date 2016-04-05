@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
@@ -25,10 +23,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dream.cutepet.model.UserModel;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.HttpTools;
@@ -60,7 +58,7 @@ public class PersonalInformationActivity extends Activity {
 	RadioButton radio_woman;
 
 	String nickname;
-	String sex;
+	String sex = "";
 	String birth;
 	String constellation;
 	String occupation;
@@ -74,19 +72,22 @@ public class PersonalInformationActivity extends Activity {
 	String tel;
 	String token;
 
-	UserModel data;
+	// UserModel data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
-		
+
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
 
 		edit_nickname = (EditText) findViewById(R.id.edit_nickname);
+		
 		radio_sex = (RadioGroup) findViewById(R.id.radio_sex);
+		radio_sex.setOnCheckedChangeListener(changeListener);
+		
 		text_birth = (TextView) findViewById(R.id.text_birth);
 		edit_constellation = (EditText) findViewById(R.id.edit_constellation);
 		edit_occupation = (EditText) findViewById(R.id.edit_occupation);
@@ -110,20 +111,24 @@ public class PersonalInformationActivity extends Activity {
 
 		back.setOnClickListener(ocl);
 		text_birth.setOnClickListener(ocl);
-		
+
 		getData();
 	}
-	public void getData(){
-		
+
+	/*
+	 * 判断是否登录
+	 */
+	public void getData() {
+
 		String result = SharedPreferencesUtil.getData(this);
 		if (result != null && !result.equals("")) {
 			String[] temp = result.split(",");
 			tel = temp[1];
 			token = temp[0];
-			
+
 			initData();
 		}
-		
+
 	}
 
 	/**
@@ -142,13 +147,13 @@ public class PersonalInformationActivity extends Activity {
 				@Override
 				public void start() {
 				}
-				
+
 				@Override
 				public void end(String result) {
 					// 获取后台传递过来的json值
-					//data = UserModel.changeJson(result);
+					// data = UserModel.changeJson(result);
 					try {
-						
+
 						JSONObject jb = new JSONObject(result);
 						JSONObject jsonObject = jb.getJSONObject("message");
 						nickname = jsonObject.optString("nickname", "");
@@ -161,12 +166,12 @@ public class PersonalInformationActivity extends Activity {
 						hometown = jsonObject.optString("hometown", "");
 						mail = jsonObject.optString("mail", "");
 						personality = jsonObject.optString("personality", "");
-						
+
 						updateView();
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					
+
 				}
 			});
 
@@ -177,9 +182,15 @@ public class PersonalInformationActivity extends Activity {
 
 	// UI控件的更新
 	private void updateView() {
-		
+
 		edit_nickname.setText(nickname);
-		// radio_sex.setRight("sex");
+		if (sex.equals("男")) {
+			radio_man.setChecked(true);
+			radio_woman.setChecked(false);
+		}else{
+			radio_man.setChecked(false);
+			radio_woman.setChecked(true);
+		}
 		text_birth.setText(birth);
 		edit_constellation.setText(constellation);
 		edit_occupation.setText(occupation);
@@ -189,6 +200,22 @@ public class PersonalInformationActivity extends Activity {
 		edit_mail.setText(mail);
 		edit_personality.setText(personality);
 	}
+
+	OnCheckedChangeListener changeListener = new OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup arg0, int arg1) {
+			switch (arg1) {
+			case R.id.radio_man:
+				sex = "男";
+				break;
+			case R.id.radio_woman:
+				sex = "女";
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	OnClickListener ocl = new OnClickListener() {
 		@Override
@@ -202,11 +229,11 @@ public class PersonalInformationActivity extends Activity {
 				break;
 			case 998:
 				nickname = edit_nickname.getText().toString();
-				if (radio_man.isChecked()) {
-					sex = "男";
-				} else {
-					sex = "女";
-				}
+//				if (radio_man.isChecked()) {
+//					sex = "男";
+//				} else {
+//					sex = "女";
+//				}
 				birth = text_birth.getText().toString();
 				constellation = edit_constellation.getText().toString();
 				occupation = edit_occupation.getText().toString();
@@ -215,7 +242,8 @@ public class PersonalInformationActivity extends Activity {
 				hometown = edit_hometown.getText().toString();
 				mail = edit_mail.getText().toString();
 				personality = edit_personality.getText().toString();
-
+				
+				
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("nickname", nickname);
 				map.put("sex", sex);
@@ -260,7 +288,7 @@ public class PersonalInformationActivity extends Activity {
 				} else {
 					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
 				}
-				
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

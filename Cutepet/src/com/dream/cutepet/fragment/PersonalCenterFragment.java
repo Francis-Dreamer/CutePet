@@ -48,7 +48,7 @@ public class PersonalCenterFragment extends Fragment {
 	LinearLayout linear_account;// 账户管理控件
 	LinearLayout linear_about;// 关于萌宠控件
 	LinearLayout linear_set;// 设置控件
-	RadioGroup radioGroup;
+	
 
 	TextView text_login;
 	TextView text_register;
@@ -66,6 +66,19 @@ public class PersonalCenterFragment extends Fragment {
 
 	ImageView image_toxiang;
 
+	String logo;
+	String attention;
+	String fans;
+	String collect;
+	String nickname;
+	String username;
+
+	TextView text_attention;
+	TextView text_fans;
+	TextView text_enshrine;
+	TextView text_nickname;
+	TextView text_tel;
+
 	// UserModel data;
 
 	@SuppressLint("InflateParams")
@@ -76,18 +89,41 @@ public class PersonalCenterFragment extends Fragment {
 
 		initView(view);
 
-		initData();
-
+//		CheckIsLogin();
+		
+		if(checkisLogin()){
+			//登录状态
+			judgeLongin();
+		}else{//未登录
+			judgeUnLongin();
+		}
+		
 		Log.i("onCreateView", "onCreateView");
 		CheckIsLogin();
 		return view;
 	}
 
+//	/*
+//	 * 判断是否登录
+//	 */
+//	public void getData() {
+//
+//		String result = SharedPreferencesUtil.getData(getActivity());
+//		if (result != null && !result.equals("")) {
+//			String[] temp = result.split(",");
+//			tel = temp[1];
+//			token = temp[0];
+//
+//			initData();
+//		}
+//
+//	}
+
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "";
+		String url = "http://192.168.11.238/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -102,8 +138,22 @@ public class PersonalCenterFragment extends Fragment {
 
 				@Override
 				public void end(String result) {
+					Log.i("PersonalCenterFragment", "initData = " + result);
 					// 获取后台传递过来的json值
 					// data = UserModel.changeJson(result);
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						JSONObject jo = jsonObject.getJSONObject("message");
+						logo = jo.optString("logo", "");
+						attention = jo.optString("attention", "");
+						fans = jo.optString("fans", "");
+						collect = jo.optString("collect", "");
+						nickname = jo.optString("nickname", "");
+						username = jo.optString("username", "");
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
 					updateView();
 				}
 			});
@@ -120,6 +170,13 @@ public class PersonalCenterFragment extends Fragment {
 		 * 
 		 * } //image_toxiang.setImageBitmap(null);
 		 */
+
+		// image_toxiang.setImageBitmap(logo);
+		text_attention.setText(attention);
+		text_fans.setText(fans);
+		text_enshrine.setText(collect);
+		text_nickname.setText(nickname);
+		text_tel.setText(username);
 	}
 
 	/**
@@ -147,6 +204,12 @@ public class PersonalCenterFragment extends Fragment {
 		personal_center = (RadioButton) view.findViewById(R.id.personal_center);
 
 		image_toxiang = (ImageView) view.findViewById(R.id.image_toxiang);
+
+		text_attention = (TextView) view.findViewById(R.id.text_attention);
+		text_fans = (TextView) view.findViewById(R.id.text_fans);
+		text_enshrine = (TextView) view.findViewById(R.id.text_enshrine);
+		text_nickname = (TextView) view.findViewById(R.id.text_nickname);
+		text_tel = (TextView) view.findViewById(R.id.text_tel);
 
 		// 设置每个控件的点击事件
 		linear_personalInformation.setOnClickListener(ocl);
@@ -263,13 +326,29 @@ public class PersonalCenterFragment extends Fragment {
 			judgeUnLongin();
 		} else {
 			// 不为空，则显示个人信息
-			
 			String[] temp = result.split(",");
-
 			tel = temp[1];
 			token = temp[0];
-
 			judgeLongin();
+		}
+	}
+	
+	/**
+	 * 判断 是否 处于登录 状态
+	 * @return
+	 * 	登录，返回true
+	 */
+	private boolean checkisLogin(){
+		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
+		if (result == null || result.equals("")) {// 判断获取的token值是否为空
+			Log.i("CheckIsLogin", "当前没有处于登录状态");
+			return false;
+		} else {
+			// 不为空，则显示个人信息
+			String[] temp = result.split(",");
+			tel = temp[1];
+			token = temp[0];
+			return true;
 		}
 	}
 
@@ -322,6 +401,7 @@ public class PersonalCenterFragment extends Fragment {
 	public void judgeLongin() {
 		relative_weidenglu.setVisibility(View.GONE);
 		relative_yidenglu.setVisibility(View.VISIBLE);
+		initData();
 	}
 
 	/**

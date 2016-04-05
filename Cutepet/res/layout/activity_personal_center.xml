@@ -213,6 +213,7 @@
                     android:textColor="#333333" />
 
                 <TextView
+                    android:id="@+id/text_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/text_nicheng"
@@ -231,6 +232,7 @@
                     android:textColor="#333333" />
 
                 <TextView
+                    android:id="@+id/text_tel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/text_id"
@@ -264,6 +266,7 @@
                             android:textColor="#ffffff" />
 
                         <TextView
+                            android:id="@+id/text_attention"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/px10"
@@ -292,6 +295,7 @@
                             android:textColor="#ffffff" />
 
                         <TextView
+                            android:id="@+id/text_fans"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/px10"
@@ -320,6 +324,7 @@
                             android:textColor="#ffffff" />
 
                         <TextView
+                            android:id="@+id/text_enshrine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/px10"
