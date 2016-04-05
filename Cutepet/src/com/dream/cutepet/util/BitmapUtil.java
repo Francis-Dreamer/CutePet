@@ -1,8 +1,17 @@
 package com.dream.cutepet.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -10,6 +19,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Environment;
 
 public class BitmapUtil extends Activity {
 
@@ -68,7 +78,7 @@ public class BitmapUtil extends Activity {
 		paint.setAntiAlias(true);// 设置抗锯齿
 
 		canvas.drawARGB(0, 0, 0, 0);// 清屏
-		
+
 		paint.setColor(0xff424242);// 设置颜色
 
 		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);// 以roudPx为圆心画一个圆
@@ -98,6 +108,174 @@ public class BitmapUtil extends Activity {
 		Bitmap newBitmap = Bitmap.createBitmap(output, 0, 0, roundWidth,
 				roundHeight, matrix, true);
 		return newBitmap;
+	}
+
+	/**
+	 * 将图片进行比例压缩
+	 * 
+	 * @param srcPath
+	 *            图片的路径
+	 * @param img_height
+	 *            压缩后的图片高
+	 * @param img_width
+	 *            压缩后的图片宽
+	 * @return 压缩好的bitmap型图片
+	 */
+	public static Bitmap getimage(String srcPath, float img_height,
+			float img_width) {
+		BitmapFactory.Options newOpts = new BitmapFactory.Options();
+		// 开始读入图片，此时把options.inJustDecodeBounds 设回true了
+		newOpts.inJustDecodeBounds = true;
+		Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);// 此时返回bm为空
+
+		newOpts.inJustDecodeBounds = false;
+		int w = newOpts.outWidth;
+		int h = newOpts.outHeight;
+		float hh = img_height;
+		float ww = img_width;
+		// 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+		int be = 1;// be=1表示不缩放
+		if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩放
+			be = (int) (newOpts.outWidth / ww);
+		} else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩放
+			be = (int) (newOpts.outHeight / hh);
+		}
+		if (be <= 0)
+			be = 1;
+		newOpts.inSampleSize = be;// 设置缩放比例
+		// 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+		bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+		return compressImage(bitmap);// 压缩好比例大小后再进行质量压缩
+	}
+
+	/**
+	 * 将图片进行比例压缩
+	 * 
+	 * @param image
+	 *            bitmap型的图片
+	 * @param img_height
+	 *            压缩后的图片的高
+	 * @param img_width
+	 *            压缩后的图片的宽
+	 * @return 压缩好的 bitmap型图片
+	 */
+	public static Bitmap comp(Bitmap image, float img_height, float img_width) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		if (baos.toByteArray().length / 1024 > 1024) {// 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
+			baos.reset();// 重置baos即清空baos
+			image.compress(Bitmap.CompressFormat.JPEG, 50, baos);// 这里压缩50%，把压缩后的数据存放到baos中
+		}
+		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+		BitmapFactory.Options newOpts = new BitmapFactory.Options();
+		// 开始读入图片，此时把options.inJustDecodeBounds 设回true了
+		newOpts.inJustDecodeBounds = true;
+		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+		newOpts.inJustDecodeBounds = false;
+		int w = newOpts.outWidth;
+		int h = newOpts.outHeight;
+		float hh = img_height;
+		float ww = img_width;
+		// 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+		int be = 1;// be=1表示不缩放
+		if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩放
+			be = (int) (newOpts.outWidth / ww);
+		} else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩放
+			be = (int) (newOpts.outHeight / hh);
+		}
+		if (be <= 0)
+			be = 1;
+		// 设置缩放比例
+		newOpts.inSampleSize = be;
+		// 降低图片从ARGB888到RGB565
+		newOpts.inPreferredConfig = Config.RGB_565;
+		// 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+		isBm = new ByteArrayInputStream(baos.toByteArray());
+		bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+		// 压缩好比例大小后再进行质量压缩
+		return compressImage(bitmap);
+	}
+
+	/**
+	 * 压缩图片的质量
+	 * 
+	 * @param image
+	 * @return
+	 */
+	public static Bitmap compressImage(Bitmap image) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		int options = 100;
+		while (baos.toByteArray().length / 1024 > 100) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+			// 重置baos即清空baos
+			baos.reset();
+			// 每次都减少10
+			options -= 10;
+			// 这里压缩options%，把压缩后的数据存放到baos中
+			image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+		}
+		// 把压缩后的数据baos存放到ByteArrayInputStream中
+		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+		// 把ByteArrayInputStream数据生成图片
+		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
+		return bitmap;
+	}
+
+	/**
+	 * 将bitmap型图片暂存为file对象
+	 * 
+	 * @param bm
+	 *            bitmap对象图片
+	 * @param bitName
+	 * @return
+	 * @throws IOException
+	 */
+	public static File saveMyBitmap(Bitmap bm) {
+		File sdDir = null;
+		boolean sdCardExist = Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+		}
+		File file = new File(sdDir.getPath() + File.separator + "101temp.png");
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		FileOutputStream fOut = null;
+		try {
+			fOut = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+		try {
+			fOut.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			fOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return file;
+	}
+
+	/**
+	 * 删除暂存的图片文件
+	 * 
+	 * @param file
+	 */
+	public static void deleteFile(File file) {
+		if (file.exists()) { // 判断文件是否存在
+			if (file.isFile()) { // 判断是否是文件
+				file.delete(); // delete()方法 你应该知道 是删除的意思;
+			}
+			file.delete();
+		}
 	}
 
 }

@@ -13,7 +13,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,8 +83,25 @@ public class PetStrategyFragment extends Fragment {
 				long id) {
 			Intent intent = new Intent();
 			int sendPosition=position-1;
+			PetStrategyModel model=new PetStrategyModel();
+			model=data.get(sendPosition);
+			String petName=model.getPet_strategy_comment_chinese_name();
+			String petGrade=model.getGrade();
+			String petMoney=model.getMoney();
+			String petTrait=model.getTrait();
+			String petContent_data=model.getPet_strategy_content_data();
+			String petImage=model.getPet_strategy_image();
+			
+			Bundle bundle=new Bundle();
+			bundle.putString("petName", petName);
+			bundle.putString("petGrade", petGrade);
+			bundle.putString("petMoney", petMoney);
+			bundle.putString("petTrait", petTrait);
+			bundle.putString("petContent_data", petContent_data);
+			bundle.putString("petImage", petImage);
+			
 			intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
-			intent.putExtra("petStrategyPosition", sendPosition);
+			intent.putExtras(bundle);
 			startActivityForResult(intent, 0);  
 		}
 	};
@@ -99,6 +115,7 @@ public class PetStrategyFragment extends Fragment {
 	 * 初始化数据
 	 */
 	private void getData(){
+	//	String url="http://192.168.11.238/index.php/home/api/getStrategy";
 		String url="http://192.168.11.238/index.php/home/api/getStrategy";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
@@ -107,7 +124,6 @@ public class PetStrategyFragment extends Fragment {
 				public void start() {
 				}
 				public void end(String result) {
-					Log.e("PetStrategyFragment", result);
 					data=PetStrategyModel.setJson(result);
 					adapter.setData(data);
 				}

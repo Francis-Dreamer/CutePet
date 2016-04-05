@@ -15,9 +15,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -33,6 +33,7 @@ import android.util.Log;
  */
 public class HttpTools {
 
+//	public static String HTTP_HOST = "http://192.168.11.238/index.php/home/api/";
 	public static String HTTP_HOST = "http://192.168.11.238/index.php/home/api/";
 	public static String LOGIN_URL = "login";
 	public static String REGISTER_URL = "register";
@@ -92,6 +93,7 @@ public class HttpTools {
 	/*
 	 * 登录接口
 	 */
+	@SuppressWarnings("unused")
 	private String postconn(String tel, String password) throws JSONException {
 		StringBuilder builder = new StringBuilder();// 初始化一个StrngBuilder的对象
 		String httpHost = "http://192.168.11.238/index.php/home/api/login";
@@ -100,17 +102,20 @@ public class HttpTools {
 		try {
 			String passwordString = URLEncoder.encode(password, "utf-8");
 			String oldString = URLEncoder.encode(tel, "utf-8");
-			String urlName = httpHost + "?" + urltel + tel + "&" + passwordkey + password;// url资源地址
+			String urlName = httpHost + "?" + urltel + tel + "&" + passwordkey
+					+ password;// url资源地址
 			URL url = new URL(urlName);// 根据url地址创建一个url的对象
 
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
 			connection.setRequestMethod("GET");// get方法获取
 			connection.setConnectTimeout(5000);
 			connection.connect();
 
 			if (connection.getResponseCode() == 200) {
 				InputStream inputStream = connection.getInputStream();
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+				BufferedReader bufferedReader = new BufferedReader(
+						new InputStreamReader(inputStream));
 				String line = bufferedReader.readLine();
 				while (line != null && line.length() > 0) {
 					builder.append(line);
@@ -209,7 +214,8 @@ public class HttpTools {
 			connection.connect();
 			connection.getInputStream();
 			InputStream inputStream = connection.getInputStream();
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(inputStream));
 			String line = bufferedReader.readLine();
 			while (line != null && line.length() > 0) {
 				builder.append(line);
@@ -281,7 +287,8 @@ public class HttpTools {
 		String verifykey = "verify=";
 		String passwordkey = "password=";
 
-		String urlName = httpHost + "?" + urltel + tel + "&" + verifykey + verify + "&" + passwordkey + password;
+		String urlName = httpHost + "?" + urltel + tel + "&" + verifykey
+				+ verify + "&" + passwordkey + password;
 		try {
 			URL url = new URL(urlName);
 
@@ -292,7 +299,8 @@ public class HttpTools {
 			connection.connect();
 			connection.getInputStream();
 			InputStream inputStream = connection.getInputStream();
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(inputStream));
 			String line = bufferedReader.readLine();
 			while (line != null && line.length() > 0) {
 				builder.append(line);
@@ -359,9 +367,11 @@ public class HttpTools {
 		}
 	};
 
-	public String getuserdata(String tel, String token, String logo, String nickname, String sex, String birth,
-			String constellation, String occupation, String corporation, String site, String hometown, String mail,
-			String personality, String attention, String fans, String enshrine) {
+	public String getuserdata(String tel, String token, String logo,
+			String nickname, String sex, String birth, String constellation,
+			String occupation, String corporation, String site,
+			String hometown, String mail, String personality, String attention,
+			String fans, String enshrine) {
 		StringBuilder builder = new StringBuilder();
 		String httpHost = "http://192.168.11.238/index.php/home/api/userdata";
 		String urltel = "tel=";
@@ -381,11 +391,15 @@ public class HttpTools {
 		String fanskey = "fans=";
 		String enshrinekey = "enshrine=";
 
-		String urlName = httpHost + "?" + urltel + tel + "&" + tokenkey + token + "&" + logokey + logo + "&"
-				+ nicknamekey + nickname + "&" + sexkey + sex + "&" + birthkey + birth + "&" + constellationkey
-				+ constellation + "&" + occupationkey + occupation + "&" + corporationkey + corporation + "&" + sitekey
-				+ site + "&" + hometownkey + hometown + "&" + mailkey + mail + "&" + personalitykey + personality
-				+ attentionkey + attention + "&" + fanskey + fans + "&" + enshrinekey + enshrine;
+		String urlName = httpHost + "?" + urltel + tel + "&" + tokenkey + token
+				+ "&" + logokey + logo + "&" + nicknamekey + nickname + "&"
+				+ sexkey + sex + "&" + birthkey + birth + "&"
+				+ constellationkey + constellation + "&" + occupationkey
+				+ occupation + "&" + corporationkey + corporation + "&"
+				+ sitekey + site + "&" + hometownkey + hometown + "&" + mailkey
+				+ mail + "&" + personalitykey + personality + attentionkey
+				+ attention + "&" + fanskey + fans + "&" + enshrinekey
+				+ enshrine;
 
 		try {
 			URL url = new URL(urlName);
@@ -397,7 +411,8 @@ public class HttpTools {
 			connection.connect();
 			connection.getInputStream();
 			InputStream inputStream = connection.getInputStream();
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(inputStream));
 			String line = bufferedReader.readLine();
 			while (line != null && line.length() > 0) {
 				builder.append(line);
@@ -465,7 +480,8 @@ public class HttpTools {
 			connection.connect();
 			connection.getInputStream();
 			InputStream inputStream = connection.getInputStream();
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(inputStream));
 			String line = bufferedReader.readLine();
 			while (line != null && line.length() > 0) {
 				builder.append(line);
@@ -496,11 +512,11 @@ public class HttpTools {
 	 */
 	OndemandListener demandListener;
 
-	public void setOndemandListener() {
+	public void setOndemandListener(OndemandListener demandListener) {
 		this.demandListener = demandListener;
 	}
-	
-	//异步
+
+	// 异步
 	class demandTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -527,8 +543,8 @@ public class HttpTools {
 	}
 
 	// 发送文字加文件的方法
-	public void issue(final String httpUrl, final Map<String, String> map, final ArrayList<File> files,
-			final IssueListener issueListener) {
+	public void issue(final String httpUrl, final Map<String, String> map,
+			final ArrayList<File> files, final IssueListener issueListener) {
 
 		new Thread(new Runnable() {
 
@@ -551,28 +567,36 @@ public class HttpTools {
 				String boundary = "*****";
 				try {
 					URL url = new URL(httpUrl);
-					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+					HttpURLConnection connection = (HttpURLConnection) url
+							.openConnection();
 					connection.setDoOutput(true);
 					connection.setDoInput(true);
 					connection.setUseCaches(false);
 					connection.setConnectTimeout(10000); // 连接超时为10秒
 					connection.setRequestMethod("POST");
-					connection.setRequestProperty("Accept-Encoding:", "gzip,deflate,sdch");
-					connection.setRequestProperty("Accept-Language:", "zh-CN,zh;q=0.8,en;q=0.6");
-					connection.setRequestProperty("User-Agent:",
-							"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+					connection.setRequestProperty("Accept-Encoding:",
+							"gzip,deflate,sdch");
+					connection.setRequestProperty("Accept-Language:",
+							"zh-CN,zh;q=0.8,en;q=0.6");
+					connection
+							.setRequestProperty(
+									"User-Agent:",
+									"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
 					connection.setRequestProperty("accept", "*/*");
 					connection.setRequestProperty("connection", "Keep-Alive");
 					connection.setRequestProperty("Charset", "UTF-8");
-					connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);// 设置请求数据类型并设置boundary部分；
+					connection.setRequestProperty("Content-Type",
+							"multipart/form-data; boundary=" + boundary);// 设置请求数据类型并设置boundary部分；
 					connection.connect();
 					// 获取输出流
-					DataOutputStream ds = new DataOutputStream(connection.getOutputStream());
-					Set<Map.Entry<String, String>> paramEntrySet = map.entrySet();
-					Iterator paramIterator = paramEntrySet.iterator();
+					DataOutputStream ds = new DataOutputStream(connection
+							.getOutputStream());
+					Set<Map.Entry<String, String>> paramEntrySet = map
+							.entrySet();
+					Iterator<Entry<String, String>> paramIterator = paramEntrySet
+							.iterator();
 					while (paramIterator.hasNext()) {
-						// @SuppressWarnings("unchecked")
-						Map.Entry<String, String> entry = (Map.Entry<String, String>) paramIterator.next();
+						Map.Entry<String, String> entry = paramIterator.next();
 
 						String key = entry.getKey();
 						String value = entry.getValue();
@@ -581,7 +605,8 @@ public class HttpTools {
 						// Log.i("charset before", "" + value);
 						// Log.i("charset after", "" +
 						// value.getBytes(Charset.forName("UTF-8")));
-						ds.writeBytes("Content-Disposition: form-data; " + "name=\"" + key + "\"" + end);
+						ds.writeBytes("Content-Disposition: form-data; "
+								+ "name=\"" + key + "\"" + end);
 						ds.writeBytes(end);
 						ds.write(value.getBytes(Charset.forName("UTF-8")));
 						ds.writeBytes(end);
@@ -593,12 +618,14 @@ public class HttpTools {
 
 					for (int i = 0; i < files.size(); i++) {
 						ds.writeBytes(twoHyphens + boundary + end);
-						ds.writeBytes("Content-Disposition: form-data; " + "name=\"file" + i + "\";filename=\""
+						ds.writeBytes("Content-Disposition: form-data; "
+								+ "name=\"file" + i + "\";filename=\""
 								+ "image" + i + ".png" + "\"" + end);
 						ds.writeBytes(end);
 
 						// * 取得文件的FileInputStream *//*
-						FileInputStream fStream = new FileInputStream(files.get(i).getAbsolutePath());
+						FileInputStream fStream = new FileInputStream(files
+								.get(i).getAbsolutePath());
 						// * 设置每次写入1024bytes *//*
 						int bufferSize = 1024;
 						byte[] buffer = new byte[bufferSize];
@@ -609,17 +636,16 @@ public class HttpTools {
 							ds.write(buffer, 0, length);
 							ds.flush();// 刷新数据
 						}
-
 						ds.writeBytes(end);
 						ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
 						ds.flush();
 						fStream.close();
 					}
-
 					ds.close();
 
 					// 定义BufferedReader输入流来读取URL的响应
-					in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					in = new BufferedReader(new InputStreamReader(connection
+							.getInputStream()));
 					int statusCode = connection.getResponseCode();
 					if (statusCode == HttpURLConnection.HTTP_OK) {
 						char[] buf = new char[1024];
@@ -631,16 +657,11 @@ public class HttpTools {
 						Log.i("result", result);
 						issueListener.getMessage(result);
 					}
-
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
 		}).start();
 	}
@@ -655,61 +676,68 @@ public class HttpTools {
 	/**
 	 * 此为获取动态的方法 httpUrl为访问网址 map为所需要传递的参数集合 getIssueListener为回调监听
 	 */
-	public void getIssue(final String httpUrl, final Map<String, String> map, final GetIssueListener getIssueListener) {
+	public void getIssue(final String httpUrl, final Map<String, String> map,
+			final GetIssueListener getIssueListener) {
 
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-
 				StringBuilder stringBuilder = new StringBuilder();
-
 				BufferedReader in = null;
 				String end = "\r\n";
 				String twoHyphens = "--";
 				String boundary = "*****";
 				try {
 					URL url = new URL(httpUrl);
-					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+					HttpURLConnection connection = (HttpURLConnection) url
+							.openConnection();
 					connection.setDoOutput(true);
 					connection.setDoInput(true);
 					connection.setUseCaches(false);
 					connection.setConnectTimeout(10000); // 连接超时为10秒
 					connection.setRequestMethod("POST");
-					connection.setRequestProperty("Accept-Encoding:", "gzip,deflate,sdch");
-					connection.setRequestProperty("Accept-Language:", "zh-CN,zh;q=0.8,en;q=0.6");
-					connection.setRequestProperty("User-Agent:",
-							"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+					connection.setRequestProperty("Accept-Encoding:",
+							"gzip,deflate,sdch");
+					connection.setRequestProperty("Accept-Language:",
+							"zh-CN,zh;q=0.8,en;q=0.6");
+					connection
+							.setRequestProperty(
+									"User-Agent:",
+									"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
 					connection.setRequestProperty("accept", "*/*");
 					connection.setRequestProperty("connection", "Keep-Alive");
 					connection.setRequestProperty("Charset", "UTF-8");
-					connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);// 设置请求数据类型并设置boundary部分；
+					connection.setRequestProperty("Content-Type",
+							"multipart/form-data; boundary=" + boundary);// 设置请求数据类型并设置boundary部分；
 					connection.connect();
 					// 获取输出流
-					DataOutputStream ds = new DataOutputStream(connection.getOutputStream());
-					Set<Map.Entry<String, String>> paramEntrySet = map.entrySet();
-					Iterator paramIterator = paramEntrySet.iterator();
+					DataOutputStream ds = new DataOutputStream(connection
+							.getOutputStream());
+					Set<Map.Entry<String, String>> paramEntrySet = map
+							.entrySet();
+					Iterator<Entry<String, String>> paramIterator = paramEntrySet
+							.iterator();
 					while (paramIterator.hasNext()) {
-						@SuppressWarnings("unchecked")
-						Map.Entry<String, String> entry = (Map.Entry<String, String>) paramIterator.next();
+						Map.Entry<String, String> entry = paramIterator.next();
 
 						String key = entry.getKey();
 						String value = entry.getValue();
 						Log.i("getIssue", "key = " + key + ",value = " + value);
 						ds.writeBytes(twoHyphens + boundary + end);
-						ds.writeBytes("Content-Disposition: form-data; " + "name=\"" + key + "\"" + end);
+						ds.writeBytes("Content-Disposition: form-data; "
+								+ "name=\"" + key + "\"" + end);
 						ds.writeBytes(end);
 						ds.write(value.getBytes(Charset.forName("UTF-8")));
 						ds.writeBytes(end);
 						ds.flush();
 					}
 					ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
-
 					ds.close();
 
 					// 定义BufferedReader输入流来读取URL的响应
-					in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					in = new BufferedReader(new InputStreamReader(connection
+							.getInputStream()));
 					int statusCode = connection.getResponseCode();
 					if (statusCode == HttpURLConnection.HTTP_OK) {
 						char[] buf = new char[1024];
@@ -730,5 +758,4 @@ public class HttpTools {
 			}
 		}).start();
 	}
-
 }

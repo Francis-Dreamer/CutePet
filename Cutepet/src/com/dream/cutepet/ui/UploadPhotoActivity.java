@@ -58,6 +58,8 @@ public class UploadPhotoActivity extends Activity {
 	int checkedNum = 0;// 记录选中的条目数量
 	private String username;
 	private String title;
+	@SuppressLint("SimpleDateFormat")
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 	private String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
 
 	@Override
@@ -130,22 +132,25 @@ public class UploadPhotoActivity extends Activity {
 				check_photo.add(file);
 			}
 		}
-		
+
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(actionUrl);
 			Map<String, String> msg = new HashMap<String, String>();
 			msg.put("tel", username);
 			msg.put("albumname", title);
-			msg.put("time", new Date().toString());
-			httpPost.putMap(msg);
+			msg.put("time", format.format(new Date()));
+			msg.put("quantity", check_photo.size() + "");
 			for (File temp : check_photo) {
+				httpPost.putMap(msg);
 				httpPost.putFile("file", temp, temp.getName(), null);
+				Log.i("httpPost", "img = " + temp.getName());
+				httpPost.send();
 			}
-			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);

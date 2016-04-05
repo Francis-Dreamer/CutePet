@@ -69,7 +69,6 @@ public class Notification {
 		AlertDialog dialog = new AlertDialog.Builder(context).setTitle("对话框")
 				.setMessage(message)
 				.setNeutralButton("看完了", new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
@@ -80,6 +79,7 @@ public class Notification {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public static void commonDialog(Context context, final String[] items) {
 		AlertDialog dialog = new AlertDialog.Builder(context)
 				.setTitle("对话框")
@@ -98,6 +98,7 @@ public class Notification {
 		public static final long TribeMessage = 2;
 	}
 
+	@SuppressWarnings("unused")
 	public static void showNotification(Context context, YWMessage p2pMsg,
 			YWMessage tribeMsg) {
 		NotificationManager nm = (NotificationManager) context

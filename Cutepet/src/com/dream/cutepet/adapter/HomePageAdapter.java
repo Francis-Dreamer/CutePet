@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,16 +28,17 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	LayoutInflater inflater;
 	LayoutInflater inflater_m;
 	private AsyncImageLoader imageLoader;
+//	String url_Top = "http://192.168.11.238";
 	String url_Top = "http://192.168.11.238";
 	private CallParise mCallParise;
 	private SetMessage mSetMessage;
-	
+
 	public HomePageAdapter() {
 
 	}
 
 	public HomePageAdapter(Context context, List<PersonageModel> data,
-			CallParise mCallParise,SetMessage mSetMessage) {
+			CallParise mCallParise, SetMessage mSetMessage) {
 		this.data = data;
 		this.context = context;
 		this.mCallParise = mCallParise;
@@ -107,6 +106,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					.findViewById(R.id.iv_homepage_personage_picture);
 			holder.tv_word = (TextView) convertView
 					.findViewById(R.id.tv_homepage_personage_word);
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -126,7 +126,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		holder.tv_message.setTag(position);
 
 		String icon = model.getLogo();
-		if (!TextUtils.isEmpty(icon)) {
+		if (!TextUtils.isEmpty(icon) && !icon.equals("null")) {
 			final String iconUrl = url_Top + icon;
 			// 给 ImageView 设置一个 tag
 			holder.icon.setTag(iconUrl);
@@ -141,7 +141,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		holder.tv_word.setText(model.getPicture_name());
 
 		String img = model.getPicture_icon();
-		if (!TextUtils.isEmpty(img)) {
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			// 获取图片的url地址
 			final String imgUrl = url_Top + img;
 			// 给 ImageView 设置一个 tag
@@ -163,9 +163,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		TextView tv_like;
 		TextView tv_send, tv_cancel;
 
-		LinearLayout llayout_msg;
-		EditText et_msg;
-		TextView tv_ok, tv_msgCancel;
 	}
 
 	@Override
@@ -180,6 +177,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		default:
 			break;
 		}
-	
+
 	}
 }

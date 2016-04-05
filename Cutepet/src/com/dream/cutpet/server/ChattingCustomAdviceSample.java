@@ -18,8 +18,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMChattingPageUI;
@@ -29,7 +27,8 @@ import com.alibaba.mobileim.conversation.YWMessage;
 import com.alibaba.mobileim.utility.YWIMImageUtils;
 import com.dream.cutepet.R;
 import com.dream.cutepet.fragment.ChatActivityFragment;
-import com.dream.cutepet.ui.PetStoreActivity;
+import com.dream.cutepet.model.PetStoreModel;
+
 /**
  * 会话列表自定义
  * @author Administrator
@@ -105,7 +104,11 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	@Override
+	public int getDefaultHeadImageResId() {
+		// TODO Auto-generated method stub
+		return R.drawable.icon_tx;
+	}
 	/**
 	 * getView方法内，返回View之前，对［聊天界面的右边消息item的View］做最后调整,如调整View的Padding。
 	 * 
@@ -251,6 +254,7 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 	/**
 	 * isv需要返回自定义的view. openIMSDK会回调这个方法，获取用户设置的view. Fragment 聊天界面的fragment
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public View getCustomTitleView(final Fragment fragment,
 			final Context context, LayoutInflater inflater,
@@ -268,9 +272,11 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 		imageBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
-					fragment.getActivity().startActivity(intent);
-
+				YWIMKit imKit=LoginSampleHelper.getInstance().getIMKit();
+				Intent intent = imKit.getConversationActivityIntent();
+				fragment.getActivity().startActivity(intent);
+//					Intent intent = new Intent(fragment.getActivity(), ChatActivityFragment.class);
+//					fragment.getActivity().startActivity(intent);
 			}
 		});
 		return view;

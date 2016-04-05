@@ -15,6 +15,15 @@ public class PetStoreModel {
 	private String address;// 地址
 	private String type;// 宠物种类
 	private String username;
+	private String id;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getLogo() {
 		return logo;
@@ -97,6 +106,7 @@ public class PetStoreModel {
 					model.name = ob.getString("storename");
 					model.address = ob.getString("address");
 					model.type = ob.getString("type");
+					model.id = ob.getString("id");
 					data.add(model);
 				}
 			}

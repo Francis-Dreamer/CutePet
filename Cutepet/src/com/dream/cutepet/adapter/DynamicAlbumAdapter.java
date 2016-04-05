@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.model.DynamicAlbumModel;
+import com.dream.cutepet.util.AsyncImageLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,30 +18,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DynamicAlbumAdapter extends BaseAdapter {
-	List<DynamicAlbumModel> data;
+	List<DynamicAlbumModel.AlbumData> data;
 	Context context;
 	LayoutInflater inflater;
-
+	private AsyncImageLoader imageLoader;
+	private String url_Top = "http://192.168.11.238";
+	
 	public DynamicAlbumAdapter() {
 
 	}
 
-	public DynamicAlbumAdapter(Context context, List<DynamicAlbumModel> data) {
+	public DynamicAlbumAdapter(Context context,
+			List<DynamicAlbumModel.AlbumData> data) {
 		this.data = data;
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
+		imageLoader = new AsyncImageLoader(context);
 	}
 
 	@Override
 	public int getCount() {
-		if(data!=null){
-			return data.size()+1;
-		}else{
+		if (data != null) {
+			return data.size() + 1;
+		} else {
 			return 0;
 		}
 	}
-	
-	public void setData(List<DynamicAlbumModel> data){
+
+	public void setData(List<DynamicAlbumModel.AlbumData> data) {
 		this.data = data;
 		this.notifyDataSetChanged();
 	}
@@ -71,19 +78,26 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		if(position != data.size()){
-			holder.imageView.setImageResource(Integer.parseInt(data.get(position)
-					.getLogo()));
-			holder.textView.setText(data.get(position).getTitle());
+			holder.tv_new.setVisibility(View.GONE);
+			String img = data.get(position).getAlbumlogo();
+			if(!TextUtils.isEmpty(img) && !img.equals("null")){
+				String url_img = url_Top + img;
+				holder.imageView.setTag(url_img);
+				Bitmap bm = imageLoader.loadImage(holder.imageView, url_img);
+				if(bm != null){
+					holder.imageView.setImageBitmap(bm);
+				}
+			}
+			holder.textView.setText(data.get(position).getAlbumname());
 		}else{
 			holder.tv_new.setVisibility(View.VISIBLE);
 		}
-		
 		return convertView;
 	}
 
 	class ViewHolder {
 		ImageView imageView;
-		TextView textView,tv_new;
+		TextView textView, tv_new;
 	}
 
 }

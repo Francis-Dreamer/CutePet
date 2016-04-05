@@ -18,21 +18,25 @@
             android:orientation="horizontal"
             android:padding="@dimen/px30" >
 
-            <TextView
+            <RadioButton
                 android:id="@+id/resources"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/px10"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:drawableBottom="@drawable/top_menu_black"
+                android:gravity="center"
                 android:text="@string/homepage"
                 android:textColor="#333333"
                 android:textSize="@dimen/px36" />
 
-            <TextView
+            <RadioButton
                 android:id="@+id/strategy"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/px74"
-                android:padding="@dimen/px10"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px73"
+                android:button="@null"
+                android:drawableBottom="@drawable/top_menu_black"
+                android:gravity="center"
                 android:text="@string/strategy"
                 android:textColor="#333333"
                 android:textSize="@dimen/px36" />

@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/px30"
                 android:numStars="5"
+                android:isIndicator="true"
                 android:progressDrawable="@drawable/ratingbar_style"
                 android:rating="3" />
 
@@ -89,10 +90,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/px40"
-        android:layout_marginEnd="@dimen/px36"
         android:layout_marginLeft="@dimen/px36"
         android:layout_marginRight="@dimen/px36"
-        android:layout_marginStart="@dimen/px36"
         android:layout_marginTop="@dimen/px40"
         android:layout_weight="1"
         android:text="@string/content"

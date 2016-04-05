@@ -1,6 +1,5 @@
 ﻿package com.dream.cutepet.fragment;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -84,12 +82,8 @@ public class PersonalCenterFragment extends Fragment {
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.activity_personal_center, null);
-
 		initView(view);
-
-//		CheckIsLogin();
 		
 		if(checkisLogin()){
 			//登录状态
@@ -352,34 +346,34 @@ public class PersonalCenterFragment extends Fragment {
 		}
 	}
 
-	private void unloadImage() {
-		String url = "";
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			// httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
-			File file = new File("图片在手机的路径地址");
-			String newName = file.getName();// 上传图片的图片的名字
-			httpPost.putFile("image", file, newName, null);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-
-				}
-
-				@Override
-				public void end(String result) {
-					// 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
-					Log.i("result", "result = " + result);
-
-				}
-			});
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-	}
+	// private void unloadImage() {
+	// String url = "";
+	// try {
+	// HttpPost httpPost = HttpPost.parseUrl(url);
+	// // httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
+	// File file = new File("图片在手机的路径地址");
+	// String newName = file.getName();// 上传图片的图片的名字
+	// httpPost.putFile("image", file, newName, null);
+	// httpPost.send();
+	// httpPost.setOnSendListener(new OnSendListener() {
+	// @Override
+	// public void start() {
+	//
+	// }
+	//
+	// @Override
+	// public void end(String result) {
+	// // 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
+	// Log.i("result", "result = " + result);
+	//
+	// }
+	// });
+	//
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
 
 	/*
 	 * private OnHttpListener mListener = new OnHttpListener() {

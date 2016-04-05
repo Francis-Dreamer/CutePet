@@ -1,9 +1,7 @@
 package com.dream.cutepet.model;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.dream.cutepet.R;
+import com.google.gson.Gson;
 
 /**
  * 动态相册的数据model
@@ -12,66 +10,101 @@ import com.dream.cutepet.R;
  * 
  */
 public class DynamicAlbumModel {
-	private String logo;
-	private String title;
-	private PhotoAlbumModel album;
+	private int status;
+	private List<AlbumData> message;
 
-	public String getLogo() {
-		return logo;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setLogo(String logo) {
-		this.logo = logo;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
-	public String getTitle() {
-		return title;
+	public List<AlbumData> getMessage() {
+		return message;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setMessage(List<AlbumData> message) {
+		this.message = message;
 	}
 
-	public PhotoAlbumModel getAlbum() {
-		return album;
-	}
+	public class AlbumData {
+		private String id;
+		private String username;
+		private String albumname;
+		private String albumlogo;
+		private String describe;
+		private String quantity;
+		private String create_time;
 
-	public void setAlbum(PhotoAlbumModel album) {
-		this.album = album;
-	}
+		public String getId() {
+			return id;
+		}
 
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getAlbumname() {
+			return albumname;
+		}
+
+		public void setAlbumname(String albumname) {
+			this.albumname = albumname;
+		}
+
+		public String getAlbumlogo() {
+			return albumlogo;
+		}
+
+		public void setAlbumlogo(String albumlogo) {
+			this.albumlogo = albumlogo;
+		}
+
+		public String getDescribe() {
+			return describe;
+		}
+
+		public void setDescribe(String describe) {
+			this.describe = describe;
+		}
+
+		public String getQuantity() {
+			return quantity;
+		}
+
+		public void setQuantity(String quantity) {
+			this.quantity = quantity;
+		}
+
+		public String getCreate_time() {
+			return create_time;
+		}
+
+		public void setCreate_time(String create_time) {
+			this.create_time = create_time;
+		}
+
+	}
+	
 	/**
-	 * 获取测试数据
-	 * 
+	 * 返回json转换后的数据对象
+	 * @param result
 	 * @return
 	 */
-	public static List<DynamicAlbumModel> getData() {
-		List<DynamicAlbumModel> data = new ArrayList<DynamicAlbumModel>();
-		DynamicAlbumModel model;
-
-		model = new DynamicAlbumModel();
-		model.setLogo(R.drawable.dynamic_album_01 + "");
-		model.setTitle("相册->1");
-		model.album = PhotoAlbumModel.getData();
-		data.add(model);
-
-		model = new DynamicAlbumModel();
-		model.setLogo(R.drawable.dynamic_album_02 + "");
-		model.setTitle("相册->2");
-		model.album = PhotoAlbumModel.getData();
-		data.add(model);
-
-		model = new DynamicAlbumModel();
-		model.setLogo(R.drawable.dynamic_album_03 + "");
-		model.setTitle("相册->3");
-		model.album = PhotoAlbumModel.getData();
-		data.add(model);
-		return data;
-	}
-
-	public static List<DynamicAlbumModel> setJson(String result) {
-		
-		
-		return null;
+	public static DynamicAlbumModel setJson(String result) {
+		DynamicAlbumModel data_album = new DynamicAlbumModel();
+		Gson gson = new Gson();
+		data_album = gson.fromJson(result, DynamicAlbumModel.class);
+		return data_album;
 	}
 }

@@ -8,18 +8,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.mobileim.aop.Pointcut;
 import com.alibaba.mobileim.aop.custom.IMContactsUI;
+import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.dream.cutepet.R;
 
 public class ContactsUICustomSample extends IMContactsUI {
 
 	public ContactsUICustomSample(Pointcut pointcut) {
 		super(pointcut);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -48,5 +47,4 @@ public class ContactsUICustomSample extends IMContactsUI {
 		title.setGravity(Gravity.CENTER);
 		return customView;
 	}
-
 }

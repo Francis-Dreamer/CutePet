@@ -23,6 +23,7 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
+//	String urlTop = "http://192.168.11.238";
 	String urlTop = "http://192.168.11.238";
 
 	public PetStrategyBaseAdapter() {
@@ -42,12 +43,12 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		if(data!=null){
+		if (data != null) {
 			return data.size();
-		}else{
+		} else {
 			return 0;
 		}
-		
+
 	}
 
 	public Object getItem(int position) {
@@ -85,20 +86,22 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 		holder.pet_strategy_content_data.setText(model
 				.getPet_strategy_content_data());
 
-		String imageUrl = urlTop + model.getPet_strategy_image();
-		// 给imageview设置tag
-		holder.pet_strategy_image.setTag(imageUrl);
-		// 预设图
-		holder.pet_strategy_image.setImageResource(R.drawable.icon_tx);
-		if (!TextUtils.isEmpty(imageUrl)) {
-			// 异步加载图片
-			Bitmap bitmap = imageLoader.loadImage(holder.pet_strategy_image,
-					imageUrl);
-			if (bitmap != null) {
-				holder.pet_strategy_image.setImageBitmap(bitmap);
+		String img = model.getPet_strategy_image();
+		if(!TextUtils.isEmpty(img) && !img.equals("null")){
+			String imageUrl = urlTop + img;
+			// 给imageview设置tag
+			holder.pet_strategy_image.setTag(imageUrl);
+			// 预设图
+			holder.pet_strategy_image.setImageResource(R.drawable.icon_tx);
+			if (!TextUtils.isEmpty(imageUrl)) {
+				// 异步加载图片
+				Bitmap bitmap = imageLoader.loadImage(holder.pet_strategy_image,
+						imageUrl);
+				if (bitmap != null) {
+					holder.pet_strategy_image.setImageBitmap(bitmap);
+				}
 			}
 		}
-
 		return convertView;
 	}
 

@@ -9,7 +9,8 @@
         android:layout_width="@dimen/px192"
         android:layout_height="@dimen/px178"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY" 
+        android:src="@drawable/album_default"/>
 
     <TextView
         android:id="@+id/tv_dynamic_gridview_name"

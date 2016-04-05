@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SquareModel {
-
 	String square_portrait;
 	String square_neckname;
 	String square_comment_content;
@@ -107,7 +106,6 @@ public class SquareModel {
 	public static List<SquareModel> setJson(String result) {
 		List<SquareModel> data = new ArrayList<SquareModel>();
 		SquareModel model;
-
 		try {
 			JSONObject jsonObject = new JSONObject(result);
 			int status = jsonObject.getInt("status");
@@ -134,8 +132,6 @@ public class SquareModel {
 			e.printStackTrace();
 		}
 		return data;
-
 	}
-
 
 }

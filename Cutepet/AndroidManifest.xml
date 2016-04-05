@@ -43,7 +43,9 @@
         </activity>
         <activity android:name="com.dream.cutepet.PetReleaseActivity" >
         </activity>
-        <activity android:name="com.dream.cutepet.AllPageActivity" >
+        <activity
+            android:name="com.dream.cutepet.AllPageActivity"
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -89,6 +91,10 @@
         <activity android:name="com.dream.cutepet.ComplainActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.fragment.ChatActivityFragment" >
+        </activity>
+        <activity android:name="com.dream.cutepet.ui.SetPetIconActivity" >
+        </activity>
+        <activity android:name="com.dream.cutpet.server.AddCustomActivity" >
         </activity>
     </application>
 

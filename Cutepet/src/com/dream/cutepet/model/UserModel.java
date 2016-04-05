@@ -1,14 +1,8 @@
 package com.dream.cutepet.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 /**
  * 用户资料的数据对象

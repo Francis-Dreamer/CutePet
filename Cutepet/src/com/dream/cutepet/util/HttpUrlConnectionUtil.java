@@ -20,6 +20,7 @@ import android.os.AsyncTask;
  */
 public class HttpUrlConnectionUtil extends AsyncTask<String, Integer, String> {
 
+	@SuppressWarnings("unused")
 	public void postData(String url, Map<String, String> map)
 			throws IOException {
 		// Post请求的url，与get不同的是不需要带参数
@@ -73,6 +74,7 @@ public class HttpUrlConnectionUtil extends AsyncTask<String, Integer, String> {
 		connection.disconnect();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	protected String doInBackground(String... params) {
 		// Post请求的url，与get不同的是不需要带参数
