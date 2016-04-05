@@ -25,6 +25,7 @@ import com.dream.cutepet.model.FusionModel;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.MyArrayUtil;
+import com.dream.cutepet.util.TimeUtil;
 
 public class FusionAdapter extends BaseAdapter {
 
@@ -111,8 +112,8 @@ public class FusionAdapter extends BaseAdapter {
 			}
 		}
 		
-		
-		holder.tv_time.setText(temp.getTime());
+		String time = temp.getTime();
+		holder.tv_time.setText(TimeUtil.showTime(TimeUtil.changeTime(time)));
 		holder.tv_content.setText(temp.getContent());
 
 		picture=new ArrayList<String>();

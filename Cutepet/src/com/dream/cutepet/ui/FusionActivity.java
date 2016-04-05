@@ -35,7 +35,6 @@ public class FusionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fusion);
 		
-	//	initView();
 		initData();
 	}
 
