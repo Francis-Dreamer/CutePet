@@ -54,6 +54,7 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 			imageView.setTag(url_img);
 			Log.i("getView", "url_img=" + url_img);
 			Bitmap bp = imageLoader.loadImage(imageView, url_img);
+			Log.i("getView", "Bitmap=" + bp);
 			if (bp != null) {
 				imageView.setImageBitmap(bp);
 			}
