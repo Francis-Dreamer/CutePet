@@ -10,7 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:padding="@dimen/px20"
+        android:paddingRight="@dimen/px20"
+        android:paddingBottom="@dimen/px39"
+        android:paddingLeft="@dimen/px10"
+        android:paddingTop="@dimen/px39"
         android:src="@drawable/back" />
 
     <TextView
@@ -18,9 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/px29"
+        android:layout_marginTop="@dimen/px29"
+        android:paddingBottom="@dimen/px10"
+        android:paddingLeft="@dimen/px10"
+        android:paddingTop="@dimen/px10"
         android:text="@string/title"
         android:textColor="#333333"
-        android:textSize="@dimen/px40" />
+        android:textSize="@dimen/px36" />
 
     <TextView
         android:id="@+id/menu_hide"
@@ -31,8 +39,8 @@
         android:layout_marginRight="@dimen/px40"
         android:padding="@dimen/px20"
         android:text="隐藏"
-        android:visibility="gone"
         android:textColor="#333333"
-        android:textSize="@dimen/px32" />
+        android:textSize="@dimen/px32"
+        android:visibility="gone" />
 
 </RelativeLayout>
