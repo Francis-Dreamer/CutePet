@@ -142,15 +142,13 @@ public class UploadPhotoActivity extends Activity {
 			msg.put("quantity", check_photo.size() + "");
 			for (File temp : check_photo) {
 				httpPost.putMap(msg);
-				httpPost.putFile("file", temp, temp.getName(), null);
-				Log.i("httpPost", "img = " + temp.getName());
-				httpPost.send();
+				httpPost.putFile(temp.getName(), temp, temp.getName(), null);
 			}
+			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
 				public void start() {
 				}
-
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);

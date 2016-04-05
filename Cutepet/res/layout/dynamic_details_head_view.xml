@@ -7,8 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:paddingBottom="@dimen/px24">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/px24" >
 
         <ImageView
             android:id="@+id/dynamic_details_portrait"
@@ -101,6 +101,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/px10"
+        android:paddingBottom="@dimen/px10"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -108,6 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/px24"
             android:layout_weight="1"
             android:orientation="horizontal" />
 

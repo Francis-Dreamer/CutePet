@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,11 +56,9 @@ public class FusionActivity extends Activity {
 				public void start() {
 					
 				}
-				
 				public void end(String result) {
 					Log.e("bbbbbbbbbb", result);
 					data=FusionModel.getJson(result);
-					
 				}
 			});
 		} catch (MalformedURLException e) {
