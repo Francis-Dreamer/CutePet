@@ -34,8 +34,8 @@ public class SquareBaseAdapter extends BaseAdapter {
 	AsyncImageLoader imageLoader;
 	String name = "+关注";
 	SquareModel model;
-	// String urlTop = "http://192.168.11.238";
-	String urlTop = "http://192.168.11.238";
+	// String urlTop = "http://192.168.1.106";
+	String urlTop = "http://192.168.1.106";
 
 	public SquareBaseAdapter() {
 
@@ -142,7 +142,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 	}
 
 	/*private void getAttention(int position) {
-		String url_send = "http://192.168.11.238/index.php/home/api/getIssuaTalk";
+		String url_send = "http://192.168.1.106/index.php/home/api/getIssuaTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();

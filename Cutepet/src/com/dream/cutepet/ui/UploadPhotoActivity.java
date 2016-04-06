@@ -90,7 +90,7 @@ public class UploadPhotoActivity extends Activity {
 	 */
 	private void initImageData() {
 		// 显示进度条
-		mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
+		mProgressDialog.show();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -115,6 +115,10 @@ public class UploadPhotoActivity extends Activity {
 
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
+		
+		mProgressDialog = new ProgressDialog(getApplicationContext());
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setTitle("加载中，请稍后...");
 	}
 
 	@Override

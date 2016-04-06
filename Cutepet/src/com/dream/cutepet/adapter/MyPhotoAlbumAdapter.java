@@ -79,7 +79,7 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 
 		String picture = model.getPicture();
 		List<String> pic = MyListUtil.changeStringToList(picture, ",");
-		adapter = new MyPhotoAlbumGridviewAdapter(context, pic,holder.gridView);
+		adapter = new MyPhotoAlbumGridviewAdapter(context, pic);
 		holder.gridView.setAdapter(adapter);
 		
 		return convertView;

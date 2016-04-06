@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.util.AsyncImageLoader;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;

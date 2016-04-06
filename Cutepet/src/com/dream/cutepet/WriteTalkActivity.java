@@ -114,7 +114,7 @@ public class WriteTalkActivity extends Activity{
 		String address=edit_address.getText().toString().trim();
 		
 		
-		String url="http://192.168.11.238/index.php/home/api/uploadTalk";
+		String url="http://192.168.1.106/index.php/home/api/uploadTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			Map<String, String> map=new HashMap<String, String>();

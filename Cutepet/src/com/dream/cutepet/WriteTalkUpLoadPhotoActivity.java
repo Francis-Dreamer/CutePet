@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import com.dream.cutepet.adapter.WriteTalkUpLoadAdapter;
 import com.dream.cutepet.adapter.WriteTalkUpLoadAdapter.ViewHolder;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 import com.dream.cutepet.util.SDCardUtil;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,10 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WriteTalkUpLoadPhotoActivity extends Activity {
-
 	GridView gridView;
 	TextView cancel;
-	TextView ok;
 	List<String> data_img;
 	List<String> checked_path;
 	List<File> sdFile;
@@ -51,22 +48,17 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 	 */
 	private void initView() {
 		cancel = (TextView) findViewById(R.id.tv_uploadPhoto_cancel);
-		ok = (TextView) findViewById(R.id.tv_uploadPhoto_ok);
-
+		cancel.setOnClickListener(clickListener);
+		
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		adapter = new WriteTalkUpLoadAdapter(this, data_img);
 		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(itemClickListener);
-
-		cancel.setOnClickListener(clickListener);
-		ok.setOnClickListener(clickListener);
 	}
 
 	OnItemClickListener itemClickListener = new OnItemClickListener() {
-
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-
 			ViewHolder holder = (ViewHolder) view.getTag();
 			// 改变checkbox的选择状态
 			holder.cb_check.toggle();
@@ -91,21 +83,14 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 				Toast.makeText(getApplicationContext(), "最多选择6张图片上传",
 						Toast.LENGTH_SHORT).show();
 			}
-
-			ok.setText("确定(" + checkNum + ")");
-
 		}
 	};
 
 	OnClickListener clickListener = new OnClickListener() {
-
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.tv_uploadPhoto_cancel:
 				finish();
-				break;
-			case R.id.tv_uploadPhoto_ok:
-				isSure();
 				break;
 			default:
 				break;
@@ -117,14 +102,14 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-		// 获取所有SD卡的根路径File集合
-		sdFile = SDCardUtil.getAllSDcardFile(getApplicationContext());
-		// 初始化图片路径集合
-		data_img = new ArrayList<String>();
-
-		for (int i = 0; i < sdFile.size(); i++) {
-			data_img = SDCardAllPhotoUtil.getAllFiles(sdFile.get(i), data_img);
-		}
+//		// 获取所有SD卡的根路径File集合
+//		sdFile = SDCardUtil.getAllSDcardFile(getApplicationContext());
+//		// 初始化图片路径集合
+//		data_img = new ArrayList<String>();
+//
+//		for (int i = 0; i < sdFile.size(); i++) {
+//			data_img = SDCardAllPhotoUtil.getAllFiles(sdFile.get(i), data_img);
+//		}
 	}
 
 	/**
