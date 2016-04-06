@@ -9,20 +9,22 @@ import android.widget.TextView;
 
 /**
  * 修改邮箱
+ * 
  * @author Administrator
  *
  */
 public class ChangeMailActivity extends Activity {
-	
+
 	ImageView back;
-	TextView title,menu_hide;
+	TextView title, menu_hide;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_mail);
+		menu_hide = (TextView) findViewById(R.id.menu_hide);
+		title=(TextView)findViewById(R.id.title);
 		title.setText("修改邮箱");
-		menu_hide=(TextView) findViewById(R.id.menu_hide);
 		menu_hide.setText("保存");
 		menu_hide.setVisibility(View.VISIBLE);
 		back = (ImageView) findViewById(R.id.back);

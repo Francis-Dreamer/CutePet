@@ -42,7 +42,7 @@
                 android:id="@+id/relative_weidenglu"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px360"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <ImageView
                     android:id="@+id/image_toxiang"
@@ -187,7 +187,7 @@
                 android:id="@+id/relative_yidenglu"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px360"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/image_toxiang_hide"
