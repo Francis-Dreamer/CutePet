@@ -83,6 +83,11 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 					checkNum--;
 				}
 			} else {
+				if (holder.cb_check.isChecked() == true) {
+					checkNum++;
+				} else {
+					checkNum--;
+				}
 				Toast.makeText(getApplicationContext(), "最多选择6张图片上传",
 						Toast.LENGTH_SHORT).show();
 			}
