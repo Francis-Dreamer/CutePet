@@ -18,6 +18,7 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.TimeUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -100,12 +101,18 @@ public class DynamicDetailsActivity extends Activity {
 		ImageView send = (ImageView) findViewById(R.id.send);
 		back.setOnClickListener(clickListener);
 		send.setOnClickListener(clickListener);
+		
 
 		dynamic_details_edit = (EditText) findViewById(R.id.dynamic_details_edit);
 		listView = (ListView) findViewById(R.id.dynamic_details_listview);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
+		TextView menu_hide=(TextView) findViewById(R.id.menu_hide);
+		menu_hide.setText("写说说");
+		menu_hide.setVisibility(View.VISIBLE);
+		menu_hide.setOnClickListener(clickListener);
+		
 
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -393,6 +400,11 @@ public class DynamicDetailsActivity extends Activity {
 				break;
 			case R.id.add_attention:
 				attention();
+				break;
+			case R.id.menu_hide:
+				Intent intent=new Intent();
+				intent.setClass(DynamicDetailsActivity.this, WriteTalkActivity.class);
+				startActivity(intent);
 				break;
 			default:
 				break;

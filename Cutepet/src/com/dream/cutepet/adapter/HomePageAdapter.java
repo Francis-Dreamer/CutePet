@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -127,6 +128,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 
 		String icon = model.getLogo();
 		if (!TextUtils.isEmpty(icon) && !icon.equals("null")) {
+			Log.e("eeeeeee", icon);
 			final String iconUrl = url_Top + icon;
 			// 给 ImageView 设置一个 tag
 			holder.icon.setTag(iconUrl);
@@ -134,7 +136,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			holder.icon.setImageResource(R.drawable.icon_tx);
 			// 异步加载图片
 			Bitmap bitmap = imageLoader.loadImage(holder.icon, iconUrl);
+			Log.e("eeeeeee", iconUrl);
 			if (bitmap != null) {
+				Log.e("xxxxxxxxx", "xxxxxxxxxxxx");
 				holder.icon.setImageBitmap(bitmap);
 			}
 		}

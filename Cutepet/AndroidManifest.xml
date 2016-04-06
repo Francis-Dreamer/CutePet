@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,6 +28,10 @@
         <activity android:name="com.dream.cutepet.PetDetailsActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.ReleaseActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.WriteTalkActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.WriteTalkUpLoadPhotoActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.DialogActivity" >
         </activity>
