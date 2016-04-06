@@ -23,6 +23,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +60,8 @@ public class UploadPhotoActivity extends Activity {
 	int checkedNum = 0;// 记录选中的条目数量
 	private String username;
 	private String title;
+	Map<String, List<String>> data_localImg;
+
 	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 	private String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
@@ -69,7 +73,35 @@ public class UploadPhotoActivity extends Activity {
 
 		initData();
 
+//		initImageData();
+		
 		initView();
+	}
+
+	@SuppressLint("HandlerLeak") 
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 001:
+				//加载好了图片数据
+				break;
+			default:
+				break;
+			}
+
+		}
+	};
+
+	private void initImageData() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				data_localImg = SDCardUtil.getImage(getApplicationContext());
+				mHandler.sendEmptyMessage(001);
+			}
+		}).start();
 	}
 
 	/**
@@ -149,6 +181,7 @@ public class UploadPhotoActivity extends Activity {
 				@Override
 				public void start() {
 				}
+
 				@Override
 				public void end(String result) {
 					Log.i("result", "result = " + result);

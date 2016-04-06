@@ -124,6 +124,7 @@ public class AsyncImageLoader {
 
 		if (bitmap != null) {
 			Log.i("leslie", "image exists in memory");
+			Log.e("loadImage", "先从内存中拿");
 			return bitmap;
 		}
 
@@ -131,6 +132,7 @@ public class AsyncImageLoader {
 		bitmap = getBitmapFromDisk(imageUrl);
 		if (bitmap != null) {
 			Log.i("leslie", "image exists in file");
+			Log.e("loadImage", "从文件中找");
 			// 重新缓存到内存中
 			putBitmapToMem(imageUrl, bitmap);
 			return bitmap;
@@ -138,6 +140,7 @@ public class AsyncImageLoader {
 
 		// 内存和文件中都没有再从网络下载
 		if (!TextUtils.isEmpty(imageUrl)) {
+			Log.e("loadImage", "内存和文件中都没有,从网络下载");
 			new ImageDownloadTask(imageView).execute(imageUrl);
 		}
 
