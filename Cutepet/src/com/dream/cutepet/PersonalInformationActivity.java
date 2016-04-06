@@ -79,15 +79,26 @@ public class PersonalInformationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_personal_information);
 
+		initView();
+
+		getData();
+	}
+
+	/**
+	 * 初始化控件
+	 * 
+	 * @param view
+	 */
+	private void initView() {
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
 
 		edit_nickname = (EditText) findViewById(R.id.edit_nickname);
-		
+
 		radio_sex = (RadioGroup) findViewById(R.id.radio_sex);
 		radio_sex.setOnCheckedChangeListener(changeListener);
-		
+
 		text_birth = (TextView) findViewById(R.id.text_birth);
 		edit_constellation = (EditText) findViewById(R.id.edit_constellation);
 		edit_occupation = (EditText) findViewById(R.id.edit_occupation);
@@ -112,7 +123,6 @@ public class PersonalInformationActivity extends Activity {
 		back.setOnClickListener(ocl);
 		text_birth.setOnClickListener(ocl);
 
-		getData();
 	}
 
 	/*
@@ -135,7 +145,6 @@ public class PersonalInformationActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-	//	String url = "http://192.168.11.238/index.php/home/api/demand";
 		String url = "http://192.168.11.238/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
@@ -153,23 +162,52 @@ public class PersonalInformationActivity extends Activity {
 				public void end(String result) {
 					// 获取后台传递过来的json值
 					// data = UserModel.changeJson(result);
-					try {
 
+					try {
 						JSONObject jb = new JSONObject(result);
 						JSONObject jsonObject = jb.getJSONObject("message");
 						nickname = jsonObject.optString("nickname", "");
+						if (nickname.equals("null")) {
+							nickname = "";
+						}
 						sex = jsonObject.optString("sex", "");
+						if (sex.equals("null")) {
+							sex = "";
+						}
 						birth = jsonObject.optString("birth", "");
-						constellation = jsonObject.optString("constellation",
-								"");
+						if (birth.equals("null")) {
+							birth = "";
+						}
+						constellation = jsonObject.optString("constellation", "");
+						if (constellation.equals("null")) {
+							constellation = "";
+						}
 						occupation = jsonObject.optString("occupation", "");
+						if (occupation.equals("null")) {
+							occupation = "";
+						}
 						corporation = jsonObject.optString("corporation", "");
+						if (corporation.equals("null")) {
+							corporation = "";
+						}
 						site = jsonObject.optString("site", "");
+						if (site.equals("null")) {
+							site = "";
+						}
 						hometown = jsonObject.optString("hometown", "");
+						if (hometown.equals("null")) {
+							hometown = "";
+						}
 						mail = jsonObject.optString("mail", "");
+						if (mail.equals("null")) {
+							mail = "";
+						}
 						personality = jsonObject.optString("personality", "");
-
+						if (personality.equals("null")) {
+							personality = "";
+						}
 						updateView();
+
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -177,7 +215,9 @@ public class PersonalInformationActivity extends Activity {
 				}
 			});
 
-		} catch (MalformedURLException e) {
+		} catch (
+
+		MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -189,7 +229,7 @@ public class PersonalInformationActivity extends Activity {
 		if (sex.equals("男")) {
 			radio_man.setChecked(true);
 			radio_woman.setChecked(false);
-		}else{
+		} else {
 			radio_man.setChecked(false);
 			radio_woman.setChecked(true);
 		}
@@ -231,11 +271,11 @@ public class PersonalInformationActivity extends Activity {
 				break;
 			case 998:
 				nickname = edit_nickname.getText().toString();
-//				if (radio_man.isChecked()) {
-//					sex = "男";
-//				} else {
-//					sex = "女";
-//				}
+				// if (radio_man.isChecked()) {
+				// sex = "男";
+				// } else {
+				// sex = "女";
+				// }
 				birth = text_birth.getText().toString();
 				constellation = edit_constellation.getText().toString();
 				occupation = edit_occupation.getText().toString();
@@ -244,8 +284,7 @@ public class PersonalInformationActivity extends Activity {
 				hometown = edit_hometown.getText().toString();
 				mail = edit_mail.getText().toString();
 				personality = edit_personality.getText().toString();
-				
-				
+
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("nickname", nickname);
 				map.put("sex", sex);
@@ -285,11 +324,9 @@ public class PersonalInformationActivity extends Activity {
 			try {
 				JSONObject jo = new JSONObject(result);
 				if (jo.getInt("status") == 1) {
-					Toast.makeText(getApplication(), jo.optString("message"),
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
 				} else {
-					Toast.makeText(getApplication(), jo.optString("message"),
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplication(), jo.optString("message"), Toast.LENGTH_LONG).show();
 				}
 				/*
 				 * JSONObject jsonObject = new JSONObject(result); nickname =

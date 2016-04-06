@@ -29,6 +29,10 @@
         </activity>
         <activity android:name="com.dream.cutepet.ReleaseActivity" >
         </activity>
+        <activity android:name="com.dream.cutepet.WriteTalkActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.WriteTalkUpLoadPhotoActivity" >
+        </activity>
         <activity android:name="com.dream.cutepet.DialogActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.LoginActivity" >

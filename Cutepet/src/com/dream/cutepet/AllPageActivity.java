@@ -85,7 +85,6 @@ public class AllPageActivity extends FragmentActivity {
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		radioGroup.setOnCheckedChangeListener(checkedChangeListener);
 	}
-
 	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 		@Override
 		public void onPageSelected(int arg0) {

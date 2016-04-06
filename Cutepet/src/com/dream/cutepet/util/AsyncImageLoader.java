@@ -123,16 +123,14 @@ public class AsyncImageLoader {
 		Bitmap bitmap = getBitmapFromMem(imageUrl);
 
 		if (bitmap != null) {
-			Log.i("leslie", "image exists in memory");
-			Log.e("loadImage", "先从内存中拿");
+			Log.e("leslie", "image exists in memory");
 			return bitmap;
 		}
 
 		// 再从文件中找
 		bitmap = getBitmapFromDisk(imageUrl);
 		if (bitmap != null) {
-			Log.i("leslie", "image exists in file");
-			Log.e("loadImage", "从文件中找");
+			Log.e("leslie", "image exists in file");
 			// 重新缓存到内存中
 			putBitmapToMem(imageUrl, bitmap);
 			return bitmap;

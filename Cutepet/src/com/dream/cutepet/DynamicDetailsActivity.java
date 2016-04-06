@@ -18,6 +18,7 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.TimeUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -91,6 +92,7 @@ public class DynamicDetailsActivity extends Activity {
 		super.onStart();
 		getData_icon();
 		getData_comment();
+		getAttention();
 	}
 
 	@SuppressLint("InflateParams")
@@ -99,12 +101,18 @@ public class DynamicDetailsActivity extends Activity {
 		ImageView send = (ImageView) findViewById(R.id.send);
 		back.setOnClickListener(clickListener);
 		send.setOnClickListener(clickListener);
+		
 
 		dynamic_details_edit = (EditText) findViewById(R.id.dynamic_details_edit);
 		listView = (ListView) findViewById(R.id.dynamic_details_listview);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
+		TextView menu_hide=(TextView) findViewById(R.id.menu_hide);
+		menu_hide.setText("写说说");
+		menu_hide.setVisibility(View.VISIBLE);
+		menu_hide.setOnClickListener(clickListener);
+		
 
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -337,7 +345,39 @@ public class DynamicDetailsActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
+	private void getAttention(){
+		String url_send = "http://192.168.11.238/index.php/home/api/hasAttention";
+		try {
+			HttpPost httpPost = HttpPost.parseUrl(url_send);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("tel", username);
+			map.put("friend_username", uid);
+			httpPost.putMap(map);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				@Override
+				public void start() {
+				}
 
+				@Override
+				public void end(String result) {
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						int status = jsonObject.getInt("status");
+						if (status == 1) {// 关注成功
+							tv_add_attention.setText("已关注");
+						} else if(status == -1){
+							tv_add_attention.setText("+关注");
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 关注
 	 */
@@ -392,6 +432,11 @@ public class DynamicDetailsActivity extends Activity {
 				break;
 			case R.id.add_attention:
 				attention();
+				break;
+			case R.id.menu_hide:
+				Intent intent=new Intent();
+				intent.setClass(DynamicDetailsActivity.this, WriteTalkActivity.class);
+				startActivity(intent);
 				break;
 			default:
 				break;

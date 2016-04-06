@@ -42,7 +42,7 @@
                 android:id="@+id/relative_weidenglu"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px360"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <ImageView
                     android:id="@+id/image_toxiang"
@@ -187,7 +187,7 @@
                 android:id="@+id/relative_yidenglu"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px360"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/image_toxiang_hide"
@@ -219,7 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/px11"
-                        android:text="天使守护"
+                        android:text="“添加昵称”"
                         android:textColor="#333333" />
                 </LinearLayout>
 

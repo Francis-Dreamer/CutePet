@@ -1,7 +1,13 @@
 package com.dream.cutepet.adapter;
 
+import java.net.MalformedURLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,14 +23,18 @@ import android.widget.TextView;
 import com.dream.cutepet.R;
 import com.dream.cutepet.model.SquareModel;
 import com.dream.cutepet.util.AsyncImageLoader;
+import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.TimeUtil;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 public class SquareBaseAdapter extends BaseAdapter {
 	List<SquareModel> data;
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-//	String urlTop = "http://192.168.11.238";
+	String name = "+关注";
+	SquareModel model;
+	// String urlTop = "http://192.168.11.238";
 	String urlTop = "http://192.168.11.238";
 
 	public SquareBaseAdapter() {
@@ -85,27 +95,22 @@ public class SquareBaseAdapter extends BaseAdapter {
 					.findViewById(R.id.square_comment_num);
 			holder.square_praise_num = (TextView) convertView
 					.findViewById(R.id.square_praise_num);
-			holder.add_add_attention = (TextView) convertView
-					.findViewById(R.id.add_attention);
-
 			convertView.setTag(holder);
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		SquareModel model = (SquareModel) getItem(position);
-
+		model = (SquareModel) getItem(position);
+//		getAttention(position);
 		holder.square_neckname.setText(model.getSquare_neckname());
 		Date date = TimeUtil.changeTime(model.getSquare_comment_time());
 		holder.square_comment_time.setText(TimeUtil.showTime(date));
-		holder.add_add_attention.setText("+关注");
 		holder.square_comment_content
 				.setText(model.getSquare_comment_content());
 		holder.square_address.setText(model.getSquare_address());
 		holder.square_praise_num.setText(model.getSquare_praise_num());
 		holder.square_comment_num.setText(model.getSquare_comment_num());
-
 		String img = model.getSquare_image();
 		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			String imageUrl = urlTop + img;
@@ -136,6 +141,39 @@ public class SquareBaseAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	/*private void getAttention(int position) {
+		String url_send = "http://192.168.11.238/index.php/home/api/getIssuaTalk";
+		try {
+			HttpPost httpPost = HttpPost.parseUrl(url_send);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("issua_id", model.getSquare_id());
+			httpPost.putMap(map);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				@Override
+				public void start() {
+				}
+
+				@Override
+				public void end(String result) {
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						int status = jsonObject.getInt("status");
+						if (status == 1) {// 关注成功
+							model.setSquare_comment("已关注");
+						} else if (status == -1) {
+							model.setSquare_comment("+关注");
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}*/
+
 	class ViewHolder {
 		ImageView square_portrait;
 		TextView square_neckname;
@@ -145,6 +183,5 @@ public class SquareBaseAdapter extends BaseAdapter {
 		TextView square_address;
 		TextView square_comment_num;
 		TextView square_praise_num;
-		TextView add_add_attention;
 	}
 }

@@ -21,6 +21,7 @@ public class ChangeNumberActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_number);
 		back = (ImageView) findViewById(R.id.back);
+		title=(TextView)findViewById(R.id.title);
 		title.setText("修改手机号");
 		menu_hide=(TextView) findViewById(R.id.menu_hide);
 		menu_hide.setText("保存");

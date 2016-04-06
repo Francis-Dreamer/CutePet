@@ -46,7 +46,6 @@ public class PersonalCenterFragment extends Fragment {
 	LinearLayout linear_account;// 账户管理控件
 	LinearLayout linear_about;// 关于萌宠控件
 	LinearLayout linear_set;// 设置控件
-	
 
 	TextView text_login;
 	TextView text_register;
@@ -84,34 +83,34 @@ public class PersonalCenterFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.activity_personal_center, null);
 		initView(view);
-		
-		if(checkisLogin()){
-			//登录状态
+
+		if (checkisLogin()) {
+			// 登录状态
 			judgeLongin();
-		}else{//未登录
+		} else {// 未登录
 			judgeUnLongin();
 		}
-		
+
 		Log.i("onCreateView", "onCreateView");
 		CheckIsLogin();
 		return view;
 	}
 
-//	/*
-//	 * 判断是否登录
-//	 */
-//	public void getData() {
-//
-//		String result = SharedPreferencesUtil.getData(getActivity());
-//		if (result != null && !result.equals("")) {
-//			String[] temp = result.split(",");
-//			tel = temp[1];
-//			token = temp[0];
-//
-//			initData();
-//		}
-//
-//	}
+	// /*
+	// * 判断是否登录
+	// */
+	// public void getData() {
+	//
+	// String result = SharedPreferencesUtil.getData(getActivity());
+	// if (result != null && !result.equals("")) {
+	// String[] temp = result.split(",");
+	// tel = temp[1];
+	// token = temp[0];
+	//
+	// initData();
+	// }
+	//
+	// }
 
 	/**
 	 * 初始化数据
@@ -140,9 +139,21 @@ public class PersonalCenterFragment extends Fragment {
 						JSONObject jo = jsonObject.getJSONObject("message");
 						logo = jo.optString("logo", "");
 						attention = jo.optString("attention", "");
+						if (attention.equals("null")) {
+							attention = "0";
+						}
 						fans = jo.optString("fans", "");
+						if (fans.equals("null")) {
+							fans = "0";
+						}
 						collect = jo.optString("collect", "");
+						if (collect.equals("null")) {
+							collect = "0";
+						}
 						nickname = jo.optString("nickname", "");
+						if (nickname.equals("null")) {
+							nickname = "";
+						}
 						username = jo.optString("username", "");
 
 					} catch (JSONException e) {
@@ -327,13 +338,13 @@ public class PersonalCenterFragment extends Fragment {
 			judgeLongin();
 		}
 	}
-	
+
 	/**
 	 * 判断 是否 处于登录 状态
-	 * @return
-	 * 	登录，返回true
+	 * 
+	 * @return 登录，返回true
 	 */
-	private boolean checkisLogin(){
+	private boolean checkisLogin() {
 		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
 		if (result == null || result.equals("")) {// 判断获取的token值是否为空
 			Log.i("CheckIsLogin", "当前没有处于登录状态");
