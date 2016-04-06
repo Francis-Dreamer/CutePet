@@ -231,6 +231,7 @@ public class PersonalCenterFragment extends Fragment {
 	}
 
 	OnClickListener ocl = new OnClickListener() {
+		@SuppressWarnings("unused")
 		private OndemandListener demandListener = new OndemandListener() {
 			@Override
 			public void start() {

@@ -19,9 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 
 public class PetReleaseActivity extends Activity {
 	TextView title, menu_hide;
@@ -147,7 +147,7 @@ public class PetReleaseActivity extends Activity {
 			Bundle bundle = data.getExtras();
 			view_address = bundle.getString("view_address");
 			file = new File(view_address);
-			iv_pet_logo.setImageBitmap(SDCardAllPhotoUtil
+			iv_pet_logo.setImageBitmap(BitmapUtil
 					.getDiskBitmap(view_address));
 			break;
 

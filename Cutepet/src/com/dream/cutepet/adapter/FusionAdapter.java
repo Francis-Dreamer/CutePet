@@ -6,7 +6,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +23,7 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.model.FusionModel;
 import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.MyArrayUtil;
+import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.TimeUtil;
 
 public class FusionAdapter extends BaseAdapter {
@@ -117,7 +116,7 @@ public class FusionAdapter extends BaseAdapter {
 		holder.tv_content.setText(temp.getContent());
 
 		picture=new ArrayList<String>();
-		picture=MyArrayUtil.changeStringToList(temp.getPicture(), ",");
+		picture=MyListUtil.changeStringToList(temp.getPicture(), ",");
 		
 		holder.llayout_2.removeAllViews();
 		holder.llayout_pic1.removeAllViews();

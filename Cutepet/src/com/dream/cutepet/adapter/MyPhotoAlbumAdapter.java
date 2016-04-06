@@ -3,9 +3,8 @@ package com.dream.cutepet.adapter;
 import java.util.List;
 
 import com.dream.cutepet.R;
-import com.dream.cutepet.model.PhotoAlbumModel;
 import com.dream.cutepet.model.PhotoAlbumModel.PhotoAlbumData;
-import com.dream.cutepet.util.MyArrayUtil;
+import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.view.MyGridView;
 
 import android.annotation.SuppressLint;
@@ -79,8 +78,8 @@ public class MyPhotoAlbumAdapter extends BaseAdapter {
 		holder.tv_time.setText(model.getTime());
 
 		String picture = model.getPicture();
-		List<String> pic = MyArrayUtil.changeStringToList(picture, ",");
-		adapter = new MyPhotoAlbumGridviewAdapter(context, pic);
+		List<String> pic = MyListUtil.changeStringToList(picture, ",");
+		adapter = new MyPhotoAlbumGridviewAdapter(context, pic,holder.gridView);
 		holder.gridView.setAdapter(adapter);
 		
 		return convertView;

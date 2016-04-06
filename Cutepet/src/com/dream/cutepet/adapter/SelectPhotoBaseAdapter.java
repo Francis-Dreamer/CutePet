@@ -2,7 +2,8 @@ package com.dream.cutepet.adapter;
 
 import java.util.List;
 import com.dream.cutepet.R;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.util.BitmapUtil;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -53,8 +54,8 @@ public class SelectPhotoBaseAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.select_photo.setImageBitmap(SDCardAllPhotoUtil
-				.getDiskBitmap(data.get(position)));
+		holder.select_photo.setImageBitmap(BitmapUtil.getDiskBitmap(data
+				.get(position)));
 		return convertView;
 	}
 

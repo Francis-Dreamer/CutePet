@@ -277,5 +277,24 @@ public class BitmapUtil extends Activity {
 			file.delete();
 		}
 	}
+	
+	/**
+	 * 获取bitmap型图片
+	 * 
+	 * @param pathString
+	 *            图片的sd卡地址
+	 * @return
+	 */
+	public static Bitmap getDiskBitmap(String pathString) {
+		Bitmap bitmap = null;
+		try {
+			File file = new File(pathString);
+			if (file.exists()) {
+				bitmap = BitmapFactory.decodeFile(pathString);
+			}
+		} catch (Exception e) {
+		}
+		return bitmap;
+	}
 
 }

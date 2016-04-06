@@ -3,7 +3,8 @@ package com.dream.cutepet;
 import java.io.File;
 
 import com.dream.cutepet.util.AsyncImageLoader;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.util.BitmapUtil;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -168,7 +169,7 @@ public class PetStrategyCommentActivity extends Activity{
 				view_address=bundle.getString("view_address");
 				Log.e("XXXXXXXXXXXXXXX", view_address);
 				file=new File(view_address);
-				pet_strategy_comment_view.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
+				pet_strategy_comment_view.setImageBitmap(BitmapUtil.getDiskBitmap(view_address));
 			}
 			
 			break;

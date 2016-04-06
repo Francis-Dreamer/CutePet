@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 
 /**
  * 发布页面
@@ -165,7 +164,7 @@ public class ReleaseActivity extends Activity {
 				Bundle bundle = data.getExtras();
 				view_address = bundle.getString("view_address");
 				file = new File(view_address);
-				iv_petStore_logo.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(view_address));
+				iv_petStore_logo.setImageBitmap(BitmapUtil.getDiskBitmap(view_address));
 			}
 			break;
 		default:

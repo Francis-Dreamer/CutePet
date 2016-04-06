@@ -4,150 +4,130 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dream.cutepet.R;
-import com.dream.cutepet.adapter.SetPetIconAdapter;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.adapter.MyAlbumAdapter;
+import com.dream.cutepet.model.ImageBeanModel;
+import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.SDCardUtil;
 
 public class SetPetIconActivity extends Activity {
 	GridView gridView;
-	TextView tv_cancel;
-	List<String> data_img;
-	List<File> SDFile;
-	SetPetIconAdapter adapter;
-	int checkedNum = 0;// 记录选中的条目数量
+	TextView tv_cancel, tv_camera;
+	private ProgressDialog mProgressDialog;
+
+	private MyAlbumAdapter adapter;
 	private String username;
-	private String url = "http://192.168.11.238/index.php/home/api/uploadPetIcon";
+
+	private Map<String, List<String>> data;
+	private List<ImageBeanModel> data_album;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_set_peticon);
+		setContentView(R.layout.activity_upload_photo);
+
 		username = getIntent().getStringExtra("tel");
-
-		initData();
-
+		
 		initView();
-
+		initData();
 	}
+
+	@SuppressLint("HandlerLeak")
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 001:
+				// 加载好了图片数据
+				// 关闭进度条
+				mProgressDialog.dismiss();
+				// 对适配器添加数据
+				adapter = new MyAlbumAdapter(getApplicationContext(),
+						data_album, gridView);
+				// 显示gridview
+				gridView.setAdapter(adapter);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
-		// 获取所有SD卡的根路径File集合
-		SDFile = SDCardUtil.getAllSDcardFile(getApplicationContext());
-		// 初始化图片路径集合
-		data_img = new ArrayList<String>();
-		// 添加第一张默认的拍照的背景图片
-		data_img.add(R.drawable.photo + "");
-
-		for (int i = 0; i < SDFile.size(); i++) {
-			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
-		}
+		// 显示进度条
+		mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// 获取本地相册的Map集合对象
+				data = SDCardUtil.getImage(getApplicationContext());
+				// 获取相册封面信息集合对象
+				data_album = MyListUtil.subGroupOfImage(data);
+				mHandler.sendEmptyMessage(001);
+			}
+		}).start();
 	}
+	
 
 	/**
 	 * 初始化界面
 	 */
 	private void initView() {
-		tv_cancel = (TextView) findViewById(R.id.tv_setPetIcon_cancel);
-		tv_cancel.setOnClickListener(listener);
+		tv_cancel = (TextView) findViewById(R.id.tv_uploadPhoto_cancel);
+		tv_camera = (TextView) findViewById(R.id.tv_uploadPhoto_camera);
 
-		gridView = (GridView) findViewById(R.id.gv_setPetIcon_photo);
-		adapter = new SetPetIconAdapter(this, data_img);
-		gridView.setAdapter(adapter);
+		tv_cancel.setOnClickListener(listener);
+		tv_camera.setOnClickListener(listener);
+
+		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
 	}
 
-	/**
-	 * 刷新
-	 */
-	private void dataChanged() {
-		adapter = new SetPetIconAdapter(this, data_img);
-		gridView.setAdapter(adapter);
-	}
-
-	/**
-	 * 上传头像
-	 * 
-	 * @param img
-	 */
-	private void updateIcon(String img) {
-		File file = new File(img);
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(url);
-			httpPost.putFile("file", file, file.getName(), null);
-			httpPost.putString("tel", username);
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-				}
-
-				@Override
-				public void end(String result) {
-					Log.i("result", result);
-					try {
-						JSONObject jb = new JSONObject(result);
-						Toast.makeText(getApplicationContext(),
-								jb.getString("message"), Toast.LENGTH_SHORT)
-								.show();
-						if (jb.getInt("status") == 1) {
-							finish();
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
 		// 照相返回界面后刷新数据
 		initData();
-		// listview刷新数据
-		dataChanged();
 	}
 
 	OnClickListener listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.tv_setPetIcon_cancel:
+			case R.id.tv_uploadPhoto_cancel:
 				finish();
+				break;
+			case R.id.tv_uploadPhoto_camera:
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(intent, 1);
 				break;
 			default:
 				break;
@@ -159,13 +139,15 @@ public class SetPetIconActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			if (arg2 == 0) {
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(intent, 1);
-			} else {
-				String img = data_img.get(arg2);
-				updateIcon(img);
-			}
+			List<String> childList = data.get(data_album.get(arg2)
+					.getFolderName());
+
+			Intent intent = new Intent(SetPetIconActivity.this,
+					UpPetIconActivity.class);
+			intent.putStringArrayListExtra("data",
+					(ArrayList<String>) childList);
+			intent.putExtra("tel", username);
+			startActivityForResult(intent, 0);
 		}
 	};
 
@@ -176,7 +158,9 @@ public class SetPetIconActivity extends Activity {
 		// 照相后，保存照片到指定的路径
 		if (resultCode == Activity.RESULT_OK) {
 			String sdStatus = Environment.getExternalStorageState();
-			String fileName = SDFile.get(0) + "/myImage/";
+			String fileName = SDCardUtil
+					.getAllSDcardFile(getApplicationContext()).get(0).getPath()
+					+ "/CameraImage/";
 			if (sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
 				// 设置照相后的图片保存的名字
 				String name = new SimpleDateFormat("yyyyMMdd_hhmmss")
@@ -184,7 +168,7 @@ public class SetPetIconActivity extends Activity {
 				Bundle bundle = data.getExtras();
 				// 获取相机返回的数据，并转换为Bitmap图片格式
 				Bitmap bitmap = (Bitmap) bundle.get("data");
-
+				
 				FileOutputStream b = null;
 				File file = new File(fileName);
 				if (!file.exists()) {
@@ -192,7 +176,6 @@ public class SetPetIconActivity extends Activity {
 					file.mkdirs();
 				}
 				String filePath = fileName + name;
-
 				try {
 					b = new FileOutputStream(filePath);
 					// 把数据写入文件

@@ -108,6 +108,7 @@ public class SetActivity extends Activity {
 
 		// 获取屏幕宽度
 		WindowManager wm = this.getWindowManager();
+		@SuppressWarnings("deprecation")
 		int width = wm.getDefaultDisplay().getWidth();
 		// int height = wm.getDefaultDisplay().getHeight();
 
@@ -131,6 +132,7 @@ public class SetActivity extends Activity {
 		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void creatAlertDialog() {
 		alertDialog.setTitle("退出登录");
 		alertDialog.setMessage("你确定要退出登录吗？");
