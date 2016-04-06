@@ -1,4 +1,4 @@
-﻿	package com.dream.cutepet;
+﻿package com.dream.cutepet;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.mobileim.YWChannel;
@@ -43,6 +44,8 @@ public class LoginActivity extends Activity {
 	Button button_register;
 	String tel;
 	String password;
+
+	ProgressBar progress_bar;
 	private static final String USER_ID = "userId";
 	private static final String PASSWORD = "password";
 
@@ -61,6 +64,7 @@ public class LoginActivity extends Activity {
 		edit_tel = (EditText) findViewById(R.id.edit_tel);
 		edit_password = (EditText) findViewById(R.id.edit_password);
 		button_register = (Button) findViewById(R.id.button_register);
+		progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
 		chatDemo();
 		loginHelper = LoginSampleHelper.getInstance();
 		button_login.setOnClickListener(ocl);
@@ -77,7 +81,8 @@ public class LoginActivity extends Activity {
 			switch (v.getId()) {
 			case R.id.button_login:
 				loginAndStarActivity();
-				
+				progress_bar.setVisibility(View.VISIBLE);
+				finish();
 				break;
 			case R.id.button_register:
 				intent.setClass(LoginActivity.this, RegisterActivity.class);
@@ -96,7 +101,6 @@ public class LoginActivity extends Activity {
 	 * @param password
 	 */
 	private void login(final String tel, String password) {
-	//	String httpHost = "http://192.168.11.238/index.php/home/api/login";
 		String httpHost = "http://192.168.11.238/index.php/home/api/login";
 		try {
 			HttpPost hp_login = HttpPost.parseUrl(httpHost);
@@ -117,18 +121,12 @@ public class LoginActivity extends Activity {
 						if (jo.getInt("status") == 1) {
 							String token1 = jo.getString("token");
 							String token = token1 + "," + tel;
-							SharedPreferencesUtil.saveToken(
-									getApplicationContext(), token);
-							Intent intent = new Intent(LoginActivity.this,
-									AllPageActivity.class);
-							Toast.makeText(getApplication(),
-									jo.getString("message"), Toast.LENGTH_SHORT)
-									.show();
+							SharedPreferencesUtil.saveToken(getApplicationContext(), token);
+							Intent intent = new Intent(LoginActivity.this, AllPageActivity.class);
+							Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_SHORT).show();
 							startActivity(intent);
 						} else {
-							Toast.makeText(getApplication(),
-									jo.getString("message"), Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -145,12 +143,10 @@ public class LoginActivity extends Activity {
 	 */
 
 	private void chatDemo() {
-		String localId = IMPrefsTools.getStringPrefs(LoginActivity.this,
-				USER_ID, "");
+		String localId = IMPrefsTools.getStringPrefs(LoginActivity.this, USER_ID, "");
 		if (!TextUtils.isEmpty(localId)) {
 			edit_tel.setText(localId);
-			String localPassword = IMPrefsTools.getStringPrefs(
-					LoginActivity.this, PASSWORD, "");
+			String localPassword = IMPrefsTools.getStringPrefs(LoginActivity.this, PASSWORD, "");
 			if (!TextUtils.isEmpty(localPassword)) {
 				edit_password.setText(localPassword);
 			}
@@ -160,16 +156,14 @@ public class LoginActivity extends Activity {
 		edit_tel.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (TextUtils.isEmpty(s)) {
 					edit_password.setText("");
 				}
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
 			}
 
@@ -186,8 +180,7 @@ public class LoginActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	private void loginAndStarActivity() {
 		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
-			Toast.makeText(LoginActivity.this, "网络已断开，请稍后再试哦",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(LoginActivity.this, "网络已断开，请稍后再试哦", Toast.LENGTH_SHORT).show();
 			return;
 		}
 		final Editable userId = edit_tel.getText();
@@ -196,32 +189,30 @@ public class LoginActivity extends Activity {
 		imm.hideSoftInputFromWindow(edit_tel.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(edit_password.getWindowToken(), 0);
 		init(userId.toString());
-		loginHelper.login_Sample(userId.toString(), password.toString(),
-				new IWxCallback() {
+		loginHelper.login_Sample(userId.toString(), password.toString(), new IWxCallback() {
 
-					@Override
-					public void onSuccess(Object... arg0) {
-						// TODO Auto-generated method stub
-						saveIdPasswordToLocal(userId.toString(),
-								password.toString());
-						login(userId.toString(), password.toString());
-					}
+			@Override
+			public void onSuccess(Object... arg0) {
+				// TODO Auto-generated method stub
+				saveIdPasswordToLocal(userId.toString(), password.toString());
+				login(userId.toString(), password.toString());
+			}
 
-					@Override
-					public void onProgress(int arg0) {
+			@Override
+			public void onProgress(int arg0) {
 
-					}
+			}
 
-					@Override
-					public void onError(int arg0, String arg1) {
+			@Override
+			public void onError(int arg0, String arg1) {
 
-						// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
 
-						Toast.makeText(LoginActivity.this, "登录失败",
+				Toast.makeText(LoginActivity.this, "登录失败",
 
-								Toast.LENGTH_SHORT).show();
-					}
-				});
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	/**
