@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,6 +91,7 @@ public class DynamicDetailsActivity extends Activity {
 		super.onStart();
 		getData_icon();
 		getData_comment();
+		getAttention();
 	}
 
 	@SuppressLint("InflateParams")
@@ -338,7 +338,39 @@ public class DynamicDetailsActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
+	private void getAttention(){
+		String url_send = "http://192.168.11.238/index.php/home/api/hasAttention";
+		try {
+			HttpPost httpPost = HttpPost.parseUrl(url_send);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("tel", username);
+			map.put("friend_username", uid);
+			httpPost.putMap(map);
+			httpPost.send();
+			httpPost.setOnSendListener(new OnSendListener() {
+				@Override
+				public void start() {
+				}
 
+				@Override
+				public void end(String result) {
+					try {
+						JSONObject jsonObject = new JSONObject(result);
+						int status = jsonObject.getInt("status");
+						if (status == 1) {// 关注成功
+							tv_add_attention.setText("已关注");
+						} else if(status == -1){
+							tv_add_attention.setText("+关注");
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 关注
 	 */

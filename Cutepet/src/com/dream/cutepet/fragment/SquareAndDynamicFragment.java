@@ -48,7 +48,13 @@ public class SquareAndDynamicFragment extends Fragment{
 		
 		return view;
 	}
-	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		dynamic.setChecked(false);
+		square.setChecked(true);
+	}
 	/**
 	 * 点击顶部切换页面
 	 */

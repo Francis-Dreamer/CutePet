@@ -142,6 +142,7 @@ public class GuidepageActivity extends Activity {
 				Intent intent = new Intent(GuidepageActivity.this,
 						LoginActivity.class);
 				startActivity(intent);
+				finish();
 		}
 	};
 

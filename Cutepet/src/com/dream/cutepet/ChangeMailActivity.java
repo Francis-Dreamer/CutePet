@@ -21,8 +21,9 @@ public class ChangeMailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_change_mail);
-		title.setText("修改邮箱");
+		title=(TextView)findViewById(R.id.title);
 		menu_hide=(TextView) findViewById(R.id.menu_hide);
+		title.setText("修改邮箱");
 		menu_hide.setText("保存");
 		menu_hide.setVisibility(View.VISIBLE);
 		back = (ImageView) findViewById(R.id.back);

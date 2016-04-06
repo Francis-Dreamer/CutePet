@@ -91,7 +91,8 @@ public class PetStrategyFragment extends Fragment {
 			String petTrait=model.getTrait();
 			String petContent_data=model.getPet_strategy_content_data();
 			String petImage=model.getPet_strategy_image();
-			
+			String userId=model.getId();
+			String userName=model.getUsername();
 			Bundle bundle=new Bundle();
 			bundle.putString("petName", petName);
 			bundle.putString("petGrade", petGrade);
@@ -99,7 +100,8 @@ public class PetStrategyFragment extends Fragment {
 			bundle.putString("petTrait", petTrait);
 			bundle.putString("petContent_data", petContent_data);
 			bundle.putString("petImage", petImage);
-			
+			bundle.putString("userId", userId);
+			bundle.putString("userName", userName);
 			intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
 			intent.putExtras(bundle);
 			startActivityForResult(intent, 0);  
