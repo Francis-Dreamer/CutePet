@@ -10,21 +10,20 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.dream.cutepet.adapter.WriteTalkGridAdapter;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,14 +34,22 @@ public class WriteTalkActivity extends Activity{
 	String username;
 	EditText edit_content;
 	EditText edit_address;
-	GridLayout gridLayout;
-	ImageView getImage;
+	WriteTalkGridAdapter adapter;
+	GridView gridView;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_writetalk);
 		
+		initData();
 		initView();
+	}
+	
+	/**
+	 * 加载数据
+	 */
+	private void initData(){
+		
 	}
 
 	/**
@@ -59,8 +66,11 @@ public class WriteTalkActivity extends Activity{
 		ImageView add_image=(ImageView) findViewById(R.id.add_image);
 		edit_content=(EditText) findViewById(R.id.ed_write);
 		edit_address=(EditText) findViewById(R.id.address);
-		gridLayout=(GridLayout) findViewById(R.id.writetalk_gridview);
-	//	initGridLayout();
+		
+		gridView=(GridView) findViewById(R.id.writetalk_gridview);
+		
+		adapter=new WriteTalkGridAdapter(getPath, this);
+		gridView.setAdapter(adapter);
 		
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
@@ -68,21 +78,6 @@ public class WriteTalkActivity extends Activity{
 		
 	}
 	
-	/**
-	 * 加载网格布局
-	 */
-	private void initGridLayout(){
-		
-		
-		for (int i = 0; i < getPath.size(); i++) {
-			String file_path=getPath.get(i);
-			Bitmap bitmap=SDCardAllPhotoUtil.getDiskBitmap(file_path);
-			getImage.setImageBitmap(bitmap);
-		}
-		
-		
-		
-	}
 	
 	OnClickListener clickListener=new OnClickListener() {
 		
@@ -166,9 +161,12 @@ public class WriteTalkActivity extends Activity{
 		switch (requestCode) {
 		case 5551:
 			if(data!=null){
+				Log.e("WriteTalkActivity", "onActivityResult");
 				Bundle bundle=data.getExtras();
 				getPath=new ArrayList<String>();
 				getPath=bundle.getStringArrayList("checked_path");
+				adapter=new WriteTalkGridAdapter(getPath, this);
+				gridView.setAdapter(adapter);
 			}
 			break;
 
