@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +20,7 @@ import java.util.List;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.FaceImageAdapter;
 import com.dream.cutepet.util.DensityUtil;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
  * 引导页
@@ -40,38 +42,47 @@ public class GuidepageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(checkLogin()){
+			Intent intent = new Intent(GuidepageActivity.this,
+					AllPageActivity.class);
+			startActivity(intent);
+		}
+		
 		setContentView(R.layout.activity_guide_page);
 		viewPager = (ViewPager) findViewById(R.id.guide_page_viewpager);
 		views = new ArrayList<View>();
 		
-		//初始化按钮
+		// 初始化按钮
 		initButton();
 		// 初始化图片
 		initView();
 		// 初始化底部小点
 		initDots();
 	}
+
 	/**
 	 * 引导页按钮
 	 */
-	private void initButton(){
-		relativeLayout=(RelativeLayout)findViewById(R.id.guide_re);
+	private void initButton() {
+		relativeLayout = (RelativeLayout) findViewById(R.id.guide_re);
 		RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		button=new Button(this);
+		button = new Button(this);
 		btnParams.setMargins(0, 0, 0, DensityUtil.px2dip(this, 185));
 		btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		btnParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		button.setLayoutParams(btnParams);
 		button.setGravity(Gravity.CENTER);
 		button.setText("开启我们的萌宠之旅");
-		button.setTextColor(Color.rgb(51, 51, 51));//字体颜色
+		button.setTextColor(Color.rgb(51, 51, 51));// 字体颜色
 		button.setBackgroundResource(R.drawable.guide_page_button);
 		button.setVisibility(View.GONE);
 		relativeLayout.addView(button);
 		button.setOnClickListener(onClickListener);
 	}
+
 	/**
 	 * 初始化图片
 	 */
@@ -98,7 +109,7 @@ public class GuidepageActivity extends Activity {
 	private void initDots() {
 		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.guide_page_linear);
 		linearLayout.setPadding(0, 0, 0, DensityUtil.px2dip(this, 65));
-		
+
 		LinearLayout.LayoutParams image_dotsParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -106,8 +117,8 @@ public class GuidepageActivity extends Activity {
 		image_dots = new ImageView[guide_pic.length];
 		// 循环取得小点图片
 		for (int i = 0; i < guide_pic.length; i++) {
-			if(i>0){
-			linearLayout.getChildAt(i).setLayoutParams(image_dotsParams);
+			if (i > 0) {
+				linearLayout.getChildAt(i).setLayoutParams(image_dotsParams);
 			}
 			image_dots[i] = (ImageView) linearLayout.getChildAt(i);
 			image_dots[i].setEnabled(true);// 都设为灰色
@@ -140,7 +151,7 @@ public class GuidepageActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 				Intent intent = new Intent(GuidepageActivity.this,
-						LoginActivity.class);
+						AllPageActivity.class);
 				startActivity(intent);
 				finish();
 		}
@@ -168,12 +179,24 @@ public class GuidepageActivity extends Activity {
 	};
 
 	/**
-	 * 设置当前的引导页
-	 *//*
-	private void setCurView(int position) {
-		if (position < 0 || position >= guide_pic.length) {
-			return;
+	 * 判断是否处于登录状态
+	 * 
+	 * @return
+	 */
+	private boolean checkLogin() {
+		String result = SharedPreferencesUtil.getData(getApplicationContext());
+		if (!TextUtils.isEmpty(result)) {
+			// 已经登录了
+			return true;
 		}
-		viewPager.setCurrentItem(position);
-	}*/
+		return false;
+	}
+
+	/**
+	 * 设置当前的引导页
+	 */
+	/*
+	 * private void setCurView(int position) { if (position < 0 || position >=
+	 * guide_pic.length) { return; } viewPager.setCurrentItem(position); }
+	 */
 }
