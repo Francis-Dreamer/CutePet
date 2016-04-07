@@ -82,7 +82,7 @@ public class LoginActivity extends Activity {
 			case R.id.button_login:
 				loginAndStarActivity();
 				progress_bar.setVisibility(View.VISIBLE);
-				finish();
+				//finish();
 				break;
 			case R.id.button_register:
 				intent.setClass(LoginActivity.this, RegisterActivity.class);
