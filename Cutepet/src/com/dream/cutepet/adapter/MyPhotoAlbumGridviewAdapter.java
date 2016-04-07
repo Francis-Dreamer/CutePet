@@ -2,22 +2,22 @@ package com.dream.cutepet.adapter;
 
 import java.util.List;
 
-import com.dream.cutepet.util.AsyncImageLoader;
+import com.dream.cutepet.R;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
 public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 	List<String> data;
 	Context context;
-	private String url_Top = "http://192.168.11.238";
+	private String url_Top = "http://192.168.1.106";
 	private AsyncImageLoader imageLoader;
 
 	public MyPhotoAlbumGridviewAdapter() {
@@ -27,7 +27,9 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 	public MyPhotoAlbumGridviewAdapter(Context context, List<String> data) {
 		this.data = data;
 		this.context = context;
-		imageLoader = new AsyncImageLoader(context);
+		ImageCacheManager cacheMgr = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 	}
 
 	@Override
@@ -47,20 +49,26 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView imageView = new ImageView(context);
-		String img = data.get(position);
-		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-			String url_img = url_Top + img;
-			imageView.setTag(url_img);
-			Log.i("getView", "url_img=" + url_img);
-			Bitmap bp = imageLoader.loadImage(imageView, url_img);
-			Log.i("getView", "Bitmap=" + bp);
-			if (bp != null) {
-				imageView.setImageBitmap(bp);
-			}
+		ImageView imageView;
+		if (convertView == null) {
+			imageView = new ImageView(context);
+		} else {
+			imageView = (ImageView) convertView;
 		}
-		imageView.setAdjustViewBounds(true);
-		imageView.setScaleType(ScaleType.FIT_XY);
+		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+		
+		String mImageUrl = url_Top + data.get(position);
+		imageView.setTag(mImageUrl);
+		Log.e("getView", "i=" + position + "......" + "mImageUrl = "
+				+ mImageUrl);
+		
+		Bitmap bmp = imageLoader.loadBitmap(imageView, mImageUrl, true);
+		if (bmp == null) {
+			imageView.setImageResource(R.drawable.friends_sends_pictures_no);
+		} else {
+			imageView.setImageBitmap(bmp);
+		}
+		
 		return imageView;
 	}
 }

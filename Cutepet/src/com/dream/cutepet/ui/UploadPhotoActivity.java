@@ -4,21 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,22 +20,17 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dream.cutepet.R;
-import com.dream.cutepet.adapter.UpPhotoAdapter;
-import com.dream.cutepet.adapter.UpPhotoAdapter.ViewHolder;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.adapter.MyAlbumAdapter;
+import com.dream.cutepet.model.ImageBeanModel;
+import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.SDCardUtil;
 
 /**
@@ -52,74 +41,66 @@ import com.dream.cutepet.util.SDCardUtil;
  */
 public class UploadPhotoActivity extends Activity {
 	GridView gridView;
-	ImageView iv_return;
-	TextView tv_cancel, tv_ok;
-	List<String> data_img;
-	List<File> SDFile;
-	UpPhotoAdapter adapter;
-	int checkedNum = 0;// 记录选中的条目数量
+	TextView tv_cancel, tv_camera;
+	private ProgressDialog mProgressDialog;
+
+	private MyAlbumAdapter adapter;
 	private String username;
 	private String title;
-	Map<String, List<String>> data_localImg;
 
-	@SuppressLint("SimpleDateFormat")
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
-	private String actionUrl = "http://192.168.11.238/index.php/home/api/uploadPhoto";
+	private Map<String, List<String>> data;
+	private List<ImageBeanModel> data_album;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload_photo);
 
-		initData();
+		username = getIntent().getStringExtra("tel");
+		title = getIntent().getStringExtra("title");
 
-//		initImageData();
-		
 		initView();
+		initImageData();
 	}
 
-	@SuppressLint("HandlerLeak") 
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 001:
-				//加载好了图片数据
+				// 加载好了图片数据
+				// 关闭进度条
+				mProgressDialog.dismiss();
+				// 对适配器添加数据
+				adapter = new MyAlbumAdapter(getApplicationContext(),
+						data_album, gridView);
+				// 显示gridview
+				gridView.setAdapter(adapter);
 				break;
 			default:
 				break;
 			}
-
 		}
 	};
 
+	/**
+	 * 获取本地相册集合
+	 */
 	private void initImageData() {
+		// 显示进度条
+		mProgressDialog.show();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				data_localImg = SDCardUtil.getImage(getApplicationContext());
+				// 获取本地相册的Map集合对象
+				data = SDCardUtil.getImage(getApplicationContext());
+				// 获取相册封面信息集合对象
+				data_album = MyListUtil.subGroupOfImage(data);
 				mHandler.sendEmptyMessage(001);
 			}
 		}).start();
-	}
-
-	/**
-	 * 初始化数据
-	 */
-	private void initData() {
-		// 获取所有SD卡的根路径File集合
-		SDFile = SDCardUtil.getAllSDcardFile(getApplicationContext());
-		// 初始化图片路径集合
-		data_img = new ArrayList<String>();
-		// 添加第一张默认的拍照的背景图片
-		data_img.add(R.drawable.photo + "");
-
-		for (int i = 0; i < SDFile.size(); i++) {
-			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
-		}
-		username = getIntent().getExtras().getString("tel");
-		title = getIntent().getExtras().getString("name");
 	}
 
 	/**
@@ -127,94 +108,25 @@ public class UploadPhotoActivity extends Activity {
 	 */
 	private void initView() {
 		tv_cancel = (TextView) findViewById(R.id.tv_uploadPhoto_cancel);
-		tv_ok = (TextView) findViewById(R.id.tv_uploadPhoto_ok);
+		tv_camera = (TextView) findViewById(R.id.tv_uploadPhoto_camera);
 
 		tv_cancel.setOnClickListener(listener);
-		tv_ok.setOnClickListener(listener);
+		tv_camera.setOnClickListener(listener);
 
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
-		adapter = new UpPhotoAdapter(this, data_img);
-		gridView.setAdapter(adapter);
 		gridView.setOnItemClickListener(itemClickListener);
+		
+		mProgressDialog = new ProgressDialog(getApplicationContext());
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setTitle("加载中，请稍后...");
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
 		// 照相返回界面后刷新数据
-		initData();
+		initImageData();
 		// 将统计的已选择的图片的数量清0
-		checkedNum = 0;
-		// listview刷新数据
-		dataChanged();
-	}
-
-	/**
-	 * 上传
-	 */
-	private void IsSure() {
-		List<File> check_photo = new ArrayList<File>();
-		Map<Integer, Boolean> map = UpPhotoAdapter.getIsSelected();
-		for (Iterator<Entry<Integer, Boolean>> it = map.entrySet().iterator(); it
-				.hasNext();) {
-			Map.Entry<Integer, Boolean> temp = it.next();
-			if (temp.getValue()) {
-				String path = data_img.get(temp.getKey());
-				File file = new File(path);
-				check_photo.add(file);
-			}
-		}
-
-		try {
-			HttpPost httpPost = HttpPost.parseUrl(actionUrl);
-			Map<String, String> msg = new HashMap<String, String>();
-			msg.put("tel", username);
-			msg.put("albumname", title);
-			msg.put("time", format.format(new Date()));
-			msg.put("quantity", check_photo.size() + "");
-			for (File temp : check_photo) {
-				httpPost.putMap(msg);
-				httpPost.putFile(temp.getName(), temp, temp.getName(), null);
-			}
-			httpPost.send();
-			httpPost.setOnSendListener(new OnSendListener() {
-				@Override
-				public void start() {
-				}
-
-				@Override
-				public void end(String result) {
-					Log.i("result", "result = " + result);
-					try {
-						JSONObject jsonObject = new JSONObject(result);
-						Toast.makeText(getApplicationContext(),
-								jsonObject.getString("message"),
-								Toast.LENGTH_SHORT).show();
-						finish();
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 返回
-	 */
-	private void returnTolast() {
-		this.finish();
-	}
-
-	/**
-	 * 刷新
-	 */
-	private void dataChanged() {
-		adapter = new UpPhotoAdapter(this, data_img);
-		gridView.setAdapter(adapter);
-		tv_ok.setText("确定(" + checkedNum + ")");
 	}
 
 	OnClickListener listener = new OnClickListener() {
@@ -222,10 +134,11 @@ public class UploadPhotoActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.tv_uploadPhoto_cancel:
-				returnTolast();
+				finish();
 				break;
-			case R.id.tv_uploadPhoto_ok:
-				IsSure();
+			case R.id.tv_uploadPhoto_camera:
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(intent, 1);
 				break;
 			default:
 				break;
@@ -237,26 +150,16 @@ public class UploadPhotoActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			if (arg2 == 0) {
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(intent, 1);
-			} else {
-				ViewHolder holder = (ViewHolder) arg1.getTag();
-				// 改变checkbox的选择状态
-				holder.cb_check.toggle();
-				// 获取checkbox的选择的集合
-				Map<Integer, Boolean> map = UpPhotoAdapter.getIsSelected();
-				// 添加选择状态
-				map.put(arg2, holder.cb_check.isChecked());
-				// 更新选择的集合
-				UpPhotoAdapter.setIsSelected(map);
-				if (holder.cb_check.isChecked() == true) {
-					checkedNum++;
-				} else {
-					checkedNum--;
-				}
-				tv_ok.setText("确定(" + checkedNum + ")");
-			}
+			List<String> childList = data.get(data_album.get(arg2)
+					.getFolderName());
+
+			Intent intent = new Intent(UploadPhotoActivity.this,
+					ShowImageActivity.class);
+			intent.putStringArrayListExtra("data",
+					(ArrayList<String>) childList);
+			intent.putExtra("tel", username);
+			intent.putExtra("title", title);
+			startActivityForResult(intent, 0);
 		}
 	};
 
@@ -267,7 +170,9 @@ public class UploadPhotoActivity extends Activity {
 		// 照相后，保存照片到指定的路径
 		if (resultCode == Activity.RESULT_OK) {
 			String sdStatus = Environment.getExternalStorageState();
-			String fileName = SDFile.get(0) + "/myImage/";
+			String fileName = SDCardUtil
+					.getAllSDcardFile(getApplicationContext()).get(0).getPath()
+					+ "/CameraImage/";
 			if (sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
 				// 设置照相后的图片保存的名字
 				String name = new SimpleDateFormat("yyyyMMdd_hhmmss")
@@ -275,7 +180,7 @@ public class UploadPhotoActivity extends Activity {
 				Bundle bundle = data.getExtras();
 				// 获取相机返回的数据，并转换为Bitmap图片格式
 				Bitmap bitmap = (Bitmap) bundle.get("data");
-
+				
 				FileOutputStream b = null;
 				File file = new File(fileName);
 				if (!file.exists()) {
@@ -283,7 +188,6 @@ public class UploadPhotoActivity extends Activity {
 					file.mkdirs();
 				}
 				String filePath = fileName + name;
-
 				try {
 					b = new FileOutputStream(filePath);
 					// 把数据写入文件

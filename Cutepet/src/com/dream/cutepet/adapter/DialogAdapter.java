@@ -21,14 +21,12 @@ public class DialogAdapter extends BaseAdapter {
 	private int ITEMCOUNT = 2;// 消息类型的总数
 	private List<DialogCharData> list_char;// 消息对象数组
 	private LayoutInflater inflater;
-	private Context context;
 
 	public DialogAdapter() {
 	}
 
 	public DialogAdapter(List<DialogCharData> list_char, Context context) {
 		this.list_char = list_char;
-		this.context = context;
 		inflater = LayoutInflater.from(context);
 	}
 

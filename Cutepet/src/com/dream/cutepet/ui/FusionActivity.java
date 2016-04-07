@@ -46,7 +46,7 @@ public class FusionActivity extends Activity {
 		if(tok != null && !tok.equals("")){
 			username=tok.split(",")[1];
 		}
-		String url="http://192.168.11.238/index.php/home/api/fusion";
+		String url="http://192.168.1.106/index.php/home/api/fusion";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.putString("tel", username);

@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.sdk.android.hotpatch.c;
-
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.storage.StorageManager;
 import android.provider.MediaStore;
 
@@ -68,6 +68,51 @@ public class SDCardUtil {
 	}
 
 	/**
+	 * 获取指定文件夹中的所有图片(jpg,png)
+	 * 
+	 * @param file
+	 * @param data_img
+	 * @return
+	 */
+	@SuppressLint("DefaultLocale")
+	public static List<String> getAllFiles(File file, List<String> data_img) {
+		List<String> data = data_img;
+		File[] files = file.listFiles();
+		if (files != null) {
+			for (File f : files) {
+				if (f.isDirectory()) {
+					getAllFiles(f, data);
+				} else {
+					String path = f.getPath();
+					int idx = path.lastIndexOf(".");
+					if (idx <= 0) {
+						continue;
+					}
+					String suffix = path.substring(idx);
+					if (suffix.toLowerCase().equals(".jpg")
+							|| suffix.toLowerCase().equals(".png")) {
+						data.add(f.getPath());
+					}
+				}
+			}
+		}
+		return data;
+	}
+
+	/**
+	 * 判断是否存在sd卡
+	 * 
+	 * @return 存在返回true
+	 */
+	public static boolean hsdSdCard() {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * 通过 ContentProvider 获取本地图片，并分类
 	 * 
 	 * <p>
@@ -86,8 +131,9 @@ public class SDCardUtil {
 		// 获取大图的URI
 		Uri uri_img = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 		// 获取缩略图的URI
-		// Uri mImageUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI；
+		// Uri uri_img = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
 
+		// 获取ContentResolver
 		ContentResolver resolver = context.getContentResolver();
 		// 只查询jpeg和png的图片
 		Cursor cursor = resolver.query(uri_img, null,
@@ -116,7 +162,16 @@ public class SDCardUtil {
 				img_data.get(parentName).add(path);
 			}
 		}
+
+		String fileName = SDCardUtil.getAllSDcardFile(context).get(0).getPath()
+				+ "/CameraImage/";
+		File file = new File(fileName);
+		List<String> data = new ArrayList<String>();
+		data = getAllFiles(file, data);
+		img_data.put(file.getName(), data);
+
 		cursor.close();
 		return img_data;
 	}
+
 }

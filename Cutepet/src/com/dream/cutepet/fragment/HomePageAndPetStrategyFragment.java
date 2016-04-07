@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 
 /**
@@ -44,13 +43,23 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 		petStrategyFragment=new PetStrategyFragment();
 		transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 		transaction.commit();
-		resources.setChecked(true);
+		
 		resources.setOnClickListener(clickListener);
 		strategy.setOnClickListener(clickListener);
 
 		return view;
 	}
 	
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		resources.setChecked(true);
+		strategy.setChecked(false);
+	}
+
+
 	/**
 	 * 点击顶部切换页面
 	 */

@@ -1,9 +1,14 @@
 ﻿package com.dream.cutepet.fragment;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.dream.cutepet.DynamicDetailsActivity;
-//import com.dream.cutepet.DynamicDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.SquareBaseAdapter;
 import com.dream.cutepet.model.SquareModel;
@@ -15,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -153,8 +159,7 @@ public class SquareFragment extends Fragment {
 				squareContent = data.get(position - 1)
 						.getSquare_comment_content();
 				squarePicture = data.get(position - 1).getSquare_image();
-				squarePraise = data.get(position-1).getSquare_praise_num();
-				
+				squarePraise = data.get(position - 1).getSquare_praise_num();
 				Bundle bundle = new Bundle();
 				bundle.putString("theId", squareId);
 				bundle.putString("theUsername", squareUsername);
@@ -176,13 +181,14 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		String url = "http://192.168.11.238/index.php/home/api/getTalk";
+		String url = "http://192.168.1.106/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				public void start() {
 				}
+
 				public void end(String result) {
 					data = SquareModel.setJson(result);
 					adapter.setData(data);

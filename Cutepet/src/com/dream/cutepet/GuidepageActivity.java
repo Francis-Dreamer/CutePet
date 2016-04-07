@@ -150,9 +150,10 @@ public class GuidepageActivity extends Activity {
 	OnClickListener onClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(GuidepageActivity.this,
-					AllPageActivity.class);
-			startActivity(intent);
+				Intent intent = new Intent(GuidepageActivity.this,
+						AllPageActivity.class);
+				startActivity(intent);
+				finish();
 		}
 	};
 

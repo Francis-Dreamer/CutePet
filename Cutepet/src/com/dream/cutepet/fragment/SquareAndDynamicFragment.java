@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 /**
  * 宠物圈
@@ -48,7 +47,13 @@ public class SquareAndDynamicFragment extends Fragment{
 		
 		return view;
 	}
-	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		dynamic.setChecked(false);
+		square.setChecked(true);
+	}
 	/**
 	 * 点击顶部切换页面
 	 */

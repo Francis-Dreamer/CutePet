@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.dream.cutepet.R;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.util.BitmapUtil;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.ImageView;
 
 public class WriteTalkUpLoadAdapter extends BaseAdapter {
 	private List<String> data;
-	private Context context;
 	private LayoutInflater inflater;
 	private static Map<Integer, Boolean> isSelected;
 
@@ -25,9 +25,9 @@ public class WriteTalkUpLoadAdapter extends BaseAdapter {
 
 	}
 
+	@SuppressLint("UseSparseArrays") 
 	public WriteTalkUpLoadAdapter(Context context, List<String> data) {
 		this.data = data;
-		this.context = context;
 		this.inflater = LayoutInflater.from(context);
 		isSelected = new HashMap<Integer, Boolean>();
 		initData();
@@ -69,6 +69,7 @@ public class WriteTalkUpLoadAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("InflateParams") 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
@@ -84,7 +85,7 @@ public class WriteTalkUpLoadAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.iv_picture.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(data
+		holder.iv_picture.setImageBitmap(BitmapUtil.getDiskBitmap(data
 				.get(position)));
 
 		return convertView;

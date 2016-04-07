@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import com.dream.cutepet.adapter.SelectPhotoBaseAdapter;
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
 import com.dream.cutepet.util.SDCardUtil;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,7 +42,7 @@ public class SelectPhotoActivity extends Activity {
 		data_img=new ArrayList<String>();
 		
 		for (int i = 0; i < SDFile.size(); i++) {
-			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
+//			data_img = SDCardAllPhotoUtil.getAllFiles(SDFile.get(i), data_img);
 		}
 
 	}

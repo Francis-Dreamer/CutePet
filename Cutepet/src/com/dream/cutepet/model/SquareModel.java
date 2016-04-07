@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class SquareModel {
 	String square_portrait;
 	String square_neckname;
@@ -17,7 +19,15 @@ public class SquareModel {
 	String square_praise_num;
 	String square_id;
 	String square_username;
-	
+	String square_comment;
+	public String getSquare_comment() {
+		return square_comment;
+	}
+
+	public void setSquare_comment(String square_comment) {
+		this.square_comment = square_comment;
+	}
+
 	public String getSquare_id() {
 		return square_id;
 	}
@@ -124,7 +134,6 @@ public class SquareModel {
 					model.square_comment_num = ob.getString("comment");
 					model.square_image=ob.getString("picture");
 					model.square_portrait=ob.getString("icon");
-					
 					data.add(model);
 				}
 			}
@@ -133,5 +142,4 @@ public class SquareModel {
 		}
 		return data;
 	}
-
 }

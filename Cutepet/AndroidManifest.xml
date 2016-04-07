@@ -100,6 +100,8 @@
         </activity>
         <activity android:name="com.dream.cutpet.server.AddCustomActivity" >
         </activity>
+        <activity android:name="com.dream.cutepet.ui.ShowImageActivity" >
+        </activity>
     </application>
 
 </manifest>

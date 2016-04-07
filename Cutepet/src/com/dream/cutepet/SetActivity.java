@@ -124,6 +124,7 @@ public class SetActivity extends Activity {
 
 		// 获取屏幕宽度
 		WindowManager wm = this.getWindowManager();
+		@SuppressWarnings("deprecation")
 		int width = wm.getDefaultDisplay().getWidth();
 		// int height = wm.getDefaultDisplay().getHeight();
 

@@ -98,7 +98,7 @@ public class Notification {
 		public static final long TribeMessage = 2;
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "deprecation" })
 	public static void showNotification(Context context, YWMessage p2pMsg,
 			YWMessage tribeMsg) {
 		NotificationManager nm = (NotificationManager) context

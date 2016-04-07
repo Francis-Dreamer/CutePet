@@ -2,7 +2,7 @@ package com.dream.cutepet.adapter;
 
 import java.util.List;
 
-import com.dream.cutepet.util.SDCardAllPhotoUtil;
+import com.dream.cutepet.util.BitmapUtil;
 
 import android.content.Context;
 import android.view.View;
@@ -47,11 +47,13 @@ public class SetPetIconAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		
 		ImageView imageView = new ImageView(context);
 		if (position == 0) {
 			imageView.setImageResource(Integer.parseInt(data.get(0)));
 		} else {
-			imageView.setImageBitmap(SDCardAllPhotoUtil.getDiskBitmap(data
+			imageView.setImageBitmap(BitmapUtil.getDiskBitmap(data
 					.get(position)));
 		}
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,

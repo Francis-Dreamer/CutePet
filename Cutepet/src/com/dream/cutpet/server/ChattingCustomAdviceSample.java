@@ -26,8 +26,6 @@ import com.alibaba.mobileim.conversation.YWConversation;
 import com.alibaba.mobileim.conversation.YWMessage;
 import com.alibaba.mobileim.utility.YWIMImageUtils;
 import com.dream.cutepet.R;
-import com.dream.cutepet.fragment.ChatActivityFragment;
-import com.dream.cutepet.model.PetStoreModel;
 
 /**
  * 会话列表自定义
@@ -254,7 +252,6 @@ public class ChattingCustomAdviceSample extends IMChattingPageUI {
 	/**
 	 * isv需要返回自定义的view. openIMSDK会回调这个方法，获取用户设置的view. Fragment 聊天界面的fragment
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public View getCustomTitleView(final Fragment fragment,
 			final Context context, LayoutInflater inflater,
