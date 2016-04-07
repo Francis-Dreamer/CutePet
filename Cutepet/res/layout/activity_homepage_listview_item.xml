@@ -63,10 +63,9 @@
 
             <ImageView
                 android:id="@+id/iv_homepage_personage_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/homepage_personage_pic1" />
+                android:layout_width="@dimen/px370"
+                android:layout_height="@dimen/px250"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/tv_homepage_personage_word"

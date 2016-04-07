@@ -17,7 +17,6 @@ public class ComplainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_complain);
 		image_complain = (ImageView) findViewById(R.id.image_complain);
@@ -25,7 +24,6 @@ public class ComplainActivity extends Activity {
 	}
 
 	OnClickListener ocl = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {

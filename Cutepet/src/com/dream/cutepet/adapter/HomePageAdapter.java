@@ -7,7 +7,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dream.cutepet.R;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PersonageModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.TimeUtil;
 
 public class HomePageAdapter extends BaseAdapter implements OnClickListener {
@@ -29,7 +29,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	LayoutInflater inflater;
 	LayoutInflater inflater_m;
 	private AsyncImageLoader imageLoader;
-	String url_Top = "http://192.168.1.106";
+	String url_Top = "http://192.168.11.238";
 	private CallParise mCallParise;
 	private SetMessage mSetMessage;
 
@@ -45,7 +45,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		this.mSetMessage = mSetMessage;
 		inflater = LayoutInflater.from(context);
 		inflater_m = LayoutInflater.from(context);
-		imageLoader = new AsyncImageLoader(context);
+		ImageCacheManager cacheMgr = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 	}
 
 	public interface CallParise {
@@ -113,10 +115,17 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		}
 		final PersonageModel model = (PersonageModel) getItem(position);
 
-		holder.tv_name.setText(model.getName());
 		// 将格林威治时间转换为date型
 		Date time = TimeUtil.changeTime(model.getTime());
 		holder.tv_time.setText(TimeUtil.showTime(time));
+
+		String name = model.getName();
+		if (!TextUtils.isEmpty(name) && !name.equals("null")) {
+			holder.tv_name.setText(name + "");
+		} else {
+			holder.tv_name.setText(model.getUsername() + "");
+		}
+
 		holder.tv_content.setText(model.getContent());
 		holder.tv_address.setText(model.getAddress());
 		holder.tv_like.setText(model.getLike() + "");
@@ -125,36 +134,32 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		holder.tv_message.setOnClickListener(this);
 		holder.tv_message.setTag(position);
 
-		String icon = model.getLogo();
-		if (!TextUtils.isEmpty(icon) && !icon.equals("null")) {
-			Log.e("eeeeeee", icon);
-			final String iconUrl = url_Top + icon;
-			// 给 ImageView 设置一个 tag
-			holder.icon.setTag(iconUrl);
-			// 预设一个图片
-			holder.icon.setImageResource(R.drawable.icon_tx);
-			// 异步加载图片
-			Bitmap bitmap = imageLoader.loadImage(holder.icon, iconUrl);
-			Log.e("eeeeeee", iconUrl);
-			if (bitmap != null) {
-				Log.e("xxxxxxxxx", "xxxxxxxxxxxx");
-				holder.icon.setImageBitmap(bitmap);
-			}
-		}
 		holder.tv_word.setText(model.getPicture_name());
 
-		String img = model.getPicture_icon();
-		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-			// 获取图片的url地址
-			final String imgUrl = url_Top + img;
-			// 给 ImageView 设置一个 tag
-			holder.iv_picture.setTag(imgUrl);
-			// 异步加载图片
-			Bitmap bitmap = imageLoader.loadImage(holder.iv_picture, imgUrl);
-			if (bitmap != null) {
-				holder.iv_picture.setImageBitmap(bitmap);
-			}
+		String iconUrl = url_Top + model.getLogo();
+		// 给 ImageView 设置一个 tag
+		holder.icon.setTag(iconUrl);
+		// 异步加载图片
+		Bitmap bitmap = imageLoader.loadBitmap(holder.icon, iconUrl, true);
+		if (bitmap != null) {
+			holder.icon.setImageBitmap(bitmap);
+		} else {
+			holder.icon.setImageResource(R.drawable.icon_tx);
 		}
+
+		// 获取图片的url地址
+		String imgUrl = url_Top + model.getPicture_icon();
+		// 给 ImageView 设置一个 tag
+		holder.iv_picture.setTag(imgUrl);
+		// 异步加载图片
+		Bitmap bt = imageLoader.loadBitmap(holder.iv_picture, imgUrl, true);
+		if (bt != null) {
+			holder.iv_picture.setImageBitmap(bt);
+		} else {
+			holder.iv_picture
+					.setImageResource(R.drawable.friends_sends_pictures_no);
+		}
+
 		return convertView;
 	}
 
@@ -165,7 +170,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		RelativeLayout rlayout_pic, rlayout_comment;
 		TextView tv_like;
 		TextView tv_send, tv_cancel;
-
 	}
 
 	@Override
@@ -180,6 +184,5 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		default:
 			break;
 		}
-
 	}
 }

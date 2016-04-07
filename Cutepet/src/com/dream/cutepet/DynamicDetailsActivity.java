@@ -10,12 +10,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
+import com.dream.cutepet.adapter.SquareGridviewAdapter;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicDetailsModel;
 import com.dream.cutepet.model.SquareModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.TimeUtil;
+import com.dream.cutepet.view.MyGridView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +50,7 @@ public class DynamicDetailsActivity extends Activity {
 	RadioGroup radioGroup_bottom;
 	String str_edit;
 	EditText dynamic_details_edit;
-	String urlTop = "http://192.168.1.106";
+	String urlTop = "http://192.168.11.238";
 	AsyncImageLoader imageLoader;
 	TextView dynamic_details_nickname;
 	TextView dynamic_details_time;
@@ -52,7 +58,7 @@ public class DynamicDetailsActivity extends Activity {
 	TextView dynamic_details_content;
 	TextView dynamic_details_like;
 	TextView tv_add_attention;
-	ImageView dynamic_details_image;
+	MyGridView dynamic_details_image;
 	LinearLayout llayout_details_icon;
 	private String username;
 	private String id;
@@ -70,7 +76,10 @@ public class DynamicDetailsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dynamic_details);
-		imageLoader = new AsyncImageLoader(this);
+
+		ImageCacheManager cacheMgr = new ImageCacheManager(this);
+		imageLoader = new AsyncImageLoader(this, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 
 		// 把其他形状转化成圆形头像
 		Bundle bundle = getIntent().getExtras();
@@ -101,18 +110,16 @@ public class DynamicDetailsActivity extends Activity {
 		ImageView send = (ImageView) findViewById(R.id.send);
 		back.setOnClickListener(clickListener);
 		send.setOnClickListener(clickListener);
-		
 
 		dynamic_details_edit = (EditText) findViewById(R.id.dynamic_details_edit);
 		listView = (ListView) findViewById(R.id.dynamic_details_listview);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setTextColor(Color.rgb(51, 51, 51));
 		title.setText("详情");
-		TextView menu_hide=(TextView) findViewById(R.id.menu_hide);
+		TextView menu_hide = (TextView) findViewById(R.id.menu_hide);
 		menu_hide.setText("写说说");
 		menu_hide.setVisibility(View.VISIBLE);
 		menu_hide.setOnClickListener(clickListener);
-		
 
 		// 加上headerview
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -127,21 +134,23 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.dynamic_details_address);
 		dynamic_details_content = (TextView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_content);
-		dynamic_details_image = (ImageView) dynamic_details_headerview
-				.findViewById(R.id.dynamic_details_image);
 		dynamic_details_like = (TextView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_praise_num);
-		
+		ImageView dynamic_details_portrait = (ImageView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_portrait);
 		llayout_details_icon = (LinearLayout) dynamic_details_headerview
 				.findViewById(R.id.llayout_details_icon);
-
 		tv_add_attention = (TextView) dynamic_details_headerview
 				.findViewById(R.id.add_attention);
 		tv_add_attention.setOnClickListener(clickListener);
 
-		// 头像
-		ImageView dynamic_details_portrait = (ImageView) dynamic_details_headerview
-				.findViewById(R.id.dynamic_details_portrait);
+		dynamic_details_image = (MyGridView) dynamic_details_headerview
+				.findViewById(R.id.dynamic_details_image);
+		if(!TextUtils.isEmpty(imageUrl) && !imageUrl.equals("null")){
+			List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
+			SquareGridviewAdapter adapter = new SquareGridviewAdapter(getApplicationContext(), list);
+			dynamic_details_image.setAdapter(adapter);
+		}
 
 		dynamic_details_nickname.setText(theNickname);
 		Date date = TimeUtil.changeTime(theTime);
@@ -151,23 +160,14 @@ public class DynamicDetailsActivity extends Activity {
 		dynamic_details_like.setText(thePraise + "");
 		dynamic_details_like.setOnClickListener(clickListener);
 
-		if (!TextUtils.isEmpty(imageUrl) && !imageUrl.equals("null")) {
-			String url_img = urlTop + imageUrl;
-			dynamic_details_image.setTag(url_img);
-			Bitmap bt = imageLoader.loadImage(dynamic_details_image, url_img);
-			if (bt != null) {
-				dynamic_details_image.setImageBitmap(bt);
-			}
-		}
-
-		if (!TextUtils.isEmpty(portraitUrl) && !portraitUrl.equals("null")) {
-			String url_portrait = urlTop + portraitUrl;
-			dynamic_details_portrait.setTag(url_portrait);
-			Bitmap bt = imageLoader.loadImage(dynamic_details_portrait,
-					url_portrait);
-			if (bt != null) {
-				dynamic_details_portrait.setImageBitmap(bt);
-			}
+		String url_portrait = urlTop + portraitUrl;
+		dynamic_details_portrait.setTag(url_portrait);
+		Bitmap bt_icon = imageLoader.loadBitmap(dynamic_details_portrait,
+				url_portrait, true);
+		if (bt_icon != null) {
+			dynamic_details_portrait.setImageBitmap(bt_icon);
+		} else {
+			dynamic_details_portrait.setImageResource(R.drawable.icon_tx);
 		}
 
 		listView.addHeaderView(dynamic_details_headerview);
@@ -181,27 +181,26 @@ public class DynamicDetailsActivity extends Activity {
 	 * 
 	 * @param num
 	 */
-	private void initPraiseIcon() {
+	private void initPraiseIcon(int num) {
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 8, 0);
-		
+
 		llayout_details_icon.removeAllViews();
 		for (int i = 0; i < data_icon.size(); i++) {
 			ImageView child = new ImageView(DynamicDetailsActivity.this);
-			String img = data_icon.get(i);
-			if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-				String url_img = urlTop + img;
-				child.setTag(url_img);
-				Bitmap bt1 = imageLoader.loadImage(child, url_img);
-				if (bt1 != null) {
-					child.setImageBitmap(bt1);
-				}
-				child.setLayoutParams(params);
-				llayout_details_icon.addView(child);
+			String url_img = urlTop + data_icon.get(i);
+			child.setTag(url_img);
+			Bitmap bt1 = imageLoader.loadBitmap(child, url_img, true);
+			if (bt1 != null) {
+				child.setImageBitmap(bt1);
+			} else {
+				child.setImageResource(R.drawable.icon_tx);
 			}
+			child.setLayoutParams(params);
+			llayout_details_icon.addView(child);
 		}
-		dynamic_details_like.setText(data_icon.size() + "");
+		dynamic_details_like.setText(num + "");
 	}
 
 	/**
@@ -210,7 +209,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * @param position
 	 */
 	private void setParise() {
-		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_square";
+		String url = "http://192.168.11.238/index.php/home/api/uploadPraise_square";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -245,7 +244,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取点赞头像数据
 	 */
 	private void getData_icon() {
-		String url = "http://192.168.1.106/index.php/home/api/getPraise_square_icon";
+		String url = "http://192.168.11.238/index.php/home/api/getPraise_square_icon";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -265,7 +264,8 @@ public class DynamicDetailsActivity extends Activity {
 							for (int i = 0; i < arr.length(); i++) {
 								data_icon.add(arr.getString(i));
 							}
-							initPraiseIcon();
+							int num = jsonObject.getInt("size");
+							initPraiseIcon(num);
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -281,7 +281,7 @@ public class DynamicDetailsActivity extends Activity {
 	 * 获取评论数据
 	 */
 	private void getData_comment() {
-		String url = "http://192.168.1.106/index.php/home/api/getSquareComment";
+		String url = "http://192.168.11.238/index.php/home/api/getSquareComment";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.putString("issue_id", id);
@@ -307,7 +307,7 @@ public class DynamicDetailsActivity extends Activity {
 	 */
 	private void send() {
 		String content = dynamic_details_edit.getText().toString().trim();
-		String url_send = "http://192.168.1.106/index.php/home/api/uploadSquareComment";
+		String url_send = "http://192.168.11.238/index.php/home/api/uploadSquareComment";
 		if (!TextUtils.isEmpty(content)) {
 			try {
 				HttpPost httpPost = HttpPost.parseUrl(url_send);
@@ -345,8 +345,9 @@ public class DynamicDetailsActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
-	private void getAttention(){
-		String url_send = "http://192.168.1.106/index.php/home/api/hasAttention";
+
+	private void getAttention() {
+		String url_send = "http://192.168.11.238/index.php/home/api/hasAttention";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -366,7 +367,7 @@ public class DynamicDetailsActivity extends Activity {
 						int status = jsonObject.getInt("status");
 						if (status == 1) {// 关注成功
 							tv_add_attention.setText("已关注");
-						} else if(status == -1){
+						} else if (status == -1) {
 							tv_add_attention.setText("+关注");
 						}
 					} catch (JSONException e) {
@@ -378,11 +379,12 @@ public class DynamicDetailsActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 关注
 	 */
 	private void attention() {
-		String url_send = "http://192.168.1.106/index.php/home/api/attention";
+		String url_send = "http://192.168.11.238/index.php/home/api/attention";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -434,8 +436,9 @@ public class DynamicDetailsActivity extends Activity {
 				attention();
 				break;
 			case R.id.menu_hide:
-				Intent intent=new Intent();
-				intent.setClass(DynamicDetailsActivity.this, WriteTalkActivity.class);
+				Intent intent = new Intent();
+				intent.setClass(DynamicDetailsActivity.this,
+						WriteTalkActivity.class);
 				startActivity(intent);
 				break;
 			default:

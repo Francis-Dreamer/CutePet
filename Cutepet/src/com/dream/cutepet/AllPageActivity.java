@@ -43,7 +43,6 @@ public class AllPageActivity extends FragmentActivity {
 		setContentView(R.layout.activity_allpage);
 
 		initview();
-
 	}
 
 	@Override

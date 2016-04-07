@@ -3,9 +3,10 @@ package com.dream.cutepet.adapter;
 import java.util.List;
 
 import com.dream.cutepet.R;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicDetailsModel;
 import com.dream.cutepet.model.DynamicDetailsModel.Message;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.TimeUtil;
 
 import android.annotation.SuppressLint;
@@ -24,9 +25,8 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-//	private String url_top = "192.168.1.106";
-	private String url_top = "192.168.1.106";
-	
+	private String url_top = "192.168.11.238";
+
 	public DynamicDetailsBaseAdapter() {
 
 	}
@@ -35,7 +35,9 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 			Context context) {
 		this.data = data;
 		this.context = context;
-		imageLoader = new AsyncImageLoader(context);
+		ImageCacheManager cacheMgr = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -85,23 +87,21 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 		}
 		DynamicDetailsModel.Message model = (Message) getItem(position);
 		holder.dynamic_details_neckname.setText(model.getNickname());
-		
+
 		String time = model.getCreate_time();
-		if(!TextUtils.isEmpty(time) && !time.equals("null")){
-			holder.dynamic_details_comment_time.setText(TimeUtil.showTime(TimeUtil
-					.changeTime(time)));
+		if (!TextUtils.isEmpty(time) && !time.equals("null")) {
+			holder.dynamic_details_comment_time.setText(TimeUtil
+					.showTime(TimeUtil.changeTime(time)));
 		}
 		holder.dynamic_details_comment_content.setText(model.getContent());
-		
-		String portrait = model.getIcon();
-		if (!TextUtils.isEmpty(portrait) && !portrait.equals("null")) {
-			String url_icon = url_top + portrait;
-			holder.dynamic_details_portrait.setTag(url_icon);
-			Bitmap bt = imageLoader.loadImage(holder.dynamic_details_portrait,
-					url_icon);
-			if (bt != null) {
-				holder.dynamic_details_portrait.setImageBitmap(bt);
-			}
+
+		String url_icon = url_top + model.getIcon();
+		holder.dynamic_details_portrait.setTag(url_icon);
+		Bitmap bt = imageLoader.loadBitmap(holder.dynamic_details_portrait, url_icon, true);
+		if (bt != null) {
+			holder.dynamic_details_portrait.setImageBitmap(bt);
+		}else{
+			holder.dynamic_details_portrait.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
 		return convertView;
 	}

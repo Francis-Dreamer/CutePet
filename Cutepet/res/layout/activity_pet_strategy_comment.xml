@@ -141,8 +141,7 @@
             android:layout_marginLeft="@dimen/px100"
             android:layout_marginTop="@dimen/px24"
             android:layout_toRightOf="@id/pet_strategy_comment_addview"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_tx" />
+            android:scaleType="fitXY"/>
     </RelativeLayout>
 
 </LinearLayout>

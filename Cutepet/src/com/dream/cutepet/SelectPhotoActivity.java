@@ -82,7 +82,6 @@ public class SelectPhotoActivity extends Activity {
 	};
 	
 	OnClickListener clickListener=new OnClickListener() {
-
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.back:

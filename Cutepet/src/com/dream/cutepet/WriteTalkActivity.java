@@ -2,7 +2,6 @@ package com.dream.cutepet;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class WriteTalkActivity extends Activity{
-	
 	List<String> getPath;
 	String username;
 	EditText edit_content;
@@ -41,22 +39,13 @@ public class WriteTalkActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_writetalk);
 		
-		initData();
 		initView();
 	}
 	
 	/**
-	 * 加载数据
-	 */
-	private void initData(){
-		
-	}
-
-	/**
 	 * 加载页面
 	 */
 	private void initView(){
-		
 		ImageView back=(ImageView) findViewById(R.id.back);
 		TextView title=(TextView) findViewById(R.id.title);
 		title.setText("写说说");
@@ -69,18 +58,16 @@ public class WriteTalkActivity extends Activity{
 		
 		gridView=(GridView) findViewById(R.id.writetalk_gridview);
 		
-		adapter=new WriteTalkGridAdapter(getPath, this);
+		adapter=new WriteTalkGridAdapter(getPath, this,gridView);
 		gridView.setAdapter(adapter);
 		
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
 		add_image.setOnClickListener(clickListener);
-		
 	}
 	
 	
 	OnClickListener clickListener=new OnClickListener() {
-		
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.back:
@@ -103,23 +90,20 @@ public class WriteTalkActivity extends Activity{
 	/**
 	 * 发表
 	 */
-	@SuppressLint("SimpleDateFormat") private void send(){
+	@SuppressLint("SimpleDateFormat") 
+	private void send(){
+		String url="http://192.168.11.238/index.php/home/api/uploadTalk";
+		
 		String tok = SharedPreferencesUtil.getData(this);
 		username = tok.split(",")[1];
-		
-		Date date=new Date();
-		SimpleDateFormat format=new SimpleDateFormat("yyyy年MM月dd日");
-		String create_time=format.format(date);
 		String content=edit_content.getText().toString().trim();
 		String address=edit_address.getText().toString().trim();
 		
-		
-		String url="http://192.168.1.106/index.php/home/api/uploadTalk";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			Map<String, String> map=new HashMap<String, String>();
 			map.put("tel", username);
-			map.put("create_time", create_time);
+			map.put("create_time", new Date().toString());
 			map.put("content", content);
 			map.put("address", address);
 			httpPost.putMap(map);
@@ -130,31 +114,22 @@ public class WriteTalkActivity extends Activity{
 			}
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
-				
 				public void start() {
-					
 				}
-				
 				public void end(String result) {
 					Log.e("result", "result = " + result);
 					try {
 						JSONObject object=new JSONObject(result);
 						String message=object.getString("message");
 						Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-						
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 				}
 			});
-		
-			
-			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,16 +140,12 @@ public class WriteTalkActivity extends Activity{
 				Bundle bundle=data.getExtras();
 				getPath=new ArrayList<String>();
 				getPath=bundle.getStringArrayList("checked_path");
-				adapter=new WriteTalkGridAdapter(getPath, this);
+				adapter=new WriteTalkGridAdapter(getPath, this,gridView);
 				gridView.setAdapter(adapter);
 			}
 			break;
-
 		default:
 			break;
 		}
 	};
-	
-	
-	
 }

@@ -13,7 +13,6 @@ import android.widget.TextView;
  *
  */
 public class UpdateActivity extends Activity {
-	
 	ImageView back;
 	TextView title;
 
@@ -28,7 +27,6 @@ public class UpdateActivity extends Activity {
 	}
 
 	OnClickListener ocl = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {

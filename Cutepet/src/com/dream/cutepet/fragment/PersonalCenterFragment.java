@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dream.cutepet.AboutActivity;
 import com.dream.cutepet.AccountActivity;
@@ -29,6 +31,9 @@ import com.dream.cutepet.PersonalInformationActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.RegisterActivity;
 import com.dream.cutepet.SetActivity;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
+import com.dream.cutepet.ui.SetPersonIconActivity;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.HttpTools;
@@ -61,7 +66,7 @@ public class PersonalCenterFragment extends Fragment {
 
 	RadioButton personal_center;
 
-	ImageView image_toxiang;
+	ImageView image_toxiang_login,image_toxiang_unlogin;
 
 	String logo;
 	String attention;
@@ -76,12 +81,19 @@ public class PersonalCenterFragment extends Fragment {
 	TextView text_nickname;
 	TextView text_tel;
 
-	// UserModel data;
+	private AsyncImageLoader imageLoader;
 
 	@SuppressLint("InflateParams")
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.activity_personal_center, null);
+
+		ImageCacheManager cacheManager = new ImageCacheManager(getActivity());
+		imageLoader = new AsyncImageLoader(getActivity(),
+				cacheManager.getMemoryCache(),
+				cacheManager.getPlacardFileCache());
+
 		initView(view);
 
 		if (checkisLogin()) {
@@ -90,33 +102,14 @@ public class PersonalCenterFragment extends Fragment {
 		} else {// 未登录
 			judgeUnLongin();
 		}
-
-		Log.i("onCreateView", "onCreateView");
-		CheckIsLogin();
 		return view;
 	}
-
-	// /*
-	// * 判断是否登录
-	// */
-	// public void getData() {
-	//
-	// String result = SharedPreferencesUtil.getData(getActivity());
-	// if (result != null && !result.equals("")) {
-	// String[] temp = result.split(",");
-	// tel = temp[1];
-	// token = temp[0];
-	//
-	// initData();
-	// }
-	//
-	// }
 
 	/**
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "http://192.168.1.106/index.php/home/api/demand";
+		String url = "http://192.168.11.238/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -132,8 +125,6 @@ public class PersonalCenterFragment extends Fragment {
 				@Override
 				public void end(String result) {
 					Log.i("PersonalCenterFragment", "initData = " + result);
-					// 获取后台传递过来的json值
-					// data = UserModel.changeJson(result);
 					try {
 						JSONObject jsonObject = new JSONObject(result);
 						JSONObject jo = jsonObject.getJSONObject("message");
@@ -170,18 +161,29 @@ public class PersonalCenterFragment extends Fragment {
 
 	// UI控件的更新
 	private void updateView() {
-		/*
-		 * for(int i = 0 ; i < data.size() ; i++){
-		 * 
-		 * } //image_toxiang.setImageBitmap(null);
-		 */
+		String img_url = "http://192.168.11.238" + logo;
+		image_toxiang_login.setTag(img_url);
+		Bitmap bitmap = imageLoader.loadBitmap(image_toxiang_login, img_url, true);
+		if (bitmap != null) {
+			image_toxiang_login.setImageBitmap(bitmap);
+		} else {
+			image_toxiang_login.setImageResource(R.drawable.icon_tx);
+		}
 
-		// image_toxiang.setImageBitmap(logo);
 		text_attention.setText(attention);
 		text_fans.setText(fans);
 		text_enshrine.setText(collect);
 		text_nickname.setText(nickname);
 		text_tel.setText(username);
+	}
+
+	/**
+	 * 设置头像
+	 */
+	private void setIcon() {
+		Intent intent = new Intent(getActivity(), SetPersonIconActivity.class);
+		intent.putExtra("tel", username);
+		startActivityForResult(intent, 0);
 	}
 
 	/**
@@ -191,24 +193,31 @@ public class PersonalCenterFragment extends Fragment {
 	 */
 	private void initView(View view) {
 		// // 找到每个控件
-		// back = (ImageView) view.findViewById(R.id.back);
-		// back.setVisibility(View.GONE);
 		title = (TextView) view.findViewById(R.id.title);
 		title.setText("个人中心");
-		linear_personalInformation = (LinearLayout) view.findViewById(R.id.linear_personalInformation);
+		linear_personalInformation = (LinearLayout) view
+				.findViewById(R.id.linear_personalInformation);
 
-		linear_personalInformation = (LinearLayout) view.findViewById(R.id.linear_personalInformation);
+		linear_personalInformation = (LinearLayout) view
+				.findViewById(R.id.linear_personalInformation);
 		linear_account = (LinearLayout) view.findViewById(R.id.linear_account);
 		linear_about = (LinearLayout) view.findViewById(R.id.linear_about);
 		linear_set = (LinearLayout) view.findViewById(R.id.linear_set);
 		text_login = (TextView) view.findViewById(R.id.text_login);
 		text_register = (TextView) view.findViewById(R.id.text_register);
 
-		relative_weidenglu = (RelativeLayout) view.findViewById(R.id.relative_weidenglu);
-		relative_yidenglu = (RelativeLayout) view.findViewById(R.id.relative_yidenglu);
+		relative_weidenglu = (RelativeLayout) view
+				.findViewById(R.id.relative_weidenglu);
+		relative_yidenglu = (RelativeLayout) view
+				.findViewById(R.id.relative_yidenglu);
 		personal_center = (RadioButton) view.findViewById(R.id.personal_center);
 
-		image_toxiang = (ImageView) view.findViewById(R.id.image_toxiang);
+		image_toxiang_unlogin = (ImageView) view
+				.findViewById(R.id.image_toxiang);
+		image_toxiang_login = (ImageView) view
+				.findViewById(R.id.image_toxiang_hide);
+		image_toxiang_login.setOnClickListener(ocl);
+		image_toxiang_unlogin.setOnClickListener(ocl);
 
 		text_attention = (TextView) view.findViewById(R.id.text_attention);
 		text_fans = (TextView) view.findViewById(R.id.text_fans);
@@ -236,9 +245,6 @@ public class PersonalCenterFragment extends Fragment {
 
 		text_login.setOnClickListener(ocl);
 		text_register.setOnClickListener(ocl);
-
-		image_toxiang.setOnClickListener(ocl);
-
 	}
 
 	OnClickListener ocl = new OnClickListener() {
@@ -255,7 +261,8 @@ public class PersonalCenterFragment extends Fragment {
 					JSONObject jo = new JSONObject(result);
 					Log.i("demand=====>", jo.getString("message"));
 					Intent intent = new Intent();
-					intent.setClass(getActivity(), PersonalInformationActivity.class);
+					intent.setClass(getActivity(),
+							PersonalInformationActivity.class);
 					startActivityForResult(intent, 0);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -270,7 +277,8 @@ public class PersonalCenterFragment extends Fragment {
 			case R.id.linear_personalInformation:
 				// 点击后当前个人中心页面跳转到信息资料页面
 
-				intent.setClass(getActivity(), PersonalInformationActivity.class);
+				intent.setClass(getActivity(),
+						PersonalInformationActivity.class);
 				startActivityForResult(intent, 0);
 
 				/*
@@ -307,6 +315,13 @@ public class PersonalCenterFragment extends Fragment {
 			case R.id.personal_center:
 				// http.setOnHttpListener(mListener);
 				break;
+			case R.id.image_toxiang:
+				Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_SHORT)
+						.show();
+				break;
+			case R.id.image_toxiang_hide:
+				setIcon();
+				break;
 			default:
 				break;
 			}
@@ -325,7 +340,8 @@ public class PersonalCenterFragment extends Fragment {
 	private void CheckIsLogin() {
 		Log.i("CheckIsLogin", "CheckIsLogin");
 		// 获取本地的sharepreference存储的token值
-		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
+		String result = SharedPreferencesUtil.getData(getActivity()
+				.getApplicationContext());
 		Log.i("CheckIsLogin", "result=" + result);
 		if (result == null || result.equals("")) {// 判断获取的token值是否为空
 			Log.i("CheckIsLogin", "当前没有处于登录状态");
@@ -345,7 +361,8 @@ public class PersonalCenterFragment extends Fragment {
 	 * @return 登录，返回true
 	 */
 	private boolean checkisLogin() {
-		String result = SharedPreferencesUtil.getData(getActivity().getApplicationContext());
+		String result = SharedPreferencesUtil.getData(getActivity()
+				.getApplicationContext());
 		if (result == null || result.equals("")) {// 判断获取的token值是否为空
 			Log.i("CheckIsLogin", "当前没有处于登录状态");
 			return false;
@@ -357,49 +374,6 @@ public class PersonalCenterFragment extends Fragment {
 			return true;
 		}
 	}
-
-	// private void unloadImage() {
-	// String url = "";
-	// try {
-	// HttpPost httpPost = HttpPost.parseUrl(url);
-	// // httpPost.putMap(map);//上传表单，即多条 数据，key代表后台获取的key，value代表传递的值
-	// File file = new File("图片在手机的路径地址");
-	// String newName = file.getName();// 上传图片的图片的名字
-	// httpPost.putFile("image", file, newName, null);
-	// httpPost.send();
-	// httpPost.setOnSendListener(new OnSendListener() {
-	// @Override
-	// public void start() {
-	//
-	// }
-	//
-	// @Override
-	// public void end(String result) {
-	// // 上传完毕后 触发的事件，可以直接在这里进行UI的 更新，不需要新开线程
-	// Log.i("result", "result = " + result);
-	//
-	// }
-	// });
-	//
-	// } catch (MalformedURLException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
-
-	/*
-	 * private OnHttpListener mListener = new OnHttpListener() {
-	 * 
-	 * @Override public void start() { Log.i("OnHttpListener","start"); }
-	 * 
-	 * @Override public void end(String result) { Log.i("OnHttpListener","end");
-	 * try { JSONObject jo = new JSONObject(result); if (jo.getString("token")
-	 * != null) { judgeLongin();
-	 * 
-	 * } } catch (JSONException e) { e.printStackTrace(); } }
-	 * 
-	 * };
-	 */
 
 	/**
 	 * 处于登录状态的 个人信息界面

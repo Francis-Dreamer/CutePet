@@ -72,7 +72,9 @@ public class UploadPhotoActivity extends Activity {
 			case 001:
 				// 加载好了图片数据
 				// 关闭进度条
-				mProgressDialog.dismiss();
+				if(mProgressDialog != null){
+					mProgressDialog.dismiss();
+				}
 				// 对适配器添加数据
 				adapter = new MyAlbumAdapter(getApplicationContext(),
 						data_album, gridView);
@@ -90,7 +92,9 @@ public class UploadPhotoActivity extends Activity {
 	 */
 	private void initImageData() {
 		// 显示进度条
-		mProgressDialog.show();
+		if(mProgressDialog != null){
+			mProgressDialog.show();
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

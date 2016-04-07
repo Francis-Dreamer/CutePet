@@ -102,6 +102,14 @@
         </activity>
         <activity android:name="com.dream.cutepet.ui.ShowImageActivity" >
         </activity>
+        <activity android:name="com.dream.cutepet.ui.UpPetIconActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.WriteTalkUpLoadShowPhotoActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.ui.SetPersonIconActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.ui.UpPersonIconActivity" >
+        </activity>
     </application>
 
 </manifest>

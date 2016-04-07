@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,10 +30,11 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.HomePageAdapter;
 import com.dream.cutepet.adapter.HomePageAdapter.CallParise;
 import com.dream.cutepet.adapter.HomePageAdapter.SetMessage;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PersonageModel;
 import com.dream.cutepet.model.PetStoreModel;
 import com.dream.cutepet.ui.PetStoreActivity;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
@@ -57,7 +57,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	private String username;
 	private View view;
 	Bitmap bitmap;
-	private String url_top = "http://192.168.1.106";
+	private String url_top = "http://192.168.11.238";
 	LinearLayout message_linearlayout;
 	EditText input_message;
 	TextView ensure_send;
@@ -71,18 +71,20 @@ public class HomePageFragment extends Fragment implements CallParise,
 		inflater = LayoutInflater.from(getActivity());
 		view = inflater.inflate(R.layout.activity_homepage, null);
 
-		imageLoader = new AsyncImageLoader(getActivity());
-		
+		ImageCacheManager cacheMgr = new ImageCacheManager(getActivity());
+		imageLoader = new AsyncImageLoader(getActivity(),
+				cacheMgr.getMemoryCache(), cacheMgr.getPlacardFileCache());
+
 		initView();
 		initStoreData();
-		
+
 		return view;
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		
+
 		initPersonalData();
 	}
 
@@ -90,7 +92,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * 初始化宠物店数据
 	 */
 	private void initStoreData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
+		String URL_store = "http://192.168.11.238/index.php/home/api/getPetStore";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -112,7 +114,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * 初始化主人寄语数据
 	 */
 	private void initPersonalData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
+		String URL_store = "http://192.168.11.238/index.php/home/api/getPersonal";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -199,12 +201,12 @@ public class HomePageFragment extends Fragment implements CallParise,
 			final String imgUrl = url_top + data_petStore.get(i).getLogo();
 			// 给 ImageView 设置一个 tag
 			img.setTag(imgUrl);
-			if (!TextUtils.isEmpty(imgUrl)) {
-				// 异步加载图片
-				bitmap = imageLoader.loadImage(img, imgUrl);
-				if (bitmap != null) {
-					img.setImageBitmap(bitmap);
-				}
+			// 异步加载图片
+			bitmap = imageLoader.loadBitmap(img, imgUrl, true);
+			if (bitmap != null) {
+				img.setImageBitmap(bitmap);
+			}else{
+				img.setImageResource(R.drawable.friends_sends_pictures_no);
 			}
 
 			TextView txt = (TextView) view_item
@@ -253,7 +255,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * @param position
 	 */
 	private void setParise(int position) {
-		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
+		String url = "http://192.168.11.238/index.php/home/api/uploadPraise_personal";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -295,7 +297,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 		message_linearlayout.setVisibility(View.VISIBLE);
 		ensure_send.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				String url = "http://192.168.1.106/index.php/home/api/uploadMessage";
+				String url = "http://192.168.11.238/index.php/home/api/uploadMessage";
 				String content = input_message.getText().toString();
 				Date nowDate = new Date();
 				String time = nowDate.toString();

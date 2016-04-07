@@ -31,8 +31,7 @@ public class NewPhotoAlbumActivity extends Activity {
 	TextView tv_cancel, tv_accomplish;
 	EditText et_name, et_describe;
 	private String username;
-//	private String httpHost = "http://192.168.1.106/index.php/home/api/newAlbum";
-	private String httpHost = "http://192.168.1.106/index.php/home/api/newAlbum";
+	private String httpHost = "http://192.168.11.238/index.php/home/api/newAlbum";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

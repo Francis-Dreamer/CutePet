@@ -1,12 +1,7 @@
 ﻿package com.dream.cutepet.fragment;
 
 import java.net.MalformedURLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.dream.cutepet.DynamicDetailsActivity;
 import com.dream.cutepet.R;
@@ -20,7 +15,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,7 +175,7 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		String url = "http://192.168.1.106/index.php/home/api/getTalk";
+		String url = "http://192.168.11.238/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();

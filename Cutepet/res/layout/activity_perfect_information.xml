@@ -37,6 +37,7 @@
                 android:layout_toRightOf="@id/nickname"
                 android:background="@null"
                 android:hint="请输入名字"
+                android:singleLine="true"
                 android:textColor="#c9c3bd"
                 android:textSize="@dimen/px28" />
         </RelativeLayout>
@@ -116,6 +117,7 @@
                 android:layout_toRightOf="@id/age"
                 android:background="@null"
                 android:hint="输入年龄"
+                android:singleLine="true"
                 android:textColor="#c9c3bd"
                 android:textSize="@dimen/px28" />
         </RelativeLayout>
@@ -148,6 +150,7 @@
                 android:layout_toRightOf="@id/breed"
                 android:background="@null"
                 android:hint="请输入品种"
+                android:singleLine="true"
                 android:textColor="#c9c3bd"
                 android:textSize="@dimen/px28" />
         </RelativeLayout>
@@ -192,11 +195,10 @@
                 android:layout_toRightOf="@id/gexing"
                 android:background="@null"
                 android:hint="写下你今天的故事"
+                android:singleLine="true"
                 android:textColor="#c9c3bd"
                 android:textSize="@dimen/px28" />
         </RelativeLayout>
-        
-        
     </LinearLayout>
 
 </LinearLayout>

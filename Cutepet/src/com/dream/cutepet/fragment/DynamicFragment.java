@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +30,14 @@ import com.dream.cutepet.LoginActivity;
 import com.dream.cutepet.PerfectInformationActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.DynamicAlbumAdapter;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicAlbumModel;
 import com.dream.cutepet.model.PetMessageModel;
 import com.dream.cutepet.ui.FusionActivity;
 import com.dream.cutepet.ui.MyPhotoAlbumActivity;
 import com.dream.cutepet.ui.NewPhotoAlbumActivity;
 import com.dream.cutepet.ui.SetPetIconActivity;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -66,7 +66,7 @@ public class DynamicFragment extends Fragment {
 
 	private View view;
 	private String username;
-	private String url_Top = "http://192.168.1.106";
+	private String url_Top = "http://192.168.11.238";
 	private AsyncImageLoader imageLoader;
 
 	@SuppressLint("InflateParams")
@@ -74,7 +74,11 @@ public class DynamicFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_personal_dynamic, null);
-		imageLoader = new AsyncImageLoader(getActivity());
+
+		ImageCacheManager cacheManager = new ImageCacheManager(getActivity());
+		imageLoader = new AsyncImageLoader(getActivity(),
+				cacheManager.getMemoryCache(),
+				cacheManager.getPlacardFileCache());
 
 		initView();
 
@@ -139,15 +143,14 @@ public class DynamicFragment extends Fragment {
 		tv_type.setText(data_petMessage.getType());
 		tv_age.setText("今年" + data_petMessage.getAge() + "岁了");
 		tv_content.setText(data_petMessage.getContent());
-		
-		String img = data_petMessage.getImage();
-		if(!TextUtils.isEmpty(img)&&!img.equals("null")){
-			String url_img = url_Top + img;
-			iv_icon.setTag(url_img);
-			Bitmap bt = imageLoader.loadImage(iv_icon, url_img);
-			if(bt != null){
-				iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt));
-			}
+
+		String url_img = url_Top + data_petMessage.getImage();
+		iv_icon.setTag(url_img);
+		Bitmap bt = imageLoader.loadBitmap(iv_icon, url_img, true);
+		if (bt != null) {
+			iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt));
+		}else{
+			iv_icon.setImageResource(R.drawable.icon_tx);
 		}
 	}
 
@@ -176,12 +179,10 @@ public class DynamicFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		if (checkIsLogin()) {
-			Log.i("checkIsLogin", "login");
 			initPetMessageData();
 			initAlbumData();
 		} else {
 			// 未登录状态
-			Log.i("checkIsLogin", "unlogin");
 			rlayout_unlogin.setVisibility(View.VISIBLE);
 			rlayout_login.setVisibility(View.GONE);
 			rlayout_set.setVisibility(View.GONE);
@@ -193,7 +194,7 @@ public class DynamicFragment extends Fragment {
 	 */
 	private void initPetMessageData() {
 		// 获取宠物信息的数据
-		String url_petMessage = "http://192.168.1.106/index.php/home/api/getPetMessage";
+		String url_petMessage = "http://192.168.11.238/index.php/home/api/getPetMessage";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_petMessage);
 			httpPost.putString("tel", username);
@@ -227,7 +228,7 @@ public class DynamicFragment extends Fragment {
 	 * 获取相册数据
 	 */
 	private void initAlbumData() {
-		String url_album = "http://192.168.1.106/index.php/home/api/getAlbum";
+		String url_album = "http://192.168.11.238/index.php/home/api/getAlbum";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_album);
 			httpPost.putString("tel", username);
@@ -301,7 +302,7 @@ public class DynamicFragment extends Fragment {
 				// 设置宠物头像
 				intent.setClass(getActivity(), SetPetIconActivity.class);
 				intent.putExtra("tel", username);
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 				break;
 			default:
 				break;

@@ -50,7 +50,7 @@ public class SetPetIconActivity extends Activity {
 		setContentView(R.layout.activity_upload_photo);
 
 		username = getIntent().getStringExtra("tel");
-		
+
 		initView();
 		initData();
 	}
@@ -64,7 +64,9 @@ public class SetPetIconActivity extends Activity {
 			case 001:
 				// 加载好了图片数据
 				// 关闭进度条
-				mProgressDialog.dismiss();
+				if (mProgressDialog != null && mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+				}
 				// 对适配器添加数据
 				adapter = new MyAlbumAdapter(getApplicationContext(),
 						data_album, gridView);
@@ -82,7 +84,9 @@ public class SetPetIconActivity extends Activity {
 	 */
 	private void initData() {
 		// 显示进度条
-		mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
+		if (mProgressDialog != null) {
+			mProgressDialog.show();
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -94,7 +98,6 @@ public class SetPetIconActivity extends Activity {
 			}
 		}).start();
 	}
-	
 
 	/**
 	 * 初始化界面
@@ -108,8 +111,11 @@ public class SetPetIconActivity extends Activity {
 
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
-	}
 
+		mProgressDialog = new ProgressDialog(SetPetIconActivity.this);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setTitle("加载中，请稍后...");
+	}
 
 	@Override
 	protected void onRestart() {
@@ -141,13 +147,13 @@ public class SetPetIconActivity extends Activity {
 				long arg3) {
 			List<String> childList = data.get(data_album.get(arg2)
 					.getFolderName());
-
 			Intent intent = new Intent(SetPetIconActivity.this,
 					UpPetIconActivity.class);
 			intent.putStringArrayListExtra("data",
 					(ArrayList<String>) childList);
 			intent.putExtra("tel", username);
 			startActivityForResult(intent, 0);
+			finish();
 		}
 	};
 
@@ -168,7 +174,7 @@ public class SetPetIconActivity extends Activity {
 				Bundle bundle = data.getExtras();
 				// 获取相机返回的数据，并转换为Bitmap图片格式
 				Bitmap bitmap = (Bitmap) bundle.get("data");
-				
+
 				FileOutputStream b = null;
 				File file = new File(fileName);
 				if (!file.exists()) {

@@ -26,15 +26,6 @@
             android:textSize="@dimen/px32" />
 
         <TextView
-            android:id="@+id/tv_uploadPhoto_AlbumName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/photo"
-            android:textColor="@color/black"
-            android:textSize="@dimen/px40" />
-
-        <TextView
             android:id="@+id/tv_uploadPhoto_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,13 +3,13 @@ package com.dream.cutepet.adapter;
 import java.util.List;
 
 import com.dream.cutepet.R;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicAlbumModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +22,8 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	private AsyncImageLoader imageLoader;
-	private String url_Top = "http://192.168.1.106";
-	
+	private String url_Top = "http://192.168.11.238";
+
 	public DynamicAlbumAdapter() {
 
 	}
@@ -33,7 +33,9 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 		this.data = data;
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
-		imageLoader = new AsyncImageLoader(context);
+		ImageCacheManager cacheMgr = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 	}
 
 	@Override
@@ -60,12 +62,13 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressLint({ "ResourceAsColor", "InflateParams" }) @Override
+	@SuppressLint({ "ResourceAsColor", "InflateParams" })
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.activity_dynamic_gridview_item,
-					null);
+			convertView = inflater.inflate(
+					R.layout.activity_dynamic_gridview_item, null);
 			holder = new ViewHolder();
 			holder.imageView = (ImageView) convertView
 					.findViewById(R.id.iv_dynamic_gridview_picture);
@@ -77,19 +80,19 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if(position != data.size()){
+		if (position != data.size()) {
 			holder.tv_new.setVisibility(View.GONE);
-			String img = data.get(position).getAlbumlogo();
-			if(!TextUtils.isEmpty(img) && !img.equals("null")){
-				String url_img = url_Top + img;
-				holder.imageView.setTag(url_img);
-				Bitmap bm = imageLoader.loadImage(holder.imageView, url_img);
-				if(bm != null){
-					holder.imageView.setImageBitmap(bm);
-				}
+			String url_img = url_Top + data.get(position).getAlbumlogo();
+			holder.imageView.setTag(url_img);
+			Bitmap bm = imageLoader.loadBitmap(holder.imageView, url_img, true);
+			if (bm != null) {
+				holder.imageView.setImageBitmap(bm);
+			}else{
+				holder.imageView.setImageResource(R.drawable.album_default);
 			}
+			
 			holder.textView.setText(data.get(position).getAlbumname());
-		}else{
+		} else {
 			holder.tv_new.setVisibility(View.VISIBLE);
 		}
 		return convertView;

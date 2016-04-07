@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="5dp"
     android:background="#eeeeee"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:paddingLeft="@dimen/px16"
     android:paddingRight="@dimen/px16" >
@@ -60,14 +61,14 @@
             android:textColor="#333333"
             android:textSize="@dimen/px30" />
 
-        <ImageView
+        <com.dream.cutepet.view.MyGridView
             android:id="@+id/square_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px14"
             android:layout_marginRight="@dimen/px14"
-            android:scaleType="fitXY"
-            android:src="@drawable/pet_7" />
+            android:numColumns="auto_fit"
+            android:scrollbars="none" />
 
         <LinearLayout
             android:layout_width="match_parent"

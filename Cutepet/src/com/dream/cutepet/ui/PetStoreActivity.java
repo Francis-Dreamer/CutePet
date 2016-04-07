@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -15,8 +14,9 @@ import android.widget.Toast;
 import com.alibaba.mobileim.YWIMKit;
 import com.dream.cutepet.R;
 import com.dream.cutepet.ReleaseActivity;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PetStoreModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutpet.server.LoginSampleHelper;
 
@@ -36,23 +36,29 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	String username;
 	String address;
 	String type;
-	Bitmap bitmap;
 	String icon;
 	String name;
 	RelativeLayout layout_petStore, layout_issue;
 	AsyncImageLoader asyncImageLoader;
+	private String url_Top = "http://192.168.11.238";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pet_store);
-		asyncImageLoader = new AsyncImageLoader(this);
+
+		ImageCacheManager imageCacheManager = new ImageCacheManager(
+				getApplicationContext());
+		asyncImageLoader = new AsyncImageLoader(getApplicationContext(),
+				imageCacheManager.getMemoryCache(),
+				imageCacheManager.getPlacardFileCache());
+
 		index = getIntent().getIntExtra("index", -1);
 		username = getIntent().getStringExtra("username");
 		address = getIntent().getStringExtra("address");
 		type = getIntent().getStringExtra("type");
 		icon = getIntent().getStringExtra("icon");
-		name=getIntent().getStringExtra("name");
+		name = getIntent().getStringExtra("name");
 		initData();
 
 		initView();
@@ -87,13 +93,16 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		tv_name = (TextView) findViewById(R.id.tv_petStore_name);
 		tv_address = (TextView) findViewById(R.id.tv_petStore_address);
 		tv_type = (TextView) findViewById(R.id.tv_petStore_type);
-		if (!TextUtils.isEmpty(icon)) {
-			// 异步加载图片
-			bitmap = asyncImageLoader.loadImage(iv_logo, icon);
-			if (bitmap != null) {
-				iv_logo.setImageBitmap(bitmap);
-			}
+
+		String url_img = url_Top + icon;
+		// 异步加载图片
+		Bitmap bitmap = asyncImageLoader.loadBitmap(iv_logo, url_img, true);
+		if (bitmap != null) {
+			iv_logo.setImageBitmap(bitmap);
+		} else {
+			iv_logo.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
+		
 		tv_name.setText(name);
 		tv_address.setText(address);
 		tv_type.setText(type);

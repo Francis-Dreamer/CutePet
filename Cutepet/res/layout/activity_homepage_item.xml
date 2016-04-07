@@ -6,17 +6,10 @@
 
     <ImageView
         android:id="@+id/iv_homepage_item_picture"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/px370"
         android:layout_height="@dimen/px250"
         android:scaleType="fitXY"
         android:src="@drawable/test_homepage" />
-    <ImageView
-        android:id="@+id/iv_homepage_item_tel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px1"
-        android:src="@drawable/telphone" />
-
     <TextView
         android:id="@+id/tv_homepage_item_word"
         android:layout_width="match_parent"
@@ -30,5 +23,6 @@
         android:paddingTop="@dimen/px8"
         android:paddingBottom="@dimen/px8"
         android:text="我是测试名字"
+        android:singleLine="true"
         android:textColor="@android:color/white" />
 </RelativeLayout>

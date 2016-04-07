@@ -8,8 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.alibaba.mobileim.utility.IMPrefsTools;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PetStrategyModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 
@@ -17,7 +18,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,12 +46,17 @@ public class PetStrategyDetailsActivity extends Activity {
 	String userId;
 	TextView pet_strategy_details_collection;
 	String localId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pet_strategy_details);
-		imageLoader = new AsyncImageLoader(this);
-		localId= IMPrefsTools.getStringPrefs(PetStrategyDetailsActivity.this,
+
+		ImageCacheManager cacheMgr = new ImageCacheManager(this);
+		imageLoader = new AsyncImageLoader(this, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
+
+		localId = IMPrefsTools.getStringPrefs(PetStrategyDetailsActivity.this,
 				"userId", "");
 	}
 
@@ -60,8 +65,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		initData();
 		getAttention();
 	}
-	
-	
+
 	/**
 	 * 初始化控件
 	 */
@@ -71,7 +75,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.title);
 		ImageView pet_strategy_details_image = (ImageView) findViewById(R.id.pet_strategy_details_image);
 		TextView pet_strategy_details_comment = (TextView) findViewById(R.id.pet_strategy_details_comment);
-		 pet_strategy_details_collection = (TextView) findViewById(R.id.pet_strategy_details_collection);
+		pet_strategy_details_collection = (TextView) findViewById(R.id.pet_strategy_details_collection);
 		TextView pet_strategy_details_breed = (TextView) findViewById(R.id.pet_strategy_details_breed);
 		TextView pet_strategy_details_ratingbar_num = (TextView) findViewById(R.id.pet_strategy_details_ratingbar_num);
 		TextView pet_strategy_details_num = (TextView) findViewById(R.id.pet_strategy_details_num);
@@ -86,20 +90,15 @@ public class PetStrategyDetailsActivity extends Activity {
 		pet_strategy_details_characteristic.setText(petTrait);
 		pet_strategy_details_content.setText(petContent_data);
 
-	//	String imageUrl = "http://192.168.1.106"+ petImage;
-		String imageUrl = "http://192.168.1.106"+ petImage;
+		String imageUrl = "http://192.168.11.238" + petImage;
 		// 给图片一个tag
 		pet_strategy_details_image.setTag(imageUrl);
-		// 给个预设图片
-		pet_strategy_details_image.setImageResource(R.drawable.ic_launcher);
-
 		// 异步加载图片
-		if (!TextUtils.isEmpty(imageUrl)) {
-			Bitmap bitmap = imageLoader.loadImage(pet_strategy_details_image,
-					imageUrl);
-			if (bitmap != null) {
-				pet_strategy_details_image.setImageBitmap(bitmap);
-			}
+		Bitmap bitmap = imageLoader.loadBitmap(pet_strategy_details_image, imageUrl, true);
+		if (bitmap != null) {
+			pet_strategy_details_image.setImageBitmap(bitmap);
+		}else{
+			pet_strategy_details_image.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
 
 		title.setText("详情");
@@ -113,25 +112,22 @@ public class PetStrategyDetailsActivity extends Activity {
 	 * 加载数据
 	 */
 	private void initData() {
-
-		Bundle bundle=getIntent().getExtras();
-		petName=bundle.getString("petName");
-		petGrade=bundle.getString("petGrade");
-		petMoney=bundle.getString("petMoney");
-		petTrait=bundle.getString("petTrait");
-		petContent_data=bundle.getString("petContent_data");
-		petImage=bundle.getString("petImage");
-		userId=bundle.getString("userId");
-		username=bundle.getString("userName");
+		Bundle bundle = getIntent().getExtras();
+		petName = bundle.getString("petName");
+		petGrade = bundle.getString("petGrade");
+		petMoney = bundle.getString("petMoney");
+		petTrait = bundle.getString("petTrait");
+		petContent_data = bundle.getString("petContent_data");
+		petImage = bundle.getString("petImage");
+		userId = bundle.getString("userId");
+		username = bundle.getString("userName");
 		initView();
-
 	}
 
 	/**
 	 * 点击跳转事件
 	 */
 	OnClickListener clickListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			Intent intent;
@@ -140,7 +136,7 @@ public class PetStrategyDetailsActivity extends Activity {
 				intent = new Intent();
 				intent.setClass(PetStrategyDetailsActivity.this,
 						PetStrategyCommentActivity.class);
-				Bundle bundle=new Bundle();
+				Bundle bundle = new Bundle();
 				bundle.putString("petName", petName);
 				bundle.putString("petGrade", petGrade);
 				bundle.putString("petContent_data", petContent_data);
@@ -167,11 +163,12 @@ public class PetStrategyDetailsActivity extends Activity {
 	private void back() {
 		finish();
 	}
-/*	*//**
+
+	/*	*//**
 	 * 获取收藏状态
 	 */
-	private void getAttention(){
-		String url_send = "http://192.168.1.106/index.php/home/api/HasCollect";
+	private void getAttention() {
+		String url_send = "http://192.168.11.238/index.php/home/api/HasCollect";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -203,11 +200,12 @@ public class PetStrategyDetailsActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 收藏
 	 */
 	private void attention() {
-		String url_send = "http://192.168.1.106/index.php/home/api/collect";
+		String url_send = "http://192.168.11.238/index.php/home/api/collect";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -228,7 +226,7 @@ public class PetStrategyDetailsActivity extends Activity {
 						Toast.makeText(getApplicationContext(),
 								jsonObject.getString("message"),
 								Toast.LENGTH_SHORT).show();
-						Log.e("tag",status+"");
+						Log.e("tag", status + "");
 						if (status == 1) {// 收藏成功
 							pet_strategy_details_collection.setText("已收藏");
 						} else if (status == 2) {

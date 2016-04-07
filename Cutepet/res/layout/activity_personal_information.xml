@@ -43,6 +43,7 @@
                     android:layout_marginLeft="@dimen/px20"
                     android:background="#ffffff"
                     android:hint="请输入名字"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -158,6 +159,7 @@
                     android:layout_weight="1"
                     android:background="#ffffff"
                     android:hint="请输入星座"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -190,6 +192,7 @@
                     android:layout_weight="1"
                     android:background="#ffffff"
                     android:hint="请输入职业"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -222,6 +225,7 @@
                     android:layout_weight="1"
                     android:background="#ffffff"
                     android:hint="请输入公司名称"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -254,6 +258,7 @@
                     android:layout_weight="1"
                     android:background="#ffffff"
                     android:hint="请输入现居地址"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -286,6 +291,7 @@
                     android:layout_weight="1"
                     android:background="#ffffff"
                     android:hint="请输入故乡地址"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -317,6 +323,7 @@
                     android:layout_marginLeft="@dimen/px20"
                     android:background="#ffffff"
                     android:hint="请输入邮箱号"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>
@@ -338,8 +345,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="个性\n说明"
-                    android:textSize="@dimen/px28"
-                    android:textColor="#333333" />
+                    android:textColor="#333333"
+                    android:textSize="@dimen/px28" />
 
                 <EditText
                     android:id="@+id/edit_personality"
@@ -348,6 +355,7 @@
                     android:layout_marginLeft="@dimen/px20"
                     android:background="#ffffff"
                     android:hint="填写个性说明让自己变得更有逼格！！！"
+                    android:singleLine="true"
                     android:textColor="#C9C3BD"
                     android:textSize="@dimen/px28" />
             </LinearLayout>

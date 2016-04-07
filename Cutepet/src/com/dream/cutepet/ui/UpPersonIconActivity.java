@@ -7,31 +7,31 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.dream.cutepet.R;
+import com.dream.cutepet.adapter.ShowPhotoNoCheckAdapter;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
-import com.dream.cutepet.R;
-import com.dream.cutepet.adapter.ShowPhotoNoCheckAdapter;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
-
-public class UpPetIconActivity extends Activity implements OnClickListener {
+public class UpPersonIconActivity extends Activity implements OnClickListener{
 	private GridView mGridView;
 	private List<String> list;
 	private ShowPhotoNoCheckAdapter adapter;
 	private TextView tv_cancel, tv_sure;
 
 	private String username;
-	private String url = "http://192.168.11.238/index.php/home/api/uploadPetIcon";
-
+	private String url = "http://192.168.11.238/index.php/home/api/uploadPersonIcon";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class UpPetIconActivity extends Activity implements OnClickListener {
 
 		initView();
 	}
-
+	
 	/**
 	 * 上传头像
 	 * 
@@ -117,5 +117,4 @@ public class UpPetIconActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-
 }

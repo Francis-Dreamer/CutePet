@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -65,15 +66,13 @@
             android:textColor="#333333"
             android:textSize="@dimen/px28" />
 
-        <ImageView
+        <com.dream.cutepet.view.MyGridView
             android:id="@+id/dynamic_details_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dynamic_details_content"
             android:layout_marginLeft="@dimen/px24"
-            android:layout_marginRight="@dimen/px24"
-            android:scaleType="fitXY"
-            android:src="@drawable/tuceng88" />
+            android:layout_marginRight="@dimen/px24" />
 
         <TextView
             android:id="@+id/add_attention"

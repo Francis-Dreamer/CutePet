@@ -1,4 +1,4 @@
-package com.dream.cutepet;
+package com.dream.cutepet.ui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.MyAlbumAdapter;
 import com.dream.cutepet.model.ImageBeanModel;
 import com.dream.cutepet.util.MyListUtil;
@@ -28,26 +29,31 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class WriteTalkUpLoadPhotoActivity extends Activity {
+public class SetPersonIconActivity extends Activity {
 	GridView gridView;
 	TextView tv_cancel, tv_camera;
 	private ProgressDialog mProgressDialog;
 
 	private MyAlbumAdapter adapter;
+	private String username;
 
 	private Map<String, List<String>> data;
 	private List<ImageBeanModel> data_album;
 
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload_photo);
+		
+		username = getIntent().getStringExtra("tel");
 
 		initView();
-		initImageData();
+		
+		initData();
 	}
 
 	@SuppressLint("HandlerLeak")
@@ -59,7 +65,7 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 			case 001:
 				// 加载好了图片数据
 				// 关闭进度条
-				if(mProgressDialog != null){
+				if(mProgressDialog != null && mProgressDialog.isShowing()){
 					mProgressDialog.dismiss();
 				}
 				// 对适配器添加数据
@@ -75,9 +81,9 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 	};
 
 	/**
-	 * 获取本地相册集合
+	 * 初始化数据
 	 */
-	private void initImageData() {
+	private void initData() {
 		// 显示进度条
 		if(mProgressDialog != null){
 			mProgressDialog.show();
@@ -106,8 +112,8 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
-
-		mProgressDialog = new ProgressDialog(WriteTalkUpLoadPhotoActivity.this);
+		
+		mProgressDialog = new ProgressDialog(getApplicationContext());
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgressDialog.setTitle("加载中，请稍后...");
 	}
@@ -116,8 +122,16 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 	protected void onRestart() {
 		super.onRestart();
 		// 照相返回界面后刷新数据
-		initImageData();
-		// 将统计的已选择的图片的数量清0
+		initData();
+	}
+	
+	/**
+	 * 关闭ProgressDialog
+	 */
+	private void closeProgressDialog(){
+		if(mProgressDialog != null && mProgressDialog.isShowing()){
+			mProgressDialog.dismiss();
+		}
 	}
 
 	OnClickListener listener = new OnClickListener() {
@@ -125,6 +139,7 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.tv_uploadPhoto_cancel:
+				closeProgressDialog();
 				finish();
 				break;
 			case R.id.tv_uploadPhoto_camera:
@@ -144,11 +159,13 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 			List<String> childList = data.get(data_album.get(arg2)
 					.getFolderName());
 
-			Intent intent = new Intent(WriteTalkUpLoadPhotoActivity.this,
-					WriteTalkUpLoadShowPhotoActivity.class);
+			Intent intent = new Intent(SetPersonIconActivity.this,
+					UpPersonIconActivity.class);
 			intent.putStringArrayListExtra("data",
 					(ArrayList<String>) childList);
-			startActivity(intent);
+			intent.putExtra("tel", username);
+			startActivityForResult(intent, 0);
+			closeProgressDialog();
 			finish();
 		}
 	};

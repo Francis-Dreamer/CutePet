@@ -10,25 +10,27 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
-public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
+public class SquareGridviewAdapter extends BaseAdapter {
 	List<String> data;
 	Context context;
-	private String url_Top = "http://192.168.11.238";
-	private AsyncImageLoader imageLoader;
+	AsyncImageLoader imageLoader;
 
-	public MyPhotoAlbumGridviewAdapter() {
+	public SquareGridviewAdapter() {
 
 	}
 
-	public MyPhotoAlbumGridviewAdapter(Context context, List<String> data) {
+	public SquareGridviewAdapter(Context context, List<String> data) {
 		this.data = data;
 		this.context = context;
-		ImageCacheManager cacheMgr = new ImageCacheManager(context);
-		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
-				cacheMgr.getPlacardFileCache());
+		ImageCacheManager cacheManager = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context,
+				cacheManager.getMemoryCache(),
+				cacheManager.getPlacardFileCache());
 	}
 
 	@Override
@@ -54,18 +56,17 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 		} else {
 			imageView = (ImageView) convertView;
 		}
-		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		
-		String mImageUrl = url_Top + data.get(position);
-		imageView.setTag(mImageUrl);
-		
-		Bitmap bmp = imageLoader.loadBitmap(imageView, mImageUrl, true);
-		if (bmp == null) {
-			imageView.setImageResource(R.drawable.friends_sends_pictures_no);
+		String path = "http://192.168.11.238" + getItem(position);
+		imageView.setTag(path);
+		Bitmap bitmap = imageLoader.loadBitmap(imageView, path, true);
+		if (bitmap != null) {
+			imageView.setImageBitmap(bitmap);
 		} else {
-			imageView.setImageBitmap(bmp);
+			imageView.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
-		
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		imageView.setLayoutParams(params);
+		imageView.setScaleType(ScaleType.FIT_CENTER);
 		return imageView;
 	}
 }

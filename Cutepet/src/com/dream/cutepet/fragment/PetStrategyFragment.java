@@ -6,7 +6,6 @@ import com.dream.cutepet.PetStrategyDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.PetStrategyBaseAdapter;
 import com.dream.cutepet.model.PetStrategyModel;
-import com.dream.cutepet.util.AsyncImageLoader;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import android.annotation.SuppressLint;
@@ -36,7 +35,6 @@ public class PetStrategyFragment extends Fragment {
 	String getData;
 	TextView tv_resources, tv_strategy;
 	View view;
-	AsyncImageLoader imageLoader;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -117,8 +115,7 @@ public class PetStrategyFragment extends Fragment {
 	 * 初始化数据
 	 */
 	private void getData(){
-	//	String url="http://192.168.1.106/index.php/home/api/getStrategy";
-		String url="http://192.168.1.106/index.php/home/api/getStrategy";
+		String url="http://192.168.11.238/index.php/home/api/getStrategy";
 		try {
 			HttpPost httpPost=HttpPost.parseUrl(url);
 			httpPost.send();
