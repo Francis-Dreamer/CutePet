@@ -470,6 +470,7 @@
                 android:id="@+id/linear_set"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px96"
+                android:layout_marginBottom="@dimen/px10"
                 android:background="#ffffff"
                 android:orientation="horizontal" >
 

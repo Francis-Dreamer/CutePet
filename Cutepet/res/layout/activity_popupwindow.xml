@@ -15,7 +15,7 @@
 
         <RadioButton
             android:id="@+id/button_weixin"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
             android:layout_weight="1"
@@ -29,7 +29,7 @@
 
         <RadioButton
             android:id="@+id/button_qq"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
             android:layout_weight="1"
@@ -43,7 +43,7 @@
 
         <RadioButton
             android:id="@+id/button_weibo"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
             android:layout_weight="1"
@@ -57,7 +57,7 @@
 
         <RadioButton
             android:id="@+id/button_qqkongjian"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
             android:layout_weight="1"
@@ -71,7 +71,7 @@
 
         <RadioButton
             android:id="@+id/button_pnegyouquan"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
