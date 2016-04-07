@@ -8,6 +8,8 @@ import com.dream.cutepet.adapter.PetStrategyBaseAdapter;
 import com.dream.cutepet.model.PetStrategyModel;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SharedPreferencesUtil;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 宠物攻略fragment
@@ -28,14 +31,13 @@ import android.widget.TextView;
  * 
  */
 public class PetStrategyFragment extends Fragment {
-
 	ListView listView;
 	List<PetStrategyModel> data;
 	PetStrategyBaseAdapter adapter=new PetStrategyBaseAdapter();;
 	String getData;
 	TextView tv_resources, tv_strategy;
 	View view;
-
+	private String tel;
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,36 +75,39 @@ public class PetStrategyFragment extends Fragment {
 	}
 	
 	/**
-	 * 点击跳转时间
+	 * 点击跳转
 	 */
 	OnItemClickListener itemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Intent intent = new Intent();
-			int sendPosition=position-1;
-			PetStrategyModel model=new PetStrategyModel();
-			model=data.get(sendPosition);
-			String petName=model.getPet_strategy_comment_chinese_name();
-			String petGrade=model.getGrade();
-			String petMoney=model.getMoney();
-			String petTrait=model.getTrait();
-			String petContent_data=model.getPet_strategy_content_data();
-			String petImage=model.getPet_strategy_image();
-			String userId=model.getId();
-			String userName=model.getUsername();
-			Bundle bundle=new Bundle();
-			bundle.putString("petName", petName);
-			bundle.putString("petGrade", petGrade);
-			bundle.putString("petMoney", petMoney);
-			bundle.putString("petTrait", petTrait);
-			bundle.putString("petContent_data", petContent_data);
-			bundle.putString("petImage", petImage);
-			bundle.putString("userId", userId);
-			bundle.putString("userName", userName);
-			intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
-			intent.putExtras(bundle);
-			startActivityForResult(intent, 0);  
+			if(checkLogin()){
+				Intent intent = new Intent();
+				int sendPosition=position-1;
+				PetStrategyModel model=new PetStrategyModel();
+				model=data.get(sendPosition);
+				String petName=model.getPet_strategy_comment_chinese_name();
+				String petGrade=model.getGrade();
+				String petMoney=model.getMoney();
+				String petTrait=model.getTrait();
+				String petContent_data=model.getPet_strategy_content_data();
+				String petImage=model.getPet_strategy_image();
+				String userId=model.getId();
+				String userName=model.getUsername();
+				Bundle bundle=new Bundle();
+				bundle.putString("petName", petName);
+				bundle.putString("petGrade", petGrade);
+				bundle.putString("petMoney", petMoney);
+				bundle.putString("petTrait", petTrait);
+				bundle.putString("petContent_data", petContent_data);
+				bundle.putString("petImage", petImage);
+				bundle.putString("userId", userId);
+				bundle.putString("userName", userName);
+				bundle.putString("tel", tel);
+				intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
+				intent.putExtras(bundle);
+				startActivityForResult(intent, 0);  
+			}
 		}
 	};
 	
@@ -130,5 +135,19 @@ public class PetStrategyFragment extends Fragment {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 判断是否登录
+	 * @return
+	 */
+	private boolean checkLogin(){
+		String tok = SharedPreferencesUtil.getData(getActivity());
+		if(tok != null){
+			tel = tok.split(",")[1];
+			return true;
+		}
+		Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_SHORT).show();
+		return false;
 	}
 }

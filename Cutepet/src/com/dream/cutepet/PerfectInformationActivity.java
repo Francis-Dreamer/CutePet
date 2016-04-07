@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -29,16 +30,20 @@ public class PerfectInformationActivity extends Activity {
 	TextView title, menu_hide;
 	EditText et_name, et_age, et_type, et_content;
 	RadioGroup radioGroup;
+	RadioButton rbtn_man,rbtn_woman;
 	String sex;
 	private String usernmae;
 	PetMessageModel data;
 	String url = "http://192.168.11.238/index.php/home/api/uploadPetMessage";
-
+	private Bundle bundle;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_perfect_information);
 		usernmae = getIntent().getStringExtra("tel");
-
+		
+		bundle = getIntent().getExtras();
+		
 		initview();
 	}
 
@@ -50,6 +55,13 @@ public class PerfectInformationActivity extends Activity {
 		String age = et_age.getText().toString().trim();
 		String type = et_type.getText().toString().trim();
 		String content = et_content.getText().toString().trim();
+		try {
+			Integer.parseInt(age);
+		} catch (Exception e) {
+			Toast.makeText(getApplicationContext(), "年龄必须为整数！",
+					Toast.LENGTH_SHORT).show();
+		}
+
 		if (!TextUtils.isEmpty(nickname) && !TextUtils.isEmpty(age)
 				&& !TextUtils.isEmpty(type) && !TextUtils.isEmpty(content)
 				&& !TextUtils.isEmpty(sex) && !TextUtils.isEmpty(usernmae)) {
@@ -115,6 +127,23 @@ public class PerfectInformationActivity extends Activity {
 		et_age = (EditText) findViewById(R.id.input_age);
 		et_content = (EditText) findViewById(R.id.input_yourstory);
 		et_type = (EditText) findViewById(R.id.input_breed);
+		rbtn_man = (RadioButton) findViewById(R.id.man);
+		rbtn_woman = (RadioButton) findViewById(R.id.woman);
+		
+		if(bundle != null){
+			et_name.setText(bundle.getString("nickname"));
+			et_age.setText(bundle.getString("age"));
+			et_content.setText(bundle.getString("content"));
+			et_type.setText(bundle.getString("type"));
+			String sex = bundle.getString("sex");
+			if(sex.equals("男")){
+				rbtn_man.setChecked(true);
+				rbtn_woman.setChecked(false);
+			}else{
+				rbtn_man.setChecked(false);
+				rbtn_woman.setChecked(true);
+			}
+		}
 	}
 
 	OnCheckedChangeListener checkedChangeListener = new OnCheckedChangeListener() {

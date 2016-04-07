@@ -71,7 +71,7 @@
                 android:orientation="horizontal" >
 
                 <RadioButton
-                    android:id="@+id/woman"
+                    android:id="@+id/man"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_sex"
@@ -79,7 +79,7 @@
                     android:drawableRight="@drawable/nan" />
 
                 <RadioButton
-                    android:id="@+id/man"
+                    android:id="@+id/woman"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/px40"

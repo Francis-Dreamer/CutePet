@@ -27,7 +27,8 @@ import com.dream.cutpet.server.LoginSampleHelper;
  * 
  */
 public class PetStoreActivity extends Activity implements OnClickListener {
-	ImageView back, iv_logo, iv_send;
+	ImageView back, iv_logo;
+	TextView tv_send;
 	TextView menu_hide, tv_name, tv_address, tv_type, title;
 	int index;
 	PetStoreModel data;
@@ -83,11 +84,10 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
 		menu_hide.setText("发布");
 		menu_hide.setVisibility(View.VISIBLE);
-		iv_send = (ImageView) findViewById(R.id.iv_petStore_send);
-		iv_send.setVisibility(View.VISIBLE);
+		tv_send = (TextView) findViewById(R.id.tv_petStore_send);
 		back.setOnClickListener(this);
 		menu_hide.setOnClickListener(this);
-		iv_send.setOnClickListener(this);
+		tv_send.setOnClickListener(this);
 
 		iv_logo = (ImageView) findViewById(R.id.iv_petStore_logo);
 		tv_name = (TextView) findViewById(R.id.tv_petStore_name);
@@ -96,6 +96,7 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 
 		String url_img = url_Top + icon;
 		// 异步加载图片
+		iv_logo.setTag(url_img);
 		Bitmap bitmap = asyncImageLoader.loadBitmap(iv_logo, url_img, true);
 		if (bitmap != null) {
 			iv_logo.setImageBitmap(bitmap);
@@ -106,7 +107,6 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		tv_name.setText(name);
 		tv_address.setText(address);
 		tv_type.setText(type);
-
 	}
 
 	/**
@@ -115,6 +115,7 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	private void issue() {
 		Intent intent = new Intent(PetStoreActivity.this, ReleaseActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -135,7 +136,7 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 			YWIMKit imKit = LoginSampleHelper.getInstance().getIMKit();
 			String target = username;// 消息接收者ID
 			Intent intent = imKit.getChattingActivityIntent(target);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		} else {
 			Toast.makeText(this, "请先登陆", Toast.LENGTH_SHORT).show();
 		}
@@ -149,7 +150,7 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		case R.id.menu_hide:
 			issue();
 			break;
-		case R.id.iv_petStore_send:
+		case R.id.tv_petStore_send:
 			returnToChat();
 			break;
 		default:

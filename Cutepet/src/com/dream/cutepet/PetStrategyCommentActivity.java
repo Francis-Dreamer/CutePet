@@ -1,22 +1,34 @@
 package com.dream.cutepet;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.dream.cutepet.cache.AsyncImageLoader;
-import com.dream.cutepet.cache.ImageCacheManager;
-import com.dream.cutepet.util.BitmapUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
+import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 /**
  * 攻略点评
@@ -25,9 +37,8 @@ import android.widget.Toast;
  * 
  */
 public class PetStrategyCommentActivity extends Activity {
-
-	String petName;
-	String petGrade;
+	String petName, tel, userId;
+	float petGrade = 0;
 	String petTrait;
 	String petContent_data;
 	String petImage;
@@ -36,6 +47,7 @@ public class PetStrategyCommentActivity extends Activity {
 	String view_address;
 	File file;
 	ImageView pet_strategy_comment_view;
+	EditText et_content;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,18 +80,29 @@ public class PetStrategyCommentActivity extends Activity {
 		pet_strategy_comment_addview.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
 
+		et_content = (EditText) findViewById(R.id.pet_strategy_comment_edit);
+
 		TextView pet_strategy_comment_chinese_name = (TextView) findViewById(R.id.pet_strategy_comment_chinese_name);
 		TextView pet_strategy_content_data = (TextView) findViewById(R.id.pet_strategy_content_data);
 		RatingBar pet_strategy_comment_ratingbar = (RatingBar) findViewById(R.id.pet_strategy_comment_ratingbar);
-		TextView pet_strategy_comment_ratingbar_num = (TextView) findViewById(R.id.pet_strategy_comment_ratingbar_num);
+		final TextView pet_strategy_comment_ratingbar_num = (TextView) findViewById(R.id.pet_strategy_comment_ratingbar_num);
 		TextView pet_strategy_comment_characteristic = (TextView) findViewById(R.id.pet_strategy_comment_characteristic);
 		ImageView pet_strategy_image = (ImageView) findViewById(R.id.pet_strategy_image);
 
 		pet_strategy_comment_chinese_name.setText(petName);
 		pet_strategy_content_data.setText(petContent_data);
-		pet_strategy_comment_ratingbar.setRating((Float.parseFloat(petGrade)));
-		pet_strategy_comment_ratingbar_num.setText(petGrade + ".0分");
 		pet_strategy_comment_characteristic.setText(petTrait);
+
+		pet_strategy_comment_ratingbar
+				.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+					@Override
+					public void onRatingChanged(RatingBar ratingBar,
+							float rating, boolean fromUser) {
+						petGrade = rating;
+						pet_strategy_comment_ratingbar_num.setText(petGrade
+								+ ".0分");
+					}
+				});
 
 		String imageUrl = "http://192.168.11.238" + petImage;
 		pet_strategy_image.setTag(imageUrl);
@@ -100,10 +123,11 @@ public class PetStrategyCommentActivity extends Activity {
 	private void getData() {
 		Bundle bundle = getIntent().getExtras();
 		petName = bundle.getString("petName");
-		petGrade = bundle.getString("petGrade");
+		userId = bundle.getString("userId");
 		petTrait = bundle.getString("petTrait");
 		petContent_data = bundle.getString("petContent_data");
 		petImage = bundle.getString("petImage");
+		tel = bundle.getString("tel");
 		init();
 	}
 
@@ -121,7 +145,6 @@ public class PetStrategyCommentActivity extends Activity {
 					Toast.makeText(getApplication(), "请选择图片",
 							Toast.LENGTH_SHORT).show();
 				}
-
 				break;
 			case R.id.pet_strategy_comment_addview:
 				selectImage();
@@ -142,11 +165,48 @@ public class PetStrategyCommentActivity extends Activity {
 	 * @param file
 	 */
 	private void uploadStrategy(File file) {
+		String cont = et_content.getText().toString().trim();
+		if (!TextUtils.isEmpty(cont) && !cont.equals("null")) {
+			String url_send = "http://192.168.11.238/index.php/home/api/uploadStrategy_comment";
+			try {
+				HttpPost httpPost = HttpPost.parseUrl(url_send);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("tel", tel);
+				map.put("issua_id", userId);
+				map.put("grade", petGrade + "");
+				map.put("content", cont);
+				map.put("create_time", new Date().toString());
+				httpPost.putMap(map);
+				httpPost.putFile(file.getName(), file, file.getName(), null);
+				httpPost.send();
+				httpPost.setOnSendListener(new OnSendListener() {
+					@Override
+					public void start() {
+					}
 
-		/*
-		 * String tel= String petname= String grade= String content=
-		 */
-
+					@Override
+					public void end(String result) {
+						Log.i("uploadStrategy", result);
+						try {
+							JSONObject jb = new JSONObject(result);
+							Toast.makeText(getApplicationContext(),
+									jb.getString("message"), Toast.LENGTH_SHORT)
+									.show();
+							if (jb.getInt("status") == 1) {
+								finish();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), "评论内容不能为空",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	/**
@@ -159,20 +219,14 @@ public class PetStrategyCommentActivity extends Activity {
 		startActivityForResult(intent, 111333);
 	}
 
-	/**
-	 * onActivityResult
-	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		switch (requestCode) {
 		case 111333:
 			if (data != null) {
-				Bundle bundle = data.getExtras();
-				view_address = bundle.getString("view_address");
-				Log.e("XXXXXXXXXXXXXXX", view_address);
-				file = new File(view_address);
+				String path = data.getStringExtra("path");
+				file = new File(path);
 				pet_strategy_comment_view.setImageBitmap(BitmapUtil
-						.getDiskBitmap(view_address));
+						.getDiskBitmap(path));
 			}
 			break;
 		default:

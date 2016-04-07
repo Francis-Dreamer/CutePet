@@ -110,6 +110,8 @@
         </activity>
         <activity android:name="com.dream.cutepet.ui.UpPersonIconActivity" >
         </activity>
+        <activity android:name="com.dream.cutepet.SelectShowPhotoActivity" >
+        </activity>
     </application>
 
 </manifest>

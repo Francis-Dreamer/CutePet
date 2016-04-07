@@ -6,15 +6,14 @@
     android:orientation="vertical" >
 
     <include layout="@layout/top_menu" />
-
+    
     <ListView
         android:id="@+id/dynamic_details_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="#e4e4e4"
-        android:dividerHeight="@dimen/px1" >
-    </ListView>
+        android:dividerHeight="@dimen/px1" />
 
     <RelativeLayout
         android:layout_width="match_parent"

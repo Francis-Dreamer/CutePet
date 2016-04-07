@@ -1,9 +1,12 @@
 package com.dream.cutepet;
 
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,17 +15,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PetDetailsActivity extends Activity {
-
-	TextView title, menu_hide;
-	ImageView back;
-	String username;
+	private TextView title, menu_hide;
+	private ImageView back;
+	private String username;
+	private String logo;
+	private String name;
+	private String petName;
+	private String content;
+	private AsyncImageLoader imageLoader;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_petdetails);
 
-		initview();
+		ImageCacheManager cacheManager = new ImageCacheManager(
+				getApplicationContext());
+		imageLoader = new AsyncImageLoader(getApplicationContext(),
+				cacheManager.getMemoryCache(),
+				cacheManager.getPlacardFileCache());
 
+		Bundle bundle = getIntent().getExtras();
+		username = bundle.getString("tel");
+		logo = bundle.getString("petlogo");
+		name = bundle.getString("name");
+		petName = bundle.getString("petname");
+		content = bundle.getString("content");
+
+		initview();
 	}
 
 	/**
@@ -55,6 +74,23 @@ public class PetDetailsActivity extends Activity {
 
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
+
+		ImageView iv_logo = (ImageView) findViewById(R.id.iv_personal_logo);
+		TextView tv_name = (TextView) findViewById(R.id.tv_personal_name);
+		TextView tv_petname = (TextView) findViewById(R.id.tv_personal_type);
+		TextView tv_content = (TextView) findViewById(R.id.tv_personal_content);
+		tv_name.setText(name + "");
+		tv_petname.setText(petName + "");
+		tv_content.setText(content + "");
+
+		String url_img = "http://192.168.11.238" + logo;
+		iv_logo.setTag(url_img);
+		Bitmap bitmap = imageLoader.loadBitmap(iv_logo, url_img, true);
+		if (bitmap != null) {
+			iv_logo.setImageBitmap(bitmap);
+		} else {
+			iv_logo.setImageResource(R.drawable.friends_sends_pictures_no);
+		}
 	}
 
 	/**

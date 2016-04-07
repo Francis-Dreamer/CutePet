@@ -152,8 +152,21 @@ public class HomePageFragment extends Fragment implements CallParise,
 	OnItemClickListener itemClickListener = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			Intent intent = new Intent(getActivity(), PetDetailsActivity.class);
-			startActivityForResult(intent, 1357);
+			if (checkLogin()) {
+				Intent intent = new Intent(getActivity(),
+						PetDetailsActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("name", data_personage.get(position).getName());
+				bundle.putString("petlogo", data_personage.get(position)
+						.getPicture_icon());
+				bundle.putString("petname", data_personage.get(position)
+						.getPicture_name());
+				bundle.putString("content", data_personage.get(position)
+						.getContent());
+				bundle.putString("tel", username);
+				intent.putExtras(bundle);
+				startActivityForResult(intent, 1357);
+			}
 		}
 	};
 
@@ -205,7 +218,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 			bitmap = imageLoader.loadBitmap(img, imgUrl, true);
 			if (bitmap != null) {
 				img.setImageBitmap(bitmap);
-			}else{
+			} else {
 				img.setImageResource(R.drawable.friends_sends_pictures_no);
 			}
 

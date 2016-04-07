@@ -33,7 +33,6 @@ import android.widget.Toast;
  * 
  */
 public class PetStrategyDetailsActivity extends Activity {
-
 	PetStrategyModel model;
 	AsyncImageLoader imageLoader;
 	String petName;
@@ -138,7 +137,6 @@ public class PetStrategyDetailsActivity extends Activity {
 						PetStrategyCommentActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("petName", petName);
-				bundle.putString("petGrade", petGrade);
 				bundle.putString("petContent_data", petContent_data);
 				bundle.putString("petTrait", petTrait);
 				bundle.putString("petImage", petImage);
@@ -164,7 +162,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		finish();
 	}
 
-	/*	*//**
+	/**
 	 * 获取收藏状态
 	 */
 	private void getAttention() {

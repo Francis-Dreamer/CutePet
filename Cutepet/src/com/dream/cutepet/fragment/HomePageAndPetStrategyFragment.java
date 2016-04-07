@@ -50,21 +50,17 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 		return view;
 	}
 	
-	
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		resources.setChecked(true);
 		strategy.setChecked(false);
 	}
 
-
 	/**
 	 * 点击顶部切换页面
 	 */
 	OnClickListener clickListener = new OnClickListener() {
-
 		@SuppressLint({ "InflateParams", "Recycle" })
 		public void onClick(View v) {
 			FragmentManager fm=getFragmentManager();

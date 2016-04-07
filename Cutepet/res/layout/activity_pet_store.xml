@@ -5,29 +5,15 @@
     android:background="#eeeeee"
     android:orientation="vertical" >
 
-    <include layout="@layout/top_menu"/>
-    
+    <include layout="@layout/top_menu" />
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/iv_petStore_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/iv_petStore_logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/pet_store_logo" />
-
-        <ImageView
-            android:id="@+id/iv_petStore_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/px45"
-            android:layout_marginTop="@dimen/px23"
-            android:src="@drawable/send_message" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/pet_store_logo" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,10 +107,25 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_petStore_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px30"
+        android:paddingTop="@dimen/px20"
+        android:paddingBottom="@dimen/px20"
+        android:paddingLeft="@dimen/px130"
+        android:paddingRight="@dimen/px130"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_petstore_call"
+        android:gravity="center"
+        android:text="联系Ta"
+        android:textColor="@color/black"
+        android:textSize="@dimen/px35" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 
 </LinearLayout>

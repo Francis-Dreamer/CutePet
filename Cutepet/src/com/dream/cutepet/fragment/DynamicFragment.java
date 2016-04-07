@@ -137,12 +137,19 @@ public class DynamicFragment extends Fragment {
 		rlayout_set.setVisibility(View.GONE);
 		rlayout_unlogin.setVisibility(View.GONE);
 		rlayout_login.setVisibility(View.VISIBLE);
+		rlayout_login.setOnClickListener(clickListener);
 
 		tv_name.setText(data_petMessage.getNickname());
 		tv_number.setText(data_petMessage.getPetnumber() + "");
 		tv_type.setText(data_petMessage.getType());
 		tv_age.setText("今年" + data_petMessage.getAge() + "岁了");
 		tv_content.setText(data_petMessage.getContent());
+		
+		if(data_petMessage.getSex().equals("男")){
+			iv_sex.setImageResource(R.drawable.man);
+		}else{
+			iv_sex.setImageResource(R.drawable.woman);
+		}
 
 		String url_img = url_Top + data_petMessage.getImage();
 		iv_icon.setTag(url_img);
@@ -303,6 +310,19 @@ public class DynamicFragment extends Fragment {
 				intent.setClass(getActivity(), SetPetIconActivity.class);
 				intent.putExtra("tel", username);
 				startActivityForResult(intent, 1);
+				break;
+			case R.id.rlayout_dynamic_petmessage_login:
+				// 设置宠物信息
+				intent.setClass(getActivity(), PerfectInformationActivity.class);
+				intent.putExtra("tel", username);
+				Bundle bundle = new Bundle();
+				bundle.putString("nickname", data_petMessage.getNickname());
+				bundle.putString("sex", data_petMessage.getSex());
+				bundle.putString("type", data_petMessage.getType());
+				bundle.putInt("age", data_petMessage.getAge());
+				bundle.putString("content", data_petMessage.getContent());
+				intent.putExtras(bundle);
+				startActivityForResult(intent, 0);
 				break;
 			default:
 				break;
