@@ -5,7 +5,7 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px196"
         android:orientation="horizontal"
@@ -15,7 +15,7 @@
 
         <RadioButton
             android:id="@+id/button_weixin"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
             android:layout_weight="1"
@@ -29,10 +29,9 @@
 
         <RadioButton
             android:id="@+id/button_qq"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
-            android:layout_toRightOf="@id/button_weixin"
             android:layout_weight="1"
             android:button="@null"
             android:drawablePadding="@dimen/px13"
@@ -44,10 +43,9 @@
 
         <RadioButton
             android:id="@+id/button_weibo"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
-            android:layout_toRightOf="@id/button_qq"
             android:layout_weight="1"
             android:button="@null"
             android:drawablePadding="@dimen/px13"
@@ -59,10 +57,9 @@
 
         <RadioButton
             android:id="@+id/button_qqkongjian"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/px33"
-            android:layout_toRightOf="@id/button_weibo"
             android:layout_weight="1"
             android:button="@null"
             android:drawablePadding="@dimen/px13"
@@ -74,9 +71,8 @@
 
         <RadioButton
             android:id="@+id/button_pnegyouquan"
-            android:layout_width="@dimen/px104"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/button_qqkongjian"
             android:layout_weight="1"
             android:button="@null"
             android:drawablePadding="@dimen/px13"
@@ -85,15 +81,15 @@
             android:text="朋友圈"
             android:textColor="#333333"
             android:textSize="@dimen/px20" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_cancel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px96"
-        android:background="#ffda44"
         android:layout_marginLeft="@dimen/px35"
         android:layout_marginRight="@dimen/px35"
+        android:background="#ffda44"
         android:text="取消" />
 
 </LinearLayout>

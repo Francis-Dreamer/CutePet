@@ -275,22 +275,25 @@ public class PersonalCenterFragment extends Fragment {
 			Intent intent = new Intent();
 			switch (v.getId()) {
 			case R.id.linear_personalInformation:
-				// 点击后当前个人中心页面跳转到信息资料页面
-
-				intent.setClass(getActivity(),
-						PersonalInformationActivity.class);
-				startActivityForResult(intent, 0);
-
-				/*
-				 * http.setOndemandListener(); http.DemandAccount(tel, token);
-				 */
 				// 点击后当前个人中心页面跳转到个人信息页面
+
+				if (checkisLogin()) {
+					intent.setClass(getActivity(), PersonalInformationActivity.class);
+					startActivityForResult(intent, 0);
+				} else {
+					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG).show();
+				}
 
 				break;
 			case R.id.linear_account:
 				// 点击后当前页面个人中心页面跳转到账户管理页面
-				intent.setClass(getActivity(), AccountActivity.class);
-				startActivity(intent);
+				if (checkisLogin()) {
+					intent.setClass(getActivity(), AccountActivity.class);
+					startActivity(intent);
+				} else {
+					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG).show();
+				}
+
 				break;
 			case R.id.linear_about:
 				// 点击后当前页面个人中心页面跳转到关于萌宠页面
