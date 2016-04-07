@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,9 @@ public class SetActivity extends Activity {
 	AlertDialog alertDialog;
 	LinearLayout linear_out;
 
+	String tel;
+	String token;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +61,7 @@ public class SetActivity extends Activity {
 		back = (ImageView) findViewById(R.id.back);
 		linearlayout_share = (LinearLayout) findViewById(R.id.linearlayout_share);
 		linear_out = (LinearLayout) findViewById(R.id.linear_out);
-		title=(TextView) findViewById(R.id.title);
+		title = (TextView) findViewById(R.id.title);
 		title.setText("设置");
 		back.setOnClickListener(ocl);
 		linearlayout_share.setOnClickListener(ocl);
@@ -75,7 +79,13 @@ public class SetActivity extends Activity {
 				finish();
 				break;
 			case R.id.linearlayout_share:
-				popWindow();
+				//把宠萌分享给朋友
+				if (checkisLogin()) {
+					popWindow();
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录！", Toast.LENGTH_LONG).show();
+				}
+
 				break;
 			case R.id.button_cancel:
 				if (popupWindow != null) {
@@ -87,7 +97,13 @@ public class SetActivity extends Activity {
 				}
 				break;
 			case R.id.linear_out:
-				creatAlertDialog();
+				//退出登录
+				if (checkisLogin()) {
+					creatAlertDialog();
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录！", Toast.LENGTH_LONG).show();
+				}
+
 				break;
 			default:
 				break;
@@ -131,6 +147,7 @@ public class SetActivity extends Activity {
 		popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void creatAlertDialog() {
 		alertDialog.setTitle("退出登录");
 		alertDialog.setMessage("你确定要退出登录吗？");
@@ -158,30 +175,49 @@ public class SetActivity extends Activity {
 
 		alertDialog.show();
 	}
-	
-	//退出阿里云聊天
-	public void logout() {
-        // openIM SDK提供的登录服务
-		YWIMKit mIMKit = LoginSampleHelper.getInstance().getIMKit();
-		if(mIMKit==null){
-		return;
+
+	/**
+	 * 判断 是否 处于登录 状态
+	 * 
+	 * @return 登录，返回true
+	 */
+	private boolean checkisLogin() {
+		String result = SharedPreferencesUtil.getData(this);
+		if (result == null || result.equals("")) {// 判断获取的token值是否为空
+			Log.i("CheckIsLogin", "当前没有处于登录状态");
+			return false;
+		} else {
+			// 不为空，则显示个人信息
+			String[] temp = result.split(",");
+			tel = temp[1];
+			token = temp[0];
+			return true;
 		}
-        IYWLoginService mLoginService = mIMKit.getLoginService();
-        mLoginService.logout(new IWxCallback() {
-            //此时logout已关闭所有基于IMBaseActivity的OpenIM相关Actiivity，s
-            @Override
-            public void onSuccess(Object... arg0) {
-                LoginSampleHelper.getInstance().setAutoLoginState(YWLoginState.idle);
-            }
+	}
 
-            @Override
-            public void onProgress(int arg0) {
+	// 退出阿里云聊天
+	public void logout() {
+		// openIM SDK提供的登录服务
+		YWIMKit mIMKit = LoginSampleHelper.getInstance().getIMKit();
+		if (mIMKit == null) {
+			return;
+		}
+		IYWLoginService mLoginService = mIMKit.getLoginService();
+		mLoginService.logout(new IWxCallback() {
+			// 此时logout已关闭所有基于IMBaseActivity的OpenIM相关Actiivity，s
+			@Override
+			public void onSuccess(Object... arg0) {
+				LoginSampleHelper.getInstance().setAutoLoginState(YWLoginState.idle);
+			}
 
-            }
+			@Override
+			public void onProgress(int arg0) {
 
-            @Override
-            public void onError(int arg0, String arg1) {
-            }
-        });
-    }
+			}
+
+			@Override
+			public void onError(int arg0, String arg1) {
+			}
+		});
+	}
 }
