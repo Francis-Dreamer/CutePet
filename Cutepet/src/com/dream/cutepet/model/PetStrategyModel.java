@@ -112,7 +112,6 @@ public class PetStrategyModel {
 					model.id = ob.getString("id");
 					model.username = ob.getString("username");
 					model.pet_strategy_comment_chinese_name = ob.getString("petname");
-			//		model.pet_strategy_comment_english_name = ob.getString("");
 					model.grade = ob.getString("grade");
 					model.money = ob.getString("money");
 					model.trait = ob.getString("trait");

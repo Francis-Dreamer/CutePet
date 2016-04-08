@@ -7,8 +7,7 @@
     <com.dream.cutepet.view.MyAlbumImageView
         android:id="@+id/iv_setPetIcon"
         android:layout_width="fill_parent"
-        android:layout_height="100dip"
-        android:background="@drawable/friends_sends_pictures_no"
+        android:layout_height="@dimen/px100"
         android:scaleType="fitXY" />
 
 </LinearLayout>

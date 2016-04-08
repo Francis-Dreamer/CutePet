@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import android.widget.ImageView;
 import com.dream.cutepet.R;
 import com.dream.cutepet.util.NativeImageLoader;
 import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
+import com.dream.cutepet.view.MyAlbumImageView;
+import com.dream.cutepet.view.MyAlbumImageView.OnMeasureListener;
 
 public class WriteTalkGridAdapter extends BaseAdapter {
+	private Point mPoint = new Point(0, 0);// 用来封装ImageView的宽和高的对象
 	List<String> data;
 	Context context;
 	LayoutInflater inflater;
@@ -55,22 +59,30 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if (convertView == null) {
-			holder = new ViewHolder();
-			convertView = inflater
-					.inflate(R.layout.every_writetalk_image, null);
-			holder.image = (ImageView) convertView.findViewById(R.id.oneimage);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-
+		final ViewHolder viewHolder;
 		String path = (String) getItem(position);
-		holder.image.setTag(path);
 
-		NativeImageLoader.getInstance().loadNativeImage(path,
-				new NativeImageCallBack() {
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.set_peticon_item, null);
+			viewHolder = new ViewHolder();
+			viewHolder.mImageView = (MyAlbumImageView) convertView
+					.findViewById(R.id.iv_setPetIcon);
+			// 用来监听ImageView的宽和高
+			viewHolder.mImageView.setOnMeasureListener(new OnMeasureListener() {
+				@Override
+				public void onMeasureSize(int width, int height) {
+					mPoint.set(width, height);
+				}
+			});
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
+		}
+		viewHolder.mImageView.setTag(path);
+
+		// 利用NativeImageLoader类加载本地图片
+		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
+				mPoint, new NativeImageCallBack() {
 					@Override
 					public void onImageLoader(Bitmap bitmap, String path) {
 						ImageView mImageView = (ImageView) mGridView
@@ -80,10 +92,17 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 						}
 					}
 				});
+
+		if (bitmap != null) {
+			viewHolder.mImageView.setImageBitmap(bitmap);
+		} else {
+			viewHolder.mImageView
+					.setImageResource(R.drawable.friends_sends_pictures_no);
+		}
 		return convertView;
 	}
 
-	class ViewHolder {
-		ImageView image;
+	public class ViewHolder {
+		public MyAlbumImageView mImageView;
 	}
 }

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,21 +145,29 @@ public class DynamicFragment extends Fragment {
 		tv_type.setText(data_petMessage.getType());
 		tv_age.setText("今年" + data_petMessage.getAge() + "岁了");
 		tv_content.setText(data_petMessage.getContent());
-		
-		if(data_petMessage.getSex().equals("男")){
+
+		if (data_petMessage.getSex().equals("男")) {
 			iv_sex.setImageResource(R.drawable.man);
-		}else{
+		} else {
 			iv_sex.setImageResource(R.drawable.woman);
 		}
 
-		String url_img = url_Top + data_petMessage.getImage();
-		iv_icon.setTag(url_img);
-		Bitmap bt = imageLoader.loadBitmap(iv_icon, url_img, true);
-		if (bt != null) {
-			iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt));
-		}else{
-			iv_icon.setImageResource(R.drawable.icon_tx);
+		String img = data_petMessage.getImage();
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
+			String url_img = url_Top + img;
+			iv_icon.setTag(url_img);
+			Bitmap bt = imageLoader.loadBitmap(iv_icon, url_img, true);
+			if (bt != null) {
+				// 将获取的头像转换成圆形的
+				Bitmap bp = BitmapUtil.toRoundBitmap(bt);
+				if (bp != null) {
+					iv_icon.setImageBitmap(bp);
+				}
+			} else {
+				iv_icon.setImageResource(R.drawable.icon_tx);
+			}
 		}
+		
 	}
 
 	OnItemClickListener itemClickListener = new OnItemClickListener() {
@@ -197,7 +206,7 @@ public class DynamicFragment extends Fragment {
 	}
 
 	/**
-	 * 初始化宠物信息数据
+	 * 获取宠物信息的数据
 	 */
 	private void initPetMessageData() {
 		// 获取宠物信息的数据

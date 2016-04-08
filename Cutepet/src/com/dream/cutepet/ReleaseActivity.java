@@ -13,7 +13,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -26,7 +26,7 @@ import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 
 /**
- * 发布页面
+ * 宠物店发布页面
  * 
  * @author Administrator
  * 
@@ -45,6 +45,9 @@ public class ReleaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_release);
+
+		view_address = getIntent().getStringExtra("path");
+
 		initview();
 	}
 
@@ -52,7 +55,6 @@ public class ReleaseActivity extends Activity {
 	 * 初始化控件
 	 */
 	private void initview() {
-		int image_width, image_height;
 		title = (TextView) findViewById(R.id.title);
 		title.setText("发布");
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
@@ -63,18 +65,19 @@ public class ReleaseActivity extends Activity {
 		iv_petStore_select = (ImageView) findViewById(R.id.iv_petStore_select);
 		iv_petStore_logo = (ImageView) findViewById(R.id.iv_petStore_logo);
 
-		image_width = iv_petStore_select.getWidth();
-		image_height = iv_petStore_select.getHeight();
-
 		ed_petStore_name = (EditText) findViewById(R.id.ed_petStore_name);
 		ed_petStore_address = (EditText) findViewById(R.id.ed_petStore_address);
 		ed_petStore_type = (EditText) findViewById(R.id.ed_petStore_type);
 
-		Log.i("width=" + image_width, "height=" + image_height);
-
 		iv_petStore_select.setOnClickListener(clickListener);
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
+
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			iv_petStore_logo.setImageBitmap(BitmapUtil
+					.getDiskBitmap(view_address));
+		}
 	}
 
 	/**
@@ -91,11 +94,11 @@ public class ReleaseActivity extends Activity {
 				back();
 				break;
 			case R.id.menu_hide:
-				Log.i("address", view_address);
 				if (file != null) {
 					release(file);
 				} else {
-					Toast.makeText(getApplication(), "请选择图片", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplication(), "请选择图片",
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			default:
@@ -133,10 +136,12 @@ public class ReleaseActivity extends Activity {
 						JSONObject js = new JSONObject(result);
 						int status = js.getInt("status");
 						if (status == 1) {
-							Toast.makeText(getApplicationContext(), "发布成功！", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "发布成功！",
+									Toast.LENGTH_SHORT).show();
 							back();
 						} else {
-							Toast.makeText(getApplicationContext(), "发布失败！", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), "发布失败！",
+									Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -154,22 +159,9 @@ public class ReleaseActivity extends Activity {
 	private void select_image() {
 		Intent intent = new Intent(ReleaseActivity.this,
 				SelectPhotoActivity.class);
-		startActivityForResult(intent, 66666);
-	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case 66666:
-			if (data!= null) {
-				Bundle bundle = data.getExtras();
-				view_address = bundle.getString("view_address");
-				file = new File(view_address);
-				iv_petStore_logo.setImageBitmap(BitmapUtil.getDiskBitmap(view_address));
-			}
-			break;
-		default:
-			break;
-		}
+		intent.putExtra("flog", 2);
+		startActivity(intent);
+		finish();
 	}
 
 	/**

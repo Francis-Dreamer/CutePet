@@ -113,7 +113,7 @@ public class SetPersonIconActivity extends Activity {
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
 		
-		mProgressDialog = new ProgressDialog(getApplicationContext());
+		mProgressDialog = new ProgressDialog(SetPersonIconActivity.this);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgressDialog.setTitle("加载中，请稍后...");
 	}

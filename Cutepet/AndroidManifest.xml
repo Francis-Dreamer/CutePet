@@ -25,7 +25,7 @@
         android:theme="@android:style/Theme.Black.NoTitleBar" >
         <activity android:name="com.dream.cutepet.DynamicDetailsActivity" >
         </activity>
-        <activity android:name="com.dream.cutepet.PetDetailsActivity" >
+        <activity android:name="com.dream.cutepet.PersonalDetailsActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.ReleaseActivity" >
         </activity>
@@ -45,7 +45,7 @@
         </activity>
         <activity android:name="com.dream.cutepet.AccountActivity" >
         </activity>
-        <activity android:name="com.dream.cutepet.PetReleaseActivity" >
+        <activity android:name="com.dream.cutepet.PersonalReleaseActivity" >
         </activity>
         <activity
             android:name="com.dream.cutepet.AllPageActivity"
@@ -68,8 +68,6 @@
         <activity android:name="com.dream.cutepet.ui.NewPhotoAlbumActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.ui.UploadPhotoActivity" >
-        </activity>
-        <activity android:name="com.dream.cutepet.ui.PetInformationActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.GuidepageActivity" >
             <intent-filter>

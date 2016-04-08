@@ -75,7 +75,7 @@ public class UploadPhotoActivity extends Activity {
 				if(mProgressDialog != null){
 					mProgressDialog.dismiss();
 				}
-				// 对适配器添加数据
+				// 对适配器添加数据  
 				adapter = new MyAlbumAdapter(getApplicationContext(),
 						data_album, gridView);
 				// 显示gridview
@@ -120,7 +120,7 @@ public class UploadPhotoActivity extends Activity {
 		gridView = (GridView) findViewById(R.id.gv_upload_photo);
 		gridView.setOnItemClickListener(itemClickListener);
 		
-		mProgressDialog = new ProgressDialog(getApplicationContext());
+		mProgressDialog = new ProgressDialog(UploadPhotoActivity.this);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgressDialog.setTitle("加载中，请稍后...");
 	}
@@ -156,7 +156,7 @@ public class UploadPhotoActivity extends Activity {
 				long arg3) {
 			List<String> childList = data.get(data_album.get(arg2)
 					.getFolderName());
-
+			
 			Intent intent = new Intent(UploadPhotoActivity.this,
 					ShowImageActivity.class);
 			intent.putStringArrayListExtra("data",
@@ -164,6 +164,7 @@ public class UploadPhotoActivity extends Activity {
 			intent.putExtra("tel", username);
 			intent.putExtra("title", title);
 			startActivityForResult(intent, 0);
+			finish();
 		}
 	};
 

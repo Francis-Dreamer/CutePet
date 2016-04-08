@@ -97,12 +97,12 @@ public class SquareBaseAdapter extends BaseAdapter {
 		}
 
 		model = (SquareModel) getItem(position);
-		
+
 		String name = model.getSquare_neckname();
-		if(!TextUtils.isEmpty(name)&&!name.equals("null")){
-			holder.square_neckname.setText(name+"");
-		}else{
-			holder.square_neckname.setText(model.getSquare_username()+"");
+		if (!TextUtils.isEmpty(name) && !name.equals("null")) {
+			holder.square_neckname.setText(name + "");
+		} else {
+			holder.square_neckname.setText(model.getSquare_username() + "");
 		}
 
 		Date date = TimeUtil.changeTime(model.getSquare_comment_time());
@@ -113,27 +113,34 @@ public class SquareBaseAdapter extends BaseAdapter {
 		holder.square_address.setText(model.getSquare_address());
 		holder.square_praise_num.setText(model.getSquare_praise_num());
 		holder.square_comment_num.setText(model.getSquare_comment_num());
-		
+
 		String img = model.getSquare_image();
-		if(!TextUtils.isEmpty(img)&& !img.equals("null")){
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			List<String> pic = MyListUtil.changeStringToList(img, ",");
-			SquareGridviewAdapter adapter = new SquareGridviewAdapter(context,pic);
+			SquareGridviewAdapter adapter = new SquareGridviewAdapter(context,
+					pic);
 			holder.square_image.setAdapter(adapter);
 		}
 
-		String portraitUrl = urlTop + model.getSquare_portrait();
-		// 给imageview设置tag
-		holder.square_portrait.setTag(portraitUrl);
-		// 预设图
-		holder.square_portrait.setImageResource(R.drawable.icon_tx);
-		// 异步加载图片
-		Bitmap bt_icon = imageLoader.loadBitmap(holder.square_portrait, portraitUrl, true);
-		if (bt_icon != null) {
-			holder.square_portrait.setImageBitmap(bt_icon);
-		}else{
+		String tx = model.getSquare_portrait();
+		if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {
+			String portraitUrl = urlTop + tx;
+			// 给imageview设置tag
+			holder.square_portrait.setTag(portraitUrl);
+			// 预设图
+			holder.square_portrait.setImageResource(R.drawable.icon_tx);
+			// 异步加载图片
+			Bitmap bt_icon = imageLoader.loadBitmap(holder.square_portrait,
+					portraitUrl, true);
+			if (bt_icon != null) {
+				holder.square_portrait.setImageBitmap(bt_icon);
+			} else {
+				holder.square_portrait.setImageResource(R.drawable.icon_tx);
+			}
+		} else {
 			holder.square_portrait.setImageResource(R.drawable.icon_tx);
 		}
-		
+
 		return convertView;
 	}
 

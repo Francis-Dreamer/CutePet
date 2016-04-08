@@ -15,6 +15,7 @@ import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicDetailsModel;
 import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -80,7 +81,6 @@ public class DynamicDetailsActivity extends Activity {
 		imageLoader = new AsyncImageLoader(this, cacheMgr.getMemoryCache(),
 				cacheMgr.getPlacardFileCache());
 
-		// 把其他形状转化成圆形头像
 		Bundle bundle = getIntent().getExtras();
 		id = bundle.getString("theId");
 		uid = bundle.getString("theUsername");
@@ -145,13 +145,19 @@ public class DynamicDetailsActivity extends Activity {
 
 		dynamic_details_image = (MyGridView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_image);
-		if(!TextUtils.isEmpty(imageUrl) && !imageUrl.equals("null")){
+		if (!TextUtils.isEmpty(imageUrl) && !imageUrl.equals("null")) {
 			List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
-			SquareGridviewAdapter adapter = new SquareGridviewAdapter(getApplicationContext(), list);
+			SquareGridviewAdapter adapter = new SquareGridviewAdapter(
+					getApplicationContext(), list);
 			dynamic_details_image.setAdapter(adapter);
 		}
 
-		dynamic_details_nickname.setText(theNickname);
+		if (!TextUtils.isEmpty(theNickname) && !theNickname.equals("null")) {
+			dynamic_details_nickname.setText(theNickname);
+		} else {
+			dynamic_details_nickname.setText(uid + "");
+		}
+
 		Date date = TimeUtil.changeTime(theTime);
 		dynamic_details_time.setText(TimeUtil.showTime(date));
 		dynamic_details_address.setText(theAddress);
@@ -159,12 +165,17 @@ public class DynamicDetailsActivity extends Activity {
 		dynamic_details_like.setText(thePraise + "");
 		dynamic_details_like.setOnClickListener(clickListener);
 
-		String url_portrait = urlTop + portraitUrl;
-		dynamic_details_portrait.setTag(url_portrait);
-		Bitmap bt_icon = imageLoader.loadBitmap(dynamic_details_portrait,
-				url_portrait, true);
-		if (bt_icon != null) {
-			dynamic_details_portrait.setImageBitmap(bt_icon);
+		if (!TextUtils.isEmpty(portraitUrl) && !portraitUrl.equals("null")) {
+			String url_portrait = urlTop + portraitUrl;
+			dynamic_details_portrait.setTag(url_portrait);
+			Bitmap bt_icon = imageLoader.loadBitmap(dynamic_details_portrait,
+					url_portrait, true);
+			if (bt_icon != null) {
+				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt_icon);
+				dynamic_details_portrait.setImageBitmap(cc_tx);
+			} else {
+				dynamic_details_portrait.setImageResource(R.drawable.icon_tx);
+			}
 		} else {
 			dynamic_details_portrait.setImageResource(R.drawable.icon_tx);
 		}
@@ -180,26 +191,31 @@ public class DynamicDetailsActivity extends Activity {
 	 * 
 	 * @param num
 	 */
-	private void initPraiseIcon(int num) {
+	private void initPraiseIcon() {
 		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT);
 		params.setMargins(0, 0, 8, 0);
-
 		llayout_details_icon.removeAllViews();
 		for (int i = 0; i < data_icon.size(); i++) {
 			ImageView child = new ImageView(DynamicDetailsActivity.this);
-			String url_img = urlTop + data_icon.get(i);
-			child.setTag(url_img);
-			Bitmap bt1 = imageLoader.loadBitmap(child, url_img, true);
-			if (bt1 != null) {
-				child.setImageBitmap(bt1);
+			String tx = data_icon.get(i);
+			if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {
+				String url_img = urlTop + tx;
+				child.setTag(url_img);
+				Bitmap bt1 = imageLoader.loadBitmap(child, url_img, true);
+				if (bt1 != null) {
+					Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt1);
+					child.setImageBitmap(cc_tx);
+				} else {
+					child.setImageResource(R.drawable.icon_tx);
+				}
 			} else {
 				child.setImageResource(R.drawable.icon_tx);
 			}
 			child.setLayoutParams(params);
 			llayout_details_icon.addView(child);
 		}
-		dynamic_details_like.setText(num + "");
+		dynamic_details_like.setText(data_icon.size() + "");
 	}
 
 	/**
@@ -256,16 +272,16 @@ public class DynamicDetailsActivity extends Activity {
 				@Override
 				public void end(String result) {
 					try {
+						// 清空头像的数组
+						data_icon.clear();
 						JSONObject jsonObject = new JSONObject(result);
 						if (jsonObject.getInt("status") == 1) {
 							JSONArray arr = jsonObject.getJSONArray("message");
-							data_icon.clear();
 							for (int i = 0; i < arr.length(); i++) {
 								data_icon.add(arr.getString(i));
 							}
-							int num = jsonObject.getInt("size");
-							initPraiseIcon(num);
 						}
+						initPraiseIcon();
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -439,6 +455,7 @@ public class DynamicDetailsActivity extends Activity {
 				intent.setClass(DynamicDetailsActivity.this,
 						WriteTalkActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 			default:
 				break;

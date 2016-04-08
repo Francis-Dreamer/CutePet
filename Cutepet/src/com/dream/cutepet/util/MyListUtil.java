@@ -37,26 +37,25 @@ public class MyListUtil {
 	 */
 	public static List<ImageBeanModel> subGroupOfImage(
 			Map<String, List<String>> mGruopMap) {
-
-		if (mGruopMap.size() == 0) {
-			return null;
-		}
-
 		List<ImageBeanModel> list = new ArrayList<ImageBeanModel>();
-		Iterator<Map.Entry<String, List<String>>> it = mGruopMap.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, List<String>> entry = it.next();
-			ImageBeanModel mImageBean = new ImageBeanModel();
-			String key = entry.getKey();
-			List<String> value = entry.getValue();
-
-			mImageBean.setFolderName(key);
-			mImageBean.setImageCounts(value.size());
-			// 获取该组的第一张图片地址
-			mImageBean.setTopImagePath(value.get(0));
-
-			list.add(mImageBean);
+		if (mGruopMap.size() > 0) {
+			Iterator<Map.Entry<String, List<String>>> it = mGruopMap.entrySet()
+					.iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, List<String>> entry = it.next();
+				ImageBeanModel mImageBean = new ImageBeanModel();
+				String key = entry.getKey();
+				List<String> value = entry.getValue();
+				mImageBean.setFolderName(key);
+				mImageBean.setImageCounts(value.size());
+				// 获取该组的第一张图片地址
+				if(value.size() == 0){
+					mImageBean.setTopImagePath("");
+				}else{
+					mImageBean.setTopImagePath(value.get(0));
+				}
+				list.add(mImageBean);
+			}
 		}
 		return list;
 	}

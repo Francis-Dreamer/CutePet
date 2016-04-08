@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -22,8 +24,15 @@ import android.widget.Toast;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 
-public class PetReleaseActivity extends Activity {
+/**
+ * 主人寄语发布界面
+ * 
+ * @author Administrator
+ * 
+ */
+public class PersonalReleaseActivity extends Activity {
 	TextView title, menu_hide;
 	ImageView back, iv_pet_logo, iv_pet_select;
 	EditText et_type, et_content;
@@ -31,7 +40,7 @@ public class PetReleaseActivity extends Activity {
 	File file;
 	private String username;
 	private final String url = "http://192.168.11.238/index.php/home/api/uploadPersonal";
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pet_release);
@@ -42,7 +51,9 @@ public class PetReleaseActivity extends Activity {
 	}
 
 	private void initData() {
-		username = getIntent().getStringExtra("tel");
+		username = SharedPreferencesUtil.getData(getApplicationContext())
+				.split(",")[1];
+		view_address = getIntent().getStringExtra("path");
 	}
 
 	/**
@@ -65,6 +76,11 @@ public class PetReleaseActivity extends Activity {
 
 		et_type = (EditText) findViewById(R.id.ed_pet_breed);
 		et_content = (EditText) findViewById(R.id.ed_pet_jiyu);
+
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			iv_pet_logo.setImageBitmap(BitmapUtil.getDiskBitmap(view_address));
+		}
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
@@ -83,9 +99,11 @@ public class PetReleaseActivity extends Activity {
 				break;
 			case R.id.iv_pet_select:
 				Intent intent = new Intent();
-				intent.setClass(PetReleaseActivity.this,
+				intent.setClass(PersonalReleaseActivity.this,
 						SelectPhotoActivity.class);
-				startActivityForResult(intent, 77777);
+				intent.putExtra("flog", 1);
+				startActivity(intent);
+				finish();
 				break;
 			default:
 				break;
@@ -110,7 +128,8 @@ public class PetReleaseActivity extends Activity {
 			map.put("image_name", type);
 			map.put("address", "重庆市四小区");
 			httpPost.putMap(map);
-			httpPost.putFile("file", file, file.getName(), null);
+			httpPost.putFile(file.getPath(), file, file.getName(), null);
+			Log.e("upload", "file=" + file.getName());
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override
@@ -126,8 +145,9 @@ public class PetReleaseActivity extends Activity {
 							Toast.makeText(getApplicationContext(), "上传成功！",
 									Toast.LENGTH_SHORT).show();
 							finish();
-						}else{
-							Toast.makeText(getApplicationContext(), jsonObject.getString("message"),
+						} else {
+							Toast.makeText(getApplicationContext(),
+									jsonObject.getString("message"),
 									Toast.LENGTH_SHORT).show();
 						}
 					} catch (JSONException e) {
@@ -139,20 +159,4 @@ public class PetReleaseActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case 77777:
-			Bundle bundle = data.getExtras();
-			view_address = bundle.getString("view_address");
-			file = new File(view_address);
-			iv_pet_logo.setImageBitmap(BitmapUtil
-					.getDiskBitmap(view_address));
-			break;
-
-		default:
-			break;
-		}
-	};
-
 }

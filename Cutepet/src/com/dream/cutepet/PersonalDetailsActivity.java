@@ -2,7 +2,6 @@ package com.dream.cutepet;
 
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
-import com.dream.cutepet.util.SharedPreferencesUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,12 +11,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class PetDetailsActivity extends Activity {
+/**
+ * 主人寄语
+ * 
+ * @author Administrator
+ * 
+ */
+public class PersonalDetailsActivity extends Activity {
 	private TextView title, menu_hide;
 	private ImageView back;
-	private String username;
 	private String logo;
 	private String name;
 	private String petName;
@@ -35,30 +38,12 @@ public class PetDetailsActivity extends Activity {
 				cacheManager.getPlacardFileCache());
 
 		Bundle bundle = getIntent().getExtras();
-		username = bundle.getString("tel");
 		logo = bundle.getString("petlogo");
 		name = bundle.getString("name");
 		petName = bundle.getString("petname");
 		content = bundle.getString("content");
 
 		initview();
-	}
-
-	/**
-	 * 获取本地账号
-	 * 
-	 * @return
-	 */
-	private boolean getUser() {
-		String tok = SharedPreferencesUtil.getData(getApplicationContext());
-		if (tok != null && !tok.equals("")) {
-			username = tok.split(",")[1];
-			return true;
-		} else {
-			Toast.makeText(getApplicationContext(), "请先登录！", Toast.LENGTH_SHORT)
-					.show();
-			return false;
-		}
 	}
 
 	/**
@@ -103,12 +88,9 @@ public class PetDetailsActivity extends Activity {
 				finish();
 				break;
 			case R.id.menu_hide:
-				if (getUser()) {
-					Intent intent = new Intent(PetDetailsActivity.this,
-							PetReleaseActivity.class);
-					intent.putExtra("tel", username);
-					startActivity(intent);
-				}
+				Intent intent = new Intent(PersonalDetailsActivity.this,
+						PersonalReleaseActivity.class);
+				startActivity(intent);
 				break;
 			default:
 				break;

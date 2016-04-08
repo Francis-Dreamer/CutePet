@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/gestures_login_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/px30"
+            android:src="@drawable/icon_tx" />
+
+        <TextView
+            android:id="@+id/gesture_login_toast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/px20"
+            android:text="请绘制手势密码"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/px30" />
+    </RelativeLayout>
+
+    <com.dream.cutepet.view.MyGesturesView
+        android:id="@+id/gestures_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/gesture_login_byPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="忘记密码"
+        android:textColor="#438AF2" />
+
+</LinearLayout>

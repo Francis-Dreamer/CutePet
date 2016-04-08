@@ -140,8 +140,10 @@ public class PetStrategyDetailsActivity extends Activity {
 				bundle.putString("petContent_data", petContent_data);
 				bundle.putString("petTrait", petTrait);
 				bundle.putString("petImage", petImage);
+				bundle.putString("userId", userId);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
+				finish();
 				break;
 			case R.id.pet_strategy_details_collection:
 				attention();

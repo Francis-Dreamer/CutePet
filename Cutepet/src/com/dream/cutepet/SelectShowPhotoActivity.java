@@ -20,6 +20,8 @@ public class SelectShowPhotoActivity extends Activity implements
 	private List<String> list;
 	private ShowPhotoNoCheckAdapter adapter;
 	private TextView tv_cancel, tv_sure;
+	private int flog;
+	private Bundle bundle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,9 @@ public class SelectShowPhotoActivity extends Activity implements
 		setContentView(R.layout.activity_showphoto_item);
 
 		list = getIntent().getStringArrayListExtra("data");
-
+		flog = getIntent().getIntExtra("flog", 0);
+		bundle = getIntent().getExtras();
+		
 		initView();
 	}
 
@@ -52,10 +56,20 @@ public class SelectShowPhotoActivity extends Activity implements
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			String img = list.get(position);
-			Intent intent = new Intent(SelectShowPhotoActivity.this,
-					PetStrategyCommentActivity.class);
+			Intent intent = new Intent();
+			if (flog == 1) {
+				intent.setClass(SelectShowPhotoActivity.this,
+						PersonalReleaseActivity.class);
+			} else if (flog == 2) {
+				intent.setClass(SelectShowPhotoActivity.this,
+						ReleaseActivity.class);
+			}else if (flog == 3) {
+				intent.setClass(SelectShowPhotoActivity.this,
+						PetStrategyCommentActivity.class);
+				intent.putExtras(bundle);
+			}
 			intent.putExtra("path", img);
-			setResult(RESULT_OK, intent);
+			startActivity(intent);
 			finish();
 		}
 	};

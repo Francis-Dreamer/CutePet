@@ -7,6 +7,7 @@ import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicDetailsModel;
 import com.dream.cutepet.model.DynamicDetailsModel.Message;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.TimeUtil;
 
 import android.annotation.SuppressLint;
@@ -95,14 +96,24 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 		}
 		holder.dynamic_details_comment_content.setText(model.getContent());
 
-		String url_icon = url_top + model.getIcon();
-		holder.dynamic_details_portrait.setTag(url_icon);
-		Bitmap bt = imageLoader.loadBitmap(holder.dynamic_details_portrait, url_icon, true);
-		if (bt != null) {
-			holder.dynamic_details_portrait.setImageBitmap(bt);
-		}else{
-			holder.dynamic_details_portrait.setImageResource(R.drawable.friends_sends_pictures_no);
+		String tx = model.getIcon();
+		if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {
+			String url_icon = url_top + tx;
+			holder.dynamic_details_portrait.setTag(url_icon);
+			Bitmap bt = imageLoader.loadBitmap(holder.dynamic_details_portrait,
+					url_icon, true);
+			if (bt != null) {
+				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt);
+				holder.dynamic_details_portrait.setImageBitmap(cc_tx);
+			} else {
+				holder.dynamic_details_portrait
+						.setImageResource(R.drawable.icon_tx);
+			}
+		} else {
+			holder.dynamic_details_portrait
+					.setImageResource(R.drawable.icon_tx);
 		}
+
 		return convertView;
 	}
 

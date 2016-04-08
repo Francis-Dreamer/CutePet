@@ -41,7 +41,6 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	String name;
 	RelativeLayout layout_petStore, layout_issue;
 	AsyncImageLoader asyncImageLoader;
-	private String url_Top = "http://192.168.11.238";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +93,7 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 		tv_address = (TextView) findViewById(R.id.tv_petStore_address);
 		tv_type = (TextView) findViewById(R.id.tv_petStore_type);
 
-		String url_img = url_Top + icon;
+		String url_img = icon;
 		// 异步加载图片
 		iv_logo.setTag(url_img);
 		Bitmap bitmap = asyncImageLoader.loadBitmap(iv_logo, url_img, true);
@@ -115,7 +114,6 @@ public class PetStoreActivity extends Activity implements OnClickListener {
 	private void issue() {
 		Intent intent = new Intent(PetStoreActivity.this, ReleaseActivity.class);
 		startActivity(intent);
-		finish();
 	}
 
 	/**

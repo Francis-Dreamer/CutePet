@@ -132,7 +132,7 @@ public class MyPhotoAlbumActivity extends Activity {
 		Intent intent = new Intent(MyPhotoAlbumActivity.this,
 				UploadPhotoActivity.class);
 		intent.putExtra("tel", username);
-		intent.putExtra("name", title);
+		intent.putExtra("title", title);
 		startActivityForResult(intent, 1008611);
 	}
 

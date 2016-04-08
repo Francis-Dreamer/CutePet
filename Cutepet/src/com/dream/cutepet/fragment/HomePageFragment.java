@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.dream.cutepet.PetDetailsActivity;
+import com.dream.cutepet.PersonalDetailsActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.HomePageAdapter;
 import com.dream.cutepet.adapter.HomePageAdapter.CallParise;
@@ -153,8 +153,9 @@ public class HomePageFragment extends Fragment implements CallParise,
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			if (checkLogin()) {
+				//跳转到主人寄语
 				Intent intent = new Intent(getActivity(),
-						PetDetailsActivity.class);
+						PersonalDetailsActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("name", data_personage.get(position).getName());
 				bundle.putString("petlogo", data_personage.get(position)
@@ -163,7 +164,6 @@ public class HomePageFragment extends Fragment implements CallParise,
 						.getPicture_name());
 				bundle.putString("content", data_personage.get(position)
 						.getContent());
-				bundle.putString("tel", username);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 1357);
 			}

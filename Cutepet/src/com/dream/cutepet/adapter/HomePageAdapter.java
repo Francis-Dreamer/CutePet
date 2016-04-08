@@ -136,14 +136,19 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 
 		holder.tv_word.setText(model.getPicture_name());
 
-		String iconUrl = url_Top + model.getLogo();
-		// 给 ImageView 设置一个 tag
-		holder.icon.setTag(iconUrl);
-		// 异步加载图片
-		Bitmap bitmap = imageLoader.loadBitmap(holder.icon, iconUrl, true);
-		if (bitmap != null) {
-			holder.icon.setImageBitmap(bitmap);
-		} else {
+		String tx = model.getLogo();
+		if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {
+			String iconUrl = url_Top + tx;
+			// 给 ImageView 设置一个 tag
+			holder.icon.setTag(iconUrl);
+			// 异步加载头像
+			Bitmap bitmap = imageLoader.loadBitmap(holder.icon, iconUrl, true);
+			if (bitmap != null) {
+				holder.icon.setImageBitmap(bitmap);
+			} else {
+				holder.icon.setImageResource(R.drawable.icon_tx);
+			}
+		}else{
 			holder.icon.setImageResource(R.drawable.icon_tx);
 		}
 

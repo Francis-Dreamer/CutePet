@@ -41,18 +41,18 @@
             android:layout_marginLeft="@dimen/px31"
             android:background="#f2ebd9" />
 
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fenge"
-            android:layout_marginLeft="@dimen/px30"
-            android:layout_marginTop="@dimen/px30"
-            android:background="@null"
-            android:hint="地点"
-            android:padding="@dimen/px15"
-            android:textColor="#333333"
-            android:textSize="@dimen/px36" />
+	        <EditText
+	            android:id="@+id/address"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/fenge"
+	            android:layout_marginLeft="@dimen/px30"
+	            android:layout_marginTop="@dimen/px30"
+	            android:background="@null"
+	            android:hint="地点"
+	            android:padding="@dimen/px15"
+	            android:textColor="#333333"
+	            android:textSize="@dimen/px36" />
 
         <ImageView
             android:id="@+id/more"
@@ -69,12 +69,12 @@
     <GridView
         android:id="@+id/writetalk_gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ffffff"
         android:horizontalSpacing="@dimen/px15"
         android:numColumns="3"
-        android:background="#ffffff"
         android:padding="@dimen/px15"
-        android:verticalSpacing="@dimen/px15" >
-    </GridView>
+        android:verticalSpacing="@dimen/px15" />
 
 </LinearLayout>

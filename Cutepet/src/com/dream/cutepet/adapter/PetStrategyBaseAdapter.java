@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class PetStrategyBaseAdapter extends BaseAdapter {
-
 	List<PetStrategyModel> data;
 	Context context;
 	LayoutInflater inflater;

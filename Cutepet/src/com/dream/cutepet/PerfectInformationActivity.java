@@ -132,7 +132,7 @@ public class PerfectInformationActivity extends Activity {
 		
 		if(bundle != null){
 			et_name.setText(bundle.getString("nickname"));
-			et_age.setText(bundle.getString("age"));
+			et_age.setText(bundle.getInt("age")+"");
 			et_content.setText(bundle.getString("content"));
 			et_type.setText(bundle.getString("type"));
 			String sex = bundle.getString("sex");

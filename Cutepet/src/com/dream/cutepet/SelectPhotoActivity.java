@@ -41,12 +41,17 @@ public class SelectPhotoActivity extends Activity {
 
 	private Map<String, List<String>> data;
 	private List<ImageBeanModel> data_album;
-
+	private int flog;
+	private Bundle bundle;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload_photo);
-
+		
+		flog = getIntent().getIntExtra("flog", 0);
+		bundle = getIntent().getExtras();
+		
 		initView();
 		initImageData();
 	}
@@ -149,6 +154,10 @@ public class SelectPhotoActivity extends Activity {
 					SelectShowPhotoActivity.class);
 			intent.putStringArrayListExtra("data",
 					(ArrayList<String>) childList);
+			intent.putExtra("flog", flog);
+			if(bundle != null){
+				intent.putExtras(bundle);
+			}
 			startActivity(intent);
 			finish();
 		}

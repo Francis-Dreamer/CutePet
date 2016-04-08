@@ -74,7 +74,7 @@ public class WriteTalkUpLoadShowPhotoActivity extends Activity implements
 		Intent intent = new Intent(WriteTalkUpLoadShowPhotoActivity.this,
 				WriteTalkActivity.class);
 		intent.putStringArrayListExtra("checked_path", checked_path);
-		setResult(RESULT_OK, intent);
+		startActivity(intent);
 		finish();
 	}
 }

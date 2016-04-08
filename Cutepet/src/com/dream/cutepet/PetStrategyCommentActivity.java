@@ -29,6 +29,7 @@ import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
  * 攻略点评
@@ -48,6 +49,7 @@ public class PetStrategyCommentActivity extends Activity {
 	File file;
 	ImageView pet_strategy_comment_view;
 	EditText et_content;
+	Bundle bundle;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,10 +58,10 @@ public class PetStrategyCommentActivity extends Activity {
 		ImageCacheManager cacheMgr = new ImageCacheManager(this);
 		imageLoader = new AsyncImageLoader(this, cacheMgr.getMemoryCache(),
 				cacheMgr.getPlacardFileCache());
-	}
 
-	protected void onStart() {
-		super.onStart();
+		bundle = getIntent().getExtras();
+		view_address = getIntent().getStringExtra("path");
+
 		getData();
 	}
 
@@ -100,7 +102,7 @@ public class PetStrategyCommentActivity extends Activity {
 							float rating, boolean fromUser) {
 						petGrade = rating;
 						pet_strategy_comment_ratingbar_num.setText(petGrade
-								+ ".0分");
+								+ "分");
 					}
 				});
 
@@ -115,20 +117,28 @@ public class PetStrategyCommentActivity extends Activity {
 					.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
 
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			pet_strategy_comment_view.setImageBitmap(BitmapUtil
+					.getDiskBitmap(view_address));
+		}
+
 	}
 
 	/**
 	 * 获得数据
 	 */
 	private void getData() {
-		Bundle bundle = getIntent().getExtras();
-		petName = bundle.getString("petName");
-		userId = bundle.getString("userId");
-		petTrait = bundle.getString("petTrait");
-		petContent_data = bundle.getString("petContent_data");
-		petImage = bundle.getString("petImage");
-		tel = bundle.getString("tel");
-		init();
+		if (bundle != null) {
+			petName = bundle.getString("petName");
+			userId = bundle.getString("userId");
+			petTrait = bundle.getString("petTrait");
+			petContent_data = bundle.getString("petContent_data");
+			petImage = bundle.getString("petImage");
+			tel = SharedPreferencesUtil.getData(getApplicationContext()).split(
+					",")[1];
+			init();
+		}
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
@@ -216,22 +226,9 @@ public class PetStrategyCommentActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(PetStrategyCommentActivity.this,
 				SelectPhotoActivity.class);
-		startActivityForResult(intent, 111333);
+		intent.putExtra("flog", 3);
+		intent.putExtras(bundle);
+		startActivity(intent);
+		finish();
 	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case 111333:
-			if (data != null) {
-				String path = data.getStringExtra("path");
-				file = new File(path);
-				pet_strategy_comment_view.setImageBitmap(BitmapUtil
-						.getDiskBitmap(path));
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
 }

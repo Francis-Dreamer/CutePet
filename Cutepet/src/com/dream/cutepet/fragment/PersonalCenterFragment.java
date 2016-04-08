@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.dream.cutepet.SetActivity;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.ui.SetPersonIconActivity;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.HttpTools;
@@ -66,7 +68,7 @@ public class PersonalCenterFragment extends Fragment {
 
 	RadioButton personal_center;
 
-	ImageView image_toxiang_login,image_toxiang_unlogin;
+	ImageView image_toxiang_login, image_toxiang_unlogin;
 
 	String logo;
 	String attention;
@@ -161,11 +163,17 @@ public class PersonalCenterFragment extends Fragment {
 
 	// UI控件的更新
 	private void updateView() {
-		String img_url = "http://192.168.11.238" + logo;
-		image_toxiang_login.setTag(img_url);
-		Bitmap bitmap = imageLoader.loadBitmap(image_toxiang_login, img_url, true);
-		if (bitmap != null) {
-			image_toxiang_login.setImageBitmap(bitmap);
+		if (!TextUtils.isEmpty(logo) && !logo.equals("null")) {
+			String img_url = "http://192.168.11.238" + logo;
+			image_toxiang_login.setTag(img_url);
+			Bitmap bitmap = imageLoader.loadBitmap(image_toxiang_login,
+					img_url, true);
+			if (bitmap != null) {
+				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bitmap);
+				image_toxiang_login.setImageBitmap(cc_tx);
+			} else {
+				image_toxiang_login.setImageResource(R.drawable.icon_tx);
+			}
 		} else {
 			image_toxiang_login.setImageResource(R.drawable.icon_tx);
 		}
@@ -278,10 +286,12 @@ public class PersonalCenterFragment extends Fragment {
 				// 点击后当前个人中心页面跳转到个人信息页面
 
 				if (checkisLogin()) {
-					intent.setClass(getActivity(), PersonalInformationActivity.class);
+					intent.setClass(getActivity(),
+							PersonalInformationActivity.class);
 					startActivityForResult(intent, 0);
 				} else {
-					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG)
+							.show();
 				}
 
 				break;
@@ -291,7 +301,8 @@ public class PersonalCenterFragment extends Fragment {
 					intent.setClass(getActivity(), AccountActivity.class);
 					startActivity(intent);
 				} else {
-					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG)
+							.show();
 				}
 
 				break;
