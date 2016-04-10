@@ -30,7 +30,7 @@ public class UpPersonIconActivity extends Activity implements OnClickListener{
 	private TextView tv_cancel, tv_sure;
 
 	private String username;
-	private String url = "http://192.168.11.238/index.php/home/api/uploadPersonIcon";
+	private String url = "http://192.168.1.106/index.php/home/api/uploadPersonIcon";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

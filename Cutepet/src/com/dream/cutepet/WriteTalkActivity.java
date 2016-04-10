@@ -105,7 +105,7 @@ public class WriteTalkActivity extends Activity {
 	 */
 	@SuppressLint("SimpleDateFormat")
 	private void send() {
-		String url = "http://192.168.11.238/index.php/home/api/uploadTalk";
+		String url = "http://192.168.1.106/index.php/home/api/uploadTalk";
 		String tok = SharedPreferencesUtil.getData(this);
 		username = tok.split(",")[1];
 		String content = edit_content.getText().toString().trim();

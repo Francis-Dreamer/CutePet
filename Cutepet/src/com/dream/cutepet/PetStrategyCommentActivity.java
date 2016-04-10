@@ -106,7 +106,7 @@ public class PetStrategyCommentActivity extends Activity {
 					}
 				});
 
-		String imageUrl = "http://192.168.11.238" + petImage;
+		String imageUrl = "http://192.168.1.106" + petImage;
 		pet_strategy_image.setTag(imageUrl);
 		Bitmap bitmap = imageLoader.loadBitmap(pet_strategy_image, imageUrl,
 				true);
@@ -177,7 +177,7 @@ public class PetStrategyCommentActivity extends Activity {
 	private void uploadStrategy(File file) {
 		String cont = et_content.getText().toString().trim();
 		if (!TextUtils.isEmpty(cont) && !cont.equals("null")) {
-			String url_send = "http://192.168.11.238/index.php/home/api/uploadStrategy_comment";
+			String url_send = "http://192.168.1.106/index.php/home/api/uploadStrategy_comment";
 			try {
 				HttpPost httpPost = HttpPost.parseUrl(url_send);
 				Map<String, String> map = new HashMap<String, String>();

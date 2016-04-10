@@ -5,19 +5,22 @@ import java.util.List;
 import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
+import com.dream.cutepet.view.PhotoImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 	List<String> data;
-	Context context;
-	private String url_Top = "http://192.168.11.238";
+	private String url_Top = "http://192.168.1.106";
 	private AsyncImageLoader imageLoader;
+	private LayoutInflater inflater;
 
 	public MyPhotoAlbumGridviewAdapter() {
 
@@ -25,7 +28,7 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 
 	public MyPhotoAlbumGridviewAdapter(Context context, List<String> data) {
 		this.data = data;
-		this.context = context;
+		inflater = LayoutInflater.from(context);
 		ImageCacheManager cacheMgr = new ImageCacheManager(context);
 		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
 				cacheMgr.getPlacardFileCache());
@@ -46,26 +49,40 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView imageView;
+		ViewHolder holder;
+		String img = (String) getItem(position);
 		if (convertView == null) {
-			imageView = new ImageView(context);
+			holder = new ViewHolder();
+			convertView = inflater.inflate(R.layout.set_peticon_item, null);
+			holder.mImageView = (PhotoImageView) convertView
+					.findViewById(R.id.iv_setPetIcon);
+			convertView.setTag(holder);
 		} else {
-			imageView = (ImageView) convertView;
+			holder = (ViewHolder) convertView.getTag();
 		}
-		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-		
-		String mImageUrl = url_Top + data.get(position);
-		imageView.setTag(mImageUrl);
-		
-		Bitmap bmp = imageLoader.loadBitmap(imageView, mImageUrl, true);
-		if (bmp == null) {
-			imageView.setImageResource(R.drawable.friends_sends_pictures_no);
+
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
+			String pic_url = url_Top + img;
+			holder.mImageView.setTag(pic_url);
+			Bitmap bitmap = imageLoader.loadBitmap(holder.mImageView, pic_url,
+					true);
+			if (bitmap != null) {
+				holder.mImageView.setImageBitmap(bitmap);
+			} else {
+				holder.mImageView
+						.setImageResource(R.drawable.friends_sends_pictures_no);
+			}
 		} else {
-			imageView.setImageBitmap(bmp);
+			holder.mImageView
+					.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
-		
-		return imageView;
+
+		return convertView;
+	}
+
+	public class ViewHolder {
+		PhotoImageView mImageView;
 	}
 }

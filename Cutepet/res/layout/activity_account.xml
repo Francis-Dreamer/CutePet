@@ -115,7 +115,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/px40"
             android:layout_weight="1"
-            android:text="密保设置"
+            android:text="设置锁屏密码"
             android:textColor="#333333"
             android:textSize="@dimen/px28" />
 

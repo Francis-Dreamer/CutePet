@@ -1,5 +1,7 @@
 package com.dream.cutepet;
 
+import com.dream.cutepet.ui.GesturesRegisterActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.widget.TextView;
  *
  */
 public class AccountActivity extends Activity {
-
 	ImageView back;
 	TextView title,menu_hide;
 	LinearLayout linear_security;
@@ -71,11 +72,10 @@ public class AccountActivity extends Activity {
 				startActivity(intent);
 				break;
 			case R.id.linear_security:
-				// 密保设置
-				intent.setClass(AccountActivity.this, SecurityActivity.class);
+				// 手势密码设置
+				intent.setClass(AccountActivity.this, GesturesRegisterActivity.class);
 				startActivity(intent);
 				break;
-
 			default:
 				break;
 			}

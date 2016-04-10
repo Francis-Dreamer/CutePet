@@ -37,7 +37,6 @@ public class SecurityActivity extends Activity {
 			case R.id.back:
 				finish();
 				break;
-
 			default:
 				break;
 			}

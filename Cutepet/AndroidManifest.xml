@@ -50,6 +50,11 @@
         <activity
             android:name="com.dream.cutepet.AllPageActivity"
             android:windowSoftInputMode="adjustResize" >
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.dream.cutepet.PerfectInformationActivity" >
         </activity>
@@ -70,11 +75,7 @@
         <activity android:name="com.dream.cutepet.ui.UploadPhotoActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.GuidepageActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity android:name="com.dream.cutepet.RegisterActivity" >
         </activity>
@@ -109,6 +110,11 @@
         <activity android:name="com.dream.cutepet.ui.UpPersonIconActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.SelectShowPhotoActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.ui.GesturesLoginActivity" >
+        </activity>
+        <activity android:name="com.dream.cutepet.ui.GesturesRegisterActivity" >
+           
         </activity>
     </application>
 

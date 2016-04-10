@@ -22,7 +22,7 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-	String urlTop = "http://192.168.11.238";
+	String urlTop = "http://192.168.1.106";
 
 	public PetStrategyBaseAdapter() {
 

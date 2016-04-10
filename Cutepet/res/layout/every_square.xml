@@ -68,6 +68,8 @@
             android:layout_marginLeft="@dimen/px14"
             android:layout_marginRight="@dimen/px14"
             android:numColumns="auto_fit"
+            android:verticalSpacing="@dimen/px6"
+            android:horizontalSpacing="@dimen/px6"
             android:scrollbars="none" />
 
         <LinearLayout

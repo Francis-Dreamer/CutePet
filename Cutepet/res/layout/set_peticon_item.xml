@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <com.dream.cutepet.view.MyAlbumImageView
+
+    <com.dream.cutepet.view.PhotoImageView
         android:id="@+id/iv_setPetIcon"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/px100"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY" />
 
 </LinearLayout>

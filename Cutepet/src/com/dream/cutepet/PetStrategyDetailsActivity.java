@@ -89,7 +89,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		pet_strategy_details_characteristic.setText(petTrait);
 		pet_strategy_details_content.setText(petContent_data);
 
-		String imageUrl = "http://192.168.11.238" + petImage;
+		String imageUrl = "http://192.168.1.106" + petImage;
 		// 给图片一个tag
 		pet_strategy_details_image.setTag(imageUrl);
 		// 异步加载图片
@@ -168,7 +168,7 @@ public class PetStrategyDetailsActivity extends Activity {
 	 * 获取收藏状态
 	 */
 	private void getAttention() {
-		String url_send = "http://192.168.11.238/index.php/home/api/HasCollect";
+		String url_send = "http://192.168.1.106/index.php/home/api/HasCollect";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();
@@ -205,7 +205,7 @@ public class PetStrategyDetailsActivity extends Activity {
 	 * 收藏
 	 */
 	private void attention() {
-		String url_send = "http://192.168.11.238/index.php/home/api/collect";
+		String url_send = "http://192.168.1.106/index.php/home/api/collect";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url_send);
 			Map<String, String> map = new HashMap<String, String>();

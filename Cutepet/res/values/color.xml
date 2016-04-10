@@ -7,4 +7,6 @@
     <color name="background_huise">#eeeeee</color>
     <color name="chat_send_color">#8E8E8E</color>
     <color name="chat_from_color">#ffffff</color>
+    <color name="newCicle">#ADD5E6</color>
+    <color name="newCicle_Point">#01A0E5</color>
 </resources>

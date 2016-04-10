@@ -34,7 +34,7 @@ public class PerfectInformationActivity extends Activity {
 	String sex;
 	private String usernmae;
 	PetMessageModel data;
-	String url = "http://192.168.11.238/index.php/home/api/uploadPetMessage";
+	String url = "http://192.168.1.106/index.php/home/api/uploadPetMessage";
 	private Bundle bundle;
 	
 	protected void onCreate(Bundle savedInstanceState) {

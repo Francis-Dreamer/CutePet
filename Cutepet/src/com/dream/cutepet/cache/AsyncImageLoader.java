@@ -25,7 +25,6 @@ public class AsyncImageLoader{
 	private MemoryCache mMemoryCache;
 	/** 文件缓存 */
 	private FileCache mFileCache;
-	
 	/** 线程池 */
 	private ExecutorService mExecutorService;
 	

@@ -13,8 +13,10 @@ import android.app.Application;
 import android.content.Context;
 
 public class MyApplication extends Application {
-	public String urlTop = "http://192.168.11.238";
-
+	public String urlTop = "http://192.168.1.106";
+	
+	
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();

@@ -39,9 +39,9 @@ public class GesturesUtil {
 	 */
 	public static void savePassword(String psd, Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(
-				"InputData", Context.MODE_PRIVATE);
+				"GesturesData", Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString("password", psd);
+		editor.putString("GesturesPwd", psd);
 		editor.commit();
 	}
 
@@ -68,8 +68,8 @@ public class GesturesUtil {
 	 */
 	public static boolean ExaminePassword(String psd, Context context) {
 		SharedPreferences preferences = context.getSharedPreferences(
-				"InputData", Context.MODE_PRIVATE);
-		String data = preferences.getString("password", "没有数据");
+				"GesturesData", Context.MODE_PRIVATE);
+		String data = preferences.getString("GesturesPwd", "没有数据");
 		if (data.equals(psd)) {
 			return true;
 		}

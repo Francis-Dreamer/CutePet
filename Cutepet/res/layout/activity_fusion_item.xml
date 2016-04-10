@@ -25,7 +25,7 @@
             android:layout_width="1dp"
             android:layout_height="400dp"
             android:layout_centerHorizontal="true"
-            android:background="#eeeeee" />
+            android:background="#AFACAC" />
     </RelativeLayout>
 
     <TextView
@@ -46,54 +46,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_fusion_item_time"
         android:layout_marginBottom="@dimen/px28"
-        android:layout_marginTop="-10dp"
+        android:layout_marginRight="@dimen/px20"
+        android:layout_marginTop="-5dp"
         android:layout_toRightOf="@id/iv_fusion_item_icon"
+        android:singleLine="false"
         android:text="我是内容我是内容。。。"
         android:textColor="#3c3c3c"
         android:textSize="@dimen/px28" />
 
-    <RelativeLayout
-        android:id="@+id/rlayout_fusion_item_picture"
+    <com.dream.cutepet.view.MyGridView
+        android:id="@+id/gv_fusion_item_picture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_fusion_item_time"
-        android:layout_below="@id/tv_fusion_item_content" >
-
-        <LinearLayout
-            android:id="@+id/llayout_fusion_item_picture_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-
-        <LinearLayout
-            android:id="@+id/llayout_fusion_item_picture_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:id="@+id/llayout_fusion_item_p1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical" />
-
-            <LinearLayout
-                android:id="@+id/llayout_fusion_item_p2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical" />
-
-            <LinearLayout
-                android:id="@+id/llayout_fusion_item_p3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical" />
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_alignLeft="@id/tv_fusion_item_content"
+        android:layout_below="@id/tv_fusion_item_content"
+        android:layout_marginRight="@dimen/px20"
+        android:horizontalSpacing="@dimen/px12"
+        android:numColumns="auto_fit"
+        android:scrollbars="none"
+        android:verticalSpacing="@dimen/px12" />
 
 </RelativeLayout>

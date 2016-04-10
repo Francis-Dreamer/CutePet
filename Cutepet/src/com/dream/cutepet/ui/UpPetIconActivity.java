@@ -30,7 +30,7 @@ public class UpPetIconActivity extends Activity implements OnClickListener {
 	private TextView tv_cancel, tv_sure;
 
 	private String username;
-	private String url = "http://192.168.11.238/index.php/home/api/uploadPetIcon";
+	private String url = "http://192.168.1.106/index.php/home/api/uploadPetIcon";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

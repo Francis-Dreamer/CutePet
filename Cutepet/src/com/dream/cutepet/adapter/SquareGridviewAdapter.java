@@ -5,8 +5,9 @@ import java.util.List;
 import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
-import com.dream.cutepet.view.MyAlbumImageView;
+import com.dream.cutepet.view.PhotoImageView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -20,7 +21,7 @@ public class SquareGridviewAdapter extends BaseAdapter {
 	Context context;
 	AsyncImageLoader imageLoader;
 	LayoutInflater inflater;
-	private String url_top = "http://192.168.11.238";
+	private String url_top = "http://192.168.1.106";
 
 	public SquareGridviewAdapter() {
 
@@ -55,14 +56,14 @@ public class SquareGridviewAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		String img = (String) getItem(position);
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.set_peticon_item, null);
-			holder.mImageView = (MyAlbumImageView) convertView
+			holder.mImageView = (PhotoImageView) convertView
 					.findViewById(R.id.iv_setPetIcon);
 			convertView.setTag(holder);
 		} else {
@@ -89,6 +90,6 @@ public class SquareGridviewAdapter extends BaseAdapter {
 	}
 
 	public class ViewHolder {
-		MyAlbumImageView mImageView;
+		PhotoImageView mImageView;
 	}
 }
