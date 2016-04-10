@@ -53,7 +53,6 @@ public class SharedPreferencesUtil {
 	public static boolean checkLogin(Context context) {
 		String tok = SharedPreferencesUtil.getData(context);
 		if (tok != null && !tok.equals("")) {
-	//		username = tok.split(",")[1];
 			return true;
 		}
 		Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();

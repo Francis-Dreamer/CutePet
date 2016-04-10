@@ -6,6 +6,7 @@ import com.dream.cutepet.model.PointModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * 手势密码的 工具类
@@ -74,6 +75,19 @@ public class GesturesUtil {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 删除手势密码
+	 * 
+	 * @param context
+	 */
+	public static void deleteGesture(Context context) {
+		SharedPreferences preferences = context.getSharedPreferences(
+				"GesturesData", Context.MODE_PRIVATE);
+		// 删除token
+		preferences.edit().clear().commit();
+		Log.i("deleteData", "GesturesData删除成功！");
 	}
 
 	/**

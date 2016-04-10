@@ -29,6 +29,7 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener, 
 	private LinearLayout layout;
 	private List<Integer> data;
 	private int count = 5;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,6 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener, 
 		case R.id.gesture_login_byPwd:
 			forgetPassword();
 			break;
-
 		default:
 			break;
 		}
@@ -132,6 +132,8 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener, 
 	private void forgetPassword() {
 		Intent intent = new Intent(GesturesLoginActivity.this,LoginActivity.class);
 		startActivity(intent);
+		//清空手势密码
+		GesturesUtil.deleteGesture(getApplicationContext());
 		finish();
 	}
 }
