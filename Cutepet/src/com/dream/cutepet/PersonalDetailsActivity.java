@@ -68,7 +68,7 @@ public class PersonalDetailsActivity extends Activity {
 		tv_petname.setText(petName + "");
 		tv_content.setText(content + "");
 
-		String url_img = "http://192.168.1.106" + logo;
+		String url_img = "http://211.149.198.8:9805" + logo;
 		iv_logo.setTag(url_img);
 		Bitmap bitmap = imageLoader.loadBitmap(iv_logo, url_img, true);
 		if (bitmap != null) {

@@ -1,4 +1,4 @@
-package com.dream.cutpet.server;
+package com.dream.cutepet.server;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -111,7 +111,7 @@ public class PersonalCenterFragment extends Fragment {
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "http://192.168.1.106/index.php/home/api/demand";
+		String url = "http://211.149.198.8:9805/index.php/home/api/demand";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -164,7 +164,7 @@ public class PersonalCenterFragment extends Fragment {
 	// UI控件的更新
 	private void updateView() {
 		if (!TextUtils.isEmpty(logo) && !logo.equals("null")) {
-			String img_url = "http://192.168.1.106" + logo;
+			String img_url = "http://211.149.198.8:9805" + logo;
 			image_toxiang_login.setTag(img_url);
 			Bitmap bitmap = imageLoader.loadBitmap(image_toxiang_login,
 					img_url, true);

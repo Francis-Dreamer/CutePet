@@ -12,6 +12,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,12 +60,13 @@ public class HomePageFragment extends Fragment implements CallParise,
 	private String username;
 	private View view;
 	Bitmap bitmap;
-	private String url_top = "http://192.168.1.106";
+	private String url_top = "http://211.149.198.8:9805";
 	LinearLayout message_linearlayout;
 	EditText input_message;
 	TextView ensure_send;
 	TextView cancel_send;
 	String getInput;
+	HorizontalScrollView scrollView;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -81,10 +85,28 @@ public class HomePageFragment extends Fragment implements CallParise,
 		return view;
 	}
 
+	@SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 0011:
+				scrollView.scrollTo(200, 0);
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
+
 	@Override
 	public void onStart() {
 		super.onStart();
-
+		if (scrollView != null) {
+			handler.sendEmptyMessage(0011);
+		}
 		initPersonalData();
 	}
 
@@ -92,7 +114,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * 初始化宠物店数据
 	 */
 	private void initStoreData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPetStore";
+		String URL_store = "http://211.149.198.8:9805/index.php/home/api/getPetStore";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -114,7 +136,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * 初始化主人寄语数据
 	 */
 	private void initPersonalData() {
-		String URL_store = "http://192.168.1.106/index.php/home/api/getPersonal";
+		String URL_store = "http://211.149.198.8:9805/index.php/home/api/getPersonal";
 		try {
 			HttpPost post_store = HttpPost.parseUrl(URL_store);
 			post_store.send();
@@ -153,17 +175,17 @@ public class HomePageFragment extends Fragment implements CallParise,
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			if (checkLogin()) {
-				//跳转到主人寄语
+				// 跳转到主人寄语
 				Intent intent = new Intent(getActivity(),
 						PersonalDetailsActivity.class);
+
+				PersonageModel mo = data_personage.get(position - 1);
 				Bundle bundle = new Bundle();
-				bundle.putString("name", data_personage.get(position).getName());
-				bundle.putString("petlogo", data_personage.get(position)
-						.getPicture_icon());
-				bundle.putString("petname", data_personage.get(position)
-						.getPicture_name());
-				bundle.putString("content", data_personage.get(position)
-						.getContent());
+				bundle.putString("name", mo.getName());
+				bundle.putString("petlogo", mo.getPicture_icon());
+				bundle.putString("petname", mo.getPicture_name());
+				bundle.putString("content", mo.getContent());
+
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 1357);
 			}
@@ -202,6 +224,11 @@ public class HomePageFragment extends Fragment implements CallParise,
 		LayoutInflater inflater_header = LayoutInflater.from(getActivity());
 		View header = inflater_header.inflate(
 				R.layout.activity_homepage_header, null);
+
+		scrollView = (HorizontalScrollView) header
+				.findViewById(R.id.scrollview);
+		handler.sendEmptyMessage(0011);
+
 		inflater = LayoutInflater.from(getActivity());
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
@@ -268,7 +295,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * @param position
 	 */
 	private void setParise(int position) {
-		String url = "http://192.168.1.106/index.php/home/api/uploadPraise_personal";
+		String url = "http://211.149.198.8:9805/index.php/home/api/uploadPraise_personal";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -310,7 +337,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 		message_linearlayout.setVisibility(View.VISIBLE);
 		ensure_send.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				String url = "http://192.168.1.106/index.php/home/api/uploadMessage";
+				String url = "http://211.149.198.8:9805/index.php/home/api/uploadMessage";
 				String content = input_message.getText().toString();
 				Date nowDate = new Date();
 				String time = nowDate.toString();

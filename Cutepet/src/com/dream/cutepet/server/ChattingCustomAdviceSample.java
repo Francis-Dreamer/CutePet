@@ -1,4 +1,4 @@
-package com.dream.cutpet.server;
+package com.dream.cutepet.server;
 
 import android.content.Context;
 import android.content.Intent;

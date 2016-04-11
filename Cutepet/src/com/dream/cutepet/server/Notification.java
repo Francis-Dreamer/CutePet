@@ -1,4 +1,4 @@
-package com.dream.cutpet.server;
+package com.dream.cutepet.server;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;

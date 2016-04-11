@@ -22,7 +22,7 @@ public class DynamicAlbumAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	private AsyncImageLoader imageLoader;
-	private String url_Top = "http://192.168.1.106";
+	private String url_Top = "http://211.149.198.8:9805";
 
 	public DynamicAlbumAdapter() {
 

@@ -37,7 +37,7 @@ public class ShowImageActivity extends Activity implements OnClickListener {
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 	
 	private String username,title;
-	private String actionUrl = "http://192.168.1.106/index.php/home/api/uploadPhoto";
+	private String actionUrl = "http://211.149.198.8:9805/index.php/home/api/uploadPhoto";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -28,7 +28,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
 	SquareModel model;
-	String urlTop = "http://192.168.1.106";
+	String urlTop = "http://211.149.198.8:9805";
 
 	public SquareBaseAdapter() {
 
@@ -95,7 +95,6 @@ public class SquareBaseAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
 		model = (SquareModel) getItem(position);
 
 		String name = model.getSquare_neckname();
@@ -115,19 +114,16 @@ public class SquareBaseAdapter extends BaseAdapter {
 		holder.square_comment_num.setText(model.getSquare_comment_num());
 
 		String img = model.getSquare_image();
-		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-			List<String> pic = MyListUtil.changeStringToList(img, ",");
-			SquareGridviewAdapter adapter = new SquareGridviewAdapter(context,
-					pic);
-			if (pic.size() == 1) {
-				holder.square_image.setNumColumns(1);
-			} else if (pic.size() == 2) {
-				holder.square_image.setNumColumns(2);
-			} else if (pic.size() > 2) {
-				holder.square_image.setNumColumns(3);
-			}
-			holder.square_image.setAdapter(adapter);
+		List<String> pic = MyListUtil.changeStringToList(img, ",");
+		SquareGridviewAdapter adapter = new SquareGridviewAdapter(context, pic);
+		if (pic.size() == 1) {
+			holder.square_image.setNumColumns(1);
+		} else if (pic.size() == 2) {
+			holder.square_image.setNumColumns(2);
+		} else if (pic.size() > 2) {
+			holder.square_image.setNumColumns(3);
 		}
+		holder.square_image.setAdapter(adapter);
 
 		String tx = model.getSquare_portrait();
 		if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {

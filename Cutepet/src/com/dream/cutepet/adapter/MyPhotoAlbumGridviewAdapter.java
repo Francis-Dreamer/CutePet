@@ -18,7 +18,7 @@ import android.widget.BaseAdapter;
 
 public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 	List<String> data;
-	private String url_Top = "http://192.168.1.106";
+	private String url_Top = "http://211.149.198.8:9805";
 	private AsyncImageLoader imageLoader;
 	private LayoutInflater inflater;
 
@@ -49,7 +49,8 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressLint("InflateParams") @Override
+	@SuppressLint("InflateParams")
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		String img = (String) getItem(position);
@@ -77,6 +78,7 @@ public class MyPhotoAlbumGridviewAdapter extends BaseAdapter {
 		} else {
 			holder.mImageView
 					.setImageResource(R.drawable.friends_sends_pictures_no);
+			holder.mImageView.setVisibility(View.GONE);
 		}
 
 		return convertView;

@@ -3,7 +3,8 @@ package com.dream.cutepet.fragment;
 import com.alibaba.mobileim.YWIMKit;
 import com.dream.cutepet.AllPageActivity;
 import com.dream.cutepet.R;
-import com.dream.cutpet.server.LoginSampleHelper;
+import com.dream.cutepet.server.LoginSampleHelper;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
