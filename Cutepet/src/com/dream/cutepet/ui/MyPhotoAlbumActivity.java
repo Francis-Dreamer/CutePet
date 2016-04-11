@@ -67,7 +67,7 @@ public class MyPhotoAlbumActivity extends Activity {
 	 * 初始化数据
 	 */
 	private void initData() {
-		String url = "http://192.168.1.106/index.php/home/api/getPhoto";
+		String url = "http://211.149.198.8:9805/index.php/home/api/getPhoto";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

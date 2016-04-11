@@ -84,7 +84,6 @@ public class WriteTalkUpLoadAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
 		holder.iv_picture.setImageBitmap(BitmapUtil.getDiskBitmap(data
 				.get(position)));
 

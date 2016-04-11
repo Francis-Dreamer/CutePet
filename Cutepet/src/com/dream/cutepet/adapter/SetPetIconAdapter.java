@@ -47,8 +47,6 @@ public class SetPetIconAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
-		
 		ImageView imageView = new ImageView(context);
 		if (position == 0) {
 			imageView.setImageResource(Integer.parseInt(data.get(0)));

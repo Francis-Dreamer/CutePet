@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.text.TextUtils;
+
 import com.dream.cutepet.model.ImageBeanModel;
 
 public class MyListUtil {
@@ -18,13 +20,15 @@ public class MyListUtil {
 	 */
 	public static List<String> changeStringToList(String str, String split) {
 		List<String> data = new ArrayList<String>();
-		if (str.indexOf(split) != -1) {// 判断是否只有一条数据
-			String[] temp = str.split(split);
-			for (String t : temp) {
-				data.add(t);
+		if(!TextUtils.isEmpty(str)){
+			if (str.indexOf(split) != -1) {// 判断是否只有一条数据
+				String[] temp = str.split(split);
+				for (String t : temp) {
+					data.add(t);
+				}
+			} else {
+				data.add(str);
 			}
-		} else {
-			data.add(str);
 		}
 		return data;
 	}

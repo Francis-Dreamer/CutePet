@@ -5,15 +5,15 @@ import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.aop.AdviceBinder;
 import com.alibaba.mobileim.aop.PointCutEnum;
 import com.alibaba.wxlib.util.SysUtil;
-import com.dream.cutpet.server.ChattingCustomAdviceSample;
-import com.dream.cutpet.server.ContactsUICustomSample;
-import com.dream.cutpet.server.ConversationListUICustomSample;
+import com.dream.cutepet.server.ChattingCustomAdviceSample;
+import com.dream.cutepet.server.ContactsUICustomSample;
+import com.dream.cutepet.server.ConversationListUICustomSample;
 
 import android.app.Application;
 import android.content.Context;
 
 public class MyApplication extends Application {
-	public String urlTop = "http://192.168.1.106";
+	public String urlTop = "http://211.149.198.8:9805";
 	
 	
 	@Override

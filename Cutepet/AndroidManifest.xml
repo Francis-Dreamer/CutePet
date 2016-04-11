@@ -78,7 +78,7 @@
         </activity>
         <activity android:name="com.dream.cutepet.RegisterActivity" >
         </activity>
-        <activity android:name="com.dream.cutpet.server.ChatActivity" >
+        <activity android:name="com.dream.cutepet.server.ChatActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.UpdateActivity" >
         </activity>
@@ -96,7 +96,7 @@
         </activity>
         <activity android:name="com.dream.cutepet.ui.SetPetIconActivity" >
         </activity>
-        <activity android:name="com.dream.cutpet.server.AddCustomActivity" >
+        <activity android:name="com.dream.cutepet.server.AddCustomActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.ui.ShowImageActivity" >
         </activity>

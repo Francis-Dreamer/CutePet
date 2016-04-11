@@ -10,6 +10,7 @@ import com.dream.cutepet.model.PetStrategyModel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-	String urlTop = "http://192.168.1.106";
+	String urlTop = "http://211.149.198.8:9805";
 
 	public PetStrategyBaseAdapter() {
 
@@ -86,15 +87,22 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 		holder.pet_strategy_content_data.setText(model
 				.getPet_strategy_content_data());
 
-		String imageUrl = urlTop + model.getPet_strategy_image();
-		// 给imageview设置tag
-		holder.pet_strategy_image.setTag(imageUrl);
-		// 异步加载图片
-		Bitmap bitmap = imageLoader.loadBitmap(holder.pet_strategy_image, imageUrl, true);
-		if (bitmap != null) {
-			holder.pet_strategy_image.setImageBitmap(bitmap);
+		String img = model.getPet_strategy_image();
+		if (!TextUtils.isEmpty(img) && !img.equals(img)) {
+			String imageUrl = urlTop + img;
+			// 给imageview设置tag
+			holder.pet_strategy_image.setTag(imageUrl);
+			// 异步加载图片
+			Bitmap bitmap = imageLoader.loadBitmap(holder.pet_strategy_image,
+					imageUrl, true);
+			if (bitmap != null) {
+				holder.pet_strategy_image.setImageBitmap(bitmap);
+			} else {
+				holder.pet_strategy_image
+						.setImageResource(R.drawable.friends_sends_pictures_no);
+			}
 		}else{
-			holder.pet_strategy_image.setImageResource(R.drawable.friends_sends_pictures_no);
+			holder.pet_strategy_image.setVisibility(View.GONE);
 		}
 		
 		return convertView;

@@ -17,8 +17,8 @@ import com.dream.cutepet.ReleaseActivity;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PetStoreModel;
+import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.dream.cutpet.server.LoginSampleHelper;
 
 /**
  * 宠物商店

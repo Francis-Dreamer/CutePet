@@ -96,8 +96,7 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 		if (bitmap != null) {
 			viewHolder.mImageView.setImageBitmap(bitmap);
 		} else {
-			viewHolder.mImageView
-					.setImageResource(R.drawable.friends_sends_pictures_no);
+			viewHolder.mImageView.setVisibility(View.GONE);
 		}
 		return convertView;
 	}

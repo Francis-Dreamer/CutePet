@@ -4,8 +4,8 @@ import com.alibaba.mobileim.IYWLoginService;
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.login.YWLoginState;
+import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.dream.cutpet.server.LoginSampleHelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

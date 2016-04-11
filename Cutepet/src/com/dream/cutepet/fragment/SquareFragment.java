@@ -144,16 +144,19 @@ public class SquareFragment extends Fragment {
 			if (checkLogin()) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), DynamicDetailsActivity.class);
-				squareId = data.get(position - 1).getSquare_id();
-				squareUsername = data.get(position - 1).getSquare_username();
-				squarePortrait = data.get(position - 1).getSquare_portrait();
-				squareNickname = data.get(position - 1).getSquare_neckname();
-				squareTime = data.get(position - 1).getSquare_comment_time();
-				squareAddress = data.get(position - 1).getSquare_address();
-				squareContent = data.get(position - 1)
-						.getSquare_comment_content();
-				squarePicture = data.get(position - 1).getSquare_image();
-				squarePraise = data.get(position - 1).getSquare_praise_num();
+				
+				SquareModel model = data.get(position - 1);
+				
+				squareId = model.getSquare_id();
+				squareUsername = model.getSquare_username();
+				squarePortrait = model.getSquare_portrait();
+				squareNickname = model.getSquare_neckname();
+				squareTime = model.getSquare_comment_time();
+				squareAddress = model.getSquare_address();
+				squareContent = model.getSquare_comment_content();
+				squarePicture = model.getSquare_image();
+				squarePraise = model.getSquare_praise_num();
+				
 				Bundle bundle = new Bundle();
 				bundle.putString("theId", squareId);
 				bundle.putString("theUsername", squareUsername);
@@ -175,7 +178,7 @@ public class SquareFragment extends Fragment {
 	 * 获取数据
 	 */
 	private void getData() {
-		String url = "http://192.168.1.106/index.php/home/api/getTalk";
+		String url = "http://211.149.198.8:9805/index.php/home/api/getTalk";
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();

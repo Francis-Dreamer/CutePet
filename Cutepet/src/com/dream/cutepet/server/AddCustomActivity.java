@@ -1,4 +1,4 @@
-package com.dream.cutpet.server;
+package com.dream.cutepet.server;
 
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;

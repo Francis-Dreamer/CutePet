@@ -22,14 +22,14 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.view.MyGesturesView;
 
-public class GesturesLoginActivity extends Activity implements OnTouchListener, OnClickListener {
+public class GesturesLoginActivity extends Activity implements OnTouchListener,
+		OnClickListener {
 	private MyGesturesView gesturesView;
 	private ImageView iv_icon;
 	private TextView tv_toast, tv_errorToast_1, tv_errorToast_2, tv_byPwd;
 	private LinearLayout layout;
 	private List<Integer> data;
 	private int count = 5;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +111,13 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener, 
 			tv_errorToast_2.setText("5次失败后，需要重新登录。");
 			Toast.makeText(getApplication(), "手势密码错误！", Toast.LENGTH_SHORT)
 					.show();
+			if (count == 0) {
+				Intent intent = new Intent(GesturesLoginActivity.this,
+						LoginActivity.class);
+				startActivity(intent);
+				GesturesUtil.deleteGesture(getApplicationContext());
+				finish();
+			}
 		}
 		myhandler.sendEmptyMessage(110);
 	}
@@ -130,9 +137,10 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener, 
 	 * 忘记手势密码，登陆后清空手势密码
 	 */
 	private void forgetPassword() {
-		Intent intent = new Intent(GesturesLoginActivity.this,LoginActivity.class);
+		Intent intent = new Intent(GesturesLoginActivity.this,
+				LoginActivity.class);
 		startActivity(intent);
-		//清空手势密码
+		// 清空手势密码
 		GesturesUtil.deleteGesture(getApplicationContext());
 		finish();
 	}

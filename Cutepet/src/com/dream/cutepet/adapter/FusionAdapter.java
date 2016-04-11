@@ -29,7 +29,7 @@ public class FusionAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	List<FusionModel> data;
 	FusionPictureAdapter adapter;
-	String url_Top = "http://192.168.1.106";
+	String url_Top = "http://211.149.198.8:9805";
 	AsyncImageLoader imageLoader;
 	List<String> picture;
 
@@ -113,18 +113,6 @@ public class FusionAdapter extends BaseAdapter {
 		}
 		holder.gridView.setAdapter(adapter);
 
-		// holder.gridView.setOnMeasureListener(new OnMeasureListener() {
-		// @Override
-		// public void onMeasureSize(int width, int height) {
-		// int length = (int) Math.ceil(temp.getContent().length() / 18)
-		// + 30 + height + 50;
-		// Log.e("onMeasureSize", "height = " + height);
-		// Log.e("onMeasureSize", "length = " + length);
-		// LayoutParams layoutParams = new LayoutParams(1, length);
-		// layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-		// holder.view.setLayoutParams(layoutParams);
-		// }
-		// });
 		int height = 0;
 		if (picture.size() == 1) {
 			height = 550;

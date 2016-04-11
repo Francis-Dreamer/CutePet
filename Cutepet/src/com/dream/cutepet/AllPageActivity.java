@@ -3,12 +3,16 @@ package com.dream.cutepet;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,11 +24,9 @@ import com.dream.cutepet.adapter.AllPageFragmentPagerAdapter;
 import com.dream.cutepet.fragment.HomePageAndPetStrategyFragment;
 import com.dream.cutepet.fragment.PersonalCenterFragment;
 import com.dream.cutepet.fragment.SquareAndDynamicFragment;
+import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.ui.GesturesLoginActivity;
-import com.dream.cutepet.util.HomeWatcher;
-import com.dream.cutepet.util.HomeWatcher.OnHomePressedListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.dream.cutpet.server.LoginSampleHelper;
 
 /**
  * 所有页面串起来的界面
@@ -41,14 +43,13 @@ public class AllPageActivity extends FragmentActivity {
 	RadioGroup radioGroup;
 	RadioButton rbtn_home, rbtn_petring, rbtn_mine;
 
-	// Home监听封装类
-	private HomeWatcher mHomeWatcher;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_allpage);
 
+		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
+				Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 		initview();
 	}
 
@@ -66,7 +67,7 @@ public class AllPageActivity extends FragmentActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mHomeWatcher.stopWatch();
+		unregisterReceiver(mHomeKeyEventReceiver);
 	}
 
 	/**
@@ -94,24 +95,6 @@ public class AllPageActivity extends FragmentActivity {
 		viewPager.setAdapter(allPageFragmentPagerAdapter);
 		viewPager.setOnPageChangeListener(pageChangeListener);
 		radioGroup.setOnCheckedChangeListener(checkedChangeListener);
-
-		// Home键监听回调
-		mHomeWatcher = new HomeWatcher(getApplicationContext());
-		mHomeWatcher.setOnHomePressedListener(new OnHomePressedListener() {
-			@Override
-			public void onHomePressed() {
-				Log.e("AllPageActivity", "onHomePressed");
-				Intent intent = new Intent(AllPageActivity.this,
-						GesturesLoginActivity.class);
-				startActivity(intent);
-				finish();
-			}
-
-			@Override
-			public void onHomeLongPressed() {
-				Log.e("AllPageActivity", "onHomeLongPressed");
-			}
-		});
 	}
 
 	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
@@ -144,6 +127,30 @@ public class AllPageActivity extends FragmentActivity {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
+		}
+	};
+
+	/**
+	 * 监听是否点击了home键将客户端推到后台
+	 */
+	private BroadcastReceiver mHomeKeyEventReceiver = new BroadcastReceiver() {
+		String SYSTEM_REASON = "reason";
+		String SYSTEM_HOME_KEY = "homekey";
+		String SYSTEM_HOME_KEY_LONG = "recentapps";
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+				String reason = intent.getStringExtra(SYSTEM_REASON);
+				if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {
+					Intent it = new Intent(AllPageActivity.this,
+							GesturesLoginActivity.class);
+					startActivity(it);
+				} else if (TextUtils.equals(reason, SYSTEM_HOME_KEY_LONG)) {
+					// 表示长按home键,显示最近使用的程序列表
+				}
+			}
 		}
 	};
 
@@ -184,18 +191,15 @@ public class AllPageActivity extends FragmentActivity {
 				new IWxCallback() {
 					@Override
 					public void onSuccess(Object... arg0) {
-						// TODO Auto-generated method stub
 					}
 
 					@Override
 					public void onProgress(int arg0) {
-						// TODO Auto-generated method stub
 
 					}
 
 					@Override
 					public void onError(int arg0, String arg1) {
-						// TODO Auto-generated method stub
 
 					}
 				});

@@ -25,10 +25,10 @@ import android.widget.Toast;
 import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.utility.IMPrefsTools;
+import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.dream.cutpet.server.LoginSampleHelper;
 
 /**
  * 登陆
@@ -101,7 +101,7 @@ public class LoginActivity extends Activity {
 	 * @param password
 	 */
 	private void login(final String tel, String password) {
-		String httpHost = "http://192.168.1.106/index.php/home/api/login";
+		String httpHost = "http://211.149.198.8:9805/index.php/home/api/login";
 		try {
 			HttpPost hp_login = HttpPost.parseUrl(httpHost);
 			Map<String, String> map = new HashMap<String, String>();

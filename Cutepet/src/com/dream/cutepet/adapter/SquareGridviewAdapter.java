@@ -21,7 +21,7 @@ public class SquareGridviewAdapter extends BaseAdapter {
 	Context context;
 	AsyncImageLoader imageLoader;
 	LayoutInflater inflater;
-	private String url_top = "http://192.168.1.106";
+	private String url_top = "http://211.149.198.8:9805";
 
 	public SquareGridviewAdapter() {
 
@@ -39,11 +39,7 @@ public class SquareGridviewAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (data != null) {
-			return data.size();
-		} else {
-			return 0;
-		}
+		return data == null ? 0 : data.size();
 	}
 
 	@Override
@@ -56,7 +52,8 @@ public class SquareGridviewAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressLint("InflateParams") @Override
+	@SuppressLint("InflateParams")
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		String img = (String) getItem(position);
@@ -84,6 +81,7 @@ public class SquareGridviewAdapter extends BaseAdapter {
 		} else {
 			holder.mImageView
 					.setImageResource(R.drawable.friends_sends_pictures_no);
+			holder.mImageView.setVisibility(View.GONE);
 		}
 
 		return convertView;
