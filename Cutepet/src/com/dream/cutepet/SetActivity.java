@@ -5,6 +5,7 @@ import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.login.YWLoginState;
 import com.dream.cutepet.server.LoginSampleHelper;
+import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 
 import android.annotation.SuppressLint;
@@ -13,7 +14,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,12 +25,13 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * 设置
  * 
  * @author Administrator
- *
+ * 
  */
 public class SetActivity extends Activity {
 
@@ -50,14 +51,13 @@ public class SetActivity extends Activity {
 	Builder builder;
 	AlertDialog alertDialog;
 	LinearLayout linear_out;
-
-	String tel;
-	String token;
+	ToggleButton toggleButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_set);
+
 		back = (ImageView) findViewById(R.id.back);
 		linearlayout_share = (LinearLayout) findViewById(R.id.linearlayout_share);
 		linear_out = (LinearLayout) findViewById(R.id.linear_out);
@@ -66,6 +66,14 @@ public class SetActivity extends Activity {
 		back.setOnClickListener(ocl);
 		linearlayout_share.setOnClickListener(ocl);
 		linear_out.setOnClickListener(ocl);
+
+		toggleButton = (ToggleButton) findViewById(R.id.ToggleButton);
+		toggleButton.setOnClickListener(ocl);
+		if (!GesturesUtil.hasPassword(getApplicationContext())) {
+			toggleButton.setChecked(false);
+		}
+		toggleButton.setChecked(GesturesUtil
+				.IsGestures(getApplicationContext()));
 
 		builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
@@ -79,13 +87,7 @@ public class SetActivity extends Activity {
 				finish();
 				break;
 			case R.id.linearlayout_share:
-				//把宠萌分享给朋友
-				if (checkisLogin()) {
-					popWindow();
-				} else {
-					Toast.makeText(getApplicationContext(), "请先登录！", Toast.LENGTH_LONG).show();
-				}
-
+				popWindow();
 				break;
 			case R.id.button_cancel:
 				if (popupWindow != null) {
@@ -97,19 +99,38 @@ public class SetActivity extends Activity {
 				}
 				break;
 			case R.id.linear_out:
-				//退出登录
-				if (checkisLogin()) {
-					creatAlertDialog();
-				} else {
-					Toast.makeText(getApplicationContext(), "请先登录！", Toast.LENGTH_LONG).show();
-				}
-
+				creatAlertDialog();
+				break;
+			case R.id.ToggleButton:
+				setGestures();
 				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	/**
+	 * 设置手势密码
+	 */
+	private void setGestures() {
+		if (GesturesUtil.hasPassword(getApplicationContext())) {
+			// 如果设置了密码，才可以开启锁屏
+			GesturesUtil.setGesturesUser(toggleButton.isChecked(),
+					getApplicationContext());
+			if (toggleButton.isChecked()) {
+				Toast.makeText(getApplicationContext(), "开启锁屏成功！",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(), "关闭锁屏成功！",
+						Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), "未设置锁屏密码！",
+					Toast.LENGTH_SHORT).show();
+			toggleButton.setChecked(false);
+		}
+	}
 
 	/**
 	 * 底部弹出框popupWindow
@@ -120,7 +141,8 @@ public class SetActivity extends Activity {
 		WindowManager.LayoutParams lp = getWindow().getAttributes();
 		lp.alpha = 0.5f;
 		getWindow().setAttributes(lp);
-		View view = getLayoutInflater().inflate(R.layout.activity_popupwindow, null);
+		View view = getLayoutInflater().inflate(R.layout.activity_popupwindow,
+				null);
 
 		// 获取屏幕宽度
 		WindowManager wm = this.getWindowManager();
@@ -133,8 +155,10 @@ public class SetActivity extends Activity {
 		button_weixin = (RadioButton) view.findViewById(R.id.button_weixin);
 		button_qq = (RadioButton) view.findViewById(R.id.button_qq);
 		button_weibo = (RadioButton) view.findViewById(R.id.button_weibo);
-		button_qqkongjian = (RadioButton) view.findViewById(R.id.button_qqkongjian);
-		button_pnegyouquan = (RadioButton) view.findViewById(R.id.button_pnegyouquan);
+		button_qqkongjian = (RadioButton) view
+				.findViewById(R.id.button_qqkongjian);
+		button_pnegyouquan = (RadioButton) view
+				.findViewById(R.id.button_pnegyouquan);
 		button_cancel = (Button) view.findViewById(R.id.button_cancel);
 
 		button_weixin.setOnClickListener(ocl);
@@ -153,47 +177,34 @@ public class SetActivity extends Activity {
 		alertDialog.setTitle("退出登录");
 		alertDialog.setMessage("你确定要退出登录吗？");
 		alertDialog.setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-		alertDialog.setButton("Confirm", new android.content.DialogInterface.OnClickListener() {
+		alertDialog.setButton("Confirm",
+				new android.content.DialogInterface.OnClickListener() {
 
-			@SuppressWarnings("static-access")
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				Toast.makeText(SetActivity.this, "I'am sure", Toast.LENGTH_SHORT).show();
-				SharedPreferencesUtil exit = new SharedPreferencesUtil();
-				exit.deleteData(getApplicationContext());
-				logout();
-				finish();
-			}
-		});
-		alertDialog.setButton2("Cancel", new android.content.DialogInterface.OnClickListener() {
+					@SuppressWarnings("static-access")
+					@Override
+					public void onClick(final DialogInterface dialog,
+							final int which) {
+						Toast.makeText(SetActivity.this, "I'am sure",
+								Toast.LENGTH_SHORT).show();
+						SharedPreferencesUtil exit = new SharedPreferencesUtil();
+						exit.deleteData(getApplicationContext());
+						logout();
+						finish();
+					}
+				});
+		alertDialog.setButton2("Cancel",
+				new android.content.DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				Toast.makeText(SetActivity.this, "it is a joke", Toast.LENGTH_SHORT).show();
+					@Override
+					public void onClick(final DialogInterface dialog,
+							final int which) {
+						Toast.makeText(SetActivity.this, "it is a joke",
+								Toast.LENGTH_SHORT).show();
 
-			}
-		});
+					}
+				});
 
 		alertDialog.show();
-	}
-
-	/**
-	 * 判断 是否 处于登录 状态
-	 * 
-	 * @return 登录，返回true
-	 */
-	private boolean checkisLogin() {
-		String result = SharedPreferencesUtil.getData(this);
-		if (result == null || result.equals("")) {// 判断获取的token值是否为空
-			Log.i("CheckIsLogin", "当前没有处于登录状态");
-			return false;
-		} else {
-			// 不为空，则显示个人信息
-			String[] temp = result.split(",");
-			tel = temp[1];
-			token = temp[0];
-			return true;
-		}
 	}
 
 	// 退出阿里云聊天
@@ -208,7 +219,8 @@ public class SetActivity extends Activity {
 			// 此时logout已关闭所有基于IMBaseActivity的OpenIM相关Actiivity，s
 			@Override
 			public void onSuccess(Object... arg0) {
-				LoginSampleHelper.getInstance().setAutoLoginState(YWLoginState.idle);
+				LoginSampleHelper.getInstance().setAutoLoginState(
+						YWLoginState.idle);
 			}
 
 			@Override

@@ -25,6 +25,7 @@ public class MyGridView extends GridView {
 		}
 		super.onMeasure(widthMeasureSpec, expandSpec);
 	}
+	
 	/**
 	 * 自定义 控件的宽高 的监听事件
 	 * 

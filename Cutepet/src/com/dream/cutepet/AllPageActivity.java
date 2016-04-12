@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -26,6 +25,7 @@ import com.dream.cutepet.fragment.PersonalCenterFragment;
 import com.dream.cutepet.fragment.SquareAndDynamicFragment;
 import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.ui.GesturesLoginActivity;
+import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
@@ -58,7 +58,6 @@ public class AllPageActivity extends FragmentActivity {
 		super.onStart();
 		String token = SharedPreferencesUtil.getData(this
 				.getApplicationContext());
-		Log.i("CheckIsLogin", "token=" + token);
 		if (token != null && !token.equals("")) {// 判断获取的token值是否为空
 			checkLogin();
 		}
@@ -143,10 +142,14 @@ public class AllPageActivity extends FragmentActivity {
 			String action = intent.getAction();
 			if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
 				String reason = intent.getStringExtra(SYSTEM_REASON);
-				if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {
-					Intent it = new Intent(AllPageActivity.this,
-							GesturesLoginActivity.class);
-					startActivity(it);
+				if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {// 按下home键，触发
+					// 判断是否使用手势密码
+					if (isLogin() && GesturesUtil.IsGestures(getApplicationContext())) {
+						Intent it = new Intent(AllPageActivity.this,
+								GesturesLoginActivity.class);
+						startActivityForResult(it, 0);
+						finish();
+					}
 				} else if (TextUtils.equals(reason, SYSTEM_HOME_KEY_LONG)) {
 					// 表示长按home键,显示最近使用的程序列表
 				}
@@ -176,6 +179,18 @@ public class AllPageActivity extends FragmentActivity {
 			}
 		}
 	};
+	
+	/**
+	 * 判断是否登录
+	 * @return
+	 */
+	private boolean isLogin(){
+		String data = SharedPreferencesUtil.getData(getApplicationContext());
+		if(!TextUtils.isEmpty(data)){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * 判断是否登陆

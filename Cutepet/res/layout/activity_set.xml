@@ -30,6 +30,7 @@
                 android:textSize="@dimen/px28" />
 
             <ToggleButton
+                android:id="@+id/ToggleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/px40"

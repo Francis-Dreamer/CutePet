@@ -82,7 +82,6 @@ public class LoginActivity extends Activity {
 			case R.id.button_login:
 				loginAndStarActivity();
 				progress_bar.setVisibility(View.VISIBLE);
-				//finish();
 				break;
 			case R.id.button_register:
 				intent.setClass(LoginActivity.this, RegisterActivity.class);
@@ -129,6 +128,7 @@ public class LoginActivity extends Activity {
 									jo.getString("message"), Toast.LENGTH_SHORT)
 									.show();
 							startActivity(intent);
+							finish();
 						} else {
 							Toast.makeText(getApplication(),
 									jo.getString("message"), Toast.LENGTH_SHORT)
