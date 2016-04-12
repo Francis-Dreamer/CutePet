@@ -6,7 +6,7 @@ import com.dream.cutepet.model.PointModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.text.TextUtils;
 
 /**
  * 手势密码的 工具类
@@ -15,6 +15,10 @@ import android.util.Log;
  * 
  */
 public class GesturesUtil {
+
+	private static String Name = "GesturesData";
+	private static String key_password = "GesturesPwd";
+	private static String key_flog = "GesturesFlog";
 
 	/**
 	 * 判断该位置是否存在
@@ -39,10 +43,10 @@ public class GesturesUtil {
 	 * @param context
 	 */
 	public static void savePassword(String psd, Context context) {
-		SharedPreferences preferences = context.getSharedPreferences(
-				"GesturesData", Context.MODE_PRIVATE);
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString("GesturesPwd", psd);
+		editor.putString(key_password, psd);
 		editor.commit();
 	}
 
@@ -68,12 +72,57 @@ public class GesturesUtil {
 	 * @return
 	 */
 	public static boolean ExaminePassword(String psd, Context context) {
-		SharedPreferences preferences = context.getSharedPreferences(
-				"GesturesData", Context.MODE_PRIVATE);
-		String data = preferences.getString("GesturesPwd", "没有数据");
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
+		String data = preferences.getString(key_password, "没有数据");
 		if (data.equals(psd)) {
 			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * 判断是否设置了密码
+	 * 
+	 * @param context
+	 * @return 设置了，返回true
+	 */
+	public static boolean hasPassword(Context context) {
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
+		String data = preferences.getString(key_password, "");
+		if (!TextUtils.isEmpty(data)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 设置是否使用手势密码
+	 * 
+	 * @param flog
+	 * @param context
+	 */
+	public static void setGesturesUser(boolean flog, Context context) {
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(key_flog, flog);
+		editor.commit();
+	}
+
+	/**
+	 * 判断是否使用手势密码
+	 * 
+	 * @param context
+	 * @return 使用手势密码，则返回true
+	 */
+	public static boolean IsGestures(Context context) {
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
+		boolean flog = preferences.getBoolean(key_flog, false);
+		if (flog)
+			return true;
 		return false;
 	}
 
@@ -83,11 +132,10 @@ public class GesturesUtil {
 	 * @param context
 	 */
 	public static void deleteGesture(Context context) {
-		SharedPreferences preferences = context.getSharedPreferences(
-				"GesturesData", Context.MODE_PRIVATE);
+		SharedPreferences preferences = context.getSharedPreferences(Name,
+				Context.MODE_PRIVATE);
 		// 删除token
 		preferences.edit().clear().commit();
-		Log.i("deleteData", "GesturesData删除成功！");
 	}
 
 	/**

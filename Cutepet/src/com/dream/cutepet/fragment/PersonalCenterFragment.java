@@ -284,7 +284,6 @@ public class PersonalCenterFragment extends Fragment {
 			switch (v.getId()) {
 			case R.id.linear_personalInformation:
 				// 点击后当前个人中心页面跳转到个人信息页面
-
 				if (checkisLogin()) {
 					intent.setClass(getActivity(),
 							PersonalInformationActivity.class);
@@ -299,7 +298,7 @@ public class PersonalCenterFragment extends Fragment {
 				// 点击后当前页面个人中心页面跳转到账户管理页面
 				if (checkisLogin()) {
 					intent.setClass(getActivity(), AccountActivity.class);
-					startActivity(intent);
+					startActivityForResult(intent, 0);
 				} else {
 					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG)
 							.show();
@@ -309,22 +308,29 @@ public class PersonalCenterFragment extends Fragment {
 			case R.id.linear_about:
 				// 点击后当前页面个人中心页面跳转到关于萌宠页面
 				intent.setClass(getActivity(), AboutActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 				break;
 			case R.id.linear_set:
-				// 点击后当前页面个人中心页面跳转到设置页面
-				intent.setClass(getActivity(), SetActivity.class);
-				startActivity(intent);
+				if (checkisLogin()) {
+					// 点击后当前页面个人中心页面跳转到设置页面
+					intent.setClass(getActivity(), SetActivity.class);
+					startActivityForResult(intent, 0);
+				} else {
+					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG)
+							.show();
+				}
 				break;
 			case R.id.text_login:
 				intent.setClass(getActivity(), LoginActivity.class);
 				// 点击登录后跳转到登录页面
-				startActivity(intent);
+				startActivityForResult(intent, 0);
+				getActivity().finish();
 				break;
 			case R.id.text_register:
 				intent.setClass(getActivity(), RegisterActivity.class);
 				// 点击注册后跳转到注册页面
-				startActivity(intent);
+				startActivityForResult(intent, 0);
+				getActivity().finish();
 				break;
 			case R.id.personal_center:
 				// http.setOnHttpListener(mListener);
