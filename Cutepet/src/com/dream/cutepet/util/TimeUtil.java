@@ -17,14 +17,14 @@ import java.util.Locale;
  * 
  */
 public class TimeUtil {
-	
+
 	/**
 	 * 获取该时间的 指定时长格式 yyyy年MM月dd日
 	 * 
 	 * @param time
 	 * @return
 	 */
-	@SuppressLint("SimpleDateFormat") 
+	@SuppressLint("SimpleDateFormat")
 	public static String getTimeBy2(long time) {
 		Date date = new Date(time);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
@@ -37,13 +37,12 @@ public class TimeUtil {
 	 * @param time
 	 * @return
 	 */
-	@SuppressLint("SimpleDateFormat") 
+	@SuppressLint("SimpleDateFormat")
 	public static String getTimeBy1(long time) {
 		Date date = new Date(time);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 		return format.format(date);
 	}
-	
 
 	/**
 	 * 将 格林尼治标准时间 转换成 Date型
@@ -53,18 +52,18 @@ public class TimeUtil {
 	 * @return Date型的时间
 	 */
 	public static Date changeTime(String time) {
-		String cc = time.substring(0, 19) + time.substring(33, 38);
-		DateFormat format = new SimpleDateFormat(
-				"EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
+		Log.e("changeTime", "time = "+time);
+		DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss 格林尼治标准时间+0800 yyyy",
+				Locale.ENGLISH);
 		try {
-			Date date = format.parse(cc);
+			Date date = format.parse(time);
 			return date;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 获取昨天的起始时间
 	 * 
