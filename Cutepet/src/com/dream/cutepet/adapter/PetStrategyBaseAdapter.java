@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +89,8 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 				.getPet_strategy_content_data());
 
 		String img = model.getPet_strategy_image();
-		if (!TextUtils.isEmpty(img) && !img.equals(img)) {
+		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
+			Log.e("getView	", "img = " + img);
 			String imageUrl = urlTop + img;
 			// 给imageview设置tag
 			holder.pet_strategy_image.setTag(imageUrl);
@@ -101,10 +103,12 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 				holder.pet_strategy_image
 						.setImageResource(R.drawable.friends_sends_pictures_no);
 			}
-		}else{
+		} else {
+			holder.pet_strategy_image
+					.setImageResource(R.drawable.friends_sends_pictures_no);
 			holder.pet_strategy_image.setVisibility(View.GONE);
 		}
-		
+
 		return convertView;
 	}
 

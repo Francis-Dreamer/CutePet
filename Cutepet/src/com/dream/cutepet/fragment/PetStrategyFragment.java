@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,34 +33,31 @@ import android.widget.Toast;
 public class PetStrategyFragment extends Fragment {
 	ListView listView;
 	List<PetStrategyModel> data;
-	PetStrategyBaseAdapter adapter=new PetStrategyBaseAdapter();
+	PetStrategyBaseAdapter adapter = new PetStrategyBaseAdapter();
 	String getData;
 	TextView tv_resources, tv_strategy;
 	View view;
 	private String tel;
-	
+
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_pet_strategy, null);
-		
+
 		initView();
-	
+
 		return view;
 	}
-
 
 	/**
 	 * 加载listview的数据
 	 */
-	private void initView(){
+	private void initView() {
 		listView = (ListView) view.findViewById(R.id.pet_strategy_listview);
-		adapter = new PetStrategyBaseAdapter(data, getActivity());
-		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(itemClickListener);
 	}
-	
+
 	/**
 	 * 点击跳转
 	 */
@@ -67,20 +65,19 @@ public class PetStrategyFragment extends Fragment {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			if(checkLogin()){
-				Intent intent = new Intent();
-				int sendPosition=position-1;
-				PetStrategyModel model=new PetStrategyModel();
-				model=data.get(sendPosition);
-				String petName=model.getPet_strategy_comment_chinese_name();
-				String petGrade=model.getGrade();
-				String petMoney=model.getMoney();
-				String petTrait=model.getTrait();
-				String petContent_data=model.getPet_strategy_content_data();
-				String petImage=model.getPet_strategy_image();
-				String userId=model.getId();
-				String userName=model.getUsername();
-				Bundle bundle=new Bundle();
+			if (checkLogin()) {
+				PetStrategyModel model = new PetStrategyModel();
+				model = data.get(position);
+				String petName = model.getPet_strategy_comment_chinese_name();
+				String petGrade = model.getGrade();
+				String petMoney = model.getMoney();
+				String petTrait = model.getTrait();
+				String petContent_data = model.getPet_strategy_content_data();
+				String petImage = model.getPet_strategy_image();
+				String userId = model.getId();
+				String userName = model.getUsername();
+
+				Bundle bundle = new Bundle();
 				bundle.putString("petName", petName);
 				bundle.putString("petGrade", petGrade);
 				bundle.putString("petMoney", petMoney);
@@ -90,13 +87,15 @@ public class PetStrategyFragment extends Fragment {
 				bundle.putString("userId", userId);
 				bundle.putString("userName", userName);
 				bundle.putString("tel", tel);
+
+				Intent intent = new Intent();
 				intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
 				intent.putExtras(bundle);
-				startActivityForResult(intent, 0);  
+				startActivityForResult(intent, 0);
 			}
 		}
 	};
-	
+
 	public void onStart() {
 		super.onStart();
 		getData();
@@ -105,31 +104,35 @@ public class PetStrategyFragment extends Fragment {
 	/**
 	 * 初始化数据
 	 */
-	private void getData(){
-		String url="http://211.149.198.8:9805/index.php/home/api/getStrategy";
+	private void getData() {
+		String url = "http://211.149.198.8:9805/index.php/home/api/getStrategy";
 		try {
-			HttpPost httpPost=HttpPost.parseUrl(url);
+			HttpPost httpPost = HttpPost.parseUrl(url);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				public void start() {
 				}
+
 				public void end(String result) {
-					data=PetStrategyModel.setJson(result);
-					adapter.setData(data);
+					Log.e("result", result);
+					data = PetStrategyModel.setJson(result);
+					adapter = new PetStrategyBaseAdapter(data, getActivity());
+					listView.setAdapter(adapter);
 				}
 			});
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 判断是否登录
+	 * 
 	 * @return
 	 */
-	private boolean checkLogin(){
+	private boolean checkLogin() {
 		String tok = SharedPreferencesUtil.getData(getActivity());
-		if(tok != null){
+		if (tok != null) {
 			tel = tok.split(",")[1];
 			return true;
 		}
