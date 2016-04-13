@@ -80,7 +80,9 @@ public class HomePageFragment extends Fragment implements CallParise,
 				cacheMgr.getMemoryCache(), cacheMgr.getPlacardFileCache());
 
 		initView();
-		
+
+		initStoreData();
+
 		return view;
 	}
 
@@ -102,10 +104,6 @@ public class HomePageFragment extends Fragment implements CallParise,
 	@Override
 	public void onStart() {
 		super.onStart();
-//		if (scrollView != null) {
-//			handler.sendEmptyMessage(0011);
-//		}
-		initStoreData();
 		initPersonalData();
 	}
 

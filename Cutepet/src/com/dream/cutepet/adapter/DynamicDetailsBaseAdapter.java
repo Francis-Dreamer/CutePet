@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,7 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 
 		String time = model.getCreate_time();
 		if (!TextUtils.isEmpty(time) && !time.equals("null")) {
+			Log.e("time", time+"");
 			holder.dynamic_details_comment_time.setText(TimeUtil
 					.showTime(TimeUtil.changeTime(time)));
 		}

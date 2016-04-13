@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -148,6 +149,7 @@ public class DynamicDetailsActivity extends Activity {
 		List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
 		SquareGridviewAdapter adapter1 = new SquareGridviewAdapter(
 				getApplicationContext(), list);
+		Log.e("imageUrl", imageUrl);
 		if (list.size() == 1) {
 			dynamic_details_image.setNumColumns(1);
 		} else if (list.size() == 2) {
@@ -156,6 +158,7 @@ public class DynamicDetailsActivity extends Activity {
 			dynamic_details_image.setNumColumns(3);
 		}
 		dynamic_details_image.setAdapter(adapter1);
+		
 
 		if (!TextUtils.isEmpty(theNickname) && !theNickname.equals("null")) {
 			dynamic_details_nickname.setText(theNickname);

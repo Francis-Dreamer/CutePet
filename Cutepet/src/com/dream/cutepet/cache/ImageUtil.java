@@ -11,6 +11,7 @@ import java.net.URL;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 /**
  * 图片工具类
@@ -34,6 +35,7 @@ public class ImageUtil {
 		try {
 			Bitmap bitmap = null;
 			URL imageUrl = new URL(url);
+			Log.e("url", "url = "+url);
 			conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setConnectTimeout(30000);
 			conn.setReadTimeout(30000);

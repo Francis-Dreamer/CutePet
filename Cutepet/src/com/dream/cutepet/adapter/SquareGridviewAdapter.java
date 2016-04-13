@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class SquareGridviewAdapter extends BaseAdapter {
 		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			String pic_url = url_top + img;
 			holder.mImageView.setTag(pic_url);
+			Log.e("imageUrl", pic_url);
 			Bitmap bitmap = imageLoader.loadBitmap(holder.mImageView, pic_url,
 					true);
 			if (bitmap != null) {
