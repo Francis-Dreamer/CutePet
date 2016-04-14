@@ -167,7 +167,7 @@ public class PersonalCenterFragment extends Fragment {
 			String img_url = "http://211.149.198.8:9805" + logo;
 			image_toxiang_login.setTag(img_url);
 			Bitmap bitmap = imageLoader.loadBitmap(image_toxiang_login,
-					img_url, true);
+					img_url, false);
 			if (bitmap != null) {
 				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bitmap);
 				image_toxiang_login.setImageBitmap(cc_tx);

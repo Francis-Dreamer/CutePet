@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.NativeImageLoader;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
 
 /**
  * 宠物店发布页面
@@ -74,9 +76,19 @@ public class ReleaseActivity extends Activity {
 		menu_hide.setOnClickListener(clickListener);
 
 		if (!TextUtils.isEmpty(view_address)) {
-			file = new File(view_address);
-			iv_petStore_logo.setImageBitmap(BitmapUtil
-					.getDiskBitmap(view_address));
+			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
+					view_address, new NativeImageCallBack() {
+						@Override
+						public void onImageLoader(Bitmap bitmap, String path) {
+							if (bitmap != null) {
+								iv_petStore_logo.setImageBitmap(BitmapUtil
+										.compressImage(bitmap));
+							}
+						}
+					});
+			if (bitmap != null) {
+				iv_petStore_logo.setImageBitmap(bitmap);
+			}
 		}
 	}
 

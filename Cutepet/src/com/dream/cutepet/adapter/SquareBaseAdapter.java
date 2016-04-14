@@ -18,6 +18,7 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.MyListUtil;
 import com.dream.cutepet.util.TimeUtil;
 import com.dream.cutepet.view.MyGridView;
@@ -29,6 +30,7 @@ public class SquareBaseAdapter extends BaseAdapter {
 	AsyncImageLoader imageLoader;
 	SquareModel model;
 	String urlTop = "http://211.149.198.8:9805";
+	
 
 	public SquareBaseAdapter() {
 
@@ -130,13 +132,12 @@ public class SquareBaseAdapter extends BaseAdapter {
 			String portraitUrl = urlTop + tx;
 			// 给imageview设置tag
 			holder.square_portrait.setTag(portraitUrl);
-			// 预设图
-			holder.square_portrait.setImageResource(R.drawable.icon_tx);
 			// 异步加载图片
 			Bitmap bt_icon = imageLoader.loadBitmap(holder.square_portrait,
-					portraitUrl, true);
+					portraitUrl, false);
 			if (bt_icon != null) {
-				holder.square_portrait.setImageBitmap(bt_icon);
+				holder.square_portrait.setImageBitmap(BitmapUtil
+						.toRoundBitmap(bt_icon));
 			} else {
 				holder.square_portrait.setImageResource(R.drawable.icon_tx);
 			}

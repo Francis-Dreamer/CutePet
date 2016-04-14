@@ -6,6 +6,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,12 +85,17 @@ public class FusionAdapter extends BaseAdapter {
 		}
 		final FusionModel temp = (FusionModel) getItem(position);
 
-		String logoUrl = url_Top + temp.getLogo();
-		holder.iv_icon.setTag(logoUrl);
-		holder.iv_icon.setImageResource(R.drawable.icon_tx);
-		Bitmap bt1 = imageLoader.loadBitmap(holder.iv_icon, logoUrl, true);
-		if (bt1 != null) {
-			holder.iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt1));
+		String icon = temp.getLogo();
+		if (!TextUtils.isEmpty(icon) && !icon.equals("null")) {
+			String logoUrl = url_Top + icon;
+			holder.iv_icon.setTag(logoUrl);
+			holder.iv_icon.setImageResource(R.drawable.icon_tx);
+			Bitmap bt1 = imageLoader.loadBitmap(holder.iv_icon, logoUrl, false);
+			if (bt1 != null) {
+				holder.iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bt1));
+			} else {
+				holder.iv_icon.setImageResource(R.drawable.icon_tx);
+			}
 		} else {
 			holder.iv_icon.setImageResource(R.drawable.icon_tx);
 		}

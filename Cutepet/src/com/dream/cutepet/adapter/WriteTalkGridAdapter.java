@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -43,11 +44,7 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		if (data != null) {
-			return data.size();
-		} else {
-			return 0;
-		}
+		return data == null ? 0 : data.size();
 	}
 
 	public Object getItem(int position) {
@@ -58,15 +55,20 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 		return position;
 	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder viewHolder;
-		String path = (String) getItem(position);
+		String path = data.get(position);
 
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.set_peticon_item, null);
+			convertView = inflater.inflate(R.layout.activity_photo_item, null);
 			viewHolder = new ViewHolder();
+			
 			viewHolder.mImageView = (MyAlbumImageView) convertView
-					.findViewById(R.id.iv_setPetIcon);
+					.findViewById(R.id.child_image);
+			viewHolder.mCheckBox = (CheckBox) convertView
+					.findViewById(R.id.child_checkbox);
+
 			// 用来监听ImageView的宽和高
 			viewHolder.mImageView.setOnMeasureListener(new OnMeasureListener() {
 				@Override
@@ -74,12 +76,16 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 					mPoint.set(width, height);
 				}
 			});
+
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
+			viewHolder.mImageView
+					.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
+		viewHolder.mCheckBox.setVisibility(View.GONE);
+		
 		viewHolder.mImageView.setTag(path);
-
 		// 利用NativeImageLoader类加载本地图片
 		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
 				mPoint, new NativeImageCallBack() {
@@ -92,7 +98,6 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 						}
 					}
 				});
-
 		if (bitmap != null) {
 			viewHolder.mImageView.setImageBitmap(bitmap);
 		} else {
@@ -103,5 +108,6 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		public MyAlbumImageView mImageView;
+		public CheckBox mCheckBox;
 	}
 }

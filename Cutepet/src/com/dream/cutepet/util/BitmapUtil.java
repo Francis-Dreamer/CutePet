@@ -206,14 +206,14 @@ public class BitmapUtil extends Activity {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-		int options = 100;
-		while (baos.toByteArray().length / 1024 > 100) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+//		int options = 100;
+		while (baos.toByteArray().length / 1024 > 160) { // 循环判断如果压缩后图片是否大于160kb,大于继续压缩
 			// 重置baos即清空baos
 			baos.reset();
-			// 每次都减少10
-			options -= 10;
+//			// 每次都减少10
+//			options -= 10;
 			// 这里压缩options%，把压缩后的数据存放到baos中
-			image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+			image.compress(Bitmap.CompressFormat.JPEG, 30, baos);
 		}
 		// 把压缩后的数据baos存放到ByteArrayInputStream中
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());

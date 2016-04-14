@@ -2,6 +2,7 @@ package com.dream.cutepet.util;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,23 @@ import android.provider.MediaStore;
  * 
  */
 public class SDCardUtil {
+
+	/**
+	 * 通过url获取缓存图片文件File对象
+	 * @param url
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	public static File getImagePath(Context context , String url) {
+		
+		context.getCacheDir();
+		
+		String sdf = Environment.getExternalStorageState() + File.separator
+				+ "iOrange" + File.separator + "placard";
+		String filename = URLEncoder.encode(url);
+		File f = new File(sdf, filename);
+		return f;
+	}
 
 	/**
 	 * 获取手机所有的sd卡根目录，第一条路径默认为手机内置内存路径

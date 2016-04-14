@@ -1,9 +1,7 @@
 package com.dream.cutepet.util;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,9 +50,8 @@ public class TimeUtil {
 	 * @return Date型的时间
 	 */
 	public static Date changeTime(String time) {
-		Log.e("changeTime", "time = "+time);
-		DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss 格林尼治标准时间+0800 yyyy",
-				Locale.ENGLISH);
+		SimpleDateFormat format = new SimpleDateFormat(
+				"EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
 		try {
 			Date date = format.parse(time);
 			return date;
@@ -122,18 +119,12 @@ public class TimeUtil {
 		Calendar nowtime = Calendar.getInstance();
 		// 计算时间差
 		long temp = nowtime.getTimeInMillis() - date.getTime();
-		Log.i("showTime",
-				"date=" + date.getTime() + ",nowDate="
-						+ nowtime.getTimeInMillis());
 
 		long days = temp / (1000 * 60 * 60 * 24);
 		long hours = (temp - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
 		long minutes = (temp - days * (1000 * 60 * 60 * 24) - hours
 				* (1000 * 60 * 60))
 				/ (1000 * 60);
-
-		Log.i("showTime", "days=" + days + ",hours=" + hours + ",minutes="
-				+ minutes);
 
 		String time = "";
 		if (days > 1) {

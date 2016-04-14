@@ -20,6 +20,7 @@ import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.PersonageModel;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.TimeUtil;
 
 public class HomePageAdapter extends BaseAdapter implements OnClickListener {
@@ -142,13 +143,13 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			// 给 ImageView 设置一个 tag
 			holder.icon.setTag(iconUrl);
 			// 异步加载头像
-			Bitmap bitmap = imageLoader.loadBitmap(holder.icon, iconUrl, true);
+			Bitmap bitmap = imageLoader.loadBitmap(holder.icon, iconUrl, false);
 			if (bitmap != null) {
-				holder.icon.setImageBitmap(bitmap);
+				holder.icon.setImageBitmap(BitmapUtil.toRoundBitmap(bitmap));
 			} else {
 				holder.icon.setImageResource(R.drawable.icon_tx);
 			}
-		}else{
+		} else {
 			holder.icon.setImageResource(R.drawable.icon_tx);
 		}
 

@@ -82,6 +82,8 @@ public class HomePageFragment extends Fragment implements CallParise,
 		initView();
 
 		initStoreData();
+		
+		initPersonalData();
 
 		return view;
 	}
@@ -100,12 +102,6 @@ public class HomePageFragment extends Fragment implements CallParise,
 			}
 		}
 	};
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		initPersonalData();
-	}
 
 	/**
 	 * 初始化宠物店数据
@@ -218,7 +214,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 */
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
-		LayoutInflater inflater_header = LayoutInflater.from(getActivity());
+		LayoutInflater inflater_header = LayoutInflater.from(this.getActivity());
 		View header = inflater_header.inflate(
 				R.layout.activity_homepage_header, null);
 
@@ -366,7 +362,6 @@ public class HomePageFragment extends Fragment implements CallParise,
 			}
 		});
 		cancel_send.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
 				message_linearlayout.setVisibility(View.GONE);
 			}
