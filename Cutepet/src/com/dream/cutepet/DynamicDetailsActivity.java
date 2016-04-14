@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
+import com.dream.cutepet.adapter.ShowDynamicDetailPicAdapter;
 import com.dream.cutepet.adapter.SquareGridviewAdapter;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
@@ -144,11 +145,13 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.add_attention);
 		tv_add_attention.setOnClickListener(clickListener);
 
+		
 		dynamic_details_image = (MyGridView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_image);
 		List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
-		SquareGridviewAdapter adapter1 = new SquareGridviewAdapter(
+		ShowDynamicDetailPicAdapter adapter1 = new ShowDynamicDetailPicAdapter(
 				getApplicationContext(), list);
+		//加载说说图片
 		Log.e("imageUrl", imageUrl);
 		if (list.size() == 1) {
 			dynamic_details_image.setNumColumns(1);
@@ -158,8 +161,8 @@ public class DynamicDetailsActivity extends Activity {
 			dynamic_details_image.setNumColumns(3);
 		}
 		dynamic_details_image.setAdapter(adapter1);
-		
 
+		
 		if (!TextUtils.isEmpty(theNickname) && !theNickname.equals("null")) {
 			dynamic_details_nickname.setText(theNickname);
 		} else {
@@ -172,12 +175,12 @@ public class DynamicDetailsActivity extends Activity {
 		dynamic_details_content.setText(theContent);
 		dynamic_details_like.setText(thePraise + "");
 		dynamic_details_like.setOnClickListener(clickListener);
-
+		Log.i("portraitUrl", portraitUrl);
 		if (!TextUtils.isEmpty(portraitUrl) && !portraitUrl.equals("null")) {
 			String url_portrait = urlTop + portraitUrl;
 			dynamic_details_portrait.setTag(url_portrait);
 			Bitmap bt_icon = imageLoader.loadBitmap(dynamic_details_portrait,
-					url_portrait, true);
+					url_portrait, false);
 			if (bt_icon != null) {
 				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt_icon);
 				dynamic_details_portrait.setImageBitmap(cc_tx);
@@ -210,7 +213,7 @@ public class DynamicDetailsActivity extends Activity {
 			if (!TextUtils.isEmpty(tx) && !tx.equals("null")) {
 				String url_img = urlTop + tx;
 				child.setTag(url_img);
-				Bitmap bt1 = imageLoader.loadBitmap(child, url_img, true);
+				Bitmap bt1 = imageLoader.loadBitmap(child, url_img, false);
 				if (bt1 != null) {
 					Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt1);
 					child.setImageBitmap(cc_tx);
@@ -463,7 +466,6 @@ public class DynamicDetailsActivity extends Activity {
 				intent.setClass(DynamicDetailsActivity.this,
 						WriteTalkActivity.class);
 				startActivity(intent);
-				finish();
 				break;
 			default:
 				break;

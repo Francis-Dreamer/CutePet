@@ -156,7 +156,7 @@ public class DynamicFragment extends Fragment {
 		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
 			String url_img = url_Top + img;
 			iv_icon.setTag(url_img);
-			Bitmap bt = imageLoader.loadBitmap(iv_icon, url_img, true);
+			Bitmap bt = imageLoader.loadBitmap(iv_icon, url_img, false);
 			if (bt != null) {
 				// 将获取的头像转换成圆形的
 				Bitmap bp = BitmapUtil.toRoundBitmap(bt);

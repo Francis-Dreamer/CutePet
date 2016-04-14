@@ -34,8 +34,13 @@ public class ImageUtil {
 		OutputStream os = null;
 		try {
 			Bitmap bitmap = null;
+			Log.e("loadBitmapFromWeb:", "url = "+url);
+			if (!url.contains("http://")) {
+				url="http://"+url;
+			}
+			Log.e("After contains:", "url = "+url);
+
 			URL imageUrl = new URL(url);
-			Log.e("url", "url = "+url);
 			conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setConnectTimeout(30000);
 			conn.setReadTimeout(30000);

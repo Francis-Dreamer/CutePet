@@ -1,34 +1,38 @@
 package com.dream.cutepet.adapter;
 
+import java.io.File;
 import java.util.List;
-
-import com.dream.cutepet.R;
-import com.dream.cutepet.cache.AsyncImageLoader;
-import com.dream.cutepet.cache.ImageCacheManager;
-import com.dream.cutepet.view.PhotoImageView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class SquareGridviewAdapter extends BaseAdapter {
+import com.dream.cutepet.R;
+import com.dream.cutepet.cache.AsyncImageLoader;
+import com.dream.cutepet.cache.ImageCacheManager;
+import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.NativeImageLoader;
+import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
+import com.dream.cutepet.util.SDCardUtil;
+import com.dream.cutepet.view.PhotoImageView;
+
+public class ShowDynamicDetailPicAdapter extends BaseAdapter {
 	List<String> data;
 	Context context;
 	AsyncImageLoader imageLoader;
 	LayoutInflater inflater;
 	private String url_top = "http://211.149.198.8:9805";
 
-	public SquareGridviewAdapter() {
+	public ShowDynamicDetailPicAdapter() {
 
 	}
 
-	public SquareGridviewAdapter(Context context, List<String> data) {
+	public ShowDynamicDetailPicAdapter(Context context, List<String> data) {
 		this.data = data;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
@@ -68,27 +72,21 @@ public class SquareGridviewAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if (!TextUtils.isEmpty(img) && !img.equals("null")) {
-			String pic_url = url_top + img;
-			holder.mImageView.setTag(pic_url);
-			Log.e("getView imageUrl", pic_url);
-			Bitmap bitmap = imageLoader.loadBitmap(holder.mImageView, pic_url,
-					true);
-			if (bitmap != null) {
-				holder.mImageView.setImageBitmap(bitmap);
-			} else {
-				holder.mImageView
-						.setImageResource(R.drawable.friends_sends_pictures_no);
-			}
-		} else {
-			holder.mImageView
-					.setImageResource(R.drawable.friends_sends_pictures_no);
-			holder.mImageView.setVisibility(View.GONE);
-		}
+		File f = SDCardUtil.getImagePath(url_top + img);
+		Log.e("File", "path = "+f.getPath());
+//		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
+//				new NativeImageCallBack() {
+//					@Override
+//					public void onImageLoader(Bitmap bitmap, String path) {
+//
+//					}
+//				});
+
 		return convertView;
 	}
 
 	public class ViewHolder {
 		PhotoImageView mImageView;
 	}
+
 }

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.NativeImageLoader;
+import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
@@ -78,8 +81,19 @@ public class PersonalReleaseActivity extends Activity {
 		et_content = (EditText) findViewById(R.id.ed_pet_jiyu);
 
 		if (!TextUtils.isEmpty(view_address)) {
-			file = new File(view_address);
-			iv_pet_logo.setImageBitmap(BitmapUtil.getDiskBitmap(view_address));
+			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
+					view_address, new NativeImageCallBack() {
+						@Override
+						public void onImageLoader(Bitmap bitmap, String path) {
+							if (bitmap != null) {
+								iv_pet_logo.setImageBitmap(BitmapUtil
+										.compressImage(bitmap));
+							}
+						}
+					});
+			if (bitmap != null) {
+				iv_pet_logo.setImageBitmap(bitmap);
+			}
 		}
 	}
 
@@ -102,8 +116,7 @@ public class PersonalReleaseActivity extends Activity {
 				intent.setClass(PersonalReleaseActivity.this,
 						SelectPhotoActivity.class);
 				intent.putExtra("flog", 1);
-				startActivity(intent);
-				finish();
+				startActivityForResult(intent, 0);
 				break;
 			default:
 				break;

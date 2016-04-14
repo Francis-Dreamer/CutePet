@@ -14,7 +14,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 	Context context;
 	LayoutInflater inflater;
 	AsyncImageLoader imageLoader;
-	private String url_top = "211.149.198.8:9805";
+	private String url_top = "http://211.149.198.8:9805";
 
 	public DynamicDetailsBaseAdapter() {
 
@@ -92,7 +91,6 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 
 		String time = model.getCreate_time();
 		if (!TextUtils.isEmpty(time) && !time.equals("null")) {
-			Log.e("time", time+"");
 			holder.dynamic_details_comment_time.setText(TimeUtil
 					.showTime(TimeUtil.changeTime(time)));
 		}
@@ -103,7 +101,7 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 			String url_icon = url_top + tx;
 			holder.dynamic_details_portrait.setTag(url_icon);
 			Bitmap bt = imageLoader.loadBitmap(holder.dynamic_details_portrait,
-					url_icon, true);
+					url_icon, false);
 			if (bt != null) {
 				Bitmap cc_tx = BitmapUtil.toRoundBitmap(bt);
 				holder.dynamic_details_portrait.setImageBitmap(cc_tx);
@@ -115,7 +113,6 @@ public class DynamicDetailsBaseAdapter extends BaseAdapter {
 			holder.dynamic_details_portrait
 					.setImageResource(R.drawable.icon_tx);
 		}
-
 		return convertView;
 	}
 

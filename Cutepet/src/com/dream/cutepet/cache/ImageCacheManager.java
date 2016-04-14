@@ -32,7 +32,7 @@ public class ImageCacheManager {
 		mMemoryCache = new MemoryCache();
 		File sdCard = android.os.Environment.getExternalStorageDirectory();
 		File cacheDir = new File(sdCard, CACHE_DIR);
-		mFileCachePlacard = new FileCache(context, cacheDir, DIR_PLACARD);
+		mFileCachePlacard = new FileCache(context, cacheDir, DIR_PLACARD);//
 		mFileCacheProduct = new FileCache(context, cacheDir, DIR_PRODUCT);
 	}
 	

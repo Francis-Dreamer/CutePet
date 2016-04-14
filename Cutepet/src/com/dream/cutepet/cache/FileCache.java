@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URLEncoder;
 
 import android.content.Context;
+import android.util.Log;
 /**
  * 图片文件缓存
  * 
@@ -39,8 +40,8 @@ public class FileCache {
         //Another possible solution (thanks to grantland)
         String filename = URLEncoder.encode(url);
         File f = new File(mCacheDir, filename);
+        Log.e("", "path = " + f.getPath());
         return f;
-        
     }
     
     /**
