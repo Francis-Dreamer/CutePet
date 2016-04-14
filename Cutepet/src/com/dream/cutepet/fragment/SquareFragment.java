@@ -3,13 +3,6 @@
 import java.net.MalformedURLException;
 import java.util.List;
 
-import com.dream.cutepet.DynamicDetailsActivity;
-import com.dream.cutepet.R;
-import com.dream.cutepet.adapter.SquareBaseAdapter;
-import com.dream.cutepet.model.SquareModel;
-import com.dream.cutepet.util.HttpPost;
-import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.dream.cutepet.util.HttpPost.OnSendListener;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +20,14 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import com.dream.cutepet.DynamicDetailsActivity;
+import com.dream.cutepet.R;
+import com.dream.cutepet.adapter.SquareBaseAdapter;
+import com.dream.cutepet.model.SquareModel;
+import com.dream.cutepet.util.HttpPost;
+import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
  * 广场的fragment
@@ -144,9 +145,9 @@ public class SquareFragment extends Fragment {
 			if (checkLogin()) {
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), DynamicDetailsActivity.class);
-				
+
 				SquareModel model = data.get(position - 1);
-				
+
 				squareId = model.getSquare_id();
 				squareUsername = model.getSquare_username();
 				squarePortrait = model.getSquare_portrait();
@@ -156,7 +157,7 @@ public class SquareFragment extends Fragment {
 				squareContent = model.getSquare_comment_content();
 				squarePicture = model.getSquare_image();
 				squarePraise = model.getSquare_praise_num();
-				
+
 				Bundle bundle = new Bundle();
 				bundle.putString("theId", squareId);
 				bundle.putString("theUsername", squareUsername);
@@ -168,6 +169,7 @@ public class SquareFragment extends Fragment {
 				bundle.putString("thePicture", squarePicture);
 				bundle.putString("praise", squarePraise);
 				bundle.putString("tel", username);
+
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
 			}

@@ -1,6 +1,9 @@
 package com.dream.cutepet.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.storage.StorageManager;
@@ -26,17 +30,64 @@ import android.provider.MediaStore;
 public class SDCardUtil {
 
 	/**
+	 * 将bitmap型图片存到本地file对象
+	 * 
+	 * @param bm
+	 *            bitmap对象图片
+	 * @param bitName
+	 * @return
+	 * @throws IOException
+	 */
+	@SuppressWarnings("deprecation")
+	public static File saveMyBitmapToSD(Bitmap bm, String url) {
+		File sdDir = null;
+		String filename = URLEncoder.encode(url);
+		boolean sdCardExist = Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+		}
+		File file = new File(sdDir.getPath() + File.separator + filename);
+		try {
+			file.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		FileOutputStream fOut = null;
+		try {
+			fOut = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+		try {
+			fOut.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			fOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return file;
+	}
+
+	/**
 	 * 通过url获取缓存图片文件File对象
+	 * 
 	 * @param url
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	public static File getImagePath(Context context , String url) {
-		
-		context.getCacheDir();
-		
-		String sdf = Environment.getExternalStorageState() + File.separator
-				+ "iOrange" + File.separator + "placard";
+	public static File getImagePath(Context context, String url) {
+		File sdDir = null;
+		boolean sdCardExist = Environment.getExternalStorageState().equals(
+				android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+		}
+		String sdf = sdDir.getPath();
 		String filename = URLEncoder.encode(url);
 		File f = new File(sdf, filename);
 		return f;
@@ -48,7 +99,7 @@ public class SDCardUtil {
 	 * @param context
 	 * @return
 	 */
-	private static String[] getAllSDCardPath(Context context) {
+	public static String[] getAllSDCardPath(Context context) {
 		StorageManager sm = (StorageManager) context
 				.getSystemService(Context.STORAGE_SERVICE);
 		// 获取sdcard的路径：外置和内置

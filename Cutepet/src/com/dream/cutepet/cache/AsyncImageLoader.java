@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.dream.cutepet.util.BitmapUtil;
+import com.dream.cutepet.util.SDCardUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -197,12 +198,15 @@ public class AsyncImageLoader {
 		public void run() {
 			if (imageViewReused(imageView, url))
 				return;
-			if (bitmap != null)
+			if (bitmap != null){
 				if (flog) {
 					imageView.setImageBitmap(bitmap);
 				} else {
 					imageView.setImageBitmap(BitmapUtil.toRoundBitmap(bitmap));
 				}
+				//将该bitmap图片保存到本地
+				SDCardUtil.saveMyBitmapToSD(bitmap, url);
+			}
 		}
 	}
 

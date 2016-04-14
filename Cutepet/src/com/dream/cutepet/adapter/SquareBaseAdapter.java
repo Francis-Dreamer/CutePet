@@ -31,11 +31,11 @@ public class SquareBaseAdapter extends BaseAdapter {
 	SquareModel model;
 	String urlTop = "http://211.149.198.8:9805";
 	
-
 	public SquareBaseAdapter() {
 
 	}
 
+	@SuppressLint("UseSparseArrays") 
 	public SquareBaseAdapter(List<SquareModel> data, Context context) {
 		this.data = data;
 		this.context = context;

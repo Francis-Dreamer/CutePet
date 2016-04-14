@@ -5,19 +5,17 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 
 import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.NativeImageLoader;
-import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
 import com.dream.cutepet.util.SDCardUtil;
 import com.dream.cutepet.view.PhotoImageView;
 
@@ -26,15 +24,18 @@ public class ShowDynamicDetailPicAdapter extends BaseAdapter {
 	Context context;
 	AsyncImageLoader imageLoader;
 	LayoutInflater inflater;
+	GridView gridView;
 	private String url_top = "http://211.149.198.8:9805";
 
 	public ShowDynamicDetailPicAdapter() {
 
 	}
 
-	public ShowDynamicDetailPicAdapter(Context context, List<String> data) {
+	public ShowDynamicDetailPicAdapter(Context context, List<String> data,
+			GridView gridView) {
 		this.data = data;
 		this.context = context;
+		this.gridView = gridView;
 		inflater = LayoutInflater.from(context);
 		ImageCacheManager cacheManager = new ImageCacheManager(context);
 		imageLoader = new AsyncImageLoader(context,
@@ -71,17 +72,12 @@ public class ShowDynamicDetailPicAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
-		File f = SDCardUtil.getImagePath(url_top + img);
-		Log.e("File", "path = "+f.getPath());
-//		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
-//				new NativeImageCallBack() {
-//					@Override
-//					public void onImageLoader(Bitmap bitmap, String path) {
-//
-//					}
-//				});
-
+		
+		Log.e("getView", "path = " + url_top+img);
+		String url = url_top + img;
+		File f = SDCardUtil.getImagePath(context, url);
+		Log.e("File", "path = " + f.getPath());
+		holder.mImageView.setImageBitmap(BitmapUtil.getDiskBitmap(f.getPath()));
 		return convertView;
 	}
 

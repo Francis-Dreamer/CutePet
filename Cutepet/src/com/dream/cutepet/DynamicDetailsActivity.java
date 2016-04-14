@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.dream.cutepet.adapter.DynamicDetailsBaseAdapter;
 import com.dream.cutepet.adapter.ShowDynamicDetailPicAdapter;
-import com.dream.cutepet.adapter.SquareGridviewAdapter;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
 import com.dream.cutepet.model.DynamicDetailsModel;
@@ -150,7 +149,7 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.dynamic_details_image);
 		List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
 		ShowDynamicDetailPicAdapter adapter1 = new ShowDynamicDetailPicAdapter(
-				getApplicationContext(), list);
+				getApplicationContext(), list,dynamic_details_image);
 		//加载说说图片
 		Log.e("imageUrl", imageUrl);
 		if (list.size() == 1) {
