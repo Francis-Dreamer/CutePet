@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="#FFDA44" >
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radiogroup_homepage"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/px90"
             android:layout_centerInParent="true"
@@ -38,7 +39,7 @@
                 android:text="@string/strategy"
                 android:textColor="#333333"
                 android:textSize="@dimen/px36" />
-        </LinearLayout>
+        </RadioGroup>
     </RelativeLayout>
 
     <FrameLayout

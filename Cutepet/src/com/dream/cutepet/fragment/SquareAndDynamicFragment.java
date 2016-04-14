@@ -38,7 +38,8 @@ public class SquareAndDynamicFragment extends Fragment{
 		
 		dynamicFragment=new DynamicFragment();
 		squareFragment=new SquareFragment();
-		
+		dynamic.setChecked(false);
+		square.setChecked(true);
 		transaction.replace(R.id.mid_square_dynamic, squareFragment);
 		transaction.commit();
 		square.setChecked(true);
@@ -46,13 +47,6 @@ public class SquareAndDynamicFragment extends Fragment{
 		dynamic.setOnClickListener(clickListener);
 		
 		return view;
-	}
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		dynamic.setChecked(false);
-		square.setChecked(true);
 	}
 	/**
 	 * 点击顶部切换页面

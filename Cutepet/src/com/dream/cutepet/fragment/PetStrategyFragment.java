@@ -49,7 +49,7 @@ public class PetStrategyFragment extends Fragment {
 
 		return view;
 	}
-
+	
 	/**
 	 * 加载listview的数据
 	 */
