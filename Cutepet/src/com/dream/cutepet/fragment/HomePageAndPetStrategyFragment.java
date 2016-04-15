@@ -36,9 +36,10 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 
 		resources = (RadioButton) view.findViewById(R.id.resources);
 		strategy = (RadioButton) view.findViewById(R.id.strategy);
+
 		radiogroup_homepage = (RadioGroup) view.findViewById(R.id.radiogroup_homepage);
-		homePageFragmentChen = new HomePageFragment();
-		petStrategyFragment = new PetStrategyFragment();
+		homePageFragmentChen = new HomePageFragment(getActivity());
+		petStrategyFragment = new PetStrategyFragment(getActivity());
 		initView();
 		radiogroup_homepage.setOnCheckedChangeListener(checkedChangeListener);
 		return view;

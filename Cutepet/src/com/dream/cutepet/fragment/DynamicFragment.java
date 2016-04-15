@@ -51,7 +51,7 @@ import com.dream.cutepet.view.MyGridView;
  * @author Administrator
  * 
  */
-public class DynamicFragment extends Fragment {
+ public class DynamicFragment extends Fragment {
 	ImageView iv_goto, iv_head;
 	MyGridView gridView;
 	List<DynamicAlbumModel.AlbumData> data_album;
@@ -167,7 +167,7 @@ public class DynamicFragment extends Fragment {
 				iv_icon.setImageResource(R.drawable.icon_tx);
 			}
 		}
-		
+
 	}
 
 	OnItemClickListener itemClickListener = new OnItemClickListener() {

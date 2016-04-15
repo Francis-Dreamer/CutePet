@@ -275,6 +275,7 @@ public class HttpPost {
 
 		protected void onPostExecute(String result) {
 			if (mListener != null)
+				Log.i("result data:", result);
 				mListener.end(result);
 		}
 	}

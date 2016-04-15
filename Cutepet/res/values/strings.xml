@@ -74,6 +74,7 @@
     <string name="introduce">介绍</string>
     <string name="message">信息</string>
     <string name="contacts">联系人</string>
+    <string name="share_app">我正在使用萌宠APP，大家一起来玩吧</string>
 
     <item name="tag_message_first" type="id"></item>
     <item name="tag_message_second" type="id"></item>

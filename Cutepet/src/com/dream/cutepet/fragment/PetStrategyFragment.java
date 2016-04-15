@@ -11,6 +11,7 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Administrator
  * 
  */
-public class PetStrategyFragment extends Fragment {
+@SuppressLint("ValidFragment") public class PetStrategyFragment extends Fragment {
 	ListView listView;
 	List<PetStrategyModel> data;
 	PetStrategyBaseAdapter adapter = new PetStrategyBaseAdapter();
@@ -39,17 +40,27 @@ public class PetStrategyFragment extends Fragment {
 	View view;
 	private String tel;
 
+	public PetStrategyFragment() {
+
+	}
+
+	public PetStrategyFragment(Context context) {
+		this.context=context;
+	}
+
+	Context context;
+
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_pet_strategy, null);
-
+		
 		initView();
 
 		return view;
 	}
-	
+
 	/**
 	 * 加载listview的数据
 	 */
@@ -89,7 +100,7 @@ public class PetStrategyFragment extends Fragment {
 				bundle.putString("tel", tel);
 
 				Intent intent = new Intent();
-				intent.setClass(getActivity(), PetStrategyDetailsActivity.class);
+				intent.setClass(context, PetStrategyDetailsActivity.class);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
 			}
@@ -116,7 +127,7 @@ public class PetStrategyFragment extends Fragment {
 				public void end(String result) {
 					Log.e("result", result);
 					data = PetStrategyModel.setJson(result);
-					adapter = new PetStrategyBaseAdapter(data, getActivity());
+					adapter = new PetStrategyBaseAdapter(data, context);
 					listView.setAdapter(adapter);
 				}
 			});
@@ -131,12 +142,12 @@ public class PetStrategyFragment extends Fragment {
 	 * @return
 	 */
 	private boolean checkLogin() {
-		String tok = SharedPreferencesUtil.getData(getActivity());
+		String tok = SharedPreferencesUtil.getData(context);
 		if (tok != null) {
 			tel = tok.split(",")[1];
 			return true;
 		}
-		Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
 		return false;
 	}
 }
