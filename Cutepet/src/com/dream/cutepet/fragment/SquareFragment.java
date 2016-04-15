@@ -35,7 +35,7 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * @author Administrator
  * 
  */
-public class SquareFragment extends Fragment {
+@SuppressLint("ValidFragment") public class SquareFragment extends Fragment {
 	ViewPager viewPager;
 	List<SquareModel> data;
 	SquareBaseAdapter adapter = new SquareBaseAdapter();
@@ -62,7 +62,7 @@ public class SquareFragment extends Fragment {
 	String squarePraise;
 
 	private String username;
-
+	
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

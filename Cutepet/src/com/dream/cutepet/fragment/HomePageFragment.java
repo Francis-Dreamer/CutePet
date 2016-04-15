@@ -9,6 +9,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -48,8 +49,17 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * @author Administrator
  * 
  */
+@SuppressLint("ValidFragment")
 public class HomePageFragment extends Fragment implements CallParise,
 		SetMessage {
+	public HomePageFragment() {
+
+	}
+
+	public HomePageFragment(Context context) {
+		this.context = context;
+	}
+
 	LinearLayout llayout_petStore;
 	LayoutInflater inflater;
 	List<PetStoreModel> data_petStore;
@@ -67,22 +77,22 @@ public class HomePageFragment extends Fragment implements CallParise,
 	TextView cancel_send;
 	String getInput;
 	HorizontalScrollView scrollView;
+	Context context;
 
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		inflater = LayoutInflater.from(getActivity());
+		inflater = LayoutInflater.from(context);
 		view = inflater.inflate(R.layout.activity_homepage, null);
-
-		ImageCacheManager cacheMgr = new ImageCacheManager(getActivity());
-		imageLoader = new AsyncImageLoader(getActivity(),
-				cacheMgr.getMemoryCache(), cacheMgr.getPlacardFileCache());
+		ImageCacheManager cacheMgr = new ImageCacheManager(context);
+		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
+				cacheMgr.getPlacardFileCache());
 
 		initView();
 
 		initStoreData();
-		
+
 		initPersonalData();
 
 		return view;
@@ -169,7 +179,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 				long id) {
 			if (checkLogin()) {
 				// 跳转到主人寄语
-				Intent intent = new Intent(getActivity(),
+				Intent intent = new Intent(context,
 						PersonalDetailsActivity.class);
 
 				PersonageModel mo = data_personage.get(position - 1);
@@ -193,8 +203,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 		public void onClick(View v) {
 			if (checkLogin()) {
 				int index = (Integer) v.getTag();
-				Intent intent = new Intent(getActivity(),
-						PetStoreActivity.class);
+				Intent intent = new Intent(context, PetStoreActivity.class);
 				intent.putExtra("index", index);
 				intent.putExtra("username", data_petStore.get(index)
 						.getUsername());
@@ -214,7 +223,8 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 */
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
-		LayoutInflater inflater_header = LayoutInflater.from(this.getActivity());
+
+		LayoutInflater inflater_header = LayoutInflater.from(context);
 		View header = inflater_header.inflate(
 				R.layout.activity_homepage_header, null);
 
@@ -222,7 +232,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 				.findViewById(R.id.scrollview);
 		handler.sendEmptyMessage(0011);
 
-		inflater = LayoutInflater.from(getActivity());
+		inflater = LayoutInflater.from(context);
 		llayout_petStore = (LinearLayout) header
 				.findViewById(R.id.llayout_homepage_petStore);
 		for (int i = 0; i < data_petStore.size(); i++) {
@@ -257,7 +267,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 			llayout_petStore.addView(view_item);
 		}
 		listView.addHeaderView(header, null, false);
-		adapter = new HomePageAdapter(getActivity(), data_personage, this, this);
+		adapter = new HomePageAdapter(context, data_personage, this, this);
 		listView.setAdapter(adapter);
 	}
 
@@ -305,7 +315,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 				public void end(String result) {
 					try {
 						JSONObject jsonObject = new JSONObject(result);
-						Toast.makeText(getActivity(),
+						Toast.makeText(context,
 								jsonObject.getString("message"),
 								Toast.LENGTH_SHORT).show();
 						initPersonalData();
@@ -350,7 +360,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 							}
 
 							public void end(String result) {
-								Toast.makeText(getActivity(), "留言成功",
+								Toast.makeText(context, "留言成功",
 										Toast.LENGTH_SHORT).show();
 							}
 						});
@@ -374,12 +384,13 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * @return
 	 */
 	private boolean checkLogin() {
-		String tok = SharedPreferencesUtil.getData(getActivity());
+		String tok = SharedPreferencesUtil.getData(context);
 		if (tok != null && !tok.equals("")) {
 			username = tok.split(",")[1];
 			return true;
 		}
-		Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, "请先登录！",
+				Toast.LENGTH_SHORT).show();
 		return false;
 	}
 
