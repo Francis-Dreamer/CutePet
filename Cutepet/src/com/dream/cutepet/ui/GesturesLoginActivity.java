@@ -28,6 +28,7 @@ import com.dream.cutepet.LoginActivity;
 import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
+import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -69,9 +70,9 @@ public class GesturesLoginActivity extends Activity implements OnTouchListener,
 		if (!TextUtils.isEmpty(url_icon)) {
 			String url_tx = url_top + url_icon;
 			iv_icon.setTag(url_tx);
-			Bitmap bitmap = imageLoader.loadBitmap(iv_icon, url_tx, true);
+			Bitmap bitmap = imageLoader.loadBitmap(iv_icon, url_tx, false);
 			if (bitmap != null) {
-				iv_icon.setImageBitmap(bitmap);
+				iv_icon.setImageBitmap(BitmapUtil.toRoundBitmap(bitmap));
 			} else {
 				iv_icon.setImageResource(R.drawable.icon_tx);
 			}

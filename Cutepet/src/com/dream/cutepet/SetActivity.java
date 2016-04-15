@@ -9,7 +9,6 @@ import com.dream.cutepet.util.AccessTokenKeeper;
 import com.dream.cutepet.util.Constants;
 import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.util.SharedPreferencesUtil;
-import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;

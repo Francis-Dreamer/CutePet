@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.dream.cutepet.R;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
+import com.dream.cutepet.util.TimeUtil;
 
 /**
  * 新建相册
@@ -110,7 +111,7 @@ public class NewPhotoAlbumActivity extends Activity {
 			map.put("tel", username);
 			map.put("albumname", name);
 			map.put("describe", describe);
-			map.put("time", new Date().toString());
+			map.put("time", TimeUtil.changeTimeToGMT(new Date()));
 			httpPost.putMap(map);
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {

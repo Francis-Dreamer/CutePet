@@ -151,13 +151,14 @@ public class DynamicDetailsActivity extends Activity {
 		ShowDynamicDetailPicAdapter adapter1 = new ShowDynamicDetailPicAdapter(
 				getApplicationContext(), list,dynamic_details_image);
 		//加载说说图片
-		Log.e("imageUrl", imageUrl);
 		if (list.size() == 1) {
 			dynamic_details_image.setNumColumns(1);
 		} else if (list.size() == 2) {
 			dynamic_details_image.setNumColumns(2);
 		} else if (list.size() > 2) {
 			dynamic_details_image.setNumColumns(3);
+		}else{
+			dynamic_details_image.setVisibility(View.GONE);
 		}
 		dynamic_details_image.setAdapter(adapter1);
 
@@ -340,7 +341,7 @@ public class DynamicDetailsActivity extends Activity {
 				map.put("uid", username);
 				map.put("issue_id", id);
 				map.put("content", content);
-				map.put("create_time", new Date().toString());
+				map.put("create_time", TimeUtil.changeTimeToGMT(new Date()));
 				httpPost.putMap(map);
 				httpPost.send();
 				httpPost.setOnSendListener(new OnSendListener() {

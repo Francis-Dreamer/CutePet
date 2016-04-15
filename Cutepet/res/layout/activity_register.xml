@@ -34,7 +34,7 @@
                 android:textSize="@dimen/px28" />
 
             <EditText
-                android:id="@+id/edit_phone"
+                android:id="@+id/edit_register_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px20"
@@ -67,7 +67,7 @@
                 android:textSize="@dimen/px28" />
 
             <EditText
-                android:id="@+id/edit_yanzhengma"
+                android:id="@+id/edit_register_yanzhengma"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px20"
@@ -115,13 +115,12 @@
                 android:textColor="#333333" />
 
             <EditText
-                android:id="@+id/edit_password"
+                android:id="@+id/edit_register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/px20"
                 android:background="@null"
-                android:digits="0123456789abcdefjhigklmnopqrstuvwxyz.*@#$%"
-                android:hint="6-20位数字/字母"
+                android:hint="6-16位任意字符"
                 android:inputType="textPassword"
                 android:password="true"
                 android:textSize="@dimen/px28" />
