@@ -311,14 +311,9 @@ public class PersonalCenterFragment extends Fragment {
 				startActivityForResult(intent, 0);
 				break;
 			case R.id.linear_set:
-				if (checkisLogin()) {
-					// 点击后当前页面个人中心页面跳转到设置页面
-					intent.setClass(getActivity(), SetActivity.class);
-					startActivityForResult(intent, 0);
-				} else {
-					Toast.makeText(getActivity(), "请先登录！", Toast.LENGTH_LONG)
-							.show();
-				}
+				// 点击后当前页面个人中心页面跳转到设置页面
+				intent.setClass(getActivity(), SetActivity.class);
+				startActivityForResult(intent, 0);
 				break;
 			case R.id.text_login:
 				intent.setClass(getActivity(), LoginActivity.class);

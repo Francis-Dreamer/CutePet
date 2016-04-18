@@ -109,7 +109,8 @@ public class WriteTalkUpLoadPhotoActivity extends Activity {
 
 		mProgressDialog = new ProgressDialog(WriteTalkUpLoadPhotoActivity.this);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mProgressDialog.setTitle("加载中，请稍后...");
+		mProgressDialog.setTitle("友情提示");
+		mProgressDialog.setMessage("加载中，请稍后...");
 	}
 
 	@Override
