@@ -3,6 +3,8 @@ package com.dream.cutepet;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,10 +12,14 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +34,7 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
  * @author Administrator
  * 
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends Activity implements OnCheckedChangeListener {
 
 	ImageView back;
 	TextView text_yanzhengma, title;
@@ -36,23 +42,32 @@ public class RegisterActivity extends Activity {
 	EditText edit_yanzhengma;
 	EditText edit_password;
 	Button button_add;
-
+	CheckBox checkBox;
+	boolean flog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+
 		back = (ImageView) findViewById(R.id.back);
-		text_yanzhengma = (TextView) findViewById(R.id.text_yanzhengma);
+		back.setOnClickListener(ocl);
+
 		title = (TextView) findViewById(R.id.title);
 		title.setText("注册");
-		edit_phone = (EditText) findViewById(R.id.edit_phone);
-		button_add = (Button) findViewById(R.id.button_add);
-		edit_yanzhengma = (EditText) findViewById(R.id.edit_yanzhengma);
-		edit_password = (EditText) findViewById(R.id.edit_password);
 
-		back.setOnClickListener(ocl);
+		text_yanzhengma = (TextView) findViewById(R.id.text_yanzhengma);
 		text_yanzhengma.setOnClickListener(ocl);
+
+		edit_phone = (EditText) findViewById(R.id.edit_register_phone);
+		edit_yanzhengma = (EditText) findViewById(R.id.edit_register_yanzhengma);
+		edit_password = (EditText) findViewById(R.id.edit_register_password);
+
+		button_add = (Button) findViewById(R.id.button_add);
 		button_add.setOnClickListener(ocl);
+		
+		checkBox = (CheckBox) findViewById(R.id.register_check);
+		checkBox.setOnCheckedChangeListener(this);
 	}
 
 	OnClickListener ocl = new OnClickListener() {
@@ -63,21 +78,45 @@ public class RegisterActivity extends Activity {
 				finish();
 				break;
 			case R.id.text_yanzhengma:
-				String tel = edit_phone.getText().toString();
-				if (tel != null) {
+				String tel = edit_phone.getText().toString().trim();
+				if (!TextUtils.isEmpty(tel)) {
 					Log.e("xxxxxxxx", "有手机号");
-					yanzhengma(tel);
+					Pattern p = Pattern
+							.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
+					Matcher m = p.matcher(tel);
+					if (m.matches()) {
+						yanzhengma(tel);
+					} else {
+						Log.e("xxxxxxxx", "手机号码格式错误！");
+						Toast.makeText(getApplication(), "请输入正确的手机号！",
+								Toast.LENGTH_LONG).show();
+					}
 				} else {
 					Log.e("xxxxxxxx", "无手机号");
-					Toast.makeText(getApplication(), "请输入手机号", Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(getApplication(), "请输入手机号",
+							Toast.LENGTH_LONG).show();
 				}
 				break;
 			case R.id.button_add:
-				String tel1 = edit_phone.getText().toString();
-				String verify = edit_yanzhengma.getText().toString();
-				String password = edit_password.getText().toString();
-				register(tel1, verify, password);
+				String tel1 = edit_phone.getText().toString().trim();
+				String verify = edit_yanzhengma.getText().toString().trim();
+				String password = edit_password.getText().toString().trim();
+				Pattern p = Pattern
+						.compile("^\\s*[^\\s\u4e00-\u9fa5]{6,16}\\s*$");
+				Matcher m = p.matcher(password);
+				if (m.matches()) {
+					if(flog){
+						register(tel1, verify, password);
+					}else {
+						Log.e("xxxxxxxx", "未同意协议！");
+						Toast.makeText(getApplication(), "未同意协议！",
+								Toast.LENGTH_LONG).show();
+					}
+				} else {
+					Log.e("xxxxxxxx", "密码格式错误！");
+					Toast.makeText(getApplication(), "请输入正确的密码！",
+							Toast.LENGTH_LONG).show();
+				}
 				break;
 			default:
 				break;
@@ -169,5 +208,10 @@ public class RegisterActivity extends Activity {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		flog = isChecked;
 	}
 }

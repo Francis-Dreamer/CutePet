@@ -1,14 +1,11 @@
 package com.dream.cutepet.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.dream.cutepet.R;
 
 public class PersonageModel {
 	private String logo;
@@ -100,29 +97,6 @@ public class PersonageModel {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	/**
-	 * 获取测试数据
-	 * 
-	 * @return
-	 */
-	public static List<PersonageModel> getData() {
-		List<PersonageModel> data = new ArrayList<PersonageModel>();
-		PersonageModel model;
-		for (int i = 0; i < 5; i++) {
-			model = new PersonageModel();
-			model.setLogo(R.drawable.home_personage_touxiang + "");
-			model.setName("苏菲12345");
-			model.setContent("主人寄语：我是测试数据！我是测试数据！我是测试数据！我是测试数据！我是测试数据！我是测试数据！我是测试数据！我是测试数据！");
-			model.setTime(new Date().toString());
-			model.setAddress("来自重庆 渝中区 上清诗");
-			model.setLike(2);
-			model.picture_icon = "" + R.drawable.homepage_personage_pic1;
-			model.picture_name = "柴犬";
-			data.add(model);
-		}
-		return data;
 	}
 
 	public static List<PersonageModel> setJson(String result) {

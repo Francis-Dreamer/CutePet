@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -28,6 +27,7 @@ import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.NativeImageLoader;
 import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
 import com.dream.cutepet.util.SharedPreferencesUtil;
+import com.dream.cutepet.util.TimeUtil;
 
 /**
  * 主人寄语发布界面
@@ -57,6 +57,9 @@ public class PersonalReleaseActivity extends Activity {
 		username = SharedPreferencesUtil.getData(getApplicationContext())
 				.split(",")[1];
 		view_address = getIntent().getStringExtra("path");
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+		}
 	}
 
 	/**
@@ -106,9 +109,12 @@ public class PersonalReleaseActivity extends Activity {
 			case R.id.menu_hide:
 				String type = et_type.getText().toString().trim();
 				String content = et_content.getText().toString().trim();
-				if (file != null && type != null && !type.equals("")
-						&& content != null && !content.equals("")) {
+				if (file != null && !TextUtils.isEmpty(type)
+						&& !TextUtils.isEmpty(content)) {
 					upload(type, content);
+				} else {
+					Toast.makeText(getApplicationContext(), "发布内容不能为空！",
+							Toast.LENGTH_SHORT).show();
 				}
 				break;
 			case R.id.iv_pet_select:
@@ -117,6 +123,7 @@ public class PersonalReleaseActivity extends Activity {
 						SelectPhotoActivity.class);
 				intent.putExtra("flog", 1);
 				startActivityForResult(intent, 0);
+				finish();
 				break;
 			default:
 				break;
@@ -136,13 +143,12 @@ public class PersonalReleaseActivity extends Activity {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("tel", username);
-			map.put("time", new Date().toString());
+			map.put("time", TimeUtil.changeTimeToGMT(new Date()));
 			map.put("content", content);
 			map.put("image_name", type);
 			map.put("address", "重庆市四小区");
 			httpPost.putMap(map);
 			httpPost.putFile(file.getPath(), file, file.getName(), null);
-			Log.e("upload", "file=" + file.getName());
 			httpPost.send();
 			httpPost.setOnSendListener(new OnSendListener() {
 				@Override

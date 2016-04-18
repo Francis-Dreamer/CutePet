@@ -27,33 +27,33 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 	PetStrategyFragment petStrategyFragment;
 
 	RadioButton resources, strategy;
-	RadioGroup rg_homepage;
+	RadioGroup radiogroup_homepage;
 
 	@SuppressLint("InflateParams")
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_homepage_pet_strategy,
-				null);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_homepage_pet_strategy, null);
 
 		resources = (RadioButton) view.findViewById(R.id.resources);
 		strategy = (RadioButton) view.findViewById(R.id.strategy);
-		rg_homepage = (RadioGroup) view.findViewById(R.id.radiogroup_homepage);
+
+		radiogroup_homepage = (RadioGroup) view.findViewById(R.id.radiogroup_homepage);
 		homePageFragmentChen = new HomePageFragment(getActivity());
 		petStrategyFragment = new PetStrategyFragment(getActivity());
 		initView();
-		rg_homepage.setOnCheckedChangeListener(checkedChangeListener);
+		radiogroup_homepage.setOnCheckedChangeListener(checkedChangeListener);
 		return view;
 	}
+
 	private void initView() {
 		resources.setChecked(true);
 		strategy.setChecked(false);
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
-		transaction
-				.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
+		transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 		transaction.commit();
 	}
+
 	OnCheckedChangeListener checkedChangeListener = new OnCheckedChangeListener() {
 
 		@Override
@@ -67,8 +67,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 				if (homePageFragmentChen == null) {
 					homePageFragmentChen = new HomePageFragment();
 				}
-				transaction.replace(R.id.mid_homepage_petstrategy,
-						homePageFragmentChen);
+				transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 				break;
 			case R.id.strategy:
 				strategy.setChecked(true);
@@ -76,8 +75,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 				if (petStrategyFragment == null) {
 					petStrategyFragment = new PetStrategyFragment();
 				}
-				transaction.replace(R.id.mid_homepage_petstrategy,
-						petStrategyFragment);
+				transaction.replace(R.id.mid_homepage_petstrategy, petStrategyFragment);
 				break;
 			default:
 				break;
@@ -100,8 +98,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 				if (homePageFragmentChen == null) {
 					homePageFragmentChen = new HomePageFragment();
 				}
-				transaction.replace(R.id.mid_homepage_petstrategy,
-						homePageFragmentChen);
+				transaction.replace(R.id.mid_homepage_petstrategy, homePageFragmentChen);
 				break;
 			case R.id.strategy:
 				strategy.setChecked(true);
@@ -109,8 +106,7 @@ public class HomePageAndPetStrategyFragment extends Fragment {
 				if (petStrategyFragment == null) {
 					petStrategyFragment = new PetStrategyFragment();
 				}
-				transaction.replace(R.id.mid_homepage_petstrategy,
-						petStrategyFragment);
+				transaction.replace(R.id.mid_homepage_petstrategy, petStrategyFragment);
 				break;
 			default:
 				break;

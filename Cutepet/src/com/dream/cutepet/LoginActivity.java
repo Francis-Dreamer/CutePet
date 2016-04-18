@@ -81,7 +81,6 @@ public class LoginActivity extends Activity {
 			switch (v.getId()) {
 			case R.id.button_login:
 				loginAndStarActivity();
-				progress_bar.setVisibility(View.VISIBLE);
 				break;
 			case R.id.button_register:
 				intent.setClass(LoginActivity.this, RegisterActivity.class);
@@ -212,13 +211,14 @@ public class LoginActivity extends Activity {
 
 					@Override
 					public void onProgress(int arg0) {
-
+						progress_bar.setVisibility(View.VISIBLE);
 					}
 
 					@Override
 					public void onError(int arg0, String arg1) {
 						Toast.makeText(LoginActivity.this, "登录失败",
 								Toast.LENGTH_SHORT).show();
+						progress_bar.setVisibility(View.GONE);
 					}
 				});
 	}

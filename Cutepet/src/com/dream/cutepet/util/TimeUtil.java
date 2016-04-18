@@ -62,6 +62,18 @@ public class TimeUtil {
 	}
 
 	/**
+	 * 将时间转换成GMT
+	 * @param date
+	 * @return
+	 */
+	public static String changeTimeToGMT(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat(
+				"EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+		String time = format.format(date);
+		return time;
+	}
+
+	/**
 	 * 获取昨天的起始时间
 	 * 
 	 * @param lastDay

@@ -49,7 +49,10 @@ public class ReleaseActivity extends Activity {
 		setContentView(R.layout.activity_release);
 
 		view_address = getIntent().getStringExtra("path");
-
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+		}
+		
 		initview();
 	}
 

@@ -20,7 +20,7 @@ public class MyListUtil {
 	 */
 	public static List<String> changeStringToList(String str, String split) {
 		List<String> data = new ArrayList<String>();
-		if(!TextUtils.isEmpty(str)){
+		if (!TextUtils.isEmpty(str) && !str.equals("null")) {
 			if (str.indexOf(split) != -1) {// 判断是否只有一条数据
 				String[] temp = str.split(split);
 				for (String t : temp) {
@@ -53,9 +53,9 @@ public class MyListUtil {
 				mImageBean.setFolderName(key);
 				mImageBean.setImageCounts(value.size());
 				// 获取该组的第一张图片地址
-				if(value.size() == 0){
+				if (value.size() == 0) {
 					mImageBean.setTopImagePath("");
-				}else{
+				} else {
 					mImageBean.setTopImagePath(value.get(0));
 				}
 				list.add(mImageBean);

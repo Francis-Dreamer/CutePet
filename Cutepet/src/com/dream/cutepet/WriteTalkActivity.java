@@ -14,6 +14,8 @@ import com.dream.cutepet.adapter.WriteTalkGridAdapter;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
+import com.dream.cutepet.util.TimeUtil;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -114,7 +116,7 @@ public class WriteTalkActivity extends Activity {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("tel", username);
-			map.put("create_time", new Date().toString());
+			map.put("create_time", TimeUtil.changeTimeToGMT(new Date()));
 			map.put("content", content);
 			map.put("address", address);
 			httpPost.putMap(map);

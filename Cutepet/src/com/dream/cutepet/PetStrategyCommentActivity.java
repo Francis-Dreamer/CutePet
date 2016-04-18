@@ -30,6 +30,7 @@ import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
+import com.dream.cutepet.util.TimeUtil;
 
 /**
  * 攻略点评
@@ -185,7 +186,7 @@ public class PetStrategyCommentActivity extends Activity {
 				map.put("issua_id", userId);
 				map.put("grade", petGrade + "");
 				map.put("content", cont);
-				map.put("create_time", new Date().toString());
+				map.put("create_time", TimeUtil.changeTimeToGMT(new Date()));
 				httpPost.putMap(map);
 				httpPost.putFile(file.getName(), file, file.getName(), null);
 				httpPost.send();
