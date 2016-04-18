@@ -74,7 +74,7 @@
     <string name="introduce">介绍</string>
     <string name="message">信息</string>
     <string name="contacts">联系人</string>
-    <string name="share_app">我正在使用萌宠APP，大家一起来玩吧</string>
+    <string name="share_app">萌宠app是一款新闻资讯应用,主要为用户提供跟萌宠相关的资讯信息。在萌宠2016app中你可查看萌宠的最新资讯,也可将喜欢的它分享到微信、微博</string>
 
     <item name="tag_message_first" type="id"></item>
     <item name="tag_message_second" type="id"></item>
