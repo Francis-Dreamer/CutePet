@@ -297,7 +297,7 @@ public class SetActivity extends Activity {
 	 */
 	private void shareWebPageQzone() {
 		final Bundle params = new Bundle();
-		int test=R.string.accomplish;
+		int test=R.string.share_app;
 		String test_demo=getString(test);
 		int shareType = QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT;
 		params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, shareType);
@@ -309,7 +309,7 @@ public class SetActivity extends Activity {
 				QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
 		ArrayList<String> imageUrls = new ArrayList<String>();
 		imageUrls
-				.add("http://media-cdn.tripadvisor.com/media/photo-s/01/3e/05/40/the-sandbar-that-links.jpg");
+				.add("http://211.149.198.8:9805/Public/image/upload/2016-03-02/logo.png");
 		params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
 		doShareToQzone(params);
 	}
