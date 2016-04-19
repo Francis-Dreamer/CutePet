@@ -13,8 +13,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -53,11 +51,11 @@ public class AllPageActivity extends FragmentActivity {
 		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
 				Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
-		WindowManager wm = (WindowManager) getApplicationContext()
-				.getSystemService(Context.WINDOW_SERVICE);
-		int width = wm.getDefaultDisplay().getWidth();
-		int height = wm.getDefaultDisplay().getHeight();
-		Log.e("WindowManager", "width = " + width + ",height = " + height);
+//		WindowManager wm = (WindowManager) getApplicationContext()
+//				.getSystemService(Context.WINDOW_SERVICE);
+//		int width = wm.getDefaultDisplay().getWidth();
+//		int height = wm.getDefaultDisplay().getHeight();
+//		Log.e("WindowManager", "width = " + width + ",height = " + height);
 
 		initview();
 	}

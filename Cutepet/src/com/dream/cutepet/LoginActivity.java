@@ -7,6 +7,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -58,6 +58,9 @@ public class LoginActivity extends Activity {
 
 	private static final String USER_ID = "userId";
 	private static final String PASSWORD = "password";
+	
+	int s = 0;
+	boolean overtime = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,6 @@ public class LoginActivity extends Activity {
 			case R.id.button_login:
 				loginAndStarActivity();
 				progressDialog = ProgressDialog.show(LoginActivity.this, "登录中", "请稍后.....");
-
 				break;
 			case R.id.button_register:
 				intent.setClass(LoginActivity.this, RegisterActivity.class);
@@ -200,24 +202,23 @@ public class LoginActivity extends Activity {
 		imm.hideSoftInputFromWindow(edit_password.getWindowToken(), 0);
 		init(userId.toString());
 		loginHelper.login_Sample(userId.toString(), password.toString(), new IWxCallback() {
-
 			@Override
 			public void onSuccess(Object... arg0) {
 				saveIdPasswordToLocal(userId.toString(), password.toString());
 				login(userId.toString(), password.toString());
+				overtime = false;
+				s = 0;
 			}
 
 			@Override
 			public void onProgress(int arg0) {
 				time();
-				// progress_bar.setVisibility(View.VISIBLE);
 			}
 
 			@Override
 			public void onError(int arg0, String arg1) {
 				Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
 				progressDialog.dismiss();
-				// progress_bar.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -242,6 +243,7 @@ public class LoginActivity extends Activity {
 		LoginSampleHelper.getInstance().initIMKit(userId, "23331616");
 	}
 
+	@SuppressLint("HandlerLeak") 
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -252,6 +254,7 @@ public class LoginActivity extends Activity {
 					progressDialog.dismiss();
 				}
 				Toast.makeText(getApplicationContext(), "登录超时", Toast.LENGTH_LONG).show();
+				loginHelper.getInstance().loginOut_Sample();
 				break;
 			default:
 				break;
@@ -259,27 +262,22 @@ public class LoginActivity extends Activity {
 		}
 	};
 
-	int s = 0;
-	boolean overtime = true;
-
 	private void time() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-
 				while (overtime) {
-
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					s++;
-					if (s == 3) {
+					if (s == 15) {
 						Log.e("time", "登录超时");
-						handler.sendEmptyMessage(007);
 						s = 0;
 						overtime = false;
+						handler.sendEmptyMessage(007);
 					}
 				}
 			}
