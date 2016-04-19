@@ -30,16 +30,11 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-
-import ct.ar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -70,7 +65,7 @@ import android.widget.ToggleButton;
  * @author Administrator
  * 
  */
-public class SetActivity extends Activity implements IWXAPIEventHandler {
+public class SetActivity extends Activity{
 
 	ImageView back;
 	LinearLayout linearlayout_share;
@@ -145,7 +140,7 @@ public class SetActivity extends Activity implements IWXAPIEventHandler {
 		builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
 
-		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID);
+		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID,false);
 		api.registerApp(ConstantsWX.APP_ID);
 	}
 
@@ -240,8 +235,6 @@ public class SetActivity extends Activity implements IWXAPIEventHandler {
 		req.message = message;
 		req.scene = SendMessageToWX.Req.WXSceneTimeline;
 		api.sendReq(req);
-		Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	/**
@@ -267,8 +260,6 @@ public class SetActivity extends Activity implements IWXAPIEventHandler {
 		req.message = message;
 		req.scene = SendMessageToWX.Req.WXSceneSession;
 		api.sendReq(req);
-		Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	private String buildTransaction(final String type) {
@@ -361,7 +352,6 @@ public class SetActivity extends Activity implements IWXAPIEventHandler {
 	private void doShareToQQ(final Bundle params) {
 		// QQ分享要在主线程做
 		ThreadManager.getMainHandler().post(new Runnable() {
-
 			@Override
 			public void run() {
 				if (mTencent != null) {
@@ -584,22 +574,5 @@ public class SetActivity extends Activity implements IWXAPIEventHandler {
 			public void onError(int arg0, String arg1) {
 			}
 		});
-	}
-
-	// 微信发送请求到第三方应用时，会回调到该方法
-	@Override
-	public void onReq(BaseReq arg0) {
-	}
-
-	// 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
-	@Override
-	public void onResp(BaseResp arg0) {
-		switch (arg0.errCode) {
-		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(this, "分享成功", Toast.LENGTH_LONG).show();
-			break;
-		default:
-			break;
-		}
 	}
 }
