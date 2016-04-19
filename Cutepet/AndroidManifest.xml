@@ -164,6 +164,11 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.dream.cutepet.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleInstance" >
+        </activity>
     </application>
 
 </manifest>
