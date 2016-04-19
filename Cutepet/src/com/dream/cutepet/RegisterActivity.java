@@ -81,6 +81,7 @@ public class RegisterActivity extends Activity implements OnCheckedChangeListene
 				String tel = edit_phone.getText().toString().trim();
 				if (!TextUtils.isEmpty(tel)) {
 					Log.e("xxxxxxxx", "有手机号");
+				
 					Pattern p = Pattern
 							.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
 					Matcher m = p.matcher(tel);
