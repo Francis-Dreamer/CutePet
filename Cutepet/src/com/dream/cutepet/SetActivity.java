@@ -65,7 +65,7 @@ import android.widget.ToggleButton;
  * @author Administrator
  * 
  */
-public class SetActivity extends Activity {
+public class SetActivity extends Activity{
 
 	ImageView back;
 	LinearLayout linearlayout_share;
@@ -105,7 +105,8 @@ public class SetActivity extends Activity {
 				mTencent.getQQToken());
 		qqShare = new QQShare(getApplicationContext(), mTencent.getQQToken());
 		// 创建微博分享接口实例
-		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ConstantsWB.APP_KEY);
+		mWeiboShareAPI = WeiboShareSDK
+				.createWeiboAPI(this, ConstantsWB.APP_KEY);
 		// 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
 		// 但该附件栏集成分享权限需要合作申请，详情请查看 Demo 提示
 		// NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
@@ -139,7 +140,7 @@ public class SetActivity extends Activity {
 		builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
 
-		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID);
+		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID,false);
 		api.registerApp(ConstantsWX.APP_ID);
 	}
 
@@ -234,8 +235,6 @@ public class SetActivity extends Activity {
 		req.message = message;
 		req.scene = SendMessageToWX.Req.WXSceneTimeline;
 		api.sendReq(req);
-		Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	/**
@@ -261,8 +260,6 @@ public class SetActivity extends Activity {
 		req.message = message;
 		req.scene = SendMessageToWX.Req.WXSceneSession;
 		api.sendReq(req);
-		Toast.makeText(getApplicationContext(), "分享成功！", Toast.LENGTH_SHORT)
-				.show();
 	}
 
 	private String buildTransaction(final String type) {
@@ -297,8 +294,8 @@ public class SetActivity extends Activity {
 	 */
 	private void shareWebPageQzone() {
 		final Bundle params = new Bundle();
-		int test=R.string.share_app;
-		String test_demo=getString(test);
+		int test = R.string.share_app;
+		String test_demo = getString(test);
 		int shareType = QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT;
 		params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, shareType);
 		params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "CutePet 应用链接");
@@ -319,8 +316,8 @@ public class SetActivity extends Activity {
 	 */
 	private void shareQQ() {
 		Bundle params = new Bundle();
-		int test=R.string.accomplish;
-		String test_demo=getString(test);
+		int test = R.string.share_app;
+		String test_demo = getString(test);
 		params.putString(QQShare.SHARE_TO_QQ_TITLE, "CutePet 应用链接");
 		params.putString(QQShare.SHARE_TO_QQ_SUMMARY, test_demo);
 		params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "CutePet");
@@ -328,6 +325,8 @@ public class SetActivity extends Activity {
 				QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
 		params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,
 				"http://a.app.qq.com/o/simple.jsp?pkgname=com.dream.cutepet");
+		params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,
+				"http://211.149.198.8:9805/Public/image/upload/2016-03-02/logo.png");
 		doShareToQQ(params);
 	}
 
@@ -353,7 +352,6 @@ public class SetActivity extends Activity {
 	private void doShareToQQ(final Bundle params) {
 		// QQ分享要在主线程做
 		ThreadManager.getMainHandler().post(new Runnable() {
-
 			@Override
 			public void run() {
 				if (mTencent != null) {
@@ -363,11 +361,11 @@ public class SetActivity extends Activity {
 			}
 		});
 	}
+
 	/**
 	 * 回调
 	 */
 	IUiListener qZoneShareListener = new IUiListener() {
-
 		@Override
 		public void onCancel() {
 			Util.toastMessage(SetActivity.this, "分享完成");
@@ -375,15 +373,13 @@ public class SetActivity extends Activity {
 
 		@Override
 		public void onError(UiError e) {
-			Util.toastMessage(SetActivity.this, "分享失败：" + e.errorMessage,
-					"e");
+			Util.toastMessage(SetActivity.this, "分享失败：" + e.errorMessage, "e");
 			// 分享错误
 		}
 
 		@Override
 		public void onComplete(Object response) {
-			Util.toastMessage(SetActivity.this,
-					"分享成功");
+			Util.toastMessage(SetActivity.this, "分享成功");
 		}
 
 	};
