@@ -38,32 +38,34 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/px1"
             android:layout_below="@id/add_image"
-            android:layout_marginLeft="@dimen/px31"
             android:background="#f2ebd9" />
 
-	        <EditText
-	            android:id="@+id/address"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@id/fenge"
-	            android:layout_marginLeft="@dimen/px30"
-	            android:layout_marginTop="@dimen/px30"
-	            android:background="@null"
-	            android:hint="地点"
-	            android:padding="@dimen/px15"
-	            android:textColor="#333333"
-	            android:textSize="@dimen/px36" />
-
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/fenge"
-            android:layout_marginRight="@dimen/px30"
-            android:layout_marginTop="@dimen/px30"
-            android:padding="@dimen/px15"
-            android:src="@drawable/youyou" />
+            android:layout_marginLeft="@dimen/px30"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="地点"
+                android:padding="@dimen/px15"
+                android:textColor="#333333"
+                android:textSize="@dimen/px36" />
+
+            <ImageView
+                android:id="@+id/cityMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/px25"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/youyou" />
+        </LinearLayout>
     </RelativeLayout>
 
     <GridView

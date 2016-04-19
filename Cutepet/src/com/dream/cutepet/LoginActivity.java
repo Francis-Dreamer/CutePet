@@ -44,7 +44,6 @@ public class LoginActivity extends Activity {
 	Button button_register;
 	String tel;
 	String password;
-
 	ProgressBar progress_bar;
 	private static final String USER_ID = "userId";
 	private static final String PASSWORD = "password";

@@ -15,9 +15,14 @@ import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutepet.util.TimeUtil;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +42,10 @@ public class WriteTalkActivity extends Activity {
 	GridView gridView;
 	Bundle bundle;
 	List<String> getPath;
+	ImageView iv_city;
+	TencentLocationManager locationManager;
+	TencentLocationListener locationListener;
+	private ProgressDialog mProgressDialog;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +69,11 @@ public class WriteTalkActivity extends Activity {
 	 * 加载页面
 	 */
 	private void initView() {
+		mProgressDialog = new ProgressDialog(WriteTalkActivity.this);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setTitle("友情提示");
+		mProgressDialog.setMessage("正在获取地址中，请稍后...");
+
 		ImageView back = (ImageView) findViewById(R.id.back);
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText("写说说");
@@ -69,6 +83,7 @@ public class WriteTalkActivity extends Activity {
 		ImageView add_image = (ImageView) findViewById(R.id.add_image);
 		edit_content = (EditText) findViewById(R.id.ed_write);
 		edit_address = (EditText) findViewById(R.id.address);
+		edit_address.setFocusable(false);
 
 		gridView = (GridView) findViewById(R.id.writetalk_gridview);
 
@@ -78,6 +93,9 @@ public class WriteTalkActivity extends Activity {
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
 		add_image.setOnClickListener(clickListener);
+
+		iv_city = (ImageView) findViewById(R.id.cityMore);
+		iv_city.setOnClickListener(clickListener);
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
@@ -96,11 +114,120 @@ public class WriteTalkActivity extends Activity {
 				startActivityForResult(intent, 5551);
 				finish();
 				break;
+			case R.id.cityMore:
+				getCityAddress();
+				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	/**
+	 * 获取城市地址
+	 */
+	private void getCityAddress() {
+		// 显示进度条
+		if (mProgressDialog != null) {
+			mProgressDialog.show();
+		}
+
+		TencentLocationRequest request = TencentLocationRequest.create();
+		request.setAllowCache(true);
+		request.setInterval(100);
+		request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_POI);
+
+		locationManager = TencentLocationManager
+				.getInstance(getApplicationContext());
+
+		locationListener = new TencentLocationListener() {
+			/**
+			 * 位置回调接口
+			 */
+			@Override
+			public void onLocationChanged(TencentLocation location, int error,
+					String reason) {
+				// location：新的位置；error：错误码；reason：错误描述
+				if (TencentLocation.ERROR_OK == error) {
+					// 定位成功
+					String city = location.getCity() + " "
+							+ location.getDistrict() + " "
+							+ location.getStreet();
+					setCityText(city);
+				}
+			}
+
+			/**
+			 * 状态回调接口
+			 */
+			@Override
+			public void onStatusUpdate(String name, int status, String desc) {
+				// name：GPS，Wi-Fi等；status：新的状态, 启用或禁用；desc：状态描述
+				if (name.equals("wifi")) {
+					switch (status) {
+					case 0:
+						Toast.makeText(getApplicationContext(), "请打开wifi！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case 2:
+						Toast.makeText(getApplicationContext(), "位置信息开关 关闭！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					default:
+						break;
+					}
+				}
+
+				if (name.equals("gps")) {
+					switch (status) {
+					case 0:
+						Toast.makeText(getApplicationContext(), "GPS开关关闭！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case 3:
+						Toast.makeText(getApplicationContext(), "GPS位置获取成功！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					default:
+						break;
+					}
+				}
+
+			}
+		};
+		int error = locationManager.requestLocationUpdates(request,
+				locationListener);
+		switch (error) {
+		case 0:
+			Log.i("getCityAddress", "注册位置监听器成功");
+			break;
+		case 1:
+			Log.i("getCityAddress", "设备缺少使用腾讯定位SDK需要的基本条件");
+			break;
+		case 2:
+			Log.i("getCityAddress", "配置的 key 不正确");
+			break;
+		case 3:
+			Log.i("getCityAddress", "自动加载libtencentloc.so失败");
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * 设置地点
+	 * 
+	 * @param city
+	 */
+	private void setCityText(String city) {
+		edit_address.setText(city);
+		// 关闭进度条
+		if (mProgressDialog != null) {
+			mProgressDialog.dismiss();
+		}
+		locationManager.removeUpdates(locationListener);
+	}
 
 	/**
 	 * 发表

@@ -115,7 +115,8 @@ public class SetPersonIconActivity extends Activity {
 		
 		mProgressDialog = new ProgressDialog(SetPersonIconActivity.this);
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mProgressDialog.setTitle("加载中，请稍后...");
+		mProgressDialog.setTitle("友情提示");
+		mProgressDialog.setMessage("加载中，请稍后...");
 	}
 
 	@Override

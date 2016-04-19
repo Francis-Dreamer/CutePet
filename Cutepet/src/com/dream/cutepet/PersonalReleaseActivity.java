@@ -10,10 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -28,6 +30,10 @@ import com.dream.cutepet.util.NativeImageLoader;
 import com.dream.cutepet.util.NativeImageLoader.NativeImageCallBack;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutepet.util.TimeUtil;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 /**
  * 主人寄语发布界面
@@ -36,13 +42,17 @@ import com.dream.cutepet.util.TimeUtil;
  * 
  */
 public class PersonalReleaseActivity extends Activity {
-	TextView title, menu_hide;
+	TextView title, menu_hide, tv_address;
 	ImageView back, iv_pet_logo, iv_pet_select;
 	EditText et_type, et_content;
 	String view_address;
 	File file;
 	private String username;
 	private final String url = "http://211.149.198.8:9805/index.php/home/api/uploadPersonal";
+	TencentLocationManager locationManager;
+	TencentLocationListener locationListener;
+
+	private ProgressDialog mProgressDialog;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,6 +61,114 @@ public class PersonalReleaseActivity extends Activity {
 		initData();
 
 		initview();
+	}
+
+	/**
+	 * 获取地址信息
+	 */
+	private void setAddress() {
+		// 显示进度条
+		if (mProgressDialog != null) {
+			mProgressDialog.show();
+		}
+
+		TencentLocationRequest request = TencentLocationRequest.create();
+		request.setAllowCache(true);
+		request.setInterval(100);
+		request.setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_POI);
+
+		locationManager = TencentLocationManager
+				.getInstance(getApplicationContext());
+
+		locationListener = new TencentLocationListener() {
+			/**
+			 * 位置回调接口
+			 */
+			@Override
+			public void onLocationChanged(TencentLocation location, int error,
+					String reason) {
+				// location：新的位置；error：错误码；reason：错误描述
+				if (TencentLocation.ERROR_OK == error) {
+					// 定位成功
+					String address = location.getCity() + " "
+							+ location.getDistrict() + " "
+							+ location.getStreet();
+					setAddressText(address);
+				}
+			}
+
+			/**
+			 * 状态回调接口
+			 */
+			@Override
+			public void onStatusUpdate(String name, int status, String desc) {
+				// name：GPS，Wi-Fi等；status：新的状态, 启用或禁用；desc：状态描述
+				if (name.equals("wifi")) {
+					switch (status) {
+					case 0:
+						Toast.makeText(getApplicationContext(), "请打开wifi！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case 2:
+						Toast.makeText(getApplicationContext(), "位置信息开关 关闭！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					default:
+						break;
+					}
+				}
+
+				if (name.equals("gps")) {
+					switch (status) {
+					case 0:
+						Toast.makeText(getApplicationContext(), "GPS开关关闭！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case 3:
+						Toast.makeText(getApplicationContext(), "GPS位置获取成功！",
+								Toast.LENGTH_SHORT).show();
+						break;
+					default:
+						break;
+					}
+				}
+
+			}
+		};
+		int error = locationManager.requestLocationUpdates(request,
+				locationListener);
+		switch (error) {
+		case 0:
+			Log.i("getCityAddress", "注册位置监听器成功");
+			break;
+		case 1:
+			Log.i("getCityAddress", "设备缺少使用腾讯定位SDK需要的基本条件");
+			break;
+		case 2:
+			Log.i("getCityAddress", "配置的 key 不正确");
+			break;
+		case 3:
+			Log.i("getCityAddress", "自动加载libtencentloc.so失败");
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	/**
+	 * 设置地址的信息
+	 * 
+	 * @param address
+	 */
+	private void setAddressText(String address) {
+		tv_address.setText(address);
+		// 关闭进度条
+		if (mProgressDialog != null) {
+			mProgressDialog.dismiss();
+		}
+		// 关闭获取地址的监听
+		locationManager.removeUpdates(locationListener);
 	}
 
 	private void initData() {
@@ -66,12 +184,20 @@ public class PersonalReleaseActivity extends Activity {
 	 * 加载页面
 	 */
 	private void initview() {
+		mProgressDialog = new ProgressDialog(PersonalReleaseActivity.this);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setTitle("友情提示");
+		mProgressDialog.setMessage("正在获取地址中，请稍后...");
+		
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
 		menu_hide.setVisibility(View.VISIBLE);
 		title.setText("发布");
 		menu_hide.setText("完成");
+
+		tv_address = (TextView) findViewById(R.id.ed_pet_address);
+		tv_address.setOnClickListener(clickListener);
 
 		iv_pet_logo = (ImageView) findViewById(R.id.iv_pet_logo);
 		iv_pet_select = (ImageView) findViewById(R.id.iv_pet_select);
@@ -109,9 +235,11 @@ public class PersonalReleaseActivity extends Activity {
 			case R.id.menu_hide:
 				String type = et_type.getText().toString().trim();
 				String content = et_content.getText().toString().trim();
+				String address = tv_address.getText().toString().trim();
 				if (file != null && !TextUtils.isEmpty(type)
-						&& !TextUtils.isEmpty(content)) {
-					upload(type, content);
+						&& !TextUtils.isEmpty(content)
+						&& !TextUtils.isEmpty(address)) {
+					upload(type, content, address);
 				} else {
 					Toast.makeText(getApplicationContext(), "发布内容不能为空！",
 							Toast.LENGTH_SHORT).show();
@@ -125,6 +253,9 @@ public class PersonalReleaseActivity extends Activity {
 				startActivityForResult(intent, 0);
 				finish();
 				break;
+			case R.id.ed_pet_address:
+				setAddress();
+				break;
 			default:
 				break;
 			}
@@ -137,8 +268,9 @@ public class PersonalReleaseActivity extends Activity {
 	 * @param name
 	 * @param type
 	 * @param content
+	 * @param address
 	 */
-	private void upload(String type, String content) {
+	private void upload(String type, String content, String address) {
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();
@@ -146,7 +278,7 @@ public class PersonalReleaseActivity extends Activity {
 			map.put("time", TimeUtil.changeTimeToGMT(new Date()));
 			map.put("content", content);
 			map.put("image_name", type);
-			map.put("address", "重庆市四小区");
+			map.put("address", address);
 			httpPost.putMap(map);
 			httpPost.putFile(file.getPath(), file, file.getName(), null);
 			httpPost.send();
