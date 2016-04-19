@@ -69,7 +69,7 @@ public class DialogCharData {
 
 	public String getSendName() {
 		return sendName;
-	}
+	}	
 
 	public void setSendName(String sendName) {
 		this.sendName = sendName;

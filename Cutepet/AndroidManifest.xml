@@ -33,8 +33,8 @@
     <!-- 访问手机当前状态, 需要某些信息用于网络定位 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name="com.dream.cutepet.MyApplication"
         android:allowBackup="true"
@@ -58,6 +58,11 @@
         <activity android:name="com.dream.cutepet.DialogActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.dream.cutepet.AboutActivity" >
         </activity>
@@ -81,7 +86,8 @@
         </activity>
         <activity android:name="com.dream.cutepet.PetStrategyCommentActivity" >
         </activity>
-        <activity android:name="com.dream.cutepet.SetActivity" 
+        <activity
+            android:name="com.dream.cutepet.SetActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
@@ -95,11 +101,6 @@
         <activity android:name="com.dream.cutepet.ui.UploadPhotoActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.GuidepageActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.dream.cutepet.RegisterActivity" >
         </activity>
@@ -151,8 +152,10 @@
             android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105249013" />
             </intent-filter>
         </activity>

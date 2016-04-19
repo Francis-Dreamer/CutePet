@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 登陆 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/llayout_shangbu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/login_background"
@@ -23,20 +24,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llayout_zhongbu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px80"
+        android:layout_below="@id/llayout_shangbu"
+        android:layout_marginTop="@dimen/px90"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="gone" />
 
         <EditText
             android:id="@+id/edit_tel"
@@ -66,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px130"
             android:layout_marginRight="@dimen/px130"
-            android:layout_marginTop="@dimen/px30"
+            android:layout_marginTop="@dimen/px52"
             android:background="#ffffff"
             android:drawableLeft="@drawable/password"
             android:drawablePadding="@dimen/px10"
@@ -85,17 +81,19 @@
             android:background="#000000" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/px50"
-        android:layout_weight="1" >
+    <LinearLayout
+        android:id="@+id/rlayout_zhongxiabu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llayout_zhongbu"
+        android:layout_marginTop="@dimen/px64"
+		android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/px130"
             android:background="#E6E6E6"
             android:paddingBottom="@dimen/px26"
             android:paddingLeft="@dimen/px62"
@@ -109,8 +107,7 @@
             android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/px130"
+            android:layout_marginLeft="@dimen/px50"
             android:background="#FFDA44"
             android:paddingBottom="@dimen/px26"
             android:paddingLeft="@dimen/px61"
@@ -119,14 +116,17 @@
             android:text="登录"
             android:textColor="#333333"
             android:textSize="@dimen/px40" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llayout_dibu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rlayout_zhongxiabu"
         android:layout_marginBottom="@dimen/px20"
         android:layout_marginLeft="@dimen/px130"
         android:layout_marginRight="@dimen/px130"
+        android:layout_marginTop="@dimen/px150"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -153,6 +153,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/llayout_dibu"
         android:layout_marginBottom="@dimen/px80"
         android:layout_marginLeft="@dimen/px130"
         android:layout_marginRight="@dimen/px130"
@@ -177,4 +178,4 @@
             android:src="@drawable/wx" />
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
