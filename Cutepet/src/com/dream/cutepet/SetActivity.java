@@ -65,7 +65,7 @@ import android.widget.ToggleButton;
  * @author Administrator
  * 
  */
-public class SetActivity extends Activity{
+public class SetActivity extends Activity {
 
 	ImageView back;
 	LinearLayout linearlayout_share;
@@ -140,7 +140,7 @@ public class SetActivity extends Activity{
 		builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
 
-		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID,false);
+		api = WXAPIFactory.createWXAPI(this, ConstantsWX.APP_ID, false);
 		api.registerApp(ConstantsWX.APP_ID);
 	}
 
@@ -169,6 +169,8 @@ public class SetActivity extends Activity{
 			case R.id.ToggleButton:
 				if (checkisLogin()) {
 					setGestures();
+				} else {
+					toggleButton.setChecked(false);
 				}
 				break;
 			case R.id.button_weibo:
