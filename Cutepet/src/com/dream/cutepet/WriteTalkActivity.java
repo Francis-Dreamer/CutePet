@@ -162,6 +162,7 @@ public class WriteTalkActivity extends Activity {
 					mProgressDialog.dismiss();
 				}
 				Toast.makeText(getApplicationContext(), "获取地址超时", Toast.LENGTH_LONG).show();
+				locationManager.removeUpdates(locationListener);
 				break;
 			default:
 				break;
@@ -229,22 +230,6 @@ public class WriteTalkActivity extends Activity {
 						break;
 					}
 				}
-
-				if (name.equals("gps")) {
-					switch (status) {
-					case 0:
-						Toast.makeText(getApplicationContext(), "GPS开关关闭！",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case 3:
-						Toast.makeText(getApplicationContext(), "GPS位置获取成功！",
-								Toast.LENGTH_SHORT).show();
-						break;
-					default:
-						break;
-					}
-				}
-
 			}
 		};
 		int error = locationManager.requestLocationUpdates(request,
@@ -278,6 +263,8 @@ public class WriteTalkActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
+		Toast.makeText(getApplicationContext(), "地址获取成功！",
+				Toast.LENGTH_SHORT).show();
 		locationManager.removeUpdates(locationListener);
 	}
 

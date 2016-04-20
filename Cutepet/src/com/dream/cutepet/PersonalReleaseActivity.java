@@ -103,6 +103,8 @@ public class PersonalReleaseActivity extends Activity {
 					mProgressDialog.dismiss();
 				}
 				Toast.makeText(getApplicationContext(), "获取地址超时", Toast.LENGTH_LONG).show();
+				// 关闭获取地址的监听
+				locationManager.removeUpdates(locationListener);
 				break;
 			default:
 				break;
@@ -162,30 +164,10 @@ public class PersonalReleaseActivity extends Activity {
 						Toast.makeText(getApplicationContext(), "建议在wifi环境下使用！",
 								Toast.LENGTH_SHORT).show();
 						break;
-					case 2:
-						Toast.makeText(getApplicationContext(), "位置信息开关 关闭！",
-								Toast.LENGTH_SHORT).show();
-						break;
 					default:
 						break;
 					}
 				}
-
-				if (name.equals("gps")) {
-					switch (status) {
-					case 0:
-						Toast.makeText(getApplicationContext(), "GPS开关关闭！",
-								Toast.LENGTH_SHORT).show();
-						break;
-					case 3:
-						Toast.makeText(getApplicationContext(), "GPS位置获取成功！",
-								Toast.LENGTH_SHORT).show();
-						break;
-					default:
-						break;
-					}
-				}
-
 			}
 		};
 		int error = locationManager.requestLocationUpdates(request,
@@ -220,6 +202,8 @@ public class PersonalReleaseActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
+		Toast.makeText(getApplicationContext(), "地址获取成功！",
+				Toast.LENGTH_SHORT).show();
 		// 关闭获取地址的监听
 		locationManager.removeUpdates(locationListener);
 	}
