@@ -14,7 +14,7 @@ import com.dream.cutepet.util.BitmapUtil;
 import com.dream.cutepet.util.GesturesUtil;
 import com.dream.cutepet.util.SharedPreferencesUtil;
 import com.dream.cutepet.util.Util;
-import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
@@ -23,6 +23,7 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.open.utils.ThreadManager;
@@ -385,14 +386,28 @@ public class SetActivity extends Activity {
 		}
 
 	};
-
+	/**
+     * 创建多媒体（网页）消息对象。
+     * @return 多媒体（网页）消息对象。
+    */
+    private WebpageObject getWebpageObj() {
+            WebpageObject mediaObject = new WebpageObject();
+            mediaObject.actionUrl = ("http://a.app.qq.com/o/simple.jsp?pkgname=com.dream.cutepet");
+            mediaObject.identify = Utility.generateGUID();
+            mediaObject.title = ("CutePet 应用链接");
+            mediaObject.description = getString(R.string.share_app);
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+                            R.drawable.logo);
+            mediaObject.setThumbImage(bmp);
+            return mediaObject;
+    }
 	/**
 	 * 微博分享
 	 */
 	protected void shareSinWeiBo() {
 		// 1. 初始化微博的分享消息
 		WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-		weiboMessage.textObject = getTextObj();
+		weiboMessage.mediaObject = getWebpageObj();
 		// 2. 初始化从第三方到微博的消息请求
 		SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
 		// 用transaction唯一标识一个请求
@@ -426,30 +441,6 @@ public class SetActivity extends Activity {
 					}
 				});
 	}
-
-	/**
-	 * 创建文本消息对象。
-	 * 
-	 * @return 文本消息对象。
-	 */
-	private TextObject getTextObj() {
-		TextObject textObject = new TextObject();
-		textObject.text = getSharedText();
-		return textObject;
-	}
-
-	/**
-	 * 获取分享的文本模板。
-	 * 
-	 * @return 分享的文本模板
-	 */
-	private String getSharedText() {
-		int formatId = R.string.share_app;
-		String format = getString(formatId);
-		String text = format;
-		return text;
-	}
-
 	/**
 	 * 底部弹出框popupWindow
 	 */
