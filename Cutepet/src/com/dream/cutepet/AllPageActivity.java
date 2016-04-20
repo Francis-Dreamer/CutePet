@@ -50,6 +50,13 @@ public class AllPageActivity extends FragmentActivity {
 
 		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
 				Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+
+//		WindowManager wm = (WindowManager) getApplicationContext()
+//				.getSystemService(Context.WINDOW_SERVICE);
+//		int width = wm.getDefaultDisplay().getWidth();
+//		int height = wm.getDefaultDisplay().getHeight();
+//		Log.e("WindowManager", "width = " + width + ",height = " + height);
+
 		initview();
 	}
 
@@ -144,7 +151,8 @@ public class AllPageActivity extends FragmentActivity {
 				String reason = intent.getStringExtra(SYSTEM_REASON);
 				if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {// 按下home键，触发
 					// 判断是否使用手势密码
-					if (isLogin() && GesturesUtil.IsGestures(getApplicationContext())) {
+					if (isLogin()
+							&& GesturesUtil.IsGestures(getApplicationContext())) {
 						Intent it = new Intent(AllPageActivity.this,
 								GesturesLoginActivity.class);
 						startActivityForResult(it, 0);
@@ -179,14 +187,15 @@ public class AllPageActivity extends FragmentActivity {
 			}
 		}
 	};
-	
+
 	/**
 	 * 判断是否登录
+	 * 
 	 * @return
 	 */
-	private boolean isLogin(){
+	private boolean isLogin() {
 		String data = SharedPreferencesUtil.getData(getApplicationContext());
-		if(!TextUtils.isEmpty(data)){
+		if (!TextUtils.isEmpty(data)) {
 			return true;
 		}
 		return false;

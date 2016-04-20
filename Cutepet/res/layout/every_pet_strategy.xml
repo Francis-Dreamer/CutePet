@@ -48,6 +48,9 @@
             android:layout_height="wrap_content"
             android:text="@string/content"
             android:textColor="#616161"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textStyle="bold"
             android:textSize="@dimen/px20" />
     </LinearLayout>
 
