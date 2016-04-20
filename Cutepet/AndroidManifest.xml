@@ -58,11 +58,6 @@
         <activity android:name="com.dream.cutepet.DialogActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.dream.cutepet.AboutActivity" >
         </activity>
@@ -101,6 +96,11 @@
         <activity android:name="com.dream.cutepet.ui.UploadPhotoActivity" >
         </activity>
         <activity android:name="com.dream.cutepet.GuidepageActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.dream.cutepet.RegisterActivity" >
         </activity>

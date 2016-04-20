@@ -275,7 +275,7 @@ public class LoginActivity extends Activity {
 						e.printStackTrace();
 					}
 					s++;
-					if (s == 3) {
+					if (s == 15) {
 						Log.e("time", "登录超时");
 						handler.sendEmptyMessage(007);
 						s = 0;
