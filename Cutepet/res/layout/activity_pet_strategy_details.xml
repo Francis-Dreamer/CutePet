@@ -95,6 +95,7 @@
         android:layout_marginTop="@dimen/px40"
         android:layout_weight="1"
         android:text="@string/content"
+        android:includeFontPadding="false"
         android:textColor="#454545"
         android:textSize="@dimen/px24" />
 
