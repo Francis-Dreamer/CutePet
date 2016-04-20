@@ -87,7 +87,7 @@ public class PetStrategyDetailsActivity extends Activity {
 		pet_strategy_details_ratingbar_num.setText(petGrade + "分");
 		pet_strategy_details_num.setText(petMoney);
 		pet_strategy_details_characteristic.setText(petTrait);
-		pet_strategy_details_content.setText(petContent_data);
+		pet_strategy_details_content.setText("\t\t\t\t"+petContent_data);
 
 		String imageUrl = "http://211.149.198.8:9805" + petImage;
 		// 给图片一个tag
