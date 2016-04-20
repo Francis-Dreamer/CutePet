@@ -31,6 +31,7 @@ public class AboutActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+		
 		title = (TextView) findViewById(R.id.title);
 		back=(ImageView) findViewById(R.id.back);
 		title.setText("关于萌宠");
@@ -46,7 +47,6 @@ public class AboutActivity extends Activity {
 
 	OnClickListener ocl = new OnClickListener() {
 		Intent intent = new Intent();
-
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {

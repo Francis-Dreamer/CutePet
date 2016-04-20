@@ -9,11 +9,14 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -53,6 +56,9 @@ public class PersonalReleaseActivity extends Activity {
 	TencentLocationListener locationListener;
 
 	private ProgressDialog mProgressDialog;
+	
+	int s = 0;
+	boolean overtime = true;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,6 +68,47 @@ public class PersonalReleaseActivity extends Activity {
 
 		initview();
 	}
+	
+	private void time() {
+		overtime = true;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (overtime) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					s++;
+					if (s == 15) {
+						Log.e("time", "登录超时");
+						s = 0;
+						overtime = false;
+						handler.sendEmptyMessage(007);
+					}
+				}
+			}
+		}).start();
+	}
+	
+	@SuppressLint("HandlerLeak") 
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 007:
+				if (mProgressDialog != null) {
+					mProgressDialog.dismiss();
+				}
+				Toast.makeText(getApplicationContext(), "获取地址超时", Toast.LENGTH_LONG).show();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	/**
 	 * 获取地址信息
@@ -71,7 +118,9 @@ public class PersonalReleaseActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.show();
 		}
-
+		
+		time();
+		
 		TencentLocationRequest request = TencentLocationRequest.create();
 		request.setAllowCache(true);
 		request.setInterval(100);
@@ -89,6 +138,10 @@ public class PersonalReleaseActivity extends Activity {
 					String reason) {
 				// location：新的位置；error：错误码；reason：错误描述
 				if (TencentLocation.ERROR_OK == error) {
+					
+					s = 0;
+					overtime = false;
+					
 					// 定位成功
 					String address = location.getCity() + " "
 							+ location.getDistrict() + " "
@@ -106,7 +159,7 @@ public class PersonalReleaseActivity extends Activity {
 				if (name.equals("wifi")) {
 					switch (status) {
 					case 0:
-						Toast.makeText(getApplicationContext(), "请打开wifi！",
+						Toast.makeText(getApplicationContext(), "建议在wifi环境下使用！",
 								Toast.LENGTH_SHORT).show();
 						break;
 					case 2:
