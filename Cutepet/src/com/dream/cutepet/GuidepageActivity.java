@@ -102,6 +102,12 @@ public class GuidepageActivity extends Activity {
 		viewPager.setAdapter(faceImageAdapter);
 		viewPager.setOnPageChangeListener(onPageChangeListener);
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
 
 	/**
 	 * 初始化底部小点
