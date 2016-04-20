@@ -115,7 +115,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final PersonageModel model = (PersonageModel) getItem(position);
-
+		
+		
 		// 将格林威治时间转换为date型
 		Date time = TimeUtil.changeTime(model.getTime());
 		holder.tv_time.setText(TimeUtil.showTime(time));

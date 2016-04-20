@@ -139,7 +139,7 @@ public class TimeUtil {
 				/ (1000 * 60);
 
 		String time = "";
-		if (days > 1) {
+		if (days > 0) {
 			time = days + "天前";
 		} else if (isYesterday(date.getTime())) {
 			time = "昨天";
