@@ -112,9 +112,7 @@ public class MyAlbumAdapter extends BaseAdapter {
 
 		if (bitmap != null) {
 			holder.iv_album.setImageBitmap(bitmap);
-		} else {
-			holder.iv_album.setImageResource(R.drawable.friends_sends_pictures_no);
-		}
+		} 
 		return convertView;
 	}
 

@@ -118,7 +118,7 @@ public class PersonageModel {
 					model.picture_icon = ob.getString("image");
 					model.picture_name = ob.getString("image_name");
 					model.content = ob.getString("content");
-					model.address = ob.getString("address");
+					model.address = ob.optString("address", "");
 					model.like = ob.getInt("like");
 					model.id = ob.getInt("id");
 					data.add(model);

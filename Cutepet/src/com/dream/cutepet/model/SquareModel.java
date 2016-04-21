@@ -127,7 +127,7 @@ public class SquareModel {
 					model.square_neckname = ob.getString("nickname");
 					model.square_comment_time = ob.getString("create_time");
 					model.square_comment_content = ob.getString("content");
-					model.square_address = ob.getString("address");
+					model.square_address = ob.optString("address", "");
 					model.square_praise_num = ob.getString("like");
 					model.square_comment_num = ob.getString("comment");
 					model.square_image=ob.getString("picture");

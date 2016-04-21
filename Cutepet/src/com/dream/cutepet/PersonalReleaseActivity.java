@@ -81,7 +81,7 @@ public class PersonalReleaseActivity extends Activity {
 						e.printStackTrace();
 					}
 					s++;
-					if (s == 15) {
+					if (s == 30) {
 						Log.e("time", "登录超时");
 						s = 0;
 						overtime = false;
@@ -274,8 +274,7 @@ public class PersonalReleaseActivity extends Activity {
 				String content = et_content.getText().toString().trim();
 				String address = tv_address.getText().toString().trim();
 				if (file != null && !TextUtils.isEmpty(type)
-						&& !TextUtils.isEmpty(content)
-						&& !TextUtils.isEmpty(address)) {
+						&& !TextUtils.isEmpty(content)) {
 					upload(type, content, address);
 				} else {
 					Toast.makeText(getApplicationContext(), "发布内容不能为空！",

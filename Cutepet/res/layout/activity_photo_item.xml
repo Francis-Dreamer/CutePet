@@ -10,7 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="100dip"
         android:background="@drawable/friends_sends_pictures_no"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY" 
+        android:src="@drawable/friends_sends_pictures_no"/>
 
     <CheckBox
         android:id="@+id/child_checkbox"

@@ -97,8 +97,6 @@ public class ShowPhotoNoCheckAdapter extends BaseAdapter {
 				});
 		if (bitmap != null) {
 			viewHolder.mImageView.setImageBitmap(bitmap);
-		} else {
-			viewHolder.mImageView.setVisibility(View.GONE);
 		}
 		return convertView;
 	}

@@ -93,7 +93,6 @@ public class SquareBaseAdapter extends BaseAdapter {
 			holder.square_praise_num = (TextView) convertView
 					.findViewById(R.id.square_praise_num);
 			convertView.setTag(holder);
-
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -111,10 +110,16 @@ public class SquareBaseAdapter extends BaseAdapter {
 
 		holder.square_comment_content
 				.setText(model.getSquare_comment_content());
-		holder.square_address.setText(model.getSquare_address());
 		holder.square_praise_num.setText(model.getSquare_praise_num());
 		holder.square_comment_num.setText(model.getSquare_comment_num());
-
+		
+		if(!TextUtils.isEmpty(model.getSquare_address())){
+			holder.square_address.setVisibility(View.VISIBLE);
+			holder.square_address.setText(model.getSquare_address());
+		}else{
+			holder.square_address.setVisibility(View.INVISIBLE);
+		}
+		
 		String img = model.getSquare_image();
 		List<String> pic = MyListUtil.changeStringToList(img, ",");
 		SquareGridviewAdapter adapter = new SquareGridviewAdapter(context, pic);

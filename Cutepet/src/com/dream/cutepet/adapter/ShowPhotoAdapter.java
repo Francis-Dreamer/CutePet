@@ -121,7 +121,7 @@ public class ShowPhotoAdapter extends BaseAdapter {
 		viewHolder.mCheckBox
 				.setChecked(mSelectMap.containsKey(position) ? mSelectMap
 						.get(position) : false);
-
+		
 		// 利用NativeImageLoader类加载本地图片
 		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
 				mPoint, new NativeImageCallBack() {
@@ -137,9 +137,7 @@ public class ShowPhotoAdapter extends BaseAdapter {
 
 		if (bitmap != null) {
 			viewHolder.mImageView.setImageBitmap(bitmap);
-		} else {
-			viewHolder.mImageView.setVisibility(View.GONE);
-		}
+		} 
 		return convertView;
 	}
 
