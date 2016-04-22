@@ -7,6 +7,13 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
+    
+    <!-- 对于很高的分辨率，除采用相应的图片外，还需要加上如下配置，来更好的适配屏幕 -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

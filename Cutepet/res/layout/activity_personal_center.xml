@@ -41,15 +41,17 @@
             <RelativeLayout
                 android:id="@+id/relative_weidenglu"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px360"
+                android:layout_height="@dimen/px420"
                 android:visibility="visible" >
 
                 <ImageView
                     android:id="@+id/image_toxiang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/px26"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     android:src="@drawable/logo" />
 
                 <LinearLayout
@@ -91,7 +93,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px96"
                     android:layout_alignParentBottom="true"
-                    android:layout_below="@id/linear_login"
                     android:layout_centerHorizontal="true"
                     android:alpha="0.8"
                     android:background="#58B7E3"
@@ -186,13 +187,15 @@
             <RelativeLayout
                 android:id="@+id/relative_yidenglu"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px360"
+                android:layout_height="@dimen/px420"
                 android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/image_toxiang_hide"
-                    android:layout_width="@dimen/px138"
-                    android:layout_height="@dimen/px138"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/px26"
                     android:src="@drawable/logo" />
@@ -253,7 +256,6 @@
                     android:layout_height="@dimen/px96"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/px30"
                     android:alpha="0.8"
                     android:background="#58B7E3"
                     android:orientation="horizontal" >

@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
@@ -144,25 +145,23 @@ public class DynamicDetailsActivity extends Activity {
 				.findViewById(R.id.add_attention);
 		tv_add_attention.setOnClickListener(clickListener);
 
-		
 		dynamic_details_image = (MyGridView) dynamic_details_headerview
 				.findViewById(R.id.dynamic_details_image);
 		List<String> list = MyListUtil.changeStringToList(imageUrl, ",");
 		ShowDynamicDetailPicAdapter adapter1 = new ShowDynamicDetailPicAdapter(
-				getApplicationContext(), list,dynamic_details_image);
-		//加载说说图片
+				getApplicationContext(), list, dynamic_details_image);
+		// 加载说说图片
 		if (list.size() == 1) {
 			dynamic_details_image.setNumColumns(1);
 		} else if (list.size() == 2) {
 			dynamic_details_image.setNumColumns(2);
 		} else if (list.size() > 2) {
 			dynamic_details_image.setNumColumns(3);
-		}else{
+		} else {
 			dynamic_details_image.setVisibility(View.GONE);
 		}
 		dynamic_details_image.setAdapter(adapter1);
 
-		
 		if (!TextUtils.isEmpty(theNickname) && !theNickname.equals("null")) {
 			dynamic_details_nickname.setText(theNickname);
 		} else {
@@ -203,8 +202,9 @@ public class DynamicDetailsActivity extends Activity {
 	 * @param num
 	 */
 	private void initPraiseIcon() {
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
+		LayoutParams params = new LayoutParams(getResources()
+				.getDimensionPixelSize(R.dimen.px80), getResources()
+				.getDimensionPixelSize(R.dimen.px80));
 		params.setMargins(0, 0, 8, 0);
 		llayout_details_icon.removeAllViews();
 		for (int i = 0; i < data_icon.size(); i++) {
@@ -223,6 +223,8 @@ public class DynamicDetailsActivity extends Activity {
 			} else {
 				child.setImageResource(R.drawable.icon_tx);
 			}
+			child.setScaleType(ScaleType.FIT_XY);
+			child.setAdjustViewBounds(true);
 			child.setLayoutParams(params);
 			llayout_details_icon.addView(child);
 		}

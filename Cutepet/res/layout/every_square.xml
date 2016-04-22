@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/square_portrait"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px100"
+                android:layout_height="@dimen/px100"
                 android:layout_marginLeft="@dimen/px14"
                 android:layout_marginRight="@dimen/px17"
                 android:layout_marginTop="@dimen/px14"
@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/px11"
             android:layout_marginLeft="@dimen/px14"
+            android:layout_marginTop="@dimen/px10"
             android:text="@string/square_content"
             android:textColor="#333333"
             android:textSize="@dimen/px30" />

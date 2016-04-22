@@ -32,11 +32,13 @@
 
                     <ImageView
                         android:id="@+id/iv_personal_dynamic_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/px140"
+                        android:layout_height="@dimen/px140"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/px12"
+                        android:adjustViewBounds="true"
                         android:background="@drawable/shape_circle"
+                        android:scaleType="fitXY"
                         android:src="@drawable/weidenglu1" />
 
                     <TextView
@@ -53,7 +55,6 @@
                         android:text="完善资料"
                         android:textColor="#333333"
                         android:textSize="@dimen/px28" />
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -68,12 +69,14 @@
 
                     <ImageView
                         android:id="@+id/iv_personal_dynamic_icon_after_landing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/px140"
+                        android:layout_height="@dimen/px140"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/px12"
+                        android:adjustViewBounds="true"
                         android:background="@drawable/shape_circle"
+                        android:scaleType="fitXY"
                         android:src="@drawable/weidenglu1" />
 
                     <TextView
@@ -167,11 +170,13 @@
 
                     <ImageView
                         android:id="@+id/iv_personal_dynamic_icon_before_landing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/px140"
+                        android:layout_height="@dimen/px140"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/px12"
+                        android:adjustViewBounds="true"
                         android:background="@drawable/shape_circle"
+                        android:scaleType="fitXY"
                         android:src="@drawable/weidenglu1" />
 
                     <TextView

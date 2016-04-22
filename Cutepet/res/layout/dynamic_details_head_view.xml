@@ -13,12 +13,14 @@
 
         <ImageView
             android:id="@+id/dynamic_details_portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/px100"
+            android:layout_height="@dimen/px100"
             android:layout_marginBottom="@dimen/px28"
             android:layout_marginLeft="@dimen/px24"
             android:layout_marginRight="@dimen/px25"
             android:layout_marginTop="@dimen/px24"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@drawable/tuoyuan_11" />
 
         <TextView
@@ -26,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/px13"
-            android:layout_marginTop="@dimen/px31"
+            android:layout_marginTop="@dimen/px40"
             android:layout_toRightOf="@id/dynamic_details_portrait"
             android:text="@string/nickname"
             android:textColor="#2b2b2b"

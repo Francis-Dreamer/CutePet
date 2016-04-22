@@ -51,12 +51,6 @@ public class AllPageActivity extends FragmentActivity {
 		registerReceiver(mHomeKeyEventReceiver, new IntentFilter(
 				Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
-//		WindowManager wm = (WindowManager) getApplicationContext()
-//				.getSystemService(Context.WINDOW_SERVICE);
-//		int width = wm.getDefaultDisplay().getWidth();
-//		int height = wm.getDefaultDisplay().getHeight();
-//		Log.e("WindowManager", "width = " + width + ",height = " + height);
-
 		initview();
 	}
 

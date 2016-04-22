@@ -7,12 +7,14 @@
 
     <ImageView
         android:id="@+id/dynamic_details_comment_portrait"
-        android:layout_width="@dimen/px58"
-        android:layout_height="@dimen/px58"
+        android:layout_width="@dimen/px100"
+        android:layout_height="@dimen/px100"
         android:layout_marginBottom="@dimen/px44"
         android:layout_marginLeft="@dimen/px24"
         android:layout_marginRight="@dimen/px26"
         android:layout_marginTop="@dimen/px24"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/mid2" />
 
     <LinearLayout

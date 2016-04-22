@@ -180,9 +180,9 @@ public class BitmapUtil extends Activity {
 	public static Bitmap comp(Bitmap image, float img_height, float img_width) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-		if (baos.toByteArray().length / 1024 > 50) {// 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
+		if (baos.toByteArray().length / 1024 > 100) {// 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
 			baos.reset();// 重置baos即清空baos
-			image.compress(Bitmap.CompressFormat.JPEG, 50, baos);// 这里压缩50%，把压缩后的数据存放到baos中
+			image.compress(Bitmap.CompressFormat.JPEG, 20, baos);// 这里压缩20%，把压缩后的数据存放到baos中
 		}
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
 		BitmapFactory.Options newOpts = new BitmapFactory.Options();
@@ -231,7 +231,7 @@ public class BitmapUtil extends Activity {
 //			// 每次都减少10
 //			options -= 10;
 			// 这里压缩options%，把压缩后的数据存放到baos中
-			image.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+			image.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 		}
 		// 把压缩后的数据baos存放到ByteArrayInputStream中
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
