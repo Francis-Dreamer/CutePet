@@ -41,16 +41,10 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 
 	public void setData(List<PetStrategyModel> data) {
 		this.data = data;
-		this.notifyDataSetChanged();
 	}
 
 	public int getCount() {
-		if (data != null) {
-			return data.size();
-		} else {
-			return 0;
-		}
-
+		return data == null ? 0 : data.size();
 	}
 
 	public Object getItem(int position) {

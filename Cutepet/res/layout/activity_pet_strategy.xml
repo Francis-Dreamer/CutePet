@@ -6,19 +6,20 @@
     android:background="#eeeeee"
     android:orientation="vertical" >
 
-    <ImageView
+    <com.dream.cutepet.view.RefreshableView
+        android:id="@+id/pet_strategy_refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/banner" />
+        android:layout_height="match_parent"
+        android:background="#eeeeee"
+        android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/pet_strategy_listview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/px18"
-        android:layout_weight="1"
-        android:divider="#eeeeee"
-        android:dividerHeight="@dimen/px18" />
+        <ListView
+            android:id="@+id/pet_strategy_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="#eeeeee"
+            android:dividerHeight="@dimen/px18" />
+    </com.dream.cutepet.view.RefreshableView>
 
 </LinearLayout>
