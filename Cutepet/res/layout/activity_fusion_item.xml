@@ -34,10 +34,10 @@
         android:id="@+id/tv_fusion_item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/iv_fusion_item_icon"
-        android:layout_alignTop="@id/iv_fusion_item_icon"
+        android:layout_marginTop="@dimen/px30"
+        android:layout_marginBottom="@dimen/px25"
         android:layout_toRightOf="@id/iv_fusion_item_icon"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="2012.01.01"
         android:textColor="#3c3c3c"
         android:textSize="@dimen/px28" />
