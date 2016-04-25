@@ -252,6 +252,9 @@ public class LoginActivity extends Activity {
 	 * @param userId
 	 */
 	private void init(String userId) {
+		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
+			return;
+		}
 		LoginSampleHelper.getInstance().initIMKit(userId, "23331616");
 	}
 

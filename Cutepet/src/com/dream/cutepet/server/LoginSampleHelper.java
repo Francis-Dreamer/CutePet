@@ -16,6 +16,7 @@ import com.alibaba.mobileim.IYWLoginService;
 import com.alibaba.mobileim.IYWP2PPushListener;
 import com.alibaba.mobileim.IYWTribePushListener;
 import com.alibaba.mobileim.YWAPI;
+import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.YWIMCore;
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.YWLoginParam;
@@ -127,7 +128,6 @@ public class LoginSampleHelper {
 	// 所以开发者在注册用户信息时，尽量用小写
 	public void login_Sample(String userId, String password,
 			IWxCallback callback) {
-
 		if (mIMKit == null) {
 			return;
 		}
@@ -145,7 +145,6 @@ public class LoginSampleHelper {
 		if (mIMKit == null) {
 			return;
 		}
-
 		YWIMCore imCore = mIMKit.getIMCore();
 		imCore.removeConnectionListener(mYWConnectionListenerImpl);
 		imCore.addConnectionListener(mYWConnectionListenerImpl);
@@ -201,6 +200,7 @@ public class LoginSampleHelper {
 	}
 
 	private IYWP2PPushListener mP2PListener = new IYWP2PPushListener() {
+		
 		@Override
 		public void onPushMessage(IYWContact contact, YWMessage message) {
 			if (message.getSubType() == YWMessage.SUB_MSG_TYPE.IM_P2P_CUS) {
