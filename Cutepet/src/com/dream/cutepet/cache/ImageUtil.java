@@ -2,6 +2,7 @@ package com.dream.cutepet.cache;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,21 +12,22 @@ import java.net.URL;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 /**
  * 图片工具类
  * 
  * @author Jinyun.Hou
- *
+ * 
  */
 public class ImageUtil {
 
 	/**
 	 * 从网络获取图片，并缓存在指定的文件中
 	 * 
-	 * @param url 图片url
-	 * @param file 缓存文件
+	 * @param url
+	 *            图片url
+	 * @param file
+	 *            缓存文件
 	 * @return
 	 */
 	public static Bitmap loadBitmapFromWeb(String url, File file) {
@@ -34,12 +36,6 @@ public class ImageUtil {
 		OutputStream os = null;
 		try {
 			Bitmap bitmap = null;
-			Log.e("loadBitmapFromWeb:", "url = "+url);
-			if (!url.contains("http://")) {
-				url="http://"+url;
-			}
-			Log.e("After contains:", "url = "+url);
-
 			URL imageUrl = new URL(url);
 			conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setConnectTimeout(30000);
@@ -48,7 +44,7 @@ public class ImageUtil {
 			is = conn.getInputStream();
 			os = new FileOutputStream(file);
 			copyStream(is, os);
-			
+
 			bitmap = decodeFile(file);
 			return bitmap;
 		} catch (Exception ex) {
@@ -56,18 +52,18 @@ public class ImageUtil {
 			return null;
 		} finally {
 			try {
-				if(os != null)
+				if (os != null)
 					os.close();
-				if(is != null)
+				if (is != null)
 					is.close();
-				if(conn != null)
+				if (conn != null)
 					conn.disconnect();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	/**
 	 * Decodes image and scales it to reduce memory consumption
 	 * 
@@ -84,12 +80,14 @@ public class ImageUtil {
 			// decode with inSampleSize
 			options.inSampleSize = inSampleSize;
 			options.inJustDecodeBounds = false;
-			return BitmapFactory.decodeStream(new FileInputStream(f), null, options);
-		} catch (Exception e) {
-		} 
+			return BitmapFactory.decodeStream(new FileInputStream(f), null,
+					options);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-	
+
 	public static void copyStream(InputStream is, OutputStream os) {
 		final int buffer_size = 1024;
 		try {
@@ -104,13 +102,15 @@ public class ImageUtil {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 根据实际需要，计算出合适的inSampleSize，以减少内存的开销
 	 * 
 	 * @param options
-	 * @param minSideLength 最小长度，不限制则为-1
-	 * @param maxNumOfPixels 最大像素点，128 * 128
+	 * @param minSideLength
+	 *            最小长度，不限制则为-1
+	 * @param maxNumOfPixels
+	 *            最大像素点，128 * 128
 	 * @return
 	 */
 	public static int computeSampleSize(BitmapFactory.Options options,

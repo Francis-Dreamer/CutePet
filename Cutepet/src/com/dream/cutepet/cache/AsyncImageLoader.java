@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.SDCardUtil;
 
 import android.app.Activity;
 import android.content.Context;
@@ -69,12 +68,19 @@ public class AsyncImageLoader {
 	 */
 	public Bitmap loadBitmap(ImageView imageView, String url, boolean flag) {
 		this.flog = flag;
-		mImageViews.put(imageView, url);
-		Bitmap bitmap = mMemoryCache.get(url);
-		if (bitmap == null) {
-			Log.i("bitmap", "加入图片下载队列");
-			enquequeLoadPhoto(url, imageView);
+		Bitmap bitmap = null;
+		//判断sd卡中是否有，有则加载
+		File f = mFileCache.getFile(url);
+		if(!f.exists()){
+			mImageViews.put(imageView, url);
+			
+			bitmap = mMemoryCache.get(url);
+			if (bitmap == null) {
+				Log.i("bitmap", "加入图片下载队列");
+				enquequeLoadPhoto(url, imageView);
+			}
 		}
+		bitmap = ImageUtil.decodeFile(f);
 		return bitmap;
 	}
 
@@ -204,8 +210,6 @@ public class AsyncImageLoader {
 				} else {
 					imageView.setImageBitmap(BitmapUtil.toRoundBitmap(bitmap));
 				}
-				//将该bitmap图片保存到本地
-				SDCardUtil.saveMyBitmapToSD(bitmap, url);
 			}
 		}
 	}

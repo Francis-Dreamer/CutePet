@@ -3,8 +3,6 @@ package com.dream.cutepet.cache;
 import java.io.File;
 import java.net.URLEncoder;
 
-import com.dream.cutepet.util.SDCardUtil;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -28,18 +26,8 @@ public class FileCache {
 	 * @param dir
 	 */
 	public FileCache(Context context, File cacheDir, String dir) {
-		// 获取sdcard的路径：外置和内置
-		String[] paths = SDCardUtil.getAllSDCardPath(context);
-		String imgPath = paths[0] + File.separator + cacheDir + dir;
-		mCacheDir = new File(imgPath);
+		mCacheDir = new File(cacheDir, dir);
 
-		// Find the dir to save cached images
-		// if (android.os.Environment.getExternalStorageState().equals(
-		// android.os.Environment.MEDIA_MOUNTED))
-		// mCacheDir = new File(cacheDir, dir);
-		// else
-		// mCacheDir = context.getCacheDir();
-		
 		if (!mCacheDir.exists())
 			mCacheDir.mkdirs();
 	}

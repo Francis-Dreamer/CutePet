@@ -150,12 +150,7 @@ public class PetStrategyCommentActivity extends Activity {
 				back();
 				break;
 			case R.id.menu_hide:
-				if (file != null) {
-					uploadStrategy(file);
-				} else {
-					Toast.makeText(getApplication(), "请选择图片",
-							Toast.LENGTH_SHORT).show();
-				}
+				uploadStrategy(file);
 				break;
 			case R.id.pet_strategy_comment_addview:
 				selectImage();

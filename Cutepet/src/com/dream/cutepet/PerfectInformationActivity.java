@@ -136,12 +136,17 @@ public class PerfectInformationActivity extends Activity {
 			et_content.setText(bundle.getString("content"));
 			et_type.setText(bundle.getString("type"));
 			String sex = bundle.getString("sex");
-			if(sex.equals("男")){
-				rbtn_man.setChecked(true);
-				rbtn_woman.setChecked(false);
+			if(!TextUtils.isEmpty(sex)){
+				if(sex.equals("男")){
+					rbtn_man.setChecked(true);
+					rbtn_woman.setChecked(false);
+				}else{
+					rbtn_man.setChecked(false);
+					rbtn_woman.setChecked(true);
+				}
 			}else{
 				rbtn_man.setChecked(false);
-				rbtn_woman.setChecked(true);
+				rbtn_woman.setChecked(false);
 			}
 		}
 	}

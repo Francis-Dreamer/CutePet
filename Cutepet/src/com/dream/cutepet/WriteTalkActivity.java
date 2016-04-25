@@ -48,7 +48,7 @@ public class WriteTalkActivity extends Activity {
 	TencentLocationManager locationManager;
 	TencentLocationListener locationListener;
 	private ProgressDialog mProgressDialog;
-	
+
 	int s = 0;
 	boolean overtime = true;
 
@@ -127,7 +127,7 @@ public class WriteTalkActivity extends Activity {
 			}
 		}
 	};
-	
+
 	private void time() {
 		overtime = true;
 		new Thread(new Runnable() {
@@ -150,8 +150,8 @@ public class WriteTalkActivity extends Activity {
 			}
 		}).start();
 	}
-	
-	@SuppressLint("HandlerLeak") 
+
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -161,7 +161,8 @@ public class WriteTalkActivity extends Activity {
 				if (mProgressDialog != null) {
 					mProgressDialog.dismiss();
 				}
-				Toast.makeText(getApplicationContext(), "获取地址超时", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "获取地址超时",
+						Toast.LENGTH_LONG).show();
 				locationManager.removeUpdates(locationListener);
 				break;
 			default:
@@ -178,9 +179,9 @@ public class WriteTalkActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.show();
 		}
-		
+
 		time();
-		
+
 		TencentLocationRequest request = TencentLocationRequest.create();
 		request.setAllowCache(true);
 		request.setInterval(100);
@@ -199,13 +200,16 @@ public class WriteTalkActivity extends Activity {
 
 				// location：新的位置；error：错误码；reason：错误描述
 				if (TencentLocation.ERROR_OK == error) {
+					String street = location.getStreet();
+					if (street.equals("unKnow")) {
+						street = "";
+					}
 					// 定位成功
 					String city = location.getCity() + " "
-							+ location.getDistrict() + " "
-							+ location.getStreet();
+							+ location.getDistrict() + " " + street;
 					s = 0;
 					overtime = false;
-					
+
 					setCityText(city);
 				}
 			}
@@ -219,8 +223,8 @@ public class WriteTalkActivity extends Activity {
 				if (name.equals("wifi")) {
 					switch (status) {
 					case 0:
-						Toast.makeText(getApplicationContext(), "建议在wifi环境下使用！",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(),
+								"建议在wifi环境下使用！", Toast.LENGTH_SHORT).show();
 						break;
 					case 2:
 						Toast.makeText(getApplicationContext(), "位置信息开关 关闭！",
@@ -263,8 +267,8 @@ public class WriteTalkActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
-		Toast.makeText(getApplicationContext(), "地址获取成功！",
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), "地址获取成功！", Toast.LENGTH_SHORT)
+				.show();
 		locationManager.removeUpdates(locationListener);
 	}
 

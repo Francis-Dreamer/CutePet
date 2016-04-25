@@ -112,10 +112,9 @@
             android:background="@drawable/pink"
             android:drawableLeft="@drawable/shoucangkongxin"
             android:drawablePadding="@dimen/px23"
-            android:drawableStart="@drawable/shoucangkongxin"
             android:gravity="center"
-            android:paddingLeft="@dimen/px132"
-            android:paddingRight="@dimen/px132"
+            android:paddingLeft="@dimen/px125"
+            android:paddingRight="@dimen/px110"
             android:text="@string/collection"
             android:textColor="#ffffff"
             android:textSize="@dimen/px24" />

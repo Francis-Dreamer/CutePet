@@ -1,10 +1,10 @@
 package com.dream.cutepet.adapter;
 
-import java.io.File;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +15,6 @@ import android.widget.GridView;
 import com.dream.cutepet.R;
 import com.dream.cutepet.cache.AsyncImageLoader;
 import com.dream.cutepet.cache.ImageCacheManager;
-import com.dream.cutepet.util.BitmapUtil;
-import com.dream.cutepet.util.SDCardUtil;
 import com.dream.cutepet.view.PhotoImageView;
 
 public class ShowDynamicDetailPicAdapter extends BaseAdapter {
@@ -72,12 +70,19 @@ public class ShowDynamicDetailPicAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		Log.e("getView", "path = " + url_top+img);
+
+		Log.e("getView", "path = " + url_top + img);
 		String url = url_top + img;
-		File f = SDCardUtil.getImagePath(context, url);
-		Log.e("File", "path = " + f.getPath());
-		holder.mImageView.setImageBitmap(BitmapUtil.getDiskBitmap(f.getPath()));
+
+		Bitmap bitmap = imageLoader.loadBitmap(holder.mImageView, url, true);
+		holder.mImageView
+				.setImageResource(R.drawable.friends_sends_pictures_no);
+		if (bitmap != null) {
+			holder.mImageView.setImageBitmap(bitmap);
+		}
+		// File f = SDCardUtil.getImagePath(context, url);
+		// Log.e("File", "path = " + f.getPath());
+		// holder.mImageView.setImageBitmap(BitmapUtil.getDiskBitmap(f.getPath()));
 		return convertView;
 	}
 
