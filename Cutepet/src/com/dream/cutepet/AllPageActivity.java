@@ -15,8 +15,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.utility.IMPrefsTools;
 import com.dream.cutepet.adapter.AllPageFragmentPagerAdapter;
@@ -198,6 +200,7 @@ public class AllPageActivity extends FragmentActivity {
 	/**
 	 * 判断是否登陆
 	 */
+	@SuppressWarnings("deprecation")
 	private void checkLogin() {
 		loginSampleHelper = LoginSampleHelper.getInstance();
 		String localId = IMPrefsTools.getStringPrefs(AllPageActivity.this,

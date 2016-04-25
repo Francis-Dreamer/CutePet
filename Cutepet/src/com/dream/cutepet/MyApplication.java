@@ -1,6 +1,7 @@
 package com.dream.cutepet;
 
 import com.alibaba.mobileim.YWAPI;
+import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.aop.AdviceBinder;
 import com.alibaba.mobileim.aop.PointCutEnum;
@@ -11,11 +12,12 @@ import com.dream.cutepet.server.ConversationListUICustomSample;
 
 import android.app.Application;
 import android.content.Context;
+import android.widget.Toast;
 
 public class MyApplication extends Application {
-	public String urlTop = "http://211.149.198.8:9805";
 	
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -30,6 +32,10 @@ public class MyApplication extends Application {
 		}
 		// SDK初始化
 		final String APP_KEY = "23331616";
+		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
+			return;
+		}
+
 		// 必须首先执行这部分代码, 如果在":TCMSSevice"进程中，无需进行云旺（OpenIM）和app业务的初始化，以节省内存;
 		SysUtil.setApplication(this);
 		if (SysUtil.isTCMSServiceProcess(this)) {
@@ -40,9 +46,6 @@ public class MyApplication extends Application {
 		if (SysUtil.isMainProcess(this)) {
 			YWAPI.init(this, APP_KEY);
 		}
-		final String userid = "ssw";
-		@SuppressWarnings("unused")
-		final YWIMKit mIMKit = YWAPI.getIMKitInstance(userid, "23331616");
 	}
 
 	// 云旺OpenIM的DEMO用到的Application上下文实例
