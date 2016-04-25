@@ -140,7 +140,7 @@ public class WriteTalkActivity extends Activity {
 						e.printStackTrace();
 					}
 					s++;
-					if (s == 30) {
+					if (s == 35) {
 						Log.e("time", "登录超时");
 						s = 0;
 						overtime = false;
