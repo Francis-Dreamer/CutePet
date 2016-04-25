@@ -104,6 +104,7 @@ public class FusionAdapter extends BaseAdapter {
 
 		holder.tv_time.setText(TimeUtil.getTimeBy2(TimeUtil.changeTime(time)
 				.getTime()));
+
 		holder.tv_content.setText(temp.getContent());
 
 		picture = new ArrayList<String>();
@@ -119,18 +120,20 @@ public class FusionAdapter extends BaseAdapter {
 		}
 		holder.gridView.setAdapter(adapter);
 
-		int height = 0;
+		float height = 0;
 		if (picture.size() == 1) {
-			height = 550;
+			height = context.getResources().getDimension(R.dimen.px550);
 		} else if (picture.size() == 2) {
-			height = 258;
+			height = context.getResources().getDimension(R.dimen.px260);
 		} else {
 			double si = picture.size();
 			int le = (int) Math.ceil(si / 3.0);
-			height = 181 * le;
+			height = context.getResources().getDimension(R.dimen.px185) * le;
 		}
-		int length = (int) Math.ceil(temp.getContent().length() / 18) + 30
-				+ height + 50;
+		int length = (int) Math.ceil(temp.getContent().length() / 18.0
+				+ context.getResources().getDimension(R.dimen.px30) + height
+				+ context.getResources().getDimension(R.dimen.px60));
+		
 		LayoutParams layoutParams = new LayoutParams(2, length);
 		layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		holder.view.setLayoutParams(layoutParams);
