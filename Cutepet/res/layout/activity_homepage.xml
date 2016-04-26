@@ -7,15 +7,24 @@
     android:background="#eeeeee"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/lv_homepage_listview"
+    <com.dream.cutepet.view.RefreshableView
+        android:id="@+id/home_pager_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:divider="#eeeeee"
-        android:layout_marginBottom="@dimen/px10"
-        android:dividerHeight="@dimen/px20"
-        android:scrollbars="none" />
+        android:background="#eeeeee"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lv_homepage_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/px10"
+            android:layout_weight="1"
+            android:divider="#eeeeee"
+            android:dividerHeight="@dimen/px20"
+            android:scrollbars="none" />
+    </com.dream.cutepet.view.RefreshableView>
 
     <LinearLayout
         android:id="@+id/message_linearlayout"

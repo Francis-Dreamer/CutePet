@@ -42,6 +42,8 @@ import com.dream.cutepet.ui.PetStoreActivity;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
+import com.dream.cutepet.view.RefreshableView;
+import com.dream.cutepet.view.RefreshableView.PullToRefreshListener;
 
 /**
  * 主页frament
@@ -78,6 +80,10 @@ public class HomePageFragment extends Fragment implements CallParise,
 	String getInput;
 	HorizontalScrollView scrollView;
 	Context context;
+	RefreshableView refreshableView;// 下拉刷新
+	private boolean isRefresh = false;// 是否刷新
+	View header;
+	LayoutInflater inflater_header;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -88,9 +94,10 @@ public class HomePageFragment extends Fragment implements CallParise,
 		ImageCacheManager cacheMgr = new ImageCacheManager(context);
 		imageLoader = new AsyncImageLoader(context, cacheMgr.getMemoryCache(),
 				cacheMgr.getPlacardFileCache());
+		inflater_header = LayoutInflater.from(context);
 
 		initView();
-
+		
 		initStoreData();
 
 		initPersonalData();
@@ -150,6 +157,12 @@ public class HomePageFragment extends Fragment implements CallParise,
 				public void end(String result) {
 					data_personage = PersonageModel.setJson(result);
 					adapter.setData(data_personage);
+					if (!isRefresh) {
+						adapter.notifyDataSetChanged();
+					}
+					if (refreshableView.header != null) {
+						refreshableView.header.setVisibility(View.GONE);
+					}
 				}
 			});
 		} catch (MalformedURLException e) {
@@ -161,6 +174,8 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 * 初始化界面
 	 */
 	private void initView() {
+		refreshableView = (RefreshableView) view
+				.findViewById(R.id.home_pager_refreshLayout);
 		message_linearlayout = (LinearLayout) view
 				.findViewById(R.id.message_linearlayout);
 		input_message = (EditText) view.findViewById(R.id.input_message);
@@ -223,52 +238,64 @@ public class HomePageFragment extends Fragment implements CallParise,
 	 */
 	@SuppressLint("InflateParams")
 	private void initPetStoreView() {
+		if(header == null){
+			header = inflater_header.inflate(R.layout.activity_homepage_header,
+					null);
+			scrollView = (HorizontalScrollView) header
+					.findViewById(R.id.scrollview);
+			handler.sendEmptyMessage(0011);
 
-		LayoutInflater inflater_header = LayoutInflater.from(context);
-		View header = inflater_header.inflate(
-				R.layout.activity_homepage_header, null);
+			inflater = LayoutInflater.from(context);
+			llayout_petStore = (LinearLayout) header
+					.findViewById(R.id.llayout_homepage_petStore);
+			for (int i = 0; i < data_petStore.size(); i++) {
+				View view_item = inflater_header.inflate(
+						R.layout.activity_homepage_item, null);
+				ImageView img = (ImageView) view_item
+						.findViewById(R.id.iv_homepage_item_picture);
 
-		scrollView = (HorizontalScrollView) header
-				.findViewById(R.id.scrollview);
-		handler.sendEmptyMessage(0011);
+				final String imgUrl = url_top + data_petStore.get(i).getLogo();
+				// 给 ImageView 设置一个 tag
+				img.setTag(imgUrl);
+				// 异步加载图片
+				bitmap = imageLoader.loadBitmap(img, imgUrl, true);
+				if (bitmap != null) {
+					img.setImageBitmap(bitmap);
+				} else {
+					img.setImageResource(R.drawable.friends_sends_pictures_no);
+				}
 
-		inflater = LayoutInflater.from(context);
-		llayout_petStore = (LinearLayout) header
-				.findViewById(R.id.llayout_homepage_petStore);
-		for (int i = 0; i < data_petStore.size(); i++) {
-			View view_item = inflater_header.inflate(
-					R.layout.activity_homepage_item, null);
-			ImageView img = (ImageView) view_item
-					.findViewById(R.id.iv_homepage_item_picture);
+				TextView txt = (TextView) view_item
+						.findViewById(R.id.tv_homepage_item_word);
+				txt.setText(data_petStore.get(i).getName());
+				view_item.setTag(i);
+				view_item.setOnClickListener(listener);
 
-			final String imgUrl = url_top + data_petStore.get(i).getLogo();
-			// 给 ImageView 设置一个 tag
-			img.setTag(imgUrl);
-			// 异步加载图片
-			bitmap = imageLoader.loadBitmap(img, imgUrl, true);
-			if (bitmap != null) {
-				img.setImageBitmap(bitmap);
-			} else {
-				img.setImageResource(R.drawable.friends_sends_pictures_no);
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				params.setMargins(0, 0, 10, 0);
+				view_item.setLayoutParams(params);
+
+				llayout_petStore.addView(view_item);
 			}
-
-			TextView txt = (TextView) view_item
-					.findViewById(R.id.tv_homepage_item_word);
-			txt.setText(data_petStore.get(i).getName());
-			view_item.setTag(i);
-			view_item.setOnClickListener(listener);
-
-			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			params.setMargins(0, 0, 10, 0);
-			view_item.setLayoutParams(params);
-
-			llayout_petStore.addView(view_item);
 		}
 		listView.addHeaderView(header, null, false);
 		adapter = new HomePageAdapter(context, data_personage, this, this);
 		listView.setAdapter(adapter);
+		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
+			@Override
+			public void onRefresh() {
+				try {
+					isRefresh = true;
+					initPersonalData();
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				refreshableView.finishRefreshing();
+			}
+		}, 0);
 	}
 
 	@Override
@@ -389,8 +416,7 @@ public class HomePageFragment extends Fragment implements CallParise,
 			username = tok.split(",")[1];
 			return true;
 		}
-		Toast.makeText(context, "请先登录！",
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
 		return false;
 	}
 

@@ -2,8 +2,11 @@ package com.dream.cutepet;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -42,17 +45,20 @@ public class GuidepageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if(checkLogin()){
-			Intent intent = new Intent(GuidepageActivity.this,
-					AllPageActivity.class);
-			startActivity(intent);
-		}
-		
+        SharedPreferences setting = getSharedPreferences("first_time", 0);  
+        Boolean user_first = setting.getBoolean("FIRST",true);  
+        if(user_first){//第一次  
+             setting.edit().putBoolean("FIRST", false).commit();  
+         }else{  
+        	 Intent intent = new Intent(GuidepageActivity.this,
+ 					AllPageActivity.class); 
+        	 startActivity(intent);
+        	 finish();
+        } 
 		setContentView(R.layout.activity_guide_page);
 		viewPager = (ViewPager) findViewById(R.id.guide_page_viewpager);
 		views = new ArrayList<View>();
-		
+
 		// 初始化按钮
 		initButton();
 		// 初始化图片
@@ -88,8 +94,8 @@ public class GuidepageActivity extends Activity {
 	 */
 	private void initView() {
 		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
 		// 初始化引导图片列表
 		for (int i = 0; i < guide_pic.length; i++) {
 			ImageView imageView = new ImageView(this);
@@ -102,7 +108,7 @@ public class GuidepageActivity extends Activity {
 		viewPager.setAdapter(faceImageAdapter);
 		viewPager.setOnPageChangeListener(onPageChangeListener);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -156,10 +162,10 @@ public class GuidepageActivity extends Activity {
 	OnClickListener onClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-				Intent intent = new Intent(GuidepageActivity.this,
-						AllPageActivity.class);
-				startActivity(intent);
-				finish();
+			Intent intent = new Intent(GuidepageActivity.this,
+					AllPageActivity.class);
+			startActivity(intent);
+			finish();
 		}
 	};
 

@@ -32,13 +32,13 @@ public class MyApplication extends Application {
 		}
 		// SDK初始化
 		final String APP_KEY = "23331616";
-		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
-			return;
-		}
 
 		// 必须首先执行这部分代码, 如果在":TCMSSevice"进程中，无需进行云旺（OpenIM）和app业务的初始化，以节省内存;
 		SysUtil.setApplication(this);
 		if (SysUtil.isTCMSServiceProcess(this)) {
+			return;
+		}
+		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
 			return;
 		}
 		// 第一个参数是Application Context

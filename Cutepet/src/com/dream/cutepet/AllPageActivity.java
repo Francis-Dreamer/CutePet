@@ -202,6 +202,9 @@ public class AllPageActivity extends FragmentActivity {
 	 */
 	@SuppressWarnings("deprecation")
 	private void checkLogin() {
+		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
+			return;
+		}
 		loginSampleHelper = LoginSampleHelper.getInstance();
 		String localId = IMPrefsTools.getStringPrefs(AllPageActivity.this,
 				"userId", "");
