@@ -28,9 +28,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.mobileim.YWAPI;
 import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.utility.IMPrefsTools;
+import com.alibaba.wxlib.util.SysUtil;
 import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -58,7 +60,7 @@ public class LoginActivity extends Activity {
 
 	private static final String USER_ID = "userId";
 	private static final String PASSWORD = "password";
-	
+
 	int s = 0;
 	boolean overtime = true;
 
@@ -92,7 +94,8 @@ public class LoginActivity extends Activity {
 			Intent intent = new Intent();
 			switch (v.getId()) {
 			case R.id.button_login:
-				progressDialog = ProgressDialog.show(LoginActivity.this, "登录中", "请稍后.....");
+				progressDialog = ProgressDialog.show(LoginActivity.this, "登录中",
+						"请稍后.....");
 				loginAndStarActivity();
 				break;
 			case R.id.button_register:
@@ -132,13 +135,19 @@ public class LoginActivity extends Activity {
 						if (jo.getInt("status") == 1) {
 							String token1 = jo.getString("token");
 							String token = token1 + "," + tel;
-							SharedPreferencesUtil.saveToken(getApplicationContext(), token);
-							Intent intent = new Intent(LoginActivity.this, AllPageActivity.class);
-							Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+							SharedPreferencesUtil.saveToken(
+									getApplicationContext(), token);
+							Intent intent = new Intent(LoginActivity.this,
+									AllPageActivity.class);
+							Toast.makeText(getApplication(),
+									jo.getString("message"), Toast.LENGTH_SHORT)
+									.show();
 							startActivity(intent);
 							finish();
 						} else {
-							Toast.makeText(getApplication(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplication(),
+									jo.getString("message"), Toast.LENGTH_SHORT)
+									.show();
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -155,10 +164,12 @@ public class LoginActivity extends Activity {
 	 */
 
 	private void chatDemo() {
-		String localId = IMPrefsTools.getStringPrefs(LoginActivity.this, USER_ID, "");
+		String localId = IMPrefsTools.getStringPrefs(LoginActivity.this,
+				USER_ID, "");
 		if (!TextUtils.isEmpty(localId)) {
 			edit_tel.setText(localId);
-			String localPassword = IMPrefsTools.getStringPrefs(LoginActivity.this, PASSWORD, "");
+			String localPassword = IMPrefsTools.getStringPrefs(
+					LoginActivity.this, PASSWORD, "");
 			if (!TextUtils.isEmpty(localPassword)) {
 				edit_password.setText(localPassword);
 			}
@@ -168,14 +179,16 @@ public class LoginActivity extends Activity {
 		edit_tel.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				if (TextUtils.isEmpty(s)) {
 					edit_password.setText("");
 				}
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 
 			}
 
@@ -192,10 +205,11 @@ public class LoginActivity extends Activity {
 	@SuppressWarnings("deprecation")
 	private void loginAndStarActivity() {
 		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
-			Toast.makeText(LoginActivity.this, "网络已断开，请稍后再试哦", Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(LoginActivity.this, "网络已断开，请稍后再试哦",
+					Toast.LENGTH_SHORT).show();
+
 			clearDialog();
-			
+
 			return;
 		}
 		final Editable userId = edit_tel.getText();
@@ -204,30 +218,33 @@ public class LoginActivity extends Activity {
 		imm.hideSoftInputFromWindow(edit_tel.getWindowToken(), 0);
 		imm.hideSoftInputFromWindow(edit_password.getWindowToken(), 0);
 		init(userId.toString());
-		loginHelper.login_Sample(userId.toString(), password.toString(), new IWxCallback() {
-			@Override
-			public void onSuccess(Object... arg0) {
-				saveIdPasswordToLocal(userId.toString(), password.toString());
-				login(userId.toString(), password.toString());
-				
-				clearDialog();
-			}
+		loginHelper.login_Sample(userId.toString(), password.toString(),
+				new IWxCallback() {
+					@Override
+					public void onSuccess(Object... arg0) {
+						saveIdPasswordToLocal(userId.toString(),
+								password.toString());
+						login(userId.toString(), password.toString());
 
-			@Override
-			public void onProgress(int arg0) {
-				time();
-			}
+						clearDialog();
+					}
 
-			@Override
-			public void onError(int arg0, String arg1) {
-				Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-				
-				clearDialog();
-			}
-		});
+					@Override
+					public void onProgress(int arg0) {
+						time();
+					}
+
+					@Override
+					public void onError(int arg0, String arg1) {
+						Toast.makeText(LoginActivity.this, "登录失败",
+								Toast.LENGTH_SHORT).show();
+
+						clearDialog();
+					}
+				});
 	}
-	
-	private void clearDialog(){
+
+	private void clearDialog() {
 		if (progressDialog != null) {
 			progressDialog.dismiss();
 		}
@@ -258,7 +275,7 @@ public class LoginActivity extends Activity {
 		LoginSampleHelper.getInstance().initIMKit(userId, "23331616");
 	}
 
-	@SuppressLint("HandlerLeak") 
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -268,7 +285,8 @@ public class LoginActivity extends Activity {
 				if (progressDialog != null) {
 					progressDialog.dismiss();
 				}
-				Toast.makeText(getApplicationContext(), "登录超时", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "登录超时",
+						Toast.LENGTH_LONG).show();
 				LoginSampleHelper.getInstance().loginOut_Sample();
 				break;
 			default:

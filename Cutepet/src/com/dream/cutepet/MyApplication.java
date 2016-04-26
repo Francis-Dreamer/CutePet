@@ -38,14 +38,13 @@ public class MyApplication extends Application {
 		if (SysUtil.isTCMSServiceProcess(this)) {
 			return;
 		}
-		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
-			return;
-		}
+		
 		// 第一个参数是Application Context
 		// 这里的APP_KEY即应用创建时申请的APP_KEY，同时初始化必须是在主进程中
 		if (SysUtil.isMainProcess(this)) {
 			YWAPI.init(this, APP_KEY);
 		}
+		
 	}
 
 	// 云旺OpenIM的DEMO用到的Application上下文实例
