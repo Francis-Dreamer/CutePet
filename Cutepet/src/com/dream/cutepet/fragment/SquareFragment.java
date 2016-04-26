@@ -28,6 +28,8 @@ import com.dream.cutepet.model.SquareModel;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
 import com.dream.cutepet.util.SharedPreferencesUtil;
+import com.dream.cutepet.view.RefreshableView;
+import com.dream.cutepet.view.RefreshableView.PullToRefreshListener;
 
 /**
  * 广场的fragment
@@ -35,7 +37,8 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
  * @author Administrator
  * 
  */
-@SuppressLint("ValidFragment") public class SquareFragment extends Fragment {
+@SuppressLint("ValidFragment")
+public class SquareFragment extends Fragment {
 	ViewPager viewPager;
 	List<SquareModel> data;
 	SquareBaseAdapter adapter = new SquareBaseAdapter();
@@ -62,19 +65,21 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
 	String squarePraise;
 
 	private String username;
-	
+
+	RefreshableView refreshableView;
+	private boolean isRefresh = false;
+
 	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.activity_square_dynamic, null);
+		
 		initView();
-		return view;
-	}
-
-	public void onStart() {
-		super.onStart();
+		
 		getData();
+		
+		return view;
 	}
 
 	/**
@@ -94,8 +99,25 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
 				.findViewById(R.id.square_mid_view_flipper);
 		adapter = new SquareBaseAdapter(data, getActivity());
 		listView.setAdapter(adapter);
+
 		listView.setOnItemClickListener(itemClickListener);
 		square_mid_more.setOnClickListener(clickListener);
+
+		refreshableView = (RefreshableView) view
+				.findViewById(R.id.square_refreshableview);
+		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
+			@Override
+			public void onRefresh() {
+				try {
+					// isRefresh = true;
+					getData();
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				refreshableView.finishRefreshing();
+			}
+		}, 0);
 	}
 
 	/*
@@ -191,6 +213,12 @@ import com.dream.cutepet.util.SharedPreferencesUtil;
 				public void end(String result) {
 					data = SquareModel.setJson(result);
 					adapter.setData(data);
+					if(!isRefresh){
+						adapter.notifyDataSetChanged();	
+					}
+					if(refreshableView.header != null){
+						refreshableView.header.setVisibility(View.GONE);
+					}
 				}
 			});
 		} catch (MalformedURLException e) {

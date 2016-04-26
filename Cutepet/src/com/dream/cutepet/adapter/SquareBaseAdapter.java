@@ -47,7 +47,6 @@ public class SquareBaseAdapter extends BaseAdapter {
 
 	public void setData(List<SquareModel> data) {
 		this.data = data;
-		this.notifyDataSetChanged();
 	}
 
 	@Override
