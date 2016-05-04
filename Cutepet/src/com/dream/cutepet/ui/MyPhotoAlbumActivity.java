@@ -136,47 +136,6 @@ public class MyPhotoAlbumActivity extends Activity {
 		startActivityForResult(intent, 1008611);
 	}
 
-	// /**
-	// * 放大照片(全屏显示)
-	// *
-	// * @param position
-	// */
-	// private void EnlargeImage(int position) {
-	// // 创建AlertDialog
-	// dialog = builder.create();
-	// ImageView imageView = new ImageView(this);
-	// // 通过点击的position获取该图片的地址，并转换为bitmap型
-	// Bitmap bitmap = BitmapFactory.decodeFile(data.getPhoto().get(position));
-	// imageView.setImageBitmap(bitmap);
-	// imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-	// LayoutParams.WRAP_CONTENT));
-	// imageView.setScaleType(ScaleType.FIT_CENTER);
-	// // 设置不留白
-	// imageView.setAdjustViewBounds(true);
-	// imageView.setOnClickListener(new OnClickListener() {
-	// @Override
-	// public void onClick(View v) {
-	// if (dialog != null) {
-	// // 关闭AlertDialog，并置为空
-	// dialog.dismiss();
-	// dialog = null;
-	// }
-	// }
-	// });
-	// // 设置dialog的上下文为该图片
-	// dialog.setView(imageView);
-	// dialog.show();
-	// }
-
-	// OnItemClickListener itemClickListener = new OnItemClickListener() {
-	// @Override
-	// public void onItemClick(AdapterView<?> parent, View view, int position,
-	// long id) {
-	// // 放大照片
-	// EnlargeImage(position);
-	// }
-	// };
-
 	OnClickListener listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {

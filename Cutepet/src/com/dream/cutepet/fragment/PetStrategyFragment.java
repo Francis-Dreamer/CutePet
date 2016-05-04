@@ -49,7 +49,7 @@ public class PetStrategyFragment extends Fragment {
 	Context context;
 
 	private RefreshableView refreshableView;
-	
+
 	private boolean isRefresh = false;
 
 	public PetStrategyFragment() {
@@ -67,7 +67,7 @@ public class PetStrategyFragment extends Fragment {
 		view = inflater.inflate(R.layout.activity_pet_strategy, null);
 
 		getData();
-		
+
 		initView();
 
 		return view;
@@ -79,14 +79,15 @@ public class PetStrategyFragment extends Fragment {
 	private void initView() {
 		listView = (ListView) view.findViewById(R.id.pet_strategy_listview);
 		listView.setOnItemClickListener(itemClickListener);
-		
+
 		ImageView imageView = new ImageView(context);
 		imageView.setImageResource(R.drawable.banner);
-		imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+		imageView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.WRAP_CONTENT));
 		imageView.setAdjustViewBounds(true);
 		imageView.setScaleType(ScaleType.FIT_XY);
 		listView.addHeaderView(imageView);
-		
+
 		adapter = new PetStrategyBaseAdapter(data, context);
 		listView.setAdapter(adapter);
 
@@ -116,7 +117,7 @@ public class PetStrategyFragment extends Fragment {
 				long id) {
 			if (checkLogin()) {
 				PetStrategyModel model = new PetStrategyModel();
-				model = data.get(position);
+				model = data.get(position - 1);
 				String petName = model.getPet_strategy_comment_chinese_name();
 				String petGrade = model.getGrade();
 				String petMoney = model.getMoney();
@@ -161,10 +162,10 @@ public class PetStrategyFragment extends Fragment {
 					Log.e("result", result);
 					data = PetStrategyModel.setJson(result);
 					adapter.setData(data);
-					if(!isRefresh){
-						adapter.notifyDataSetChanged();	
+					if (!isRefresh) {
+						adapter.notifyDataSetChanged();
 					}
-					if(refreshableView.header != null){
+					if (refreshableView.header != null) {
 						refreshableView.header.setVisibility(View.GONE);
 					}
 				}

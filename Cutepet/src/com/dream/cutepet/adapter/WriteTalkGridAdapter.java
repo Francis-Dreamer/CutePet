@@ -2,9 +2,11 @@ package com.dream.cutepet.adapter;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +32,23 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 
 	}
 
-	public WriteTalkGridAdapter(List<String> data, Context context,
+	public WriteTalkGridAdapter(List<String> data1, Context context,
 			GridView mGridView) {
-		this.data = data;
+		this.data = data1;
 		this.context = context;
 		this.mGridView = mGridView;
 		inflater = LayoutInflater.from(context);
+		Log.e("WriteTalkGridAdapter", ""+this.data.size());
 	}
 
-	public void setData(List<String> data) {
-		this.data = data;
-		this.notifyDataSetChanged();
-	}
+//	public void setData(List<String> data) {
+//		this.data = data;
+//		this.notifyDataSetChanged();
+//	}
 
 	public int getCount() {
-		return data == null ? 0 : data.size();
+		Log.e("getCount", ""+this.data.size());
+		return data.size();
 	}
 
 	public Object getItem(int position) {
@@ -55,11 +59,11 @@ public class WriteTalkGridAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder viewHolder;
 		String path = data.get(position);
-
+		Log.e("getView", "getView");
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.activity_photo_item, null);
 			viewHolder = new ViewHolder();

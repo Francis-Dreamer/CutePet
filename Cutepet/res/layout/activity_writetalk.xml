@@ -68,7 +68,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <GridView
+    <com.dream.cutepet.view.MyGridView
         android:id="@+id/writetalk_gridview"
         android:layout_width="match_parent"
         android:layout_height="0dp"

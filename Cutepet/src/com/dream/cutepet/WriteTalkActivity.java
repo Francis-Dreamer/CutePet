@@ -2,7 +2,6 @@ package com.dream.cutepet;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +26,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +48,9 @@ public class WriteTalkActivity extends Activity {
 	TencentLocationManager locationManager;
 	TencentLocationListener locationListener;
 	private ProgressDialog mProgressDialog;
+	MyApplication application;
+
+	private String content, address;
 
 	int s = 0;
 	boolean overtime = true;
@@ -56,18 +59,37 @@ public class WriteTalkActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_writetalk);
 
-		bundle = getIntent().getExtras();
-
-		initData();
+		// 恢复数据
+		application = (MyApplication) getApplication();
+		application.clearMoreImage();
 
 		initView();
 	}
 
-	private void initData() {
-		getPath = new ArrayList<String>();
-		if (bundle != null) {
-			getPath = bundle.getStringArrayList("checked_path");
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 获取相册的地址集合
+		getPath = application.getMoreImage();
+		if (getPath.size() > 0) {
+			adapter = new WriteTalkGridAdapter(getPath,
+					getApplicationContext(), gridView);
+			gridView.setAdapter(adapter);
 		}
+		if (!TextUtils.isEmpty(content)) {
+			edit_content.setText(content + "");
+		}
+		if (!TextUtils.isEmpty(address)) {
+			edit_address.setText(address + "");
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		// 保存数据
+		content = edit_content.getText().toString().trim();
+		address = edit_address.getText().toString().trim();
+		super.onPause();
 	}
 
 	/**
@@ -92,9 +114,6 @@ public class WriteTalkActivity extends Activity {
 
 		gridView = (GridView) findViewById(R.id.writetalk_gridview);
 
-		adapter = new WriteTalkGridAdapter(getPath, this, gridView);
-		gridView.setAdapter(adapter);
-
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
 		add_image.setOnClickListener(clickListener);
@@ -117,7 +136,6 @@ public class WriteTalkActivity extends Activity {
 				intent.setClass(WriteTalkActivity.this,
 						WriteTalkUpLoadPhotoActivity.class);
 				startActivityForResult(intent, 5551);
-				finish();
 				break;
 			case R.id.cityMore:
 				getCityAddress();
@@ -141,7 +159,6 @@ public class WriteTalkActivity extends Activity {
 					}
 					s++;
 					if (s == 35) {
-						Log.e("time", "登录超时");
 						s = 0;
 						overtime = false;
 						handler.sendEmptyMessage(007);
@@ -280,8 +297,8 @@ public class WriteTalkActivity extends Activity {
 		String url = "http://211.149.198.8:9805/index.php/home/api/uploadTalk";
 		String tok = SharedPreferencesUtil.getData(this);
 		username = tok.split(",")[1];
-		String content = edit_content.getText().toString().trim();
-		String address = edit_address.getText().toString().trim();
+		content = edit_content.getText().toString().trim();
+		address = edit_address.getText().toString().trim();
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

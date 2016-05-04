@@ -238,6 +238,13 @@ public class SDCardUtil {
 		List<String> data = new ArrayList<String>();
 		data = getAllFiles(file, data);
 		img_data.put(file.getName(), data);
+		
+		String fileName2 = SDCardUtil.getAllSDcardFile(context).get(0).getPath()
+				+ "/placard/";
+		File file2 = new File(fileName2);
+		List<String> data2 = new ArrayList<String>();
+		data2 = getAllFiles(file2, data2);
+		img_data.put(file.getName(), data2);
 
 		cursor.close();
 		return img_data;

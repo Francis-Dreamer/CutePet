@@ -386,21 +386,24 @@ public class SetActivity extends Activity {
 		}
 
 	};
+
 	/**
-     * 创建多媒体（网页）消息对象。
-     * @return 多媒体（网页）消息对象。
-    */
-    private WebpageObject getWebpageObj() {
-            WebpageObject mediaObject = new WebpageObject();
-            mediaObject.actionUrl = ("http://a.app.qq.com/o/simple.jsp?pkgname=com.dream.cutepet");
-            mediaObject.identify = Utility.generateGUID();
-            mediaObject.title = ("CutePet 应用链接");
-            mediaObject.description = getString(R.string.share_app);
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-                            R.drawable.logo);
-            mediaObject.setThumbImage(bmp);
-            return mediaObject;
-    }
+	 * 创建多媒体（网页）消息对象。
+	 * 
+	 * @return 多媒体（网页）消息对象。
+	 */
+	private WebpageObject getWebpageObj() {
+		WebpageObject mediaObject = new WebpageObject();
+		mediaObject.actionUrl = ("http://a.app.qq.com/o/simple.jsp?pkgname=com.dream.cutepet");
+		mediaObject.identify = Utility.generateGUID();
+		mediaObject.title = ("CutePet 应用链接");
+		mediaObject.description = getString(R.string.share_app);
+		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+				R.drawable.logo);
+		mediaObject.setThumbImage(bmp);
+		return mediaObject;
+	}
+
 	/**
 	 * 微博分享
 	 */
@@ -441,6 +444,7 @@ public class SetActivity extends Activity {
 					}
 				});
 	}
+
 	/**
 	 * 底部弹出框popupWindow
 	 */
@@ -455,7 +459,9 @@ public class SetActivity extends Activity {
 		int width = wm.getDefaultDisplay().getWidth();
 		// int height = wm.getDefaultDisplay().getHeight();
 
-		popupWindow = new PopupWindow(view, width, 400, true);
+		popupWindow = new PopupWindow(view, width,
+				(int) Math.ceil(getResources().getDimension(R.dimen.px320)),
+				true);
 
 		button_weixin = (RadioButton) view.findViewById(R.id.button_weixin);
 		button_qq = (RadioButton) view.findViewById(R.id.button_qq);

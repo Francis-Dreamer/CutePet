@@ -28,11 +28,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.mobileim.YWAPI;
 import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.channel.event.IWxCallback;
 import com.alibaba.mobileim.utility.IMPrefsTools;
-import com.alibaba.wxlib.util.SysUtil;
 import com.dream.cutepet.server.LoginSampleHelper;
 import com.dream.cutepet.util.HttpPost;
 import com.dream.cutepet.util.HttpPost.OnSendListener;
@@ -268,6 +266,7 @@ public class LoginActivity extends Activity {
 	 * 
 	 * @param userId
 	 */
+	@SuppressWarnings("deprecation")
 	private void init(String userId) {
 		if (YWChannel.getInstance().getNetWorkState().isNetWorkNull()) {
 			return;

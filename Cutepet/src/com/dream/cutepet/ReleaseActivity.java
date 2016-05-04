@@ -9,10 +9,13 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,8 +55,75 @@ public class ReleaseActivity extends Activity {
 		if (!TextUtils.isEmpty(view_address)) {
 			file = new File(view_address);
 		}
-		
+
 		initview();
+	}
+
+	@SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 001:
+				showImage();
+				break;
+			default:
+				break;
+			}
+		}
+	};
+
+	/**
+	 * 异步加载图片
+	 */
+	private void showImage() {
+		if (!TextUtils.isEmpty(view_address)) {
+			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
+					view_address, new NativeImageCallBack() {
+						@Override
+						public void onImageLoader(Bitmap bitmap, String path) {
+							if (bitmap != null) {
+								iv_petStore_logo.setImageBitmap(BitmapUtil
+										.compressImage(bitmap));
+							}
+						}
+					});
+			if (bitmap != null) {
+				iv_petStore_logo.setImageBitmap(bitmap);
+			}
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		// 恢复数据
+		MyApplication application = (MyApplication) getApplication();
+		view_address = application.getImage();
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			handler.sendEmptyMessage(001);
+			application.setImage("");
+		}
+		if (!TextUtils.isEmpty(storeName)) {
+			ed_petStore_name.setText(storeName + "");
+		}
+		if (!TextUtils.isEmpty(storeAddress)) {
+			ed_petStore_address.setText(storeAddress + "");
+		}
+		if (!TextUtils.isEmpty(storeType)) {
+			ed_petStore_type.setText(storeType + "");
+		}
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		// 保存数据
+		storeName = ed_petStore_name.getText().toString().trim();
+		storeAddress = ed_petStore_address.getText().toString().trim();
+		storeType = ed_petStore_type.getText().toString().trim();
+		super.onPause();
 	}
 
 	/**
@@ -77,22 +147,6 @@ public class ReleaseActivity extends Activity {
 		iv_petStore_select.setOnClickListener(clickListener);
 		back.setOnClickListener(clickListener);
 		menu_hide.setOnClickListener(clickListener);
-
-		if (!TextUtils.isEmpty(view_address)) {
-			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
-					view_address, new NativeImageCallBack() {
-						@Override
-						public void onImageLoader(Bitmap bitmap, String path) {
-							if (bitmap != null) {
-								iv_petStore_logo.setImageBitmap(BitmapUtil
-										.compressImage(bitmap));
-							}
-						}
-					});
-			if (bitmap != null) {
-				iv_petStore_logo.setImageBitmap(bitmap);
-			}
-		}
 	}
 
 	/**
@@ -109,10 +163,15 @@ public class ReleaseActivity extends Activity {
 				back();
 				break;
 			case R.id.menu_hide:
-				if (file != null) {
+				storeName = ed_petStore_name.getText().toString().trim();
+				storeAddress = ed_petStore_address.getText().toString().trim();
+				storeType = ed_petStore_type.getText().toString().trim();
+				if (file != null && !TextUtils.isEmpty(storeName)
+						&& !TextUtils.isEmpty(storeAddress)
+						&& !TextUtils.isEmpty(storeType)) {
 					release(file);
 				} else {
-					Toast.makeText(getApplication(), "请选择图片",
+					Toast.makeText(getApplication(), "发布内容不能为空！",
 							Toast.LENGTH_SHORT).show();
 				}
 				break;
@@ -126,9 +185,6 @@ public class ReleaseActivity extends Activity {
 	 * 上传方法
 	 */
 	private void release(File file) {
-		storeName = ed_petStore_name.getText().toString();
-		storeAddress = ed_petStore_address.getText().toString();
-		storeType = ed_petStore_type.getText().toString();
 		Bitmap bt = BitmapUtil.getimage(file.getAbsolutePath(), 280, 370);
 		final File f = BitmapUtil.saveMyBitmap(bt);
 		Map<String, String> map = new HashMap<String, String>();
@@ -174,9 +230,7 @@ public class ReleaseActivity extends Activity {
 	private void select_image() {
 		Intent intent = new Intent(ReleaseActivity.this,
 				SelectPhotoActivity.class);
-		intent.putExtra("flog", 2);
-		startActivity(intent);
-		finish();
+		startActivityForResult(intent, 0);
 	}
 
 	/**

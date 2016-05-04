@@ -19,8 +19,8 @@
             android:layout_weight="5"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/baisejuxing" />
+            android:background="#ffffff"
+            android:scaleType="fitCenter"/>
 
         <ImageView
             android:id="@+id/iv_petStore_select"

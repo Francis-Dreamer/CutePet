@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,21 +32,35 @@ public class ShowPhotoAdapter extends BaseAdapter {
 	/**
 	 * 用来存储图片的选中情况
 	 */
-	@SuppressLint("UseSparseArrays") 
+	@SuppressLint("UseSparseArrays")
 	private HashMap<Integer, Boolean> mSelectMap = new HashMap<Integer, Boolean>();
 	private GridView mGridView;
 	private List<String> list;
 	protected LayoutInflater mInflater;
-	
-	public ShowPhotoAdapter(){
-		
+	private OnItemCheckChangeListener onItemCheckChangeListener;
+	private Context context;
+
+	public ShowPhotoAdapter() {
+
 	}
 
 	public ShowPhotoAdapter(Context context, List<String> list,
-			GridView mGridView) {
+			GridView mGridView,
+			OnItemCheckChangeListener onItemCheckChangeListener) {
 		this.list = list;
 		this.mGridView = mGridView;
+		this.context = context;
+		this.onItemCheckChangeListener = onItemCheckChangeListener;
 		mInflater = LayoutInflater.from(context);
+	}
+
+	public interface OnItemCheckChangeListener {
+		public void onItemCheckChangeListener(View v);
+	}
+
+	public void setOnItemCheckChangeListener(
+			OnItemCheckChangeListener onItemCheckChangeListener) {
+		this.onItemCheckChangeListener = onItemCheckChangeListener;
 	}
 
 	/**
@@ -80,6 +95,7 @@ public class ShowPhotoAdapter extends BaseAdapter {
 		return position;
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder viewHolder;
@@ -115,13 +131,23 @@ public class ShowPhotoAdapter extends BaseAdapter {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						mSelectMap.put(position, isChecked);
+						if(getSelectItems().size() > 9){
+							Toast.makeText(context, "最多只能选择9张图片",
+									Toast.LENGTH_SHORT).show();
+							viewHolder.mCheckBox.setChecked(false);
+							mSelectMap.put(position, false);
+						}
+						if (onItemCheckChangeListener != null) {
+							onItemCheckChangeListener
+									.onItemCheckChangeListener(buttonView);
+						}
 					}
 				});
 
 		viewHolder.mCheckBox
 				.setChecked(mSelectMap.containsKey(position) ? mSelectMap
 						.get(position) : false);
-		
+
 		// 利用NativeImageLoader类加载本地图片
 		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path,
 				mPoint, new NativeImageCallBack() {
@@ -137,7 +163,7 @@ public class ShowPhotoAdapter extends BaseAdapter {
 
 		if (bitmap != null) {
 			viewHolder.mImageView.setImageBitmap(bitmap);
-		} 
+		}
 		return convertView;
 	}
 

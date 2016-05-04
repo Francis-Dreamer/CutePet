@@ -54,9 +54,12 @@ public class PersonalReleaseActivity extends Activity {
 	private final String url = "http://211.149.198.8:9805/index.php/home/api/uploadPersonal";
 	TencentLocationManager locationManager;
 	TencentLocationListener locationListener;
+	private String type;
+	private String content;
+	private String address;
 
 	private ProgressDialog mProgressDialog;
-	
+
 	int s = 0;
 	boolean overtime = true;
 
@@ -68,7 +71,7 @@ public class PersonalReleaseActivity extends Activity {
 
 		initview();
 	}
-	
+
 	private void time() {
 		overtime = true;
 		new Thread(new Runnable() {
@@ -91,8 +94,8 @@ public class PersonalReleaseActivity extends Activity {
 			}
 		}).start();
 	}
-	
-	@SuppressLint("HandlerLeak") 
+
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -102,15 +105,36 @@ public class PersonalReleaseActivity extends Activity {
 				if (mProgressDialog != null) {
 					mProgressDialog.dismiss();
 				}
-				Toast.makeText(getApplicationContext(), "获取地址超时", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "获取地址超时",
+						Toast.LENGTH_LONG).show();
 				// 关闭获取地址的监听
 				locationManager.removeUpdates(locationListener);
+				break;
+			case 001:
+				showImage();
 				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	private void showImage() {
+		Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
+				view_address, new NativeImageCallBack() {
+					@Override
+					public void onImageLoader(Bitmap bitmap, String path) {
+						if (bitmap != null) {
+							iv_pet_logo.setImageBitmap(BitmapUtil
+									.compressImage(bitmap));
+						}
+					}
+				});
+		if (bitmap != null) {
+			iv_pet_logo.setImageBitmap(bitmap);
+		}
+
+	}
 
 	/**
 	 * 获取地址信息
@@ -120,9 +144,9 @@ public class PersonalReleaseActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.show();
 		}
-		
+
 		time();
-		
+
 		TencentLocationRequest request = TencentLocationRequest.create();
 		request.setAllowCache(true);
 		request.setInterval(100);
@@ -140,10 +164,10 @@ public class PersonalReleaseActivity extends Activity {
 					String reason) {
 				// location：新的位置；error：错误码；reason：错误描述
 				if (TencentLocation.ERROR_OK == error) {
-					
+
 					s = 0;
 					overtime = false;
-					
+
 					// 定位成功
 					String address = location.getCity() + " "
 							+ location.getDistrict() + " "
@@ -161,8 +185,8 @@ public class PersonalReleaseActivity extends Activity {
 				if (name.equals("wifi")) {
 					switch (status) {
 					case 0:
-						Toast.makeText(getApplicationContext(), "建议在wifi环境下使用！",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(),
+								"建议在wifi环境下使用！", Toast.LENGTH_SHORT).show();
 						break;
 					default:
 						break;
@@ -202,8 +226,8 @@ public class PersonalReleaseActivity extends Activity {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}
-		Toast.makeText(getApplicationContext(), "地址获取成功！",
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), "地址获取成功！", Toast.LENGTH_SHORT)
+				.show();
 		// 关闭获取地址的监听
 		locationManager.removeUpdates(locationListener);
 	}
@@ -211,10 +235,37 @@ public class PersonalReleaseActivity extends Activity {
 	private void initData() {
 		username = SharedPreferencesUtil.getData(getApplicationContext())
 				.split(",")[1];
-		view_address = getIntent().getStringExtra("path");
+	}
+
+	@Override
+	protected void onResume() {
+		// 恢复数据
+		MyApplication application = (MyApplication) getApplication();
+		view_address = application.getImage();
 		if (!TextUtils.isEmpty(view_address)) {
 			file = new File(view_address);
+			handler.sendEmptyMessage(001);
+			application.setImage("");
 		}
+		if(!TextUtils.isEmpty(type)){
+			et_type.setText(type + "");
+		}
+		if(!TextUtils.isEmpty(content)){
+			et_content.setText(content + "");
+		}
+		if(!TextUtils.isEmpty(address)){
+			tv_address.setText(address + "");
+		}
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		// 保存数据
+		type = et_type.getText().toString().trim();
+		content = et_content.getText().toString().trim();
+		address = tv_address.getText().toString().trim();
+		super.onPause();
 	}
 
 	/**
@@ -225,7 +276,7 @@ public class PersonalReleaseActivity extends Activity {
 		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgressDialog.setTitle("友情提示");
 		mProgressDialog.setMessage("正在获取地址中，请稍后...");
-		
+
 		back = (ImageView) findViewById(R.id.back);
 		title = (TextView) findViewById(R.id.title);
 		menu_hide = (TextView) findViewById(R.id.menu_hide);
@@ -245,22 +296,6 @@ public class PersonalReleaseActivity extends Activity {
 
 		et_type = (EditText) findViewById(R.id.ed_pet_breed);
 		et_content = (EditText) findViewById(R.id.ed_pet_jiyu);
-
-		if (!TextUtils.isEmpty(view_address)) {
-			Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(
-					view_address, new NativeImageCallBack() {
-						@Override
-						public void onImageLoader(Bitmap bitmap, String path) {
-							if (bitmap != null) {
-								iv_pet_logo.setImageBitmap(BitmapUtil
-										.compressImage(bitmap));
-							}
-						}
-					});
-			if (bitmap != null) {
-				iv_pet_logo.setImageBitmap(bitmap);
-			}
-		}
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
@@ -270,12 +305,12 @@ public class PersonalReleaseActivity extends Activity {
 				finish();
 				break;
 			case R.id.menu_hide:
-				String type = et_type.getText().toString().trim();
-				String content = et_content.getText().toString().trim();
-				String address = tv_address.getText().toString().trim();
+				type = et_type.getText().toString().trim();
+				content = et_content.getText().toString().trim();
+				address = tv_address.getText().toString().trim();
 				if (file != null && !TextUtils.isEmpty(type)
 						&& !TextUtils.isEmpty(content)) {
-					upload(type, content, address);
+					upload();
 				} else {
 					Toast.makeText(getApplicationContext(), "发布内容不能为空！",
 							Toast.LENGTH_SHORT).show();
@@ -285,9 +320,7 @@ public class PersonalReleaseActivity extends Activity {
 				Intent intent = new Intent();
 				intent.setClass(PersonalReleaseActivity.this,
 						SelectPhotoActivity.class);
-				intent.putExtra("flog", 1);
 				startActivityForResult(intent, 0);
-				finish();
 				break;
 			case R.id.ed_pet_address:
 				setAddress();
@@ -302,11 +335,8 @@ public class PersonalReleaseActivity extends Activity {
 	 * 上传主人寄语
 	 * 
 	 * @param name
-	 * @param type
-	 * @param content
-	 * @param address
 	 */
-	private void upload(String type, String content, String address) {
+	private void upload() {
 		try {
 			HttpPost httpPost = HttpPost.parseUrl(url);
 			Map<String, String> map = new HashMap<String, String>();

@@ -25,7 +25,7 @@
                 android:layout_weight="5"
                 android:adjustViewBounds="true"
                 android:background="#ffffff"
-                android:scaleType="fitXY" />
+                android:scaleType="fitCenter" />
 
             <ImageView
                 android:id="@+id/iv_pet_select"

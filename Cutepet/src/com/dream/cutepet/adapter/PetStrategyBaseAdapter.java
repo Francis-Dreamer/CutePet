@@ -65,8 +65,6 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 					.findViewById(R.id.pet_strategy_image);
 			holder.pet_strategy_comment_chinese_name = (TextView) convertView
 					.findViewById(R.id.pet_strategy_comment_chinese_name);
-			holder.pet_strategy_comment_english_name = (TextView) convertView
-					.findViewById(R.id.pet_strategy_comment_english_name);
 			holder.pet_strategy_content_data = (TextView) convertView
 					.findViewById(R.id.pet_strategy_content_data);
 			convertView.setTag(holder);
@@ -77,8 +75,6 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 
 		holder.pet_strategy_comment_chinese_name.setText(model
 				.getPet_strategy_comment_chinese_name());
-		holder.pet_strategy_comment_english_name.setText(model
-				.getPet_strategy_comment_english_name());
 		holder.pet_strategy_content_data.setText(model
 				.getPet_strategy_content_data());
 
@@ -109,7 +105,6 @@ public class PetStrategyBaseAdapter extends BaseAdapter {
 	class ViewHolder {
 		ImageView pet_strategy_image;
 		TextView pet_strategy_comment_chinese_name;
-		TextView pet_strategy_comment_english_name;
 		TextView pet_strategy_content_data;
 	}
 

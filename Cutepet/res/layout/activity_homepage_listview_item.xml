@@ -161,6 +161,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/px20"
         android:background="@drawable/shape_qiubaoyang"
+        android:paddingLeft="@dimen/px10"
         android:orientation="horizontal" >
 
         <TextView

@@ -44,7 +44,7 @@ public class ImageUtil {
 			is = conn.getInputStream();
 			os = new FileOutputStream(file);
 			copyStream(is, os);
-
+			
 			bitmap = decodeFile(file);
 			return bitmap;
 		} catch (Exception ex) {

@@ -86,7 +86,7 @@ public class PetStrategyDetailsActivity extends Activity {
 				.parseInt(petGrade)));
 		pet_strategy_details_ratingbar_num.setText(petGrade + "分");
 		pet_strategy_details_num.setText(petMoney);
-		pet_strategy_details_characteristic.setText(petTrait);
+		pet_strategy_details_characteristic.setText("特点："+petTrait);
 		pet_strategy_details_content.setText("\t\t\t\t"+petContent_data);
 
 		String imageUrl = "http://211.149.198.8:9805" + petImage;
@@ -143,7 +143,6 @@ public class PetStrategyDetailsActivity extends Activity {
 				bundle.putString("userId", userId);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, 0);
-				finish();
 				break;
 			case R.id.pet_strategy_details_collection:
 				attention();

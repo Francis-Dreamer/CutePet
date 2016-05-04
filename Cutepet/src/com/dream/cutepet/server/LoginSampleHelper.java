@@ -16,7 +16,6 @@ import com.alibaba.mobileim.IYWLoginService;
 import com.alibaba.mobileim.IYWP2PPushListener;
 import com.alibaba.mobileim.IYWTribePushListener;
 import com.alibaba.mobileim.YWAPI;
-import com.alibaba.mobileim.YWChannel;
 import com.alibaba.mobileim.YWIMCore;
 import com.alibaba.mobileim.YWIMKit;
 import com.alibaba.mobileim.YWLoginParam;

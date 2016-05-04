@@ -3,12 +3,9 @@ package com.dream.cutepet;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +20,6 @@ import java.util.List;
 import com.dream.cutepet.R;
 import com.dream.cutepet.adapter.FaceImageAdapter;
 import com.dream.cutepet.util.DensityUtil;
-import com.dream.cutepet.util.SharedPreferencesUtil;
 
 /**
  * 引导页
@@ -189,20 +185,6 @@ public class GuidepageActivity extends Activity {
 
 		}
 	};
-
-	/**
-	 * 判断是否处于登录状态
-	 * 
-	 * @return
-	 */
-	private boolean checkLogin() {
-		String result = SharedPreferencesUtil.getData(getApplicationContext());
-		if (!TextUtils.isEmpty(result)) {
-			// 已经登录了
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * 设置当前的引导页

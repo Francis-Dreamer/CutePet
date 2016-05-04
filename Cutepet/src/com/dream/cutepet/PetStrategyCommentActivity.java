@@ -9,10 +9,13 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +54,8 @@ public class PetStrategyCommentActivity extends Activity {
 	ImageView pet_strategy_comment_view;
 	EditText et_content;
 	Bundle bundle;
+	RatingBar pet_strategy_comment_ratingbar;
+	String cont;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,9 +66,54 @@ public class PetStrategyCommentActivity extends Activity {
 				cacheMgr.getPlacardFileCache());
 
 		bundle = getIntent().getExtras();
-		view_address = getIntent().getStringExtra("path");
 
 		getData();
+	}
+	
+	@Override
+	protected void onResume() {
+		// 恢复数据
+		MyApplication application = (MyApplication) getApplication();
+		view_address = application.getImage();
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			handler.sendEmptyMessage(001);
+			application.setImage("");
+		}
+		super.onResume();
+	}
+	
+	@SuppressLint("HandlerLeak")
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 001:
+				showImage();
+			default:
+				break;
+			}
+		}
+	};
+	
+	private void showImage(){
+		if (!TextUtils.isEmpty(view_address)) {
+			file = new File(view_address);
+			pet_strategy_comment_view.setImageBitmap(BitmapUtil
+					.getDiskBitmap(view_address));
+		}
+		pet_strategy_comment_ratingbar.setRating(petGrade);
+		if(!TextUtils.isEmpty(cont)){
+			et_content.setText(cont);
+		}
+	}
+	
+	@Override
+	protected void onPause() {
+		petGrade = pet_strategy_comment_ratingbar.getRating();
+		cont = et_content.getText().toString().trim();
+		super.onPause();
 	}
 
 	/**
@@ -87,14 +137,14 @@ public class PetStrategyCommentActivity extends Activity {
 
 		TextView pet_strategy_comment_chinese_name = (TextView) findViewById(R.id.pet_strategy_comment_chinese_name);
 		TextView pet_strategy_content_data = (TextView) findViewById(R.id.pet_strategy_content_data);
-		RatingBar pet_strategy_comment_ratingbar = (RatingBar) findViewById(R.id.pet_strategy_comment_ratingbar);
+		pet_strategy_comment_ratingbar = (RatingBar) findViewById(R.id.pet_strategy_comment_ratingbar);
 		final TextView pet_strategy_comment_ratingbar_num = (TextView) findViewById(R.id.pet_strategy_comment_ratingbar_num);
 		TextView pet_strategy_comment_characteristic = (TextView) findViewById(R.id.pet_strategy_comment_characteristic);
 		ImageView pet_strategy_image = (ImageView) findViewById(R.id.pet_strategy_image);
 
 		pet_strategy_comment_chinese_name.setText(petName);
 		pet_strategy_content_data.setText(petContent_data);
-		pet_strategy_comment_characteristic.setText(petTrait);
+		pet_strategy_comment_characteristic.setText("特点："+petTrait);
 
 		pet_strategy_comment_ratingbar
 				.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -117,13 +167,6 @@ public class PetStrategyCommentActivity extends Activity {
 			pet_strategy_image
 					.setImageResource(R.drawable.friends_sends_pictures_no);
 		}
-
-		if (!TextUtils.isEmpty(view_address)) {
-			file = new File(view_address);
-			pet_strategy_comment_view.setImageBitmap(BitmapUtil
-					.getDiskBitmap(view_address));
-		}
-
 	}
 
 	/**
@@ -171,7 +214,7 @@ public class PetStrategyCommentActivity extends Activity {
 	 * @param file
 	 */
 	private void uploadStrategy(File file) {
-		String cont = et_content.getText().toString().trim();
+		cont = et_content.getText().toString().trim();
 		if (!TextUtils.isEmpty(cont) && !cont.equals("null")) {
 			String url_send = "http://211.149.198.8:9805/index.php/home/api/uploadStrategy_comment";
 			try {
@@ -183,7 +226,9 @@ public class PetStrategyCommentActivity extends Activity {
 				map.put("content", cont);
 				map.put("create_time", TimeUtil.changeTimeToGMT(new Date()));
 				httpPost.putMap(map);
-				httpPost.putFile(file.getName(), file, file.getName(), null);
+				if(file != null){
+					httpPost.putFile(file.getName(), file, file.getName(), null);
+				}
 				httpPost.send();
 				httpPost.setOnSendListener(new OnSendListener() {
 					@Override
@@ -222,9 +267,6 @@ public class PetStrategyCommentActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(PetStrategyCommentActivity.this,
 				SelectPhotoActivity.class);
-		intent.putExtra("flog", 3);
-		intent.putExtras(bundle);
 		startActivity(intent);
-		finish();
 	}
 }
