@@ -165,13 +165,17 @@ public class PersonalReleaseActivity extends Activity {
 				// location：新的位置；error：错误码；reason：错误描述
 				if (TencentLocation.ERROR_OK == error) {
 
+					String street = location.getStreet();
+					if (street.equals("Unknown")) {
+						street = "";
+					}
+
 					s = 0;
 					overtime = false;
 
 					// 定位成功
 					String address = location.getCity() + " "
-							+ location.getDistrict() + " "
-							+ location.getStreet();
+							+ location.getDistrict() + " " + street;
 					setAddressText(address);
 				}
 			}
@@ -247,13 +251,13 @@ public class PersonalReleaseActivity extends Activity {
 			handler.sendEmptyMessage(001);
 			application.setImage("");
 		}
-		if(!TextUtils.isEmpty(type)){
+		if (!TextUtils.isEmpty(type)) {
 			et_type.setText(type + "");
 		}
-		if(!TextUtils.isEmpty(content)){
+		if (!TextUtils.isEmpty(content)) {
 			et_content.setText(content + "");
 		}
-		if(!TextUtils.isEmpty(address)){
+		if (!TextUtils.isEmpty(address)) {
 			tv_address.setText(address + "");
 		}
 		super.onResume();

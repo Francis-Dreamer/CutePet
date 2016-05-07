@@ -45,6 +45,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -132,11 +133,17 @@ public class SetActivity extends Activity {
 		lp = getWindow().getAttributes();
 		toggleButton = (ToggleButton) findViewById(R.id.ToggleButton);
 		toggleButton.setOnClickListener(ocl);
-		if (!GesturesUtil.hasPassword(getApplicationContext())) {
+
+		if (TextUtils.isEmpty(SharedPreferencesUtil
+				.getData(getApplicationContext()))) {
 			toggleButton.setChecked(false);
+		} else {
+			if (!GesturesUtil.hasPassword(getApplicationContext())) {
+				toggleButton.setChecked(false);
+			}
+			toggleButton.setChecked(GesturesUtil
+					.IsGestures(getApplicationContext()));
 		}
-		toggleButton.setChecked(GesturesUtil
-				.IsGestures(getApplicationContext()));
 
 		builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
@@ -525,7 +532,6 @@ public class SetActivity extends Activity {
 							final int which) {
 						Toast.makeText(SetActivity.this, "it is a joke",
 								Toast.LENGTH_SHORT).show();
-
 					}
 				});
 

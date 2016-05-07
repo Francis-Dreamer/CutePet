@@ -218,7 +218,7 @@ public class WriteTalkActivity extends Activity {
 				// location：新的位置；error：错误码；reason：错误描述
 				if (TencentLocation.ERROR_OK == error) {
 					String street = location.getStreet();
-					if (street.equals("unKnow")) {
+					if (street.equals("Unknown")) {
 						street = "";
 					}
 					// 定位成功
